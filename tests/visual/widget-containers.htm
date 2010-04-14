@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery MultiSelect Plugin Tests</title>
+<link rel="stylesheet" type="text/css" href="../../jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../../src/jquery.multiselect.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	
+	$("select").multiselect();
+
+	$("#dialog").dialog({
+		title: "Inside a dialog",
+		height: 300
+	});
+	
+	$("#tabs").tabs();
+	$("#accordion").accordion();
+	$("#datepicker").datepicker();
+});
+</script>
+
+</head>
+<body>
+
+<h1>Widget Container Tests</h1>
+<p>Testing the MultiSelect when placed inside other UI widgets.</p>
+
+<h2>Default</h2>
+<p>Rendered outside a widget (for comparison):</p>
+<form>
+<select multiple="multiple" size="5">
+<option value=""></option>
+<option value="option1">Option 1</option>
+<option value="option2">Option 2</option>
+<option value="option3">Option 3</option>
+<option value="option4">Option 4</option>
+</select>
+</form>
+
+
+<h2>Widgets</h2>
+<p>Inside widgets:</p>
+
+<!-- dialog -->
+<div id="dialog">
+	<form>
+	<select multiple="multiple" size="5">
+	<option value=""></option>
+	<option value="option1">Option 1</option>
+	<option value="option2">Option 2</option>
+	<option value="option3">Option 3</option>
+	<option value="option4">Option 4</option>
+	</select>
+	
+	<!-- date picker -->
+	<p>Datepicker: <input type="date" id="datepicker" /></p>
+	</form>
+</div>
+
+
+<!-- tabs -->
+<div id="tabs" class="clear">
+	<ul>
+	<li><a href="#fragment-1">Inside tabs</a></li>
+	<li><a href="#fragment-2">Tab 2</a></li>
+	</ul>
+	
+	<div id="fragment-1">
+		<form>
+		<select multiple="multiple" size="5">
+		<option value=""></option>
+		<option value="option1">Option 1</option>
+		<option value="option2">Option 2</option>
+		<option value="option3">Option 3</option>
+		<option value="option4">Option 4</option>
+		</select>
+		</form>
+	</div>
+	
+	<div id="fragment-2">
+		Select the first tab to view the test.
+	</div>
+</div>
+
+<!-- accordion -->
+<div id="accordion" style="clear:both; margin-top:50px">
+	<h3><a href="#">Inside an accordion</a></h3>
+	<div>
+		<form>
+		<select multiple="multiple" size="5">
+		<option value=""></option>
+		<option value="option1">Option 1</option>
+		<option value="option2">Option 2</option>
+		<option value="option3">Option 3</option>
+		<option value="option4">Option 4</option>
+		</select>
+		</form>
+	</div>
+	<h3><a href="">test</a></h3>
+	<div>Click on the first item to view the test.</div>
+</div>
+
+	
+</body>
+</html>
