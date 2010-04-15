@@ -138,7 +138,7 @@ $.widget("ui.multiselect", {
 		}
 	},
 	
-	// binds events. duh
+	// binds events
 	_bindEvents: function(){
 	
 		var self = this,
@@ -238,18 +238,15 @@ $.widget("ui.multiselect", {
 		})
 		.delegate('input', 'click', function(e){
 			var $this = $(this), val = this.value;
-			
-			// bail if this input is disabled
-			if($this.is(':disabled')){
+
+			// bail if this input is disabled or the event is cancelled
+			if( $this.is(':disabled') || false === self._trigger('click', e, { value:this.value, text:this.title }) ){
+				e.preventDefault();
 				return;
 			}
 			
 			// set the original option tag to selected
 			self.optiontags.filter(function(){ return this.value === val; }).attr('selected', $this.is(':checked') );
-			self._trigger('click', e, {
-				value: this.value,
-				text: this.title
-			});
 			self._updateSelected();
 		});
 		
@@ -460,7 +457,7 @@ $.widget("ui.multiselect", {
 	},
 	
 	widget: function(){
-		return this.button;
+		return this.menu;
 	},
 	
 	// react to option changes after initialization
