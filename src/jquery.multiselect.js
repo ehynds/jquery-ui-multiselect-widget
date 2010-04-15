@@ -365,12 +365,12 @@ $.widget("ui.multiselect", {
 			});
 		}
 		
-		// use position() if inside ui-widget-content, because offset() won't cut it.
 		var self = this,
 			$container = this.menu.find('ul:last'),
 			o = this.options,
 			effect = o.show,
-			speed = this.speed;
+			speed = this.speed,
+			pos = this.button.position();
 		
 		// calling select is active
 		this.button.addClass('ui-state-active');
@@ -386,12 +386,11 @@ $.widget("ui.multiselect", {
 			speed = o.show[1] || self.speed;
 		}
 		
-		// show the menu + position it.  FIXME widget must be visible before positioning it, which breaks animations
-		if(!effect.length){
-			this.menu.css({ top:0, left:0 });
-		}
-		
-		this.menu.show(effect, speed).position({ my:"left top", at:"left bottom", of:self.button });
+		// position and show menu
+		this.menu.css({ 
+			top: pos.top+this.button.outerHeight(),
+			left: pos.left
+		}).show(effect, speed);
 		
 		this._isOpen = true;
 		
