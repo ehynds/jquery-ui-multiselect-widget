@@ -15,7 +15,7 @@ $(function(){
 	var warning = $(".message");
 	
 	$("select").multiselect({ 
-		header:false,
+		header: "Choose only TWO items!",
 		click: function(e){
 		
 			if( $(this).multiselect("widget").find("input:checked").length > 2 ){
@@ -35,8 +35,7 @@ $(function(){
 <body>
 
 <h1>Max Checked Test</h1>
-<p>Logic to impose a maximum number of checked inputs (two in this demo). You would have to hide the header in this
-case because &quot;check all&quot; would be counter-intuitive, and would have to assume which checkboxes (out of all) to check.</p>
+<p>Logic to impose a maximum number of checked inputs (two in this demo).</p>
 
 <p class="message success">Check a few boxes.</p>
 
