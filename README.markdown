@@ -1,3 +1,5 @@
+** This UI widget is still under development & has not yet been released! **
+
 # jQuery UI MultiSelect Widget
 
 MultiSelect progessively enhances an ordinary multiple select control into elegant drop down list of checkboxes, stylable with ThemeRoller.  
