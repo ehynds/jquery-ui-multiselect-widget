@@ -83,7 +83,7 @@ $(function(){
 	$("#example-radio").multiselect({ 
 		multiple: false,
 		noneSelectedText: "Select an option",
-		header: false,
+		header: "Select an option",
 		selectedText: function(numChecked,numInputs,input){
 			return $(input).attr("title") + " selected";
 		}
@@ -232,7 +232,7 @@ $(function(){
 		</p>
 	
 		<h2>Single select (radio buttons instead of checkboxes)</h2>
-		<p>Force users to select only one option by using radio buttons instead of checkboxes.</p>
+		<p>Force users to select only one option by using radio buttons instead of checkboxes.  The <code>header</code> option is set to a string.</p>
 		<p>
 			<select id="example-radio" name="example-radio" multiple="multiple" size="5">
 			<option value="option1">Option 1</option>
