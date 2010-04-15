@@ -255,7 +255,9 @@ $.widget("ui.multiselect", {
 			var $target = $(e.target);
 
 			if(self._isOpen && !$target.closest('div.ui-multiselect-menu').length && !$target.is('button.ui-multiselect')){
-				self.close(true);
+				$('button.ui-multiselect.ui-state-active').each(function(){
+					$(this).data('selectelement').multiselect('close');
+				});
 			}
 		});
 	},
@@ -394,35 +396,22 @@ $.widget("ui.multiselect", {
 	},
 	
 	// close the menu
-	close: function(all){
-		all = all || false;
-		
-		if(this._trigger("close") === false){
+	close: function(){
+		if(this._trigger('close') === false){
 			return;
 		}
+	
+		var self = this, o = this.options, effect = o.hide, speed = this.speed;
 		
-		// close all but the open one
-		if(all){
-		
-			$('button.ui-multiselect.ui-state-active').each(function(){
-				$(this).data('selectelement').multiselect('close');
-			});
-			
-		// close this one
-		} else {
-		
-			var self = this, o = this.options, effect = o.hide, speed = this.speed;
-			
-			// figure out opening effects/speeds
-			if($.isArray(o.hide)){
-				effect = o.hide[0];
-				speed = o.hide[1] || this.speed;
-			}
-		
-			this.menu.hide(effect, speed);
-			this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
-			self._isOpen = false;
+		// figure out opening effects/speeds
+		if($.isArray(o.hide)){
+			effect = o.hide[0];
+			speed = o.hide[1] || this.speed;
 		}
+	
+		this.menu.hide(effect, speed);
+		this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
+		self._isOpen = false;
 	},
 
 	enable: function(){
