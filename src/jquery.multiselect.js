@@ -254,14 +254,12 @@ $.widget("ui.multiselect", {
 			self._updateSelected();
 		});
 		
-		// close each select when clicking on any other element/anywhere else on the page
+		// close each widget when clicking on any other element/anywhere else on the page
 		$(document).bind('click', function(e){
 			var $target = $(e.target);
 
 			if(self._isOpen && !$target.closest('div.ui-multiselect-menu').length && !$target.is('button.ui-multiselect')){
-				$('button.ui-multiselect.ui-state-active').each(function(){
-					$(this).data('selectelement').multiselect('close');
-				});
+				self.close();
 			}
 		});
 	},
