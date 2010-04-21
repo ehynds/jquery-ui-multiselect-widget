@@ -129,8 +129,7 @@ $.widget("ui.multiselect", {
 
 		// update the number of selected elements when the page initially loads, and use that as the defaultValue.  necessary for form resets when options are pre-selected.
 		this.button[0].defaultValue = this._updateSelected();
-		
-		return this;
+
 	},
 	
 	_init: function(){
@@ -348,6 +347,7 @@ $.widget("ui.multiselect", {
 	
 	// open the menu
 	open: function(e){
+		var self = this;
 		
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
 		if( this._trigger("open") === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
@@ -363,8 +363,7 @@ $.widget("ui.multiselect", {
 			});
 		}
 		
-		var self = this,
-			$container = this.menu.find('ul:last'),
+		var $container = this.menu.find('ul:last'),
 			o = this.options,
 			effect = o.show,
 			speed = this.speed,
@@ -394,6 +393,8 @@ $.widget("ui.multiselect", {
 		
 		// set the scroll of the checkbox container
 		$container.scrollTop(0).height(o.height);
+		
+		return this;
 	},
 	
 	// close the menu
@@ -413,14 +414,18 @@ $.widget("ui.multiselect", {
 		this.menu.hide(effect, speed);
 		this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
 		self._isOpen = false;
+		
+		return this;
 	},
 
 	enable: function(){
 		this._toggleDisabled(false);
+		return this;
 	},
 	
 	disable: function(){
 		this._toggleDisabled(true);
+		return this;
 	},
 	
 	checkAll: function(e){
@@ -431,6 +436,7 @@ $.widget("ui.multiselect", {
 	uncheckAll: function(){
 		this._toggleChecked(false);
 		this._trigger('uncheckAll');
+		return this;
 	},
 	
 	destroy: function(){
@@ -440,6 +446,7 @@ $.widget("ui.multiselect", {
 		this.button.remove();
 		this.menu.remove();
 		this.element.show();
+		return this;
 	},
 	
 	isOpen: function(){
@@ -478,7 +485,6 @@ $.widget("ui.multiselect", {
 				this._updateSelected();
 				break;
 		}
-
 	}
 });
 
