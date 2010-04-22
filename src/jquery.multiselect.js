@@ -115,7 +115,7 @@ $.widget("ui.multiselect", {
 		html.push('</ul></div>');
 		
 		// cache elements
-		this.button		= el.after( html.join('') ).hide().next('button').data('selectelement', el);
+		this.button		= el.after( html.join('') ).hide().next('button');
 		this.menu		= this.button.next('div.ui-multiselect-menu');
 		this.labels		= this.menu.find('label');
 		this.optiontags	= this.element.find("option");
@@ -126,7 +126,10 @@ $.widget("ui.multiselect", {
 		
 		// perform event bindings
 		this._bindEvents();
-
+		
+		// remember instance
+		$.ui.multiselect.instances.push(this.element);
+		
 		// update the number of selected elements when the page initially loads, and use that as the defaultValue.  necessary for form resets when options are pre-selected.
 		this.button[0].defaultValue = this._updateSelected();
 
@@ -344,6 +347,14 @@ $.widget("ui.multiselect", {
 		this.menu.find('input').attr('disabled', (flag ? 'disabled' : '')).parent()[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 		this.element.attr('disabled', (flag ? 'disabled' : ''));
 	},
+
+	_getOtherInstances: function(){
+		var element = this.element;
+
+		return $.grep($.ui.multiselect.instances, function(el){
+			return el !== element;
+		});
+	},
 	
 	// open the menu
 	open: function(e){
@@ -354,15 +365,14 @@ $.widget("ui.multiselect", {
 			return;
 		}
 		
-		// close other open widgets, unless they're set to autoOpen.  calling close() automatically triggers the close event,
-		// so we want to be careful which widget's we call it on.  otherwise a close event will be triggered each time an
-		// open event is triggered.
-		if(!this.options.autoOpen){
-			$('button.ui-multiselect.ui-state-active').not(this.button).each(function(){
-				$(this).data('selectelement').multiselect('close');
-			});
-		}
-		
+		// close other instances
+		$.each(this._getOtherInstances(), function(){
+			var $this = $(this);
+			if($this.multiselect("isOpen")){
+				$this.multiselect("close");
+			}
+		});
+
 		var $container = this.menu.find('ul:last'),
 			o = this.options,
 			effect = o.show,
@@ -442,7 +452,16 @@ $.widget("ui.multiselect", {
 	destroy: function(){
 		// remove classes + data
 		$.Widget.prototype.destroy.call( this );
-		
+
+		// remove from instances array
+		var element = this.element,
+			position = $.inArray(element, $.ui.multiselect.instances);
+	 
+		// if this instance was found, splice it off
+		if(position > -1){
+			$.ui.multiselect.instances.splice(position, 1);
+		}
+			
 		this.button.remove();
 		this.menu.remove();
 		this.element.show();
@@ -486,6 +505,10 @@ $.widget("ui.multiselect", {
 				break;
 		}
 	}
+});
+
+$.extend($.ui.multiselect, {
+	instances: []
 });
 
 })(jQuery);
