@@ -132,7 +132,6 @@ $.widget("ui.multiselect", {
 		
 		// update the number of selected elements when the page initially loads, and use that as the defaultValue.  necessary for form resets when options are pre-selected.
 		this.button[0].defaultValue = this._updateSelected();
-
 	},
 	
 	_init: function(){
