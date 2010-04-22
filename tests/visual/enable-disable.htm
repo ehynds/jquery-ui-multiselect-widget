@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery MultiSelect Plugin Tests</title>
+<link rel="stylesheet" type="text/css" href="../../jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../../src/jquery.multiselect.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	var $widget = $("select").multiselect(), state = true;
+	$("#toggle-disabled").click(function(){
+		state = !state;
+		$widget.multiselect(state ? 'disable' : 'enable');
+	});
+
+});
+</script>
+</head>
+<body>
+
+<h1>Widget Enable/Disable Tests</h1>
+<p>Calling <code>multiselect("disable")</code> and <code>multiselect("enable")</code>.</p>
+
+<select name="example-disabled" disabled="disabled" multiple="multiple" size="5">
+<option value="option1">Option 1</option>
+<option value="option2">Option 2</option>
+<option value="option3">Option 3</option>
+<option value="option4">Option 4</option>
+<option value="option5">Option 5</option>
+</select>
+
+<div><button type="button" name="toggle" id="toggle-disabled">Toggle Disabled</button></div>
+
+
+</body>
+</html>
