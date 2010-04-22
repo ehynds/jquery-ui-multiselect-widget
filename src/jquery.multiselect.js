@@ -119,7 +119,7 @@ $.widget("ui.multiselect", {
 		this.menu		= this.button.next('div.ui-multiselect-menu');
 		this.labels		= this.menu.find('label');
 		this.optiontags	= this.element.find("option");
-		
+
 		// set widths
 		this._setButtonWidth();
 		this._setMenuWidth();

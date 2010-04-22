@@ -34,16 +34,17 @@
 	 
 	 	// clone this one so the original is not affected
 		el = $("select").clone(true).insertAfter("body").multiselect().multiselect("disable");
-			ok( widget().is(":disabled"), 'Widget is disabled');
+			ok( widget().prev().is(":disabled"), 'Widget is disabled');
 			ok( el.is(":disabled"), 'Original select is disabled');
 		el.multiselect("destroy").remove();
 	});
 	
 	test("widget", function(){
-		expect(1);
+		expect(2);
 	 
 		el = $("select").multiselect();
-			ok( widget().is(":button"), 'Widget is the button element');
+			ok( widget().is("div.ui-multiselect-menu"), 'Widget is the menu element');
+			ok( widget().prev().is("button"), 'multiselect("button") is the button element');
 		el.multiselect("destroy");
 	});
 	
