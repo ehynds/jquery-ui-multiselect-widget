@@ -117,7 +117,7 @@ $.widget("ui.multiselect", {
 		this.button		= el.after( html.join('') ).hide().next('button');
 		this.menu		= this.button.next('div.ui-multiselect-menu');
 		this.labels		= this.menu.find('label');
-		this.optiontags	= this.element.find("option");
+		this.optiontags	= this.element.find('option');
 
 		// set widths
 		this._setButtonWidth();
@@ -362,15 +362,15 @@ $.widget("ui.multiselect", {
 		var self = this;
 		
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
-		if( this._trigger("open") === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
+		if( this._trigger('open') === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
 		}
 		
 		// close other instances
 		$.each(this._getOtherInstances(), function(){
 			var $this = $(this);
-			if($this.multiselect("isOpen")){
-				$this.multiselect("close");
+			if($this.multiselect('isOpen')){
+				$this.multiselect('close');
 			}
 		});
 
