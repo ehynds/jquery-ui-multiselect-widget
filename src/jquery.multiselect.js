@@ -246,7 +246,7 @@ $.widget("ui.multiselect", {
 			var $this = $(this), val = this.value;
 
 			// bail if this input is disabled or the event is cancelled
-			if( $this.is(':disabled') || self._trigger('check', e, { value:this.value, text:this.title, checked:this.checked }) === false ){
+			if( $this.is(':disabled') || self._trigger('click', e, { value:this.value, text:this.title, checked:this.checked }) === false ){
 				e.preventDefault();
 				return;
 			}
