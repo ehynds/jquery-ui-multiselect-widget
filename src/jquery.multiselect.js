@@ -1,13 +1,12 @@
 /*
- * jQuery MultiSelect UI Widget 1.0pre
+ * jQuery MultiSelect UI Widget 1.0
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-multiselect-plugin-with-themeroller-support/
- * Inspired by Cory S.N. LaViska's implementation, A Beautiful Site (http://abeautifulsite.net/) 2009
  *
  * Depends:
  *   - jQuery 1.4.2
- *   - jQuery UI 1.8 (widget, position, and effects if you want to use them)
+ *   - jQuery UI 1.8 (core, widget factory, and effects if you want to use them)
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -225,7 +224,7 @@ $.widget("ui.multiselect", {
 				$(this).addClass('ui-state-hover').find('input').focus();
 			}
 		})
-		.delegate('label', 'keyup', function(e){
+		.delegate('label', 'keydown', function(e){
 			switch(e.keyCode){
 				case 27: // esc
 					self.close();
@@ -238,7 +237,7 @@ $.widget("ui.multiselect", {
 					break;
 				case 13: // enter
 					e.preventDefault();
-					$(this).trigger('click');
+					$(this).find('input').trigger('click');
 					break;
 			}
 		})
