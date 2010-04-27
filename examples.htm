@@ -36,36 +36,6 @@ $(function(){
 		}
 	});
 	
-	// callbacks
-	var $callback = $("#callback");
-	$("select[name=example-callbacks]").multiselect({
-		check: function(){
-			$callback.html(this.value + ' ' + (this.checked ? 'checked' : 'unchecked') );
-		},
-		open: function(){
-			$callback.html("Select opened!");
-		},
-		close: function(){
-			$callback.html("Select closed!");
-		},
-		checkAll: function(){
-			$callback.html("Check all clicked!");
-		},
-		uncheckAll: function(){
-			$callback.html("Uncheck all clicked!");
-		},
-		optgroupToggle: function(checkboxes){
-			var checked = $(checkboxes).is(":checked");
-			var values = [];
-			
-			$.each(checkboxes, function(i,box){
-				values[i] = box.value;
-			});
-			
-			$callback.html("Checkboxes " + (checked ? "checked" : "unchecked") + ": " + values.join(', ') );
-		}
-	});
-	
 	// Options displayed in comma-separated list
 	$("#example-list").multiselect({ 
 		minWidth: 400,
@@ -181,24 +151,6 @@ $(function(){
 		<p>Click on an optgroup's heading to toggle the checked state of the entire group.</p>
 		<p>
 			<select id="example-optgroup" name="example-optgroup" multiple="multiple" size="5">
-			<optgroup label="Group One">
-				<option value="option1">Option 1</option>
-				<option value="option2">Option 2</option>
-				<option value="option3">Option 3</option>
-			</optgroup>
-			<optgroup label="Group Two">
-				<option value="option4">Option 4</option>
-				<option value="option5">Option 5</option>
-				<option value="option6">Option 6</option>
-				<option value="option7">Option 7</option>
-			</optgroup>
-			</select>
-		</p>
-
-		<h2>onOpen, onClose, onCheck, onCheckAll, onUncheckAll, and onOptgroupToggle callbacks</h2>
-		<p>
-			<p id="callback">Callback target</p>
-			<select name="example-callbacks" multiple="multiple" size="5">
 			<optgroup label="Group One">
 				<option value="option1">Option 1</option>
 				<option value="option2">Option 2</option>

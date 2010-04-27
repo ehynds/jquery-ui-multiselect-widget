@@ -16,7 +16,6 @@ $(function(){
 	
 	$("select").multiselect({
 		check: function(event, ui){
-			console.log(ui)
 			$callback.html(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
 		},
 		open: function(){
