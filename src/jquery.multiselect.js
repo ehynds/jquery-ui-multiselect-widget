@@ -211,7 +211,8 @@ $.widget("ui.multiselect", {
 			self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
 			self._trigger('optgroupToggle', e, {
 				inputs: $inputs.get(),
-				label: $this.parent().text()
+				label: $this.parent().text(),
+				checked: $inputs[0].checked
 			});
 			
 			e.preventDefault();

@@ -31,15 +31,13 @@ $(function(){
 		uncheckAll: function(){
 			$callback.html("Uncheck all clicked!");
 		},
-		optgroupToggle: function(checkboxes){
-			var checked = $(checkboxes).is(":checked");
-			var values = [];
+		optgroupToggle: function(event, ui){
+
+			var values = $.map(ui.inputs, function(checkbox){
+				return checkbox.value;
+			}).join(", ");
 			
-			$.each(checkboxes, function(i,box){
-				values[i] = box.value;
-			});
-			
-			$callback.html("Checkboxes " + (checked ? "checked" : "unchecked") + ": " + values.join(', ') );
+			$callback.html("<strong>Checkboxes " + (ui.checked ? "checked" : "unchecked") + ":</strong> " + values );
 		}
 	});
 
