@@ -2,7 +2,7 @@
  * jQuery MultiSelect UI Widget 1.0
  * Copyright (c) 2010 Eric Hynds
  *
- * http://www.erichynds.com/jquery/jquery-multiselect-plugin-with-themeroller-support/
+ * http://www.erichynds.com/jquery-ui-multiselect-widget/
  *
  * Depends:
  *   - jQuery 1.4.2
