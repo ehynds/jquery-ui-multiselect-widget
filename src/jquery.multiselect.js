@@ -147,14 +147,10 @@ $.widget("ui.multiselect", {
 	
 	// binds events
 	_bindEvents: function(){
-	
-		var self = this,
-			menu = this.menu,
-			labels = this.labels,
-			button = this.button;
+		var self = this;
 		
 		// button events
-		button.bind({
+		this.button.bind({
 			click: function(){
 				// FIXME: webkit doesn't like it when you click on arrow span inside the button
 				self[ self._isOpen ? 'close' : 'open' ]();
@@ -203,10 +199,11 @@ $.widget("ui.multiselect", {
 			}
 		
 			e.preventDefault();
-		});
+		})
 		
 		// optgroup label toggle support
-		menu.find('li.ui-multiselect-optgroup-label a').bind('click', function(e){
+		.end()
+		.find('li.ui-multiselect-optgroup-label a').bind('click', function(e){
 			var $this = $(this),
 				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input');
 				
@@ -218,12 +215,13 @@ $.widget("ui.multiselect", {
 			});
 			
 			e.preventDefault();
-		});
+		})
 		
 		// labels/checkbox events
-		menu.delegate('label', 'mouseenter', function(){
+		.end()
+		.delegate('label', 'mouseenter', function(){
 			if(!$(this).hasClass('ui-state-disabled')){
-				labels.removeClass('ui-state-hover');
+				self.labels.removeClass('ui-state-hover');
 				$(this).addClass('ui-state-hover').find('input').focus();
 			}
 		})
