@@ -226,6 +226,7 @@ $.widget("ui.multiselect", {
 		})
 		.delegate('label', 'keydown', function(e){
 			switch(e.keyCode){
+				case 9: // tab
 				case 27: // esc
 					self.close();
 					break;
