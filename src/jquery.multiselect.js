@@ -49,13 +49,13 @@ $.widget("ui.multiselect", {
 		this._isOpen = false; // assume no
 
 		// the actual button
-		html.push('<button type="button" class="ui-multiselect ui-widget ui-state-default ui-corner-all' + (el.is(':disabled') ? ' ui-state-disabled' : '') + '"');
+		html.push('<button type="button" class="ui-multiselect ui-widget ui-state-default ui-corner-all"');
 		if(title.length){
 			html.push(' title="'+title+'"');
 		}
 		html.push('><span class="ui-icon ui-icon-triangle-1-s"></span>'+ o.noneSelectedText +'</button>');
 		
-		// start menu contaner
+		// start menu container
 		html.push('<div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all">');
 	
 		// header
@@ -139,6 +139,9 @@ $.widget("ui.multiselect", {
 		}
 		if(this.options.autoOpen){
 			this.open();
+		}
+		if(this.element.is(':disabled')){
+			this.disable();
 		}
 	},
 	
