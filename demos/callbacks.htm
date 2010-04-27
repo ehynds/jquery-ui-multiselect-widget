@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery MultiSelect Widget Demo</title>
+<link rel="stylesheet" type="text/css" href="../jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../src/jquery.multiselect.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	var $callback = $("#callback");
+	
+	$("select").multiselect({
+		check: function(){
+			$callback.html(this.value + ' ' + (this.checked ? 'checked' : 'unchecked') );
+		},
+		open: function(){
+			$callback.html("Select opened!");
+		},
+		close: function(){
+			$callback.html("Select closed!");
+		},
+		checkAll: function(){
+			$callback.html("Check all clicked!");
+		},
+		uncheckAll: function(){
+			$callback.html("Uncheck all clicked!");
+		},
+		optgroupToggle: function(checkboxes){
+			var checked = $(checkboxes).is(":checked");
+			var values = [];
+			
+			$.each(checkboxes, function(i,box){
+				values[i] = box.value;
+			});
+			
+			$callback.html("Checkboxes " + (checked ? "checked" : "unchecked") + ": " + values.join(', ') );
+		}
+	});
+
+});
+</script>
+</head>
+<body>
+
+<h1>Callbacks</h1>
+<p>Demonstrating onOpen, onClose, onCheck, onCheckAll, onUncheckAll, and onOptgroupToggle callbacks</p>
+
+<p class="message success" id="callback">Callback target</p>
+
+<select multiple="multiple" size="5">
+<optgroup label="Group One">
+	<option value="option1">Option 1</option>
+	<option value="option2">Option 2</option>
+	<option value="option3">Option 3</option>
+</optgroup>
+<optgroup label="Group Two">
+	<option value="option4">Option 4</option>
+	<option value="option5">Option 5</option>
+	<option value="option6">Option 6</option>
+	<option value="option7">Option 7</option>
+</optgroup>
+</select>
+
+
+</body>
+</html>
