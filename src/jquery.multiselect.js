@@ -130,7 +130,7 @@ $.widget("ui.multiselect", {
 		$.ui.multiselect.instances.push(this.element);
 		
 		// update the number of selected elements when the page initially loads, and use that as the defaultValue.  necessary for form resets when options are pre-selected.
-		this.button[0].defaultValue = this._updateSelected();
+		this.button[0].defaultValue = this.update();
 	},
 	
 	_init: function(){
@@ -254,7 +254,7 @@ $.widget("ui.multiselect", {
 			
 			// set the original option tag to selected
 			self.optiontags.filter(function(){ return this.value === val; }).attr('selected', $this.is(':checked') );
-			self._updateSelected();
+			self.update();
 		});
 		
 		// close each widget when clicking on any other element/anywhere else on the page
@@ -292,7 +292,7 @@ $.widget("ui.multiselect", {
 	},
 	
 	// updates the number of selected items in the button
-	_updateSelected: function(){
+	update: function(){
 		var o = this.options,
 			$inputs = this.labels.find('input'),
 			$checked = $inputs.filter(':checked'),
@@ -340,7 +340,7 @@ $.widget("ui.multiselect", {
 		var $inputs = (group && group.length) ? group : this.labels.find('input');
 		$inputs.not(':disabled').attr('checked', (flag ? 'checked' : '')); 
 		this.optiontags.not('disabled').attr('selected', (flag ? 'selected' : ''));
-		this._updateSelected();
+		this.update();
 	},
 
 	_toggleDisabled: function(flag){
@@ -502,7 +502,7 @@ $.widget("ui.multiselect", {
 			case "selectedText":
 			case "selectedList":
 			case "noneSelectedText":
-				this._updateSelected();
+				this.update();
 				break;
 		}
 	}
