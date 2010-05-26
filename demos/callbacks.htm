@@ -18,19 +18,25 @@ $(function(){
 		click: function(event, ui){
 			$callback.html(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
 		},
+		beforeopen: function(){
+			$callback.html("Select about to be opened...");
+		},
 		open: function(){
 			$callback.html("Select opened!");
+		},
+		beforeclose: function(){
+			$callback.html("Select about to be closed...");
 		},
 		close: function(){
 			$callback.html("Select closed!");
 		},
-		checkAll: function(){
+		checkall: function(){
 			$callback.html("Check all clicked!");
 		},
-		uncheckAll: function(){
+		uncheckall: function(){
 			$callback.html("Uncheck all clicked!");
 		},
-		optgroupToggle: function(event, ui){
+		optgrouptoggle: function(event, ui){
 
 			var values = $.map(ui.inputs, function(checkbox){
 				return checkbox.value;
@@ -45,8 +51,8 @@ $(function(){
 </head>
 <body>
 
-<h1>Callbacks</h1>
-<p>Demonstrating onOpen, onClose, onCheck, onCheckAll, onUncheckAll, and onOptgroupToggle callbacks</p>
+<h1>Callbacks &amp; Events</h1>
+<p>Demonstrating beforeopen, open, beforeclose, close, click, checkall, uncheckall, and optgrouptoggle callbacks/events.</p>
 
 <p class="message success" id="callback">Callback target</p>
 

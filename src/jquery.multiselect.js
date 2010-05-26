@@ -47,7 +47,7 @@ $.widget("ui.multiselect", {
 		
 		this.speed = 400; // default speed for effects. UI's default is 400. TODO move to options?
 		this._isOpen = false; // assume no
-		this._wasDisabled = this.element.is(":disabled"); // remember the original disabled value
+		this.optiontags = el.children(); // remember the original options/optgroups
 		
 		// the actual button
 		html.push('<button type="button" class="ui-multiselect ui-widget ui-state-default ui-corner-all"');
@@ -115,10 +115,9 @@ $.widget("ui.multiselect", {
 		html.push('</ul></div>');
 		
 		// cache elements
-		this.button		= el.after( html.join('') ).hide().next('button');
+		this.button		= el.children().remove().end().after( html.join('') ).hide().next('button');
 		this.menu		= this.button.next('div.ui-multiselect-menu');
 		this.labels		= this.menu.find('label');
-		this.optiontags	= this.element.find('option');
 
 		// set widths
 		this._setButtonWidth();
@@ -129,7 +128,7 @@ $.widget("ui.multiselect", {
 		
 		// remember instance
 		$.ui.multiselect.instances.push(this.element);
-		
+
 		// update the number of selected elements when the page initially loads, and use that as the defaultValue.  necessary for form resets when options are pre-selected.
 		this.button[0].defaultValue = this.update();
 	},
@@ -141,12 +140,9 @@ $.widget("ui.multiselect", {
 		if(this.options.autoOpen){
 			this.open();
 		}
-		if(this._wasDisabled){
+		if(this.element.is(":disabled")){
 			this.disable();
 		}
-		
-		// now disable the original so it's values aren't passed during form submission
-		this.element.attr("disabled","disabled");
 	},
 	
 	// binds events
@@ -258,7 +254,7 @@ $.widget("ui.multiselect", {
 			}
 			
 			// set the original option tag to selected
-			self.optiontags.filter(function(){ return this.value === val; }).attr('selected', $this.is(':checked') );
+			$(self.optiontags).filter(function(){ return this.value === val; }).attr('selected', $this.is(':checked') );
 			self.update();
 		});
 		
@@ -471,14 +467,11 @@ $.widget("ui.multiselect", {
 		if(position > -1){
 			$.ui.multiselect.instances.splice(position, 1);
 		}
-			
+		
 		this.button.remove();
 		this.menu.remove();
-		this.element.show();
-		
-		if(!this._wasDisabled){
-			this.element.removeAttr("disabled");
-		}
+		this.element.show().find("option").removeAttr("disabled");
+		this.element.append( this.optiontags );
 		
 		return this;
 	},
