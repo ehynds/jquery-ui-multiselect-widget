@@ -17,7 +17,7 @@
 
 var multiselectID = 0;
 
-$.widget("ui.multiselect", {
+$.widget("ech.multiselect", {
 	
 	// default options
 	options: {
