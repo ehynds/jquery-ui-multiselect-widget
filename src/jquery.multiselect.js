@@ -212,8 +212,7 @@ $.widget("ui.multiselect", {
 				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input');
 				
 			self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
-			// TODO lowercase
-			self._trigger('optgroupToggle', e, {
+			self._trigger('optgrouptoggle', e, {
 				inputs: $inputs.get(),
 				label: $this.parent().text(),
 				checked: $inputs[0].checked
