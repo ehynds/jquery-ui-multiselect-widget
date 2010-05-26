@@ -12,29 +12,36 @@
 <script type="text/javascript">
 $(function(){
 
-	var $widget = $("select").multiselect(), state = true;
-	$("#toggle-disabled").click(function(){
-		state = !state;
-		$widget.multiselect(state ? 'disable' : 'enable');
+	$("select").multiselect({
+		multiple: false,
+		header: "Select an option",
+		noneSelectedText: "Select an Option"
 	});
-
+	
 });
 </script>
+
 </head>
 <body>
 
-<h2>Enable/Disable Widget</h2>
-<p>Calling <code>multiselect("disable")</code> and <code>multiselect("enable")</code>.</p>
+<h2>Single Select</h2>
 
-<select name="example-disabled" disabled="disabled" multiple="multiple" size="5">
-<option value="option1">Option 1</option>
-<option value="option2">Option 2</option>
-<option value="option3">Option 3</option>
-<option value="option4">Option 4</option>
-<option value="option5">Option 5</option>
-</select>
+<p>Setting the <code>multiple</code> parameter to false will force the widget to use radio buttons instead of checkboxes.  I advise using the <code>header</code>
+parameter along with <code>multiple</code> in order to hide/change the "check all"/"uncheck all" links.</p>
 
-<div><button type="button" name="toggle" id="toggle-disabled">Toggle Disabled</button></div>
+<form>
+	<p>
+		<select multiple="multiple" size="5">
+		<option value="option1">Option 1</option>
+		<option value="option2">Option 2</option>
+		<option value="option3">Option 3</option>
+		<option value="option4">Option 4</option>
+		<option value="option5">Option 5</option>
+		<option value="option6">Option 6</option>
+		<option value="option7">Option 7</option>
+		</select>
+	</p>
+</form>
 
 </body>
 </html>
