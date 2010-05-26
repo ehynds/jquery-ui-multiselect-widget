@@ -36,10 +36,10 @@ $.widget("ui.multiselect", {
 	},
 
 	_create: function(){
-		var self = this, 
-			el = this.element, 
-			o = this.options, 
-			html = [], 
+		var self = this,
+			el = this.element,
+			o = this.options,
+			html = [],
 			optgroups = [], 
 			title = el.attr('title')
 			id = el.id || multiselectID++, // unique ID for the label & option tags
@@ -47,7 +47,8 @@ $.widget("ui.multiselect", {
 		
 		this.speed = 400; // default speed for effects. UI's default is 400. TODO move to options?
 		this._isOpen = false; // assume no
-
+		this._wasDisabled = this.element.is(":disabled"); // remember the original disabled value
+		
 		// the actual button
 		html.push('<button type="button" class="ui-multiselect ui-widget ui-state-default ui-corner-all"');
 		if(title.length){
@@ -140,9 +141,12 @@ $.widget("ui.multiselect", {
 		if(this.options.autoOpen){
 			this.open();
 		}
-		if(this.element.is(':disabled')){
+		if(this._wasDisabled){
 			this.disable();
 		}
+		
+		// now disable the original so it's values aren't passed during form submission
+		this.element.attr("disabled","disabled");
 	},
 	
 	// binds events
@@ -208,6 +212,7 @@ $.widget("ui.multiselect", {
 				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input');
 				
 			self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
+			// TODO lowercase
 			self._trigger('optgroupToggle', e, {
 				inputs: $inputs.get(),
 				label: $this.parent().text(),
@@ -247,6 +252,7 @@ $.widget("ui.multiselect", {
 			var $this = $(this), val = this.value;
 
 			// bail if this input is disabled or the event is cancelled
+			// TODO rename click - it can fire on keyboard events as well
 			if( $this.is(':disabled') || self._trigger('click', e, { value:this.value, text:this.title, checked:this.checked }) === false ){
 				e.preventDefault();
 				return;
@@ -362,6 +368,7 @@ $.widget("ui.multiselect", {
 		var self = this;
 		
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
+		// TODO: rename to beforeopen
 		if( this._trigger('open') === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
 		}
@@ -466,6 +473,11 @@ $.widget("ui.multiselect", {
 		this.button.remove();
 		this.menu.remove();
 		this.element.show();
+		
+		if(!this._wasDisabled){
+			this.element.removeAttr("disabled");
+		}
+		
 		return this;
 	},
 	
