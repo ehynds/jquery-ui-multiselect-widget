@@ -417,7 +417,7 @@ $.widget("ui.multiselect", {
 	
 	// close the menu
 	close: function(){
-		if(this._trigger('close') === false){
+		if(this._trigger('beforeclose') === false){
 			return;
 		}
 	
@@ -432,6 +432,8 @@ $.widget("ui.multiselect", {
 		this.menu.hide(effect, speed);
 		this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
 		self._isOpen = false;
+		
+		this._trigger('close');
 		
 		return this;
 	},
