@@ -367,8 +367,7 @@ $.widget("ui.multiselect", {
 		var self = this;
 		
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
-		// TODO: rename to beforeopen
-		if( this._trigger('open') === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
+		if( this._trigger('beforeopen') === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
 		}
 		
@@ -410,6 +409,8 @@ $.widget("ui.multiselect", {
 		
 		// set the scroll of the checkbox container
 		$container.scrollTop(0).height(o.height);
+		
+		this._trigger('open');
 		
 		return this;
 	},
