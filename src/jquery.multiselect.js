@@ -127,7 +127,7 @@ $.widget("ech.multiselect", {
 		this._bindEvents();
 		
 		// remember instance
-		$.ui.multiselect.instances.push(this.element);
+		$.ech.multiselect.instances.push(this.element);
 
 		// update the number of selected elements when the page initially loads, and use that as the defaultValue.  necessary for form resets when options are pre-selected.
 		this.button[0].defaultValue = this.update();
@@ -353,7 +353,7 @@ $.widget("ech.multiselect", {
 	_getOtherInstances: function(){
 		var element = this.element;
 
-		return $.grep($.ui.multiselect.instances, function(el){
+		return $.grep($.ech.multiselect.instances, function(el){
 			return el !== element;
 		});
 	},
@@ -465,7 +465,7 @@ $.widget("ech.multiselect", {
 	 
 		// if this instance was found, splice it off
 		if(position > -1){
-			$.ui.multiselect.instances.splice(position, 1);
+			$.ech.multiselect.instances.splice(position, 1);
 		}
 		
 		this.button.remove();
