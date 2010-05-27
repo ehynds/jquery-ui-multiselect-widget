@@ -515,7 +515,7 @@ $.widget("ech.multiselect", {
 	}
 });
 
-$.extend($.ui.multiselect, {
+$.extend($.ech.multiselect, {
 	instances: []
 });
 
