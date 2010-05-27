@@ -11,7 +11,7 @@
 <script type="text/javascript" src="../src/jquery.multiselect.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("#example-basic, #example-optgroup").multiselect();
+	$("select").multiselect();
 });
 </script>
 </head>
@@ -19,10 +19,16 @@ $(function(){
 
 <h2>Basic Demos</h2>
 
-<h3>The Most Basic Usage</h3>
-<p>Out of the box - no options set.</p>
+<p>Both multiselects are created with the following one-liner.  Optgroup support is built in out of the box:</p>
+<pre lang="javascript">
+$(function(){
+	$("select").multiselect(); 
+});
+</pre>
+
+<h3>Basic</h3>
 <p>
-	<select title="Basic example" id="example-basic" name="example-basic" multiple="multiple" size="5">
+	<select title="Basic example" name="example-basic" multiple="multiple" size="5">
 	<option value="option1">Option 1</option>
 	<option value="option2">Option 2</option>
 	<option value="option3">Option 3</option>
@@ -41,7 +47,7 @@ $(function(){
 <h3>With Optgroups</h3>
 <p>Click on an optgroup's heading to toggle the checked state of the entire group.</p>
 <p>
-	<select id="example-optgroup" name="example-optgroup" multiple="multiple" size="5">
+	<select name="example-optgroup" multiple="multiple" size="5">
 	<optgroup label="Group One">
 		<option value="option1">Option 1</option>
 		<option value="option2">Option 2</option>
@@ -55,9 +61,6 @@ $(function(){
 	</optgroup>
 	</select>
 </p>
-
-
-
 
 </body>
 </html>

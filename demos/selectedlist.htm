@@ -11,8 +11,7 @@
 <script type="text/javascript" src="../src/jquery.multiselect.js"></script>
 <script type="text/javascript">
 $(function(){
-	
-	// radio
+
 	$("select").multiselect({
 		selectedList: 4
 	});
@@ -27,8 +26,11 @@ $(function(){
 
 <h3>Using the <code>selectedList</code> Parameter</h3>
 <p>The selectedList parameter is a boolean/numeric value denoting whether or not to display the checked opens in a list, and how many. A number greater than 0 denotes the maximum number of list items to display before switching over to the selectedText parameter.</p>
-<p>In the example below, the selectedList param is set to 5.</p>
-
+<pre lang="javascript">
+$("select").multiselect({
+	selectedList: 4 // 0-based index
+});
+</pre>
 <form>
 	<p>
 		<select name="example-list" multiple="multiple" size="5" style="width:400px">
