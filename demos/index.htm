@@ -26,15 +26,13 @@ p { margin:5px 0; padding:0 }
 <script src="ba.hashchange.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
-
 	// cache some objs
 	var $placeholder = $("#placeholder"),
 		$demo = $("#footer a"),
 		$links = $("#menu a");
 	
 	$(window).bind("hashchange", function(){
-		var hash = location.hash, 
-			url = location.hash.replace("#", "")+'.htm';
+		var hash = location.hash, url = (hash.replace("#", "") || "basic") +'.htm';
 		
 		// load in demo
 		$placeholder.attr("src", url);
@@ -54,7 +52,7 @@ $(function(){
 <body>
 	<div id="bar">
 		<h1><a href="http://www.erichynds.com">eric<span>hynds</span></a></h1>
-		<!-- <div><a href="http://www.erichynds.com/jquery/visualizing-your-z-index-stacks-with-jquery">&laquo; Return to Blog Post</a></div> -->
+		<div><a href="http://www.erichynds.com/jquery/jquery-ui-multiselect-widget">&laquo; Return to Blog Post</a></div>
 	</div>
 	
 	<div id="content">
