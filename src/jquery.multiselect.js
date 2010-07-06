@@ -253,9 +253,10 @@ $.widget("ech.multiselect", {
 				return;
 			}
 			
+			self.update();
+			
 			// set the original option tag to selected
 			$(self.optiontags).filter(function(){ return this.value === val; }).attr('selected', $this.is(':checked') );
-			self.update();
 		});
 		
 		// close each widget when clicking on any other element/anywhere else on the page
