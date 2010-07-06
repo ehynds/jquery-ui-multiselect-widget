@@ -291,7 +291,7 @@ $.widget("ech.multiselect", {
 				-parseInt(m.css('border-right-width'),10) || 0
 				-parseInt(m.css('border-left-width'),10) || 0;
 		
-		m.width( m.css('padding-left') );
+		m.width( width );
 	},
 	
 	// updates the number of selected items in the button
