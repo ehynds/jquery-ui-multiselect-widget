@@ -461,7 +461,7 @@ $.widget("ech.multiselect", {
 
 		// remove from instances array
 		var element = this.element,
-			position = $.inArray(element, $.ui.multiselect.instances);
+			position = $.inArray(element, $.ech.multiselect.instances);
 	 
 		// if this instance was found, splice it off
 		if(position > -1){
