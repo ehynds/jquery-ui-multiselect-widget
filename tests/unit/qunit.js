@@ -579,7 +579,7 @@ function validTest( name ) {
 
 function push(result, actual, expected, message) {
 	message = message || (result ? "okay" : "failed");
-	QUnit.ok( result, result ? message + ": " + expected : message + ", expected: " + QUnit.jsDump.parse(expected) + " result: " + QUnit.jsDump.parse(actual) );
+	QUnit.ok( result, result ? message + ": " + QUnit.jsDump.parse(expected) : message + ", expected: " + QUnit.jsDump.parse(expected) + " result: " + QUnit.jsDump.parse(actual) );
 }
 
 function synchronize( callback ) {
@@ -953,16 +953,14 @@ QUnit.jsDump = (function() {
 				type = "date";
 			} else if (QUnit.is("Function", obj)) {
 				type = "function";
-			} else if (QUnit.is("Array", obj)) {
-				type = "array";
-			} else if (QUnit.is("Window", obj) || QUnit.is("global", obj)) {
+			} else if (obj.setInterval && obj.document && !obj.nodeType) {
 				type = "window";
-			} else if (QUnit.is("HTMLDocument", obj)) {
+			} else if (obj.nodeType === 9) {
 				type = "document";
-			} else if (QUnit.is("HTMLCollection", obj) || QUnit.is("NodeList", obj)) {
-				type = "nodelist";
-			} else if (/^\[object HTML/.test(Object.prototype.toString.call( obj ))) {
+			} else if (obj.nodeType) {
 				type = "node";
+			} else if (typeof obj === "object" && typeof obj.length === "number" && obj.length >= 0) {
+				type = "array";
 			} else {
 				type = typeof obj;
 			}
@@ -1060,9 +1058,9 @@ QUnit.jsDump = (function() {
 			name:'name',
 			'class':'className'
 		},
-		HTML:true,//if true, entities are escaped ( <, >, \t, space and \n )
+		HTML:false,//if true, entities are escaped ( <, >, \t, space and \n )
 		indentChar:'   ',//indentation unit
-		multiline:true //if true, items in a collection, are separated by a \n, else just a space.
+		multiline:false //if true, items in a collection, are separated by a \n, else just a space.
 	};
 
 	return jsDump;

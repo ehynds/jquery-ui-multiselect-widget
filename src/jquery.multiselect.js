@@ -286,11 +286,12 @@ $.widget("ech.multiselect", {
 	_setMenuWidth: function(){
 		var m = this.menu,
 			width = this.button.outerWidth()
-				-parseInt(m.css('padding-left'),10)
-				-parseInt(m.css('padding-right'),10)
-				-parseInt(m.css('border-right-width'),10)
-				-parseInt(m.css('border-left-width'),10);
-		m.width( width );
+				-parseInt(m.css('padding-left'),10) || 0
+				-parseInt(m.css('padding-right'),10) || 0
+				-parseInt(m.css('border-right-width'),10) || 0
+				-parseInt(m.css('border-left-width'),10) || 0;
+		
+		m.width( m.css('padding-left') );
 	},
 	
 	// updates the number of selected items in the button
