@@ -16,7 +16,6 @@ $(function(){
 	
 	$("form").bind("submit", function(){
 		alert( $(this).serialize() );
-		return false;
 	});
 
 });
@@ -27,7 +26,7 @@ $(function(){
 <h1>Form Submission Test</h1>
 <p>Testing to ensure the correct values are actually passed when the form is submitted.</p>
 
-<form>
+<form action="formsubmission.cfm" method="post">
 	<select name="foo" multiple="multiple" size="5">
 	<option value="option1">Option 1</option>
 	<option value="option2">Option 2</option>
