@@ -32,7 +32,7 @@ $(function(){
 		$links = $("#menu a");
 	
 	$(window).bind("hashchange", function(){
-		var hash = location.hash, url = (hash.replace("#", "") || "basic") +'.htm';
+		var hash = location.hash || "#basic", url = hash.replace("#", "")+'.htm';
 		
 		// load in demo
 		$placeholder.attr("src", url);
