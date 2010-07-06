@@ -29,8 +29,8 @@
 		el = $("<select></select>")
 		.appendTo("body")
 		.multiselect()
-		.bind("multiselectopen", function(){
-			ok( true, "event: binding multiselectopen to return false (prevent from opening)" );
+		.bind("multiselectbeforeopen", function(){
+			ok( true, "event: binding multiselectbeforeopen to return false (prevent from opening)" );
 			return false;
 		})
 		.multiselect("open");
@@ -67,8 +67,8 @@
 		el = $("<select></select>")
 		.appendTo("body")
 		.multiselect()
-		.bind("multiselectclose", function(){
-			ok( true, "event: binding multiselectclose to return false (prevent from closing)" );
+		.bind("multiselectbeforeclose", function(){
+			ok( true, "event: binding multiselectbeforeclose to return false (prevent from closing)" );
 			return false;
 		})
 		.multiselect("open")
