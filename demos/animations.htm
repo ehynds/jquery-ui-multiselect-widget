@@ -4,11 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>jQuery MultiSelect Widget Demo</title>
 <link rel="stylesheet" type="text/css" href="../jquery.multiselect.css" />
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="assets/style.css" />
+<link rel="stylesheet" type="text/css" href="assets/prettify.css" />
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="../src/jquery.multiselect.js"></script>
+<script type="text/javascript" src="assets/prettify.js"></script>
 <script type="text/javascript">
 $(function(){
 
@@ -25,16 +27,16 @@ $(function(){
 });
 </script>
 </head>
-<body>
+<body onload="prettyPrint();">
 
 <h2>Show/hide with Animation</h2>
 <p>Using animations with the show and hide parameters.</p>
 
 <h3>Specifying different show and hide speeds</h3>
-<pre lang="javascript">
+<pre class="prettyprint">
 $("#test-1").multiselect({
-	show: ["bounce", 200],
-	hide: ["explode", 1000]
+   show: ["bounce", 200],
+   hide: ["explode", 1000]
 });
 </pre>
 <select id="test-1" multiple="multiple" size="5">
@@ -46,10 +48,10 @@ $("#test-1").multiselect({
 </select>
 
 <h3>Only passing the name of an effect</h3>
-<pre lang="javascript">
+<pre class="prettyprint">
 $("#test-2").multiselect({
-	show: "bounce",
-	hide: "explode"
+   show: "bounce",
+   hide: "explode"
 });
 </pre>
 <select id="test-2" multiple="multiple" size="5">

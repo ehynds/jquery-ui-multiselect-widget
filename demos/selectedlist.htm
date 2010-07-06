@@ -4,11 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>jQuery MultiSelect Widget Demo</title>
 <link rel="stylesheet" type="text/css" href="../jquery.multiselect.css" />
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="assets/style.css" />
+<link rel="stylesheet" type="text/css" href="assets/prettify.css" />
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="../src/jquery.multiselect.js"></script>
+<script type="text/javascript" src="assets/prettify.js"></script>
 <script type="text/javascript">
 $(function(){
 
@@ -20,15 +22,15 @@ $(function(){
 </script>
 
 </head>
-<body>
+<body onload="prettyPrint();">
 
 <h2>Displaying options in a list</h2>
 
 <h3>Using the <code>selectedList</code> Parameter</h3>
 <p>The selectedList parameter is a boolean/numeric value denoting whether or not to display the checked opens in a list, and how many. A number greater than 0 denotes the maximum number of list items to display before switching over to the selectedText parameter.</p>
-<pre lang="javascript">
+<pre class="prettyprint">
 $("select").multiselect({
-	selectedList: 4 // 0-based index
+   selectedList: 4 // 0-based index
 });
 </pre>
 <form>
@@ -49,11 +51,11 @@ $("select").multiselect({
 <h3>Passing a Function to <code>selectedText</code></h3>
 <p>Passing a function to the <code>selectedText</code> option gives you low-level control of what the widget displays.  Example usage:</p>
 
-<pre>
+<pre class="prettyprint">
 $("select").multiselect({
-	selectedText: function(numChecked, numTotal, checkedItems){
-		return numChecked + ' of ' + numTotal + ' checked';
-	}
+   selectedText: function(numChecked, numTotal, checkedItems){
+      return numChecked + ' of ' + numTotal + ' checked';
+   }
 });
 </pre>
 
