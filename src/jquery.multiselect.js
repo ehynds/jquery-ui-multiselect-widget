@@ -446,12 +446,12 @@ $.widget("ech.multiselect", {
 	
 	checkAll: function(e){
 		this._toggleChecked(true);
-		this._trigger('checkAll');
+		this._trigger('checkall');
 	},
 	
 	uncheckAll: function(){
 		this._toggleChecked(false);
-		this._trigger('uncheckAll');
+		this._trigger('uncheckall');
 		return this;
 	},
 	
