@@ -1,10 +1,15 @@
 jQuery UI Multiselect Widget Changelog
 
-Version 1.0
+Version 1.2 - 07/06/2010
 ==============================================
-Initial release
+- Fixed: namespacing issues with destroy().
 
 
 Version 1.1 - 05/26/2010
 ==============================================
 - Modified: renamed "_updateSelected" to "update", exposing it as a method in the process.
+
+
+Version 1.0
+==============================================
+Initial release
