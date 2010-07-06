@@ -2,12 +2,13 @@ jQuery UI Multiselect Widget Changelog
 
 Version 1.2 - 07/06/2010
 ==============================================
-- Fixed: namespacing issues with destroy().
+- Fixed: namespacing issues with destroy()
+- Fixed: support NaN values in _setMenuWidth() calculations
 
 
 Version 1.1 - 05/26/2010
 ==============================================
-- Modified: renamed "_updateSelected" to "update", exposing it as a method in the process.
+- Modified: renamed "_updateSelected" to "update", exposing it as a method in the process
 
 
 Version 1.0
