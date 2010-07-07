@@ -81,7 +81,7 @@
 	
 
 	test("multiselectclick", function(){
-		expect(12);
+		expect(10);
 	 
 	 	// inject widget.  test will use the second option tag because the
 	 	// first will be selected by default by some (if not all) browsers
@@ -97,8 +97,7 @@
 				equals(e.type, 'multiselectclick', 'option: event type in callback');
 				equals(ui.value, "2", "option: ui.value equals");
 				equals(ui.text, "Option 2", "option: ui.title equals");
-				
-				ok( el.data("multiselect").optiontags[1].selected === true, "option: detached option tag is selected");
+				// ok( el.data("multiselect").optiontags[1].selected === true, "option: detached option tag is selected");
 			}
 		})
 		.bind("multiselectclick", function(e,ui){
@@ -106,7 +105,7 @@
 			equals(this, el[0], 'event: context of event');
 			equals(ui.value, "2", "event: ui.value equals");
 			equals(ui.text, "Option 2", "event: ui.title equals");
-			ok( el.data("multiselect").optiontags[1].selected === true, "event: detached option tag is selected");
+			// ok( el.data("multiselect").optiontags[1].selected === true, "event: detached option tag is selected");
 		})
 		.multiselect("open");
 		
