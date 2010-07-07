@@ -476,8 +476,7 @@ $.widget("ech.multiselect", {
 		
 		this.button.remove();
 		this.menu.remove();
-		this.element.show().find("option").removeAttr("disabled");
-		this.element.append( this.optiontags );
+		this.element.append( this.optiontags ).show();
 		
 		return this;
 	},
