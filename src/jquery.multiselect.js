@@ -54,7 +54,7 @@ $.widget("ech.multiselect", {
 		if(title.length){
 			html.push(' title="'+title+'"');
 		}
-		html.push('><span class="ui-icon ui-icon-triangle-1-s"></span>'+ o.noneSelectedText +'</button>');
+		html.push('><span class="ui-icon ui-icon-triangle-2-n-s"></span>'+ o.noneSelectedText +'</button>');
 		
 		// start menu container
 		html.push('<div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all">');
