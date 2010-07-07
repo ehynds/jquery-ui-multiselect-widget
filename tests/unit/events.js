@@ -81,30 +81,37 @@
 	
 
 	test("multiselectclick", function(){
-		expect(9);
+		expect(12);
 	 
-	 	// inject widget
-		el = $("<select><option value='1'>Option 1</option></select>")
-		.appendTo("body")
+	 	// inject widget.  test will use the second option tag because the
+	 	// first will be selected by default by some (if not all) browsers
+		el = $("<select><option value='1'>Option 1</option><option value='2'>Option 2</option></select>");
+		
+		// quick check to prove that the second option tag is NOT selected.
+		ok( el.find("option").eq(1).is(":selected") === false, "option tag is not selected." );
+		
+		el.appendTo("body")
 		.multiselect({
 			click: function(e,ui){
-				ok( true, 'option: triggering the click event on one of the checkboxes fires the click callback' );
+				ok( true, 'option: triggering the click event on the second checkbox fires the click callback' );
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectclick', 'option: event type in callback');
-				equals(ui.value, "1", "option: ui.value equals");
-				equals(ui.text, "Option 1", "option: ui.title equals");
+				equals(ui.value, "2", "option: ui.value equals");
+				equals(ui.text, "Option 2", "option: ui.title equals");
+				ok( el.data("multiselect").optiontags.last().attr("selected") === true, "option: detached option tag is selected");
 			}
 		})
 		.bind("multiselectclick", function(e,ui){
-			ok(true, 'event: triggering the click event on one of the checkboxes triggers multiselectclick');
+			ok(true, 'event: triggering the click event on the second checkbox triggers multiselectclick');
 			equals(this, el[0], 'event: context of event');
-			equals(ui.value, "1", "event: ui.value equals");
-			equals(ui.text, "Option 1", "event: ui.title equals");
+			equals(ui.value, "2", "event: ui.value equals");
+			equals(ui.text, "Option 2", "event: ui.title equals");
+			ok( el.data("multiselect").optiontags.last().attr("selected") === true, "event: detached option tag is selected");
 		})
 		.multiselect("open");
 		
 		// trigger a click event on the input
-		menu().find("input").trigger("click");
+		menu().find("input:last").trigger("click");
 		
 		el.multiselect("destroy").remove();
 	});
