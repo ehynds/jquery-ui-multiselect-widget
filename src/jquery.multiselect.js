@@ -146,12 +146,17 @@ $.widget("ech.multiselect", {
 	_bindEvents: function(){
 		var self = this;
 		
+		function clickHandler(){
+			self[ self._isOpen ? 'close' : 'open' ]();
+			return false;
+		}
+		
+		// webkit doesn't like it when you click on the span :(
+		this.button.find('span').bind('click', clickHandler);
+		
 		// button events
 		this.button.bind({
-			click: function(){
-				// FIXME: webkit doesn't like it when you click on arrow span inside the button
-				self[ self._isOpen ? 'close' : 'open' ]();
-			},
+			click: clickHandler,
 			keypress: function(e){
 				switch(e.keyCode){
 					case 27: // esc
@@ -352,7 +357,7 @@ $.widget("ech.multiselect", {
 	// open the menu
 	open: function(e){
 		var self = this;
-		
+	
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
 		if( this._trigger('beforeopen') === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
