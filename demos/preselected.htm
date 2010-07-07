@@ -5,23 +5,18 @@
 <title>jQuery MultiSelect Widget Demo</title>
 <link rel="stylesheet" type="text/css" href="../jquery.multiselect.css" />
 <link rel="stylesheet" type="text/css" href="assets/style.css" />
+<link rel="stylesheet" type="text/css" href="assets/prettify.css" />
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="../src/jquery.multiselect.js"></script>
-<script type="text/javascript">
-$(function(){
-	
-	$("select").multiselect();
-	
-});
-</script>
-
+<script type="text/javascript" src="assets/prettify.js"></script>
 </head>
-<body>
+<body onload="prettyPrint();">
 
 <h2>Pre-selected &amp; pre-disabled options</h2>
-<p>Options one, three, and four have the <code>selected="selected"</code> attribute and are checked by default.  Options five and six have the <code>disabled="disabled"</code> attribute.</p>
+<p>Options one, three, and four have the <code class="prettyprint">selected="selected"</code> attribute and are checked by default.  Options five and six have the <code class="prettyprint">disabled="disabled"</code> attribute.
+When the widget is initialized on the select, both attribute types are honored.</p>
 
 <form>
 	<p>
@@ -39,6 +34,6 @@ $(function(){
 	</p>
 </form>
 
-
+<script type="text/javascript">$("select").multiselect();</script>
 </body>
 </html>

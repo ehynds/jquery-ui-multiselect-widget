@@ -53,7 +53,9 @@ $(function(){
 <body onload="prettyPrint();">
 
 <h2>Callbacks &amp; Events</h2>
-<p>Demonstrating beforeopen, open, beforeclose, close, click, checkall, uncheckall, and optgrouptoggle callbacks/events.</p>
+<p>Demonstrating beforeopen, open, beforeclose, close, click, checkall, uncheckall, and optgrouptoggle callbacks/events.  Note that you can either
+pass in an event handler in the options object upon initialization, or bind to the event (including the multiselect prefix).  For example, to add an 
+"open" handler, you can also use <code class="prettyprint">$("select").bind("multiselectopen", fn);</code></p>
 <p class="message success" id="callback">Callback target</p>
 
 <select multiple="multiple" size="5">
