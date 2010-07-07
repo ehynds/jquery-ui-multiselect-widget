@@ -294,28 +294,6 @@ $.widget("ech.multiselect", {
 		m.width( width || this.button.outerWidth() );
 	},
 	
-	// updates the number of selected items in the button
-	update: function(){
-		var o = this.options,
-			$inputs = this.labels.find('input'),
-			$checked = $inputs.filter(':checked'),
-			value, numChecked = $checked.length;
-		
-		if(numChecked === 0){
-			value = o.noneSelectedText;
-		} else {
-			if($.isFunction(o.selectedText)){
-				value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
-			} else if( /\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList){
-				value = $checked.map(function(){ return this.title; }).get().join(', ');
-			} else {
-				value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
-			}
-		}
-		this.button.contents()[1].nodeValue = value;
-		return value;
-	},
-
 	// move up or down within the menu
 	_traverse: function(keycode, start){
 		var $start = $(start),
@@ -342,8 +320,8 @@ $.widget("ech.multiselect", {
 	_toggleChecked: function(flag, group){
 		var $inputs = (group && group.length) ? group : this.labels.find('input');
 		$inputs.not(':disabled').attr('checked', (flag ? 'checked' : '')); 
-		this.optiontags.not('disabled').attr('selected', (flag ? 'selected' : ''));
 		this.update();
+		this.optiontags.not('disabled').attr('selected', (flag ? 'selected' : ''));
 	},
 
 	_toggleDisabled: function(flag){
@@ -358,6 +336,28 @@ $.widget("ech.multiselect", {
 		return $.grep($.ech.multiselect.instances, function(el){
 			return el !== element;
 		});
+	},
+
+	// updates the number of selected items in the button
+	update: function(){
+		var o = this.options,
+			$inputs = this.labels.find('input'),
+			$checked = $inputs.filter(':checked'),
+			value, numChecked = $checked.length;
+		
+		if(numChecked === 0){
+			value = o.noneSelectedText;
+		} else {
+			if($.isFunction(o.selectedText)){
+				value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
+			} else if( /\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList){
+				value = $checked.map(function(){ return this.title; }).get().join(', ');
+			} else {
+				value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
+			}
+		}
+		this.button.contents()[1].nodeValue = value;
+		return value;
 	},
 	
 	// open the menu
@@ -455,6 +455,10 @@ $.widget("ech.multiselect", {
 		this._toggleChecked(false);
 		this._trigger('uncheckAll');
 		return this;
+	},
+	
+	getChecked: function(){
+		return this.menu.find("input").filter(":checked");
 	},
 	
 	destroy: function(){
