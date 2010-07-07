@@ -126,9 +126,6 @@ $.widget("ech.multiselect", {
 		// perform event bindings
 		this._bindEvents();
 		
-		// remember instance
-		$.ech.multiselect.instances.push(this.element);
-
 		// update the number of selected elements when the page initially loads, and use that as the defaultValue.  necessary for form resets when options are pre-selected.
 		this.button[0].defaultValue = this.update();
 	},
@@ -330,14 +327,6 @@ $.widget("ech.multiselect", {
 		this.element.attr('disabled', (flag ? 'disabled' : ''));
 	},
 
-	_getOtherInstances: function(){
-		var element = this.element;
-
-		return $.grep($.ech.multiselect.instances, function(el){
-			return el !== element;
-		});
-	},
-
 	// updates the number of selected items in the button
 	update: function(){
 		var o = this.options,
@@ -370,8 +359,9 @@ $.widget("ech.multiselect", {
 		}
 		
 		// close other instances
-		$.each(this._getOtherInstances(), function(){
+		$(":ech-multiselect").not(this.element).each(function(){
 			var $this = $(this);
+			
 			if($this.multiselect('isOpen')){
 				$this.multiselect('close');
 			}
@@ -397,7 +387,7 @@ $.widget("ech.multiselect", {
 			speed = o.show[1] || self.speed;
 		}
 		
-		// position and show menu
+		// position and show menu. TODO use position utility if present
 		this.menu.css({ 
 			top: pos.top+this.button.outerHeight(),
 			left: pos.left
@@ -409,8 +399,6 @@ $.widget("ech.multiselect", {
 		$container.scrollTop(0).height(o.height);
 		
 		this._trigger('open');
-		
-		return this;
 	},
 	
 	// close the menu
@@ -432,18 +420,14 @@ $.widget("ech.multiselect", {
 		self._isOpen = false;
 		
 		this._trigger('close');
-		
-		return this;
 	},
 
 	enable: function(){
 		this._toggleDisabled(false);
-		return this;
 	},
 	
 	disable: function(){
 		this._toggleDisabled(true);
-		return this;
 	},
 	
 	checkAll: function(e){
@@ -454,7 +438,6 @@ $.widget("ech.multiselect", {
 	uncheckAll: function(){
 		this._toggleChecked(false);
 		this._trigger('uncheckAll');
-		return this;
 	},
 	
 	getChecked: function(){
@@ -518,10 +501,6 @@ $.widget("ech.multiselect", {
 				break;
 		}
 	}
-});
-
-$.extend($.ech.multiselect, {
-	instances: []
 });
 
 })(jQuery);
