@@ -90,15 +90,15 @@
 		// quick check to prove that the second option tag is NOT selected.
 		ok( el.find("option").eq(1).is(":selected") === false, "option tag is not selected." );
 		
-		el.appendTo("body")
-		.multiselect({
+		el.appendTo("body").multiselect({
 			click: function(e,ui){
 				ok( true, 'option: triggering the click event on the second checkbox fires the click callback' );
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectclick', 'option: event type in callback');
 				equals(ui.value, "2", "option: ui.value equals");
 				equals(ui.text, "Option 2", "option: ui.title equals");
-				ok( el.data("multiselect").optiontags.last().attr("selected") === true, "option: detached option tag is selected");
+				
+				ok( el.data("multiselect").optiontags[1].selected === true, "option: detached option tag is selected");
 			}
 		})
 		.bind("multiselectclick", function(e,ui){
@@ -106,7 +106,7 @@
 			equals(this, el[0], 'event: context of event');
 			equals(ui.value, "2", "event: ui.value equals");
 			equals(ui.text, "Option 2", "event: ui.title equals");
-			ok( el.data("multiselect").optiontags.last().attr("selected") === true, "event: detached option tag is selected");
+			ok( el.data("multiselect").optiontags[1].selected === true, "event: detached option tag is selected");
 		})
 		.multiselect("open");
 		

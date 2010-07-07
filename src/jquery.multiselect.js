@@ -246,11 +246,11 @@ $.widget("ech.multiselect", {
 			}
 		})
 		.delegate('input', 'click', function(e){
-			var $this = $(this), val = this.value;
+			var $this = $(this), val = this.value, checked = this.checked;
 
 			// bail if this input is disabled or the event is cancelled
 			// TODO rename click - it can fire on keyboard events as well
-			if( $this.is(':disabled') || self._trigger('click', e, { value:this.value, text:this.title, checked:this.checked }) === false ){
+			if( $this.is(':disabled') || self._trigger('click', e, { value:this.value, text:this.title, checked:checked }) === false ){
 				e.preventDefault();
 				return;
 			}
@@ -258,7 +258,7 @@ $.widget("ech.multiselect", {
 			self.update();
 			
 			// set the original option tag to selected
-			$(self.optiontags).filter(function(){ return this.value === val; }).attr('selected', $this.is(':checked') );
+			self.optiontags.filter(function(){ return this.value === val; }).attr('selected', checked ? 'selected' : '' );
 		});
 		
 		// close each widget when clicking on any other element/anywhere else on the page
@@ -452,15 +452,6 @@ $.widget("ech.multiselect", {
 	destroy: function(){
 		// remove classes + data
 		$.Widget.prototype.destroy.call( this );
-
-		// remove from instances array
-		var element = this.element,
-			position = $.inArray(element, $.ech.multiselect.instances);
-	 
-		// if this instance was found, splice it off
-		if(position > -1){
-			$.ech.multiselect.instances.splice(position, 1);
-		}
 		
 		this.button.remove();
 		this.menu.remove();
