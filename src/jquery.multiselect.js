@@ -115,7 +115,7 @@ $.widget("ech.multiselect", {
 		html.push('</ul></div>');
 		
 		// cache elements
-		this.button		= el.children().remove().end().after( html.join('') ).hide().next('button');
+		this.button		= el.children().detach().end().after( html.join('') ).hide().next('button');
 		this.menu		= this.button.next('div.ui-multiselect-menu');
 		this.labels		= this.menu.find('label');
 
