@@ -15,7 +15,7 @@ function menu(){
 	test("init", function(){
 		expect(1);
 	 
-		el = $("select").multiselect({});
+		el = $("select").multiselect();
 			ok( el.is(":hidden"), 'Original select is hidden');
 		el.multiselect("destroy");
 	});
