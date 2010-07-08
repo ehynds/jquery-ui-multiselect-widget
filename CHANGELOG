@@ -1,9 +1,11 @@
 jQuery UI Multiselect Widget Changelog
 
-Version 1.3 - Coming soon!
+Version 1.3 - 07/08/2010
 ==============================================
 - Fixed: clicking on the button icon in webkit didn't open the widget correctly
+- Modified: refactored logic to close other instances when one opens
 - Modified: changed arrow icon
+- Modified: instead of removing the original option tags they're detached, preserving pre-existing events/data
 - Added: public getChecked() method
 
 Version 1.2 - 07/06/2010
@@ -19,4 +21,4 @@ Version 1.1 - 05/26/2010
 
 Version 1.0
 ==============================================
-Initial release
+- Initial release
