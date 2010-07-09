@@ -17,7 +17,7 @@
 					.prepend('<div id="multiselect-filter">Filter: <input placeholder="'+opts.placeholder+'" type="text" /></div>')
 					.find("input")
 					.keyup( filter ),
-		
+				
 				// each list item
 				rows = instance.menu.find(".ui-multiselect-checkboxes li"),
 			

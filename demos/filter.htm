@@ -16,6 +16,15 @@
 </head>
 <body onload="prettyPrint();">
 
+<h2>Filter Plugin</h2>
+
+<p style="font-weight:bold">NOTE: this filtering plugin is still in beta and has not been thoroughly tested!</p>
+<p>Filtering is available by including the <code class="prettyprint">jquery.multiselect.filter.js</code> plugin and the <code class="prettyprint">jquery.multiselect.filter.css</code> CSS file.  Initialize filtering on any of your multiselects by calling <code class="prettyprint">multiselectfilter()</code> on the widget.</p>
+
+<pre class="prettyprint">
+$("select").multiselect().multiselectfilter();
+</pre>
+
 <form>
 	<p>
 		<select multiple="multiple" size="5" style="width:375px">
