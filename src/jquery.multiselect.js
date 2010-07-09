@@ -320,9 +320,16 @@ $.widget("ech.multiselect", {
 	},
 
 	_toggleChecked: function(flag, group){
-		var $inputs = (group && group.length) ? group : this.labels.find('input');
+		var $inputs = (group && group.length) 
+			? group
+			: this.labels.find('input');
+		
+		// toggle state on inputs
 		$inputs.not(':disabled').attr('checked', (flag ? 'checked' : '')); 
+		
 		this.update();
+		
+		// toggle state on original option tags
 		this.optiontags.not('disabled').attr('selected', (flag ? 'selected' : ''));
 	},
 
