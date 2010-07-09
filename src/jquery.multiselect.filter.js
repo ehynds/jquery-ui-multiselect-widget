@@ -3,14 +3,18 @@
 (function($){
 
 	$.widget("ech.multiselectfilter", {
+		options: {
+			placeholder: "Enter keywords" // for browsers that support it natively
+		},
+		
 		_create: function(){
 			var instance = $(this.element).data("multiselect"),
-				
 				header = instance.menu.find(".ui-multiselect-header"),
-			
+				opts = this.options,
+				
 				// build the input box
 				input = header
-					.prepend('<div style="float:left; margin-right:10px">Filter: <input type="text" name="keyword" style="width:100px; font-size:11px"></div>')
+					.prepend('<div id="multiselect-filter">Filter: <input placeholder="'+opts.placeholder+'" type="text" /></div>')
 					.find("input")
 					.keyup( filter ),
 		
@@ -21,9 +25,6 @@
 				cache = instance.optiontags.map(function(){
 					return this.innerHTML.toLowerCase();
 				});
-		
-			// adjust the positioning of the check all/none links
-			header.find("ul").css({ position:"relative", top:"3px" });
 			
 			// rewrite internal _toggleChecked fn so that when checkAll is fired,
 			// only the currently filtered elements are checked
