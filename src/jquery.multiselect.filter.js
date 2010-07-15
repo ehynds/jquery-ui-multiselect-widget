@@ -16,6 +16,12 @@
 				input = header
 					.prepend('<div id="multiselect-filter">Filter: <input placeholder="'+opts.placeholder+'" type="text" /></div>')
 					.find("input")
+					.keydown(function( e ){
+						// prevent the enter key from submitting the form / closing the widget
+						if( e.keyCode === 13 ){
+							return false;
+						}
+					})
 					.keyup( filter ),
 				
 				// each list item
@@ -39,9 +45,9 @@
 			};
 			
 			// filtering logic by john resig, ejohn.org.  http://ejohn.org/blog/jquery-livesearch/
-			function filter(){
+			function filter(e){
 				var term = $.trim( this.value.toLowerCase() ), matches = [];
-			
+				
 				if( !term ){
 					rows.show();
 				} else {
