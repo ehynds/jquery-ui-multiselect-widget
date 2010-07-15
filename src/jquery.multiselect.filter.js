@@ -45,7 +45,7 @@
 			};
 			
 			// filtering logic by john resig, ejohn.org.  http://ejohn.org/blog/jquery-livesearch/
-			function filter(e){
+			function filter(){
 				var term = $.trim( this.value.toLowerCase() ), matches = [];
 				
 				if( !term ){
