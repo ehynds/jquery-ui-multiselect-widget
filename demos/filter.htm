@@ -18,16 +18,15 @@
 
 <h2>Filter Plugin</h2>
 
-<p style="font-weight:bold">NOTE: this filtering plugin is still in beta and has not been thoroughly tested!</p>
-<p>Filtering is available by including the <code class="prettyprint">jquery.multiselect.filter.js</code> plugin and the <code class="prettyprint">jquery.multiselect.filter.css</code> CSS file.  Initialize filtering on any of your multiselects by calling <code class="prettyprint">multiselectfilter()</code> on the widget.</p>
+<p>Filtering is available by including the <a href="http://github.com/ehynds/jquery-ui-multiselect-widget/raw/master/src/jquery.multiselect.filter.js">jquery.multiselect.filter.js</a> plugin and the <a href="http://github.com/ehynds/jquery-ui-multiselect-widget/raw/master/jquery.multiselect.filter.css">jquery.multiselect.filter.css</a> CSS file.  Initialize filtering on any of your multiselects by calling <code class="prettyprint">multiselectfilter()</code> on the widget.</p>
 
 <pre class="prettyprint">
 $("select").multiselect().multiselectfilter();
 </pre>
 
-<form>
+<form style="margin:20px 0">
 	<p>
-		<select multiple="multiple" size="5" style="width:375px">
+		<select multiple="multiple" size="5" style="width:370px">
 		<option value="red">Red</option>
 		<option value="green">Green</option>
 		<option value="blue">Blue</option>
@@ -40,6 +39,56 @@ $("select").multiselect().multiselectfilter();
 	</p>
 </form>
 
+<h3>Options:</h3>
+
+<p>Pass any of these as a configuration object when you initialize <code>multiselectfilter()</code>:</p>
+<ul>
+<li><code><strong>label</strong></code><p> the text to appear left of the input.  Defaults to &quot;Filter:&quot;</p></li>
+<li><code><strong>width</strong></code><p>the width of the input in pixels.  Defaults to 100px in the style sheet, but you can override this for each instance.</p></li>
+<li><code><strong>placeholder</strong></code><p>the HTML5 placeholder attribute value of the input.  Only supported in webkit as of this writing.  Defaults to &quot;Enter keywords&quot;</p></li>
+</ul>
+
+<h3>Events:</h3>
+<ul>
+<li><code><strong>filter</strong></code>
+	<p>A callback function that fires after filtering is complete.  Accepts two arguments: the original event and an array of matches.</p>
+	
+	<p>To do something when no matches are found:</p>
+	
+<pre class="prettyprint">
+$("select").multiselect().multiselectfilter({
+    filter: function(event, matches){
+        if( !matches.length ){
+            // do something
+        }
+    }
+});
+</pre>
+
+	<p>To do something with a match:</p>
+	
+<pre class="prettyprint">
+$("select").multiselect().multiselectfilter({
+    filter: function(event, matches){
+		
+        // find the first matching checkbox
+        var first_match = $( matches[0] );
+    }
+});
+</pre>
+
+	<p>You can also bind to the event after a multiselect has been initialized, like such:
+	
+<pre class="prettyprint">
+$("select").bind("multiselectfilterfilter", function(event, matches){
+    // do something
+});
+</pre>
+	
+</li>
+</ul>
+
+	
 <script type="text/javascript">
 $("select").multiselect().multiselectfilter();
 </script>

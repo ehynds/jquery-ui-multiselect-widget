@@ -1,28 +1,45 @@
-// filtering plugin for the multiselect widget
-
+/*
+ * jQuery MultiSelect UI Widget Filtering Plugin
+ * Copyright (c) 2010 Eric Hynds
+ *
+ * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
+ *
+ * Depends:
+ *   - jQuery UI MultiSelect widget
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ *
+*/
 (function($){
 
 	$.widget("ech.multiselectfilter", {
+		
 		options: {
-			placeholder: "Enter keywords" // for browsers that support it natively
+			label: "Filter:",
+			width: null, /* override default width set in css file (px). null will inherit */
+			placeholder: "Enter keywords"
 		},
 		
 		_create: function(){
-			var instance = $(this.element).data("multiselect"),
+			var self = this,
+				instance = $(this.element).data("multiselect"),
+				inputs = instance.menu.find(":checkbox, :radio"),
 				header = instance.menu.find(".ui-multiselect-header"),
 				opts = this.options,
 				
 				// build the input box
 				input = header
-					.prepend('<div id="multiselect-filter">Filter: <input placeholder="'+opts.placeholder+'" type="text" /></div>')
+					.prepend('<div class="ui-multiselect-filter">'+(opts.label.length ? opts.label : '')+'<input placeholder="'+opts.placeholder+'" type="text"' + (/\d/.test(opts.width) ? 'style="width:'+opts.width+'px"' : '') + ' /></div>')
 					.find("input")
-					.keydown(function( e ){
+					.bind("keydown", function( e ){
 						// prevent the enter key from submitting the form / closing the widget
 						if( e.keyCode === 13 ){
 							return false;
 						}
 					})
-					.keyup( filter ),
+					.bind("keyup", filter ),
 				
 				// each list item
 				rows = instance.menu.find(".ui-multiselect-checkboxes li"),
@@ -31,6 +48,9 @@
 				cache = instance.optiontags.map(function(){
 					return this.innerHTML.toLowerCase();
 				});
+			
+			// so the close/check all/uncheck all links can be positioned correctly
+			header.addClass("ui-multiselect-hasfilter");
 			
 			// rewrite internal _toggleChecked fn so that when checkAll is fired,
 			// only the currently filtered elements are checked
@@ -45,7 +65,7 @@
 			};
 			
 			// filtering logic by john resig, ejohn.org.  http://ejohn.org/blog/jquery-livesearch/
-			function filter(){
+			function filter( e ){
 				var term = $.trim( this.value.toLowerCase() ), matches = [];
 				
 				if( !term ){
@@ -58,10 +78,12 @@
 							matches.push( i );
 						}
 					});
-				
+					
 					$.each(matches, function(i,v){
 						rows.eq(v).show();
 					});
+					
+					self._trigger("filter", e, /* the following is brought to you by ben alman <3 */ $.map(matches, function(v,i){ return inputs.get(v); }));
 				}
 			}
 		}
