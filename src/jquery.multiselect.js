@@ -1,5 +1,5 @@
 /*
- * jQuery MultiSelect UI Widget 1.3
+ * jQuery MultiSelect UI Widget 1.4pre
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -207,7 +207,7 @@ $.widget("ech.multiselect", {
 		.end()
 		.find('li.ui-multiselect-optgroup-label a').bind('click', function(e){
 			var $this = $(this),
-				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input');
+				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible');
 				
 			self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
 			self._trigger('optgrouptoggle', e, {
