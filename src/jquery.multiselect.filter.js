@@ -64,26 +64,23 @@
 				this.optiontags.not('disabled').attr('selected', (flag ? 'selected' : ''));
 			};
 			
-			// filtering logic by john resig, ejohn.org.  http://ejohn.org/blog/jquery-livesearch/
+			// thx for the logic ben alman
 			function filter( e ){
-				var term = $.trim( this.value.toLowerCase() ), matches = [];
-				
+				var term = $.trim( this.value.toLowerCase() );
+			
 				if( !term ){
 					rows.show();
 				} else {
 					rows.hide();
-				
-					cache.each(function(i,v){
-						if( v.indexOf(term) !== -1 ){
-							matches.push( i );
+			
+					self._trigger( "filter", e, $.map(cache, function(v,i){
+						if ( v.indexOf(term) !== -1 ){
+							rows.eq(i).show();
+							return inputs.get(i);
 						}
-					});
-					
-					$.each(matches, function(i,v){
-						rows.eq(v).show();
-					});
-					
-					self._trigger("filter", e, /* the following is brought to you by ben alman <3 */ $.map(matches, function(v,i){ return inputs.get(v); }));
+						
+						return null;
+					}));
 				}
 			}
 		}
