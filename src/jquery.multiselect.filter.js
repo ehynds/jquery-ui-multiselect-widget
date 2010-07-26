@@ -33,9 +33,11 @@
 				// gather all the option tags.  there could be optgroups..
 				opttags = isOptgroup ? instance.optiontags.children() : instance.optiontags,
 				
+				// wrapping container
+				wrapper = (self.wrapper = $('<div class="ui-multiselect-filter">'+(opts.label.length ? opts.label : '')+'<input placeholder="'+opts.placeholder+'" type="text"' + (/\d/.test(opts.width) ? 'style="width:'+opts.width+'px"' : '') + ' /></div>').prependTo( header )),
+				
 				// build the input box
-				input = header
-					.prepend('<div class="ui-multiselect-filter">'+(opts.label.length ? opts.label : '')+'<input placeholder="'+opts.placeholder+'" type="text"' + (/\d/.test(opts.width) ? 'style="width:'+opts.width+'px"' : '') + ' /></div>')
+				input = (self.input = wrapper
 					.find("input")
 					.bind("keydown", function( e ){
 						// prevent the enter key from submitting the form / closing the widget
@@ -43,7 +45,7 @@
 							return false;
 						}
 					})
-					.bind("keyup", filter ),
+					.bind("keyup", filter )),
 				
 				// each list item
 				rows = instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)"),
@@ -96,6 +98,12 @@
 					}));
 				}
 			}
+		},
+		
+		destroy: function(){
+			$.Widget.prototype.destroy.call( this );
+			this.input.val('').trigger("keyup");
+			this.wrapper.remove();			
 		}
 	});
 })(jQuery);
