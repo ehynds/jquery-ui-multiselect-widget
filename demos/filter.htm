@@ -59,9 +59,9 @@ $("select").multiselect().multiselectfilter();
 
 <p>Pass any of these as a configuration object when you initialize <code>multiselectfilter()</code>:</p>
 <ul>
-<li><code><strong>label</strong></code><p> the text to appear left of the input.  Defaults to &quot;Filter:&quot;</p></li>
-<li><code><strong>width</strong></code><p>the width of the input in pixels.  Defaults to 100px in the style sheet, but you can override this for each instance.</p></li>
-<li><code><strong>placeholder</strong></code><p>the HTML5 placeholder attribute value of the input.  Only supported in webkit as of this writing.  Defaults to &quot;Enter keywords&quot;</p></li>
+<li><code><strong>label</strong></code><p>The text to appear left of the input.  Defaults to &quot;Filter:&quot;</p></li>
+<li><code><strong>width</strong></code><p>The width of the input in pixels.  Defaults to 100px in the style sheet, but you can override this for each instance.</p></li>
+<li><code><strong>placeholder</strong></code><p>The HTML5 placeholder attribute value of the input.  Only supported in webkit as of this writing.  Defaults to &quot;Enter keywords&quot;</p></li>
 </ul>
 
 <h3>Events:</h3>
@@ -104,7 +104,14 @@ $("select").bind("multiselectfilterfilter", function(event, matches){
 </li>
 </ul>
 
-	
+<h3>Methods</h3>
+<p>Syntax: <code class="prettyprint">$("select").multiselectfilter("method_name");</code></p>
+<ul>
+<li><code><strong>updateCache</strong></code><p>Reloads the cache of values to search against.  Make sure you call this after dynamically adding or removing any inputs to the multiselect.</p></li>
+<li><code><strong>destroy</strong></code><p>Destroys the widget.</p></li>
+<li><code><strong>widget</strong></code><p>Returns the wrapper div with the input and label text inside.  This is a quick and easy way to access the HTML created by the plugin.</p></li>
+</ul>
+
 <script type="text/javascript">
 $("select").multiselect().multiselectfilter();
 </script>
