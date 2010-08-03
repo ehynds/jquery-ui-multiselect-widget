@@ -53,10 +53,15 @@
 			// only the currently filtered elements are checked
 			instance._toggleChecked = function(flag, group){
 				var $inputs = (group && group.length) 
-					? group
-					: this.labels.find('input');
-
-				$inputs.not(':disabled, :hidden').attr('checked', (flag ? 'checked' : '')); 
+						? group
+						: this.labels.find('input'),
+					
+					// do not include hidden elems if the menu isn't open.
+					selector = self.instance._isOpen
+						? ":disabled, :hidden"
+						: ":disabled";
+						
+				$inputs.not( selector ).attr('checked', (flag ? 'checked' : '')); 
 				this.update();
 				this.optiontags.not('disabled').attr('selected', (flag ? 'selected' : ''));
 			};
