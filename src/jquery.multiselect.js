@@ -54,7 +54,7 @@ $.widget("ech.multiselect", {
 		if(title.length){
 			html.push(' title="'+title+'"');
 		}
-		html.push('><span class="ui-icon ui-icon-triangle-2-n-s"></span>'+ o.noneSelectedText +'</button>');
+		html.push('><span class="ui-icon ui-icon-triangle-2-n-s"></span><span>'+ o.noneSelectedText +'</span></button>');
 		
 		// start menu container
 		html.push('<div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all">');
@@ -115,9 +115,10 @@ $.widget("ech.multiselect", {
 		html.push('</ul></div>');
 		
 		// cache elements
-		this.button		= el.children().detach().end().after( html.join('') ).hide().next('button');
-		this.menu		= this.button.next('div.ui-multiselect-menu');
-		this.labels		= this.menu.find('label');
+		this.button			= el.children().detach().end().after( html.join('') ).hide().next('button');
+		this.menu			= this.button.next('div.ui-multiselect-menu');
+		this.labels			= this.menu.find('label');
+		this.buttonlabel 	= this.button.find("span").eq(-1);
 
 		// set widths
 		this._setButtonWidth();
@@ -357,7 +358,8 @@ $.widget("ech.multiselect", {
 				value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
 			}
 		}
-		this.button.contents()[1].nodeValue = value;
+		
+		this.buttonlabel.html( value );
 		return value;
 	},
 	

@@ -1,5 +1,5 @@
 .ui-multiselect { padding:2px 0 2px 4px; text-align:left }
-.ui-multiselect span { float:right }
+.ui-multiselect span.ui-icon { float:right }
 
 .ui-multiselect-header { margin-bottom:3px; padding:3px 0 3px 4px }
 .ui-multiselect-header ul { font-size:0.9em }
