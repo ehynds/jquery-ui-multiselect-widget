@@ -63,12 +63,12 @@ $.widget("ech.multiselect", {
 		html.push('<div class="ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix">');
 		html.push('<ul class="ui-helper-reset">');
 		if(o.header === true){
-			html.push('<li><a class="ui-multiselect-all" href=""><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li>');
-			html.push('<li><a class="ui-multiselect-none" href=""><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>');
+			html.push('<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li>');
+			html.push('<li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>');
 		} else if(typeof o.header === "string"){
 			html.push('<li>'+o.header+'</li>');
 		}
-		html.push('<li class="ui-multiselect-close"><a href="" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>');
+		html.push('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>');
 		html.push('</ul>');
 		html.push('</div>');
 
