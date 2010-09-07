@@ -146,9 +146,9 @@ $.widget("ech.multiselect", {
 	_bindEvents: function(){
 		var self = this;
 		
-		function clickHandler(){
+		function clickHandler( e ){
 			self[ self._isOpen ? 'close' : 'open' ]();
-			return false;
+			e.preventDefault();
 		}
 		
 		// webkit doesn't like it when you click on the span :(
