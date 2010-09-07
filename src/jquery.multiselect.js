@@ -247,19 +247,25 @@ $.widget("ech.multiselect", {
 			}
 		})
 		.delegate('input', 'click', function(e){
-			var $this = $(this), val = this.value, checked = this.checked;
+			var $this = $(this),
+				val = this.value,
+				checked = this.checked;
 			
 			// bail if this input is disabled or the event is cancelled
-			// TODO rename click - it can fire on keyboard events as well
 			if( $this.is(':disabled') || self._trigger('click', e, { value:this.value, text:this.title, checked:checked }) === false ){
 				e.preventDefault();
 				return;
 			}
 			
 			// set the original option tag to selected
-			self.optiontags.filter(function(){ return this.value === val; }).attr('selected', checked ? 'selected' : '' );
+			self.optiontags.filter(function(){
+				return this.value === val;
+			}).attr('selected', checked ? 'selected' : '' );
 			
-			self.update();
+			// issue 14: if this event is natively fired, the box will be checked
+			// before running the update.  using trigger(), the events fire BEFORE
+			// the box is checked.
+			self.update( !e.originalEvent ? checked ? -1 : 1 : 0 );
 		});
 		
 		// close each widget when clicking on any other element/anywhere else on the page
@@ -341,11 +347,12 @@ $.widget("ech.multiselect", {
 	},
 
 	// updates the number of selected items in the button
-	update: function(){
+	update: function( offset ){
 		var o = this.options,
 			$inputs = this.labels.find('input'),
 			$checked = $inputs.filter(':checked'),
-			value, numChecked = $checked.length;
+			numChecked = $checked.length,
+			value;
 		
 		if(numChecked === 0){
 			value = o.noneSelectedText;
