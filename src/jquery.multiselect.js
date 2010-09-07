@@ -41,7 +41,7 @@ $.widget("ech.multiselect", {
 			o = this.options,
 			html = [],
 			optgroups = [], 
-			title = el.attr('title')
+			title = el.attr('title'),
 			id = el.id || multiselectID++, // unique ID for the label & option tags
 			name = el.attr('name');
 		
