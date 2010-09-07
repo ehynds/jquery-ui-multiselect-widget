@@ -1,6 +1,6 @@
 (function($){
 
-	module("multiselect", "methods");
+	module("methods");
 
 	test("open", function(){
 		expect(2);

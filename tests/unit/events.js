@@ -1,6 +1,6 @@
 (function($){
 
-	module("multiselect", "events");
+	module("events");
 
 	test("multiselectopen", function(){
 		expect(9);

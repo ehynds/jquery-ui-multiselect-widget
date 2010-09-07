@@ -4,13 +4,18 @@ function widget(){
 	return el.multiselect("widget");
 }
 
-function menu(){
-	return el.next().next();
+function button(){
+	return el.next();
 }
+
+function menu(){
+	return button().next();
+}
+
 
 (function($){
 
-	module("multiselect", "core");
+	module("core");
 
 	test("init", function(){
 		expect(1);
@@ -19,5 +24,5 @@ function menu(){
 			ok( el.is(":hidden"), 'Original select is hidden');
 		el.multiselect("destroy");
 	});
-
+	
 })(jQuery);

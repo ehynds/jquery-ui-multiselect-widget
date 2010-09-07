@@ -1,8 +1,64 @@
 (function($){
 
-	module("multiselect", "options");
+	module("options");
 
+	test("noneSelectedText", function(){
+		expect(7);
+		var text;
+		
+		el = $("select").multiselect({
+			noneSelectedText: 'None Selected'
+		});
+		
+		// read from widget
+		text = el.multiselect("option", "noneSelectedText");
+		
+		ok( button().text() === text, 'on init, button reads "None Selected"');
+		el.multiselect("checkAll");
+		ok( button().text() !== text, 'after checkAll, button no longer reads "None Selected"');
+		el.multiselect("uncheckAll");
+		ok( button().text() === text, 'after uncheckAll, button text restored to "None Selected"');
+		
+		// change the option value
+		el.multiselect("option", "noneSelectedText", "No Checkboxes Checked");
+		ok( el.multiselect("option", "noneSelectedText") === "No Checkboxes Checked", "new noneSelectedText value set correctly");
+		
+		// read updated value from widget
+		text = el.multiselect("option", "noneSelectedText");
+		
+		// test against the new value
+		ok( button().text() === text, 'after changing the option value, button now reads "No Checkboxes Checked"');
+		el.multiselect("checkAll");
+		ok( button().text() !== text, 'after checkAll, button no longer reads "No Checkboxes Checked"');
+		el.multiselect("uncheckAll");
+		ok( button().text() === text, 'after uncheckAll, button text restored to "No Checkboxes Checked"');
+		
+		el.multiselect("destroy");
+	});
 
-
+	test("selectedText", function(){
+		expect(3);
+		var numOptions = $("select option").length;
+		
+		el = $("select").multiselect({
+			selectedText: '# of # selected'
+		});
+		
+		el.multiselect("checkAll");
+		ok( button().text() === numOptions+' of '+numOptions+' selected', 'after checkAll, button reflects the total number of checked boxes');
+		
+		// change option value
+		el.multiselect("option","selectedText", function( numChecked ){
+			return numChecked + ' options selected';
+		});
+		
+		ok( button().text() === numOptions+' options selected', 'after changing the option to a function value, button reflects the new text');
+		
+		// uncheck all
+		el.multiselect("uncheckAll");
+		ok( button().text() === el.multiselect("option","noneSelectedText"), 'after unchecking all, button text now reflects noneSelectedText option value');
+		
+		el.multiselect("destroy");
+	});
 
 })(jQuery);
