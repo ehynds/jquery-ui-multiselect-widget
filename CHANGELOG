@@ -1,5 +1,20 @@
 jQuery UI Multiselect Widget Changelog
 
+Version 1.4pre - Unreleased
+==============================================
+- Fixed: move focus to the first checkbox on open (better keyboard support)
+- Fixed: workaround jQuery bug when triggering a checkbox click event vs. actually clicking on it
+- Modified: refactored how original select elements are handled.  option tags are no longer detached, and the
+  original select is no longer disabled.
+- Fixed: do not stop propagation when the button is clicked on.  more customizable this way
+- Fixed: missing comma in var declarations
+- Fixed: cannot set noneSelectedText to an empty string
+- Fixed: missing pound sign in href links, causing weird behavior
+- Fixed checkAll bug when the menu is closed
+- Added: started option unit tests
+- Added: "formal" introduction of filtering widget
+
+
 Version 1.3 - 07/08/2010
 ==============================================
 - Fixed: clicking on the button icon in webkit didn't open the widget correctly
