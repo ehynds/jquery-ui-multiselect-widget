@@ -396,11 +396,6 @@ $.widget("ech.multiselect", {
 		// calling select is active
 		this.button.addClass('ui-state-active');
 		
-		// select the first option
-		// triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
-		// will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
-		this.labels.first().trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
-		
 		// figure out opening effects/speeds
 		if($.isArray(o.show)){
 			effect = o.show[0];
@@ -412,7 +407,13 @@ $.widget("ech.multiselect", {
 			top: pos.top+this.button.outerHeight(),
 			left: pos.left
 		}).show(effect, speed);
+
+		// select the first option
+		// triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
+		// will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
+		this.labels.eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
 		
+		// remember this thing is opened
 		this._isOpen = true;
 		
 		// set the scroll of the checkbox container
