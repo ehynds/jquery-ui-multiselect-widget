@@ -82,7 +82,7 @@
 	 
 		el = $("select").multiselect().multiselect("destroy");
 			ok( !$(".ui-multiselect").length , 'button.ui-multiselect removed from the DOM');
-			ok( !el.is(":hidden") , 'original select is visible');
+			ok( !el.data("multiselect") , 'no more multiselect obj attached to elem');
 	});
 
 	test("getChecked", function(){

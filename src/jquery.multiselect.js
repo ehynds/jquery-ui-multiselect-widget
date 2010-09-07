@@ -47,8 +47,7 @@ $.widget("ech.multiselect", {
 		
 		this.speed = 400; // default speed for effects. UI's default is 400. TODO move to options?
 		this._isOpen = false; // assume no
-		this.optiontags = el.children(); // remember the original options/optgroups
-		
+	
 		// the actual button
 		html.push('<button type="button" class="ui-multiselect ui-widget ui-state-default ui-corner-all"');
 		if(title.length){
@@ -115,7 +114,7 @@ $.widget("ech.multiselect", {
 		html.push('</ul></div>');
 		
 		// cache elements
-		this.button			= el.children().detach().end().after( html.join('') ).hide().next('button');
+		this.button			= el.hide().after( html.join('') ).next('button');
 		this.menu			= this.button.next('div.ui-multiselect-menu');
 		this.labels			= this.menu.find('label');
 		this.buttonlabel 	= this.button.find("span").eq(-1);
@@ -258,13 +257,13 @@ $.widget("ech.multiselect", {
 			}
 			
 			// set the original option tag to selected
-			self.optiontags.filter(function(){
+			self.element.find("option").filter(function(){
 				return this.value === val;
-			}).attr('selected', checked ? 'selected' : '' );
+			}).attr('selected', (checked ? 'selected' : ''));
 			
 			// issue 14: if this event is natively fired, the box will be checked
 			// before running the update.  using trigger(), the events fire BEFORE
-			// the box is checked.
+			// the box is checked. http://dev.jquery.com/ticket/3827
 			self.update( !e.originalEvent ? checked ? -1 : 1 : 0 );
 		});
 		
@@ -337,7 +336,7 @@ $.widget("ech.multiselect", {
 		this.update();
 		
 		// toggle state on original option tags
-		this.optiontags.not('disabled').attr('selected', (flag ? 'selected' : ''));
+		this.element.find("option").not(':disabled').attr('selected', (flag ? 'selected' : ''));
 	},
 
 	_toggleDisabled: function(flag){
@@ -471,7 +470,7 @@ $.widget("ech.multiselect", {
 		
 		this.button.remove();
 		this.menu.remove();
-		this.element.append( this.optiontags ).show();
+		this.element.show();
 		
 		return this;
 	},
