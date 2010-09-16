@@ -63,7 +63,7 @@
 						
 				$inputs.not( selector ).attr('checked', (flag ? 'checked' : '')); 
 				this.update();
-				this.optiontags.not('disabled').attr('selected', (flag ? 'selected' : ''));
+				this.element.children().not('disabled').attr('selected', (flag ? 'selected' : ''));
 			};
 		},
 		
@@ -91,9 +91,10 @@
 		},
 		
 		updateCache: function(){
-			var isOptgroup = this.instance.optiontags[0].tagName === "OPTGROUP" || false;
+			var optiontags = this.element.children(),
+				isOptgroup = optiontags[0].tagName === "OPTGROUP" || false;
 			
-			this.cache = this.instance.optiontags.map(function(){
+			this.cache = optiontags.map(function(){
 				var self = $(this), nodes = self;
 				
 				// account for optgroups
@@ -102,7 +103,7 @@
 				}
 				
 				return nodes.map(function(){
-					return this.innerHTML.toLowerCase();	
+					return this.innerHTML.toLowerCase();
 				}).get();
 			}).get();
 		},

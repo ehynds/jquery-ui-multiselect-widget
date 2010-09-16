@@ -1,5 +1,5 @@
 /*
- * jQuery MultiSelect UI Widget 1.4pre
+ * jQuery MultiSelect UI Widget 1.4
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -402,7 +402,7 @@ $.widget("ech.multiselect", {
 			effect = o.show[0];
 			speed = o.show[1] || self.speed;
 		}
-		
+
 		// position and show menu
 		if( $.ui.position && !$.isEmptyObject(o.position) ){
 			o.position.of = o.position.of || this.button;
