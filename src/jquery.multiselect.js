@@ -32,7 +32,8 @@ $.widget("ech.multiselect", {
 		show: '',
 		hide: '',
 		autoOpen: false,
-		multiple: true
+		multiple: true,
+		position: {}
 	},
 
 	_create: function(){
@@ -397,17 +398,29 @@ $.widget("ech.multiselect", {
 		this.button.addClass('ui-state-active');
 		
 		// figure out opening effects/speeds
-		if($.isArray(o.show)){
+		if( $.isArray(o.show) ){
 			effect = o.show[0];
 			speed = o.show[1] || self.speed;
 		}
 		
-		// position and show menu. TODO use position utility if present
-		this.menu.css({ 
-			top: pos.top+this.button.outerHeight(),
-			left: pos.left
-		}).show(effect, speed);
-
+		// position and show menu
+		if( $.ui.position && !$.isEmptyObject(o.position) ){
+			o.position.of = o.position.of || this.button;
+			
+			this.menu
+				.show()
+				.position( o.position )
+				.hide()
+				.show( effect, speed );
+		
+		// if position utility is not available...
+		} else {
+			this.menu.css({ 
+				top: pos.top+this.button.outerHeight(),
+				left: pos.left
+			}).show( effect, speed );
+		}
+		
 		// select the first option
 		// triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
 		// will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
