@@ -394,15 +394,15 @@ $.widget("ech.multiselect", {
 			speed = this.speed,
 			pos = this.button.position();
 		
-		// calling select is active
-		this.button.addClass('ui-state-active');
-		
 		// figure out opening effects/speeds
 		if( $.isArray(o.show) ){
 			effect = o.show[0];
 			speed = o.show[1] || self.speed;
 		}
-
+		
+		// set the scroll of the checkbox container
+		$container.scrollTop(0).height(o.height);
+		
 		// position and show menu
 		if( $.ui.position && !$.isEmptyObject(o.position) ){
 			o.position.of = o.position.of || this.button;
@@ -426,12 +426,8 @@ $.widget("ech.multiselect", {
 		// will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
 		this.labels.eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
 		
-		// remember this thing is opened
+		this.button.addClass('ui-state-active');
 		this._isOpen = true;
-		
-		// set the scroll of the checkbox container
-		$container.scrollTop(0).height(o.height);
-		
 		this._trigger('open');
 	},
 	
@@ -444,16 +440,15 @@ $.widget("ech.multiselect", {
 		var self = this, o = this.options, effect = o.hide, speed = this.speed;
 		
 		// figure out opening effects/speeds
-		if($.isArray(o.hide)){
+		if( $.isArray(o.hide) ){
 			effect = o.hide[0];
 			speed = o.hide[1] || this.speed;
 		}
 	
 		this.menu.hide(effect, speed);
 		this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
-		self._isOpen = false;
-		
 		this._trigger('close');
+		this._isOpen = false;
 	},
 
 	enable: function(){
