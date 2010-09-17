@@ -138,7 +138,7 @@ $.widget("ech.multiselect", {
 		if(this.options.autoOpen){
 			this.open();
 		}
-		if(this.element.is(":disabled")){
+		if(this.element.is(':disabled')){
 			this.disable();
 		}
 	},
@@ -470,7 +470,7 @@ $.widget("ech.multiselect", {
 	},
 	
 	getChecked: function(){
-		return this.menu.find("input").filter(":checked");
+		return this.menu.find('input').filter(':checked');
 	},
 	
 	destroy: function(){
