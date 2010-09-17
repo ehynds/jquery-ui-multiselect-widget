@@ -118,7 +118,7 @@ $.widget("ech.multiselect", {
 		this.button			= el.hide().after( html.join('') ).next('button');
 		this.menu			= this.button.next('div.ui-multiselect-menu');
 		this.labels			= this.menu.find('label');
-		this.buttonlabel 	= this.button.find("span").eq(-1);
+		this.buttonlabel 	= this.button.find('span').eq(-1);
 
 		// set widths
 		this._setButtonWidth();
@@ -127,7 +127,9 @@ $.widget("ech.multiselect", {
 		// perform event bindings
 		this._bindEvents();
 		
-		// update the number of selected elements when the page initially loads, and use that as the defaultValue.  necessary for form resets when options are pre-selected.
+		// update the number of selected elements when the page initially loads,
+		// and use that as the defaultValue.  necessary for form resets when
+		// options are pre-selected.
 		this.button[0].defaultValue = this.update();
 	},
 	
@@ -223,7 +225,7 @@ $.widget("ech.multiselect", {
 		// labels/checkbox events
 		.end()
 		.delegate('label', 'mouseenter', function(){
-			if(!$(this).hasClass('ui-state-disabled')){
+			if( !$(this).hasClass('ui-state-disabled') ){
 				self.labels.removeClass('ui-state-hover');
 				$(this).addClass('ui-state-hover').find('input').focus();
 			}
@@ -258,7 +260,7 @@ $.widget("ech.multiselect", {
 			}
 			
 			// set the original option tag to selected
-			self.element.find("option").filter(function(){
+			self.element.find('option').filter(function(){
 				return this.value === val;
 			}).attr('selected', (checked ? 'selected' : ''));
 			
@@ -337,7 +339,7 @@ $.widget("ech.multiselect", {
 		this.update();
 		
 		// toggle state on original option tags
-		this.element.find("option").not(':disabled').attr('selected', (flag ? 'selected' : ''));
+		this.element.find('option').not(':disabled').attr('selected', (flag ? 'selected' : ''));
 	},
 
 	_toggleDisabled: function(flag){
@@ -380,10 +382,10 @@ $.widget("ech.multiselect", {
 		}
 		
 		// close other instances
-		$(":ech-multiselect").not(this.element).each(function(){
+		$(':ech-multiselect').not(this.element).each(function(){
 			var $this = $(this);
 			
-			if($this.multiselect('isOpen')){
+			if( $this.multiselect('isOpen') ){
 				$this.multiselect('close');
 			}
 		});
