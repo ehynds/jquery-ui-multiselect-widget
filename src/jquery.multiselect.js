@@ -335,9 +335,6 @@ $.widget("ech.multiselect", {
 		$inputs.not(':disabled').attr('checked', (flag ? 'checked' : '')); 
 		
 		this.update();
-		
-		// toggle state on original option tags
-		this.element.find('option').not(':disabled').attr('selected', (flag ? 'selected' : ''));
 	},
 
 	_toggleDisabled: function(flag){
