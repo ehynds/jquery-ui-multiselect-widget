@@ -1,8 +1,9 @@
 jQuery UI Multiselect Widget Changelog
 
-Version 1.4.1pre - unreleased
+Version 1.4.1 - 09/22/2010
 ==============================================
 - Fixed: now works with the position utility.
+- Modified: now removing the attr attribute from the original select to ensure they're not also submitted with the form.
 - Modified: slight refactoring
 
 
