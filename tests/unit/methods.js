@@ -49,20 +49,18 @@
 	});
 	
 	test("checkAll", function(){
-		expect(2);
+		expect(1);
 	 
 		el = $("select").multiselect().multiselect("checkAll");
 		var inputs = menu().find("input");
-			ok( el.find("option").filter(":selected").length === el.find("option").length, 'All options selected on the original?');
 			ok( inputs.filter(":checked").length === inputs.length, 'All inputs selected on the widget?');
 		el.multiselect("destroy");
 	});
 
 	test("uncheckAll", function(){
-		expect(2);
+		expect(1);
 	 
 		el = $("select").multiselect().multiselect("checkAll").multiselect("uncheckAll");
-			ok( el.find("option").filter(":selected").length === 0, 'All options deselected on the original?');
 			ok( menu().find("input:checked").length === 0, 'All inputs unchecked on the widget?');
 		el.multiselect("destroy");
 	});
