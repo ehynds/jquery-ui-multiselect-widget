@@ -43,8 +43,7 @@ $.widget("ech.multiselect", {
 			html = [],
 			optgroups = [], 
 			title = el.attr('title'),
-			id = el.id || multiselectID++, // unique ID for the label & option tags
-			name = el.attr('name');
+			id = el.id || multiselectID++; // unique ID for the label & option tags
 		
 		this.speed = 400; // default speed for effects. UI's default is 400. TODO move to options?
 		this._isOpen = false; // assume no
@@ -100,12 +99,9 @@ $.widget("ech.multiselect", {
 				}
 				
 				html.push('<li class="'+(isDisabled ? 'ui-multiselect-disabled' : '')+'">');
-				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '"><input id="'+inputID+'" type="'+(o.multiple ? "checkbox" : "radio")+'" name="'+name+'" value="'+value+'" title="'+title+'"');
+				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '"><input id="'+inputID+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
 				if($this.is(':selected')){
 					html.push(' checked="checked"');
-					
-					// unselect this option or it'll also be submitted with the form
-					$this.removeAttr("selected");
 				}
 				if(isDisabled){
 					html.push(' disabled="disabled"');
@@ -262,6 +258,11 @@ $.widget("ech.multiselect", {
 				return;
 			}
 			
+			// set the original option tag to selected
+			self.element.find('option').filter(function(){
+				return this.value === val;
+			}).attr('selected', (checked ? 'selected' : ''));
+			
 			// issue 14: if this event is natively fired, the box will be checked
 			// before running the update.  using trigger(), the events fire BEFORE
 			// the box is checked. http://dev.jquery.com/ticket/3827
@@ -335,6 +336,9 @@ $.widget("ech.multiselect", {
 		$inputs.not(':disabled').attr('checked', (flag ? 'checked' : '')); 
 		
 		this.update();
+		
+		// toggle state on original option tags
+		this.element.find('option').not(':disabled').attr('selected', (flag ? 'selected' : ''));
 	},
 
 	_toggleDisabled: function(flag){
@@ -477,11 +481,6 @@ $.widget("ech.multiselect", {
 		this.button.remove();
 		this.menu.remove();
 		this.element.show();
-		
-		// set selected attr on option tags
-		this.element.val(this.menu.find('input:checked').map(function(){
-			return this.value;
-		}));
 		
 		return this;
 	},
