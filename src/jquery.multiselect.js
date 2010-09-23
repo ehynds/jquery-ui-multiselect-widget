@@ -146,7 +146,7 @@ $.widget("ech.multiselect", {
 	
 	// binds events
 	_bindEvents: function(){
-		var self = this;
+		var self = this, button = this.button;
 		
 		function clickHandler( e ){
 			self[ self._isOpen ? 'close' : 'open' ]();
@@ -154,10 +154,10 @@ $.widget("ech.multiselect", {
 		}
 		
 		// webkit doesn't like it when you click on the span :(
-		this.button.find('span').bind('click', clickHandler);
+		button.find('span').bind('click', clickHandler);
 		
 		// button events
-		this.button.bind({
+		button.bind({
 			click: clickHandler,
 			keypress: function(e){
 				switch(e.keyCode){
@@ -173,7 +173,7 @@ $.widget("ech.multiselect", {
 				}
 			},
 			mouseenter: function(){
-				if(!self.button.hasClass('ui-state-disabled')){
+				if(!button.hasClass('ui-state-disabled')){
 					$(this).addClass('ui-state-hover');
 				}
 			},
@@ -181,7 +181,7 @@ $.widget("ech.multiselect", {
 				$(this).removeClass('ui-state-hover');
 			},
 			focus: function(){
-				if(!self.button.hasClass('ui-state-disabled')){
+				if(!button.hasClass('ui-state-disabled')){
 					$(this).addClass('ui-state-focus');
 				}
 			},
