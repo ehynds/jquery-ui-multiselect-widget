@@ -272,7 +272,7 @@ $.widget("ech.multiselect", {
 		// close each widget when clicking on any other element/anywhere else on the page
 		$(document).bind('click', function(e){
 			var $target = $(e.target);
-
+			
 			if(self._isOpen && !$target.closest('div.ui-multiselect-menu').length && !$target.is('button.ui-multiselect')){
 				self.close();
 			}
@@ -373,10 +373,14 @@ $.widget("ech.multiselect", {
 	
 	// open the menu
 	open: function(e){
-		var self = this;
+		var self = this,
+			button = this.button,
+			menu = this.menu,
+			speed = this.speed,
+			o = this.options;
 	
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
-		if( this._trigger('beforeopen') === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
+		if( this._trigger('beforeopen') === false || button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
 		}
 		
@@ -389,11 +393,9 @@ $.widget("ech.multiselect", {
 			}
 		});
 
-		var $container = this.menu.find('ul:last'),
-			o = this.options,
+		var $container = menu.find('ul:last'),
 			effect = o.show,
-			speed = this.speed,
-			pos = this.button.position();
+			pos = button.position();
 		
 		// figure out opening effects/speeds
 		if( $.isArray(o.show) ){
@@ -406,9 +408,9 @@ $.widget("ech.multiselect", {
 		
 		// position and show menu
 		if( $.ui.position && !$.isEmptyObject(o.position) ){
-			o.position.of = o.position.of || this.button;
+			o.position.of = o.position.of || button;
 			
-			this.menu
+			menu
 				.show()
 				.position( o.position )
 				.hide()
@@ -416,8 +418,8 @@ $.widget("ech.multiselect", {
 		
 		// if position utility is not available...
 		} else {
-			this.menu.css({ 
-				top: pos.top+this.button.outerHeight(),
+			menu.css({ 
+				top: pos.top+button.outerHeight(),
 				left: pos.left
 			}).show( effect, speed );
 		}
@@ -427,7 +429,7 @@ $.widget("ech.multiselect", {
 		// will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
 		this.labels.eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
 		
-		this.button.addClass('ui-state-active');
+		button.addClass('ui-state-active');
 		this._isOpen = true;
 		this._trigger('open');
 	},
