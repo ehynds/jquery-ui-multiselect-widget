@@ -45,7 +45,7 @@ $.widget("ech.multiselect", {
 			title = el.attr('title'),
 			id = el.id || multiselectID++; // unique ID for the label & option tags
 		
-		this.speed = 400; // default speed for effects. UI's default is 400. TODO move to options?
+		this.speed = $.fx.speeds._default; // default speed for effects
 		this._isOpen = false; // assume no
 	
 		// the actual button
