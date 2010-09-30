@@ -78,10 +78,10 @@
 				rows.show();
 			} else {
 				rows.hide();
-		
+
 				var regex = new RegExp('\\b' + term, 'i');
 				this._trigger( "filter", e, $.map(cache, function(v,i){
-					if ( v.search(regex) != -1 ){
+					if( v.search(regex) !== -1 ){
 						rows.eq(i).show();
 						return inputs.get(i);
 					}
@@ -99,8 +99,10 @@
 				var self = $(this), nodes = self;
 
 				// see _create() in jquery.multiselect.js around line 96
-				if (!self.val().length) return null;
-				
+				if( !self.val().length ){
+					return null;
+				}
+
 				// account for optgroups
 				if( isOptgroup ){
 					nodes = self.children();
@@ -119,7 +121,7 @@
 		destroy: function(){
 			$.Widget.prototype.destroy.call( this );
 			this.input.val('').trigger("keyup");
-			this.wrapper.remove();			
+			this.wrapper.remove();
 		}
 	});
 })(jQuery);
