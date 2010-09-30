@@ -79,8 +79,9 @@
 			} else {
 				rows.hide();
 		
+				var regex = new RegExp('\\b' + term, 'i');
 				this._trigger( "filter", e, $.map(cache, function(v,i){
-					if ( v.indexOf(term) !== -1 ){
+					if ( v.search(regex) != -1 ){
 						rows.eq(i).show();
 						return inputs.get(i);
 					}
@@ -96,6 +97,9 @@
 			
 			this.cache = optiontags.map(function(){
 				var self = $(this), nodes = self;
+
+				// see _create() in jquery.multiselect.js around line 96
+				if (!self.val().length) return null;
 				
 				// account for optgroups
 				if( isOptgroup ){
