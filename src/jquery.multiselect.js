@@ -22,8 +22,9 @@ $.widget("ech.multiselect", {
 	// default options
 	options: {
 		header: true,
-		height: 175, /* height of the checkbox container (scroll) in pixels */
-		minWidth: 225, /* min width of the entire widget in pixels. setting to 'auto' will disable */
+		height: 175, // height of the checkbox container (scroll) in pixels
+		minWidth: 225, // min width of the entire widget in pixels. setting to 'auto' will disable
+		classes: '', // additional class(es) to apply to the button & menu
 		checkAllText: 'Check all',
 		uncheckAllText: 'Uncheck all',
 		noneSelectedText: 'Select options',
@@ -49,14 +50,18 @@ $.widget("ech.multiselect", {
 		this._isOpen = false; // assume no
 	
 		// the actual button
-		html.push('<button type="button" class="ui-multiselect ui-widget ui-state-default ui-corner-all"');
-		if(title.length){
+		html.push('<button type="button" class="ui-multiselect ui-widget ui-state-default ui-corner-all');
+		if( o.classes.length ){
+			html.push(' ' + o.classes);
+		}
+		html.push('"');
+		if( title.length ){
 			html.push(' title="'+title+'"');
 		}
 		html.push('><span class="ui-icon ui-icon-triangle-2-n-s"></span><span>'+ o.noneSelectedText +'</span></button>');
 		
 		// start menu container
-		html.push('<div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all">');
+		html.push('<div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all ' +(o.classes.length ? o.classes : '')+ '">');
 	
 		// header
 		html.push('<div class="ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix">');
