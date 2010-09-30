@@ -1,5 +1,5 @@
 /*
- * jQuery MultiSelect UI Widget 1.4.1
+ * jQuery MultiSelect UI Widget 1.5pre
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -159,7 +159,7 @@ $.widget("ech.multiselect", {
 		}
 		
 		// webkit doesn't like it when you click on the span :(
-		button.find('span').bind('click', clickHandler);
+		button.find('span').bind('click.multiselect', clickHandler);
 		
 		// button events
 		button.bind({
@@ -196,7 +196,7 @@ $.widget("ech.multiselect", {
 		});
 
 		// header links
-		this.menu.find('div.ui-multiselect-header a').bind('click', function(e){
+		this.menu.find('div.ui-multiselect-header a').bind('click.multiselect', function(e){
 	
 			// close link
 			if($(this).hasClass('ui-multiselect-close')){
@@ -212,7 +212,7 @@ $.widget("ech.multiselect", {
 		
 		// optgroup label toggle support
 		.end()
-		.find('li.ui-multiselect-optgroup-label a').bind('click', function(e){
+		.find('li.ui-multiselect-optgroup-label a').bind('click.multiselect', function(e){
 			var $this = $(this),
 				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible');
 				
@@ -281,7 +281,7 @@ $.widget("ech.multiselect", {
 		});
 		
 		// close each widget when clicking on any other element/anywhere else on the page
-		$(document).bind('click', function(e){
+		$(document).bind('click.multiselect', function(e){
 			var $target = $(e.target);
 			
 			if(self._isOpen && !$target.closest('div.ui-multiselect-menu').length && !$target.is('button.ui-multiselect')){
