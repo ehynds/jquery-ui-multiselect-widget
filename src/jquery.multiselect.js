@@ -118,6 +118,11 @@ $.widget("ech.multiselect", {
 		this.menu			= this.button.next('div.ui-multiselect-menu');
 		this.labels			= this.menu.find('label');
 		this.buttonlabel 	= this.button.find('span').eq(-1);
+		
+		// cache radios for single select
+		if( !o.multiple ){
+			this.radios = this.menu.find(":radio");
+		}
 
 		// set widths
 		this._setButtonWidth();
@@ -256,6 +261,12 @@ $.widget("ech.multiselect", {
 			if( $this.is(':disabled') || self._trigger('click', e, { value:this.value, text:this.title, checked:checked }) === false ){
 				e.preventDefault();
 				return;
+			}
+			
+			// inputs don't have a name attr so they won't be submitted
+			// in the form.  for single select, handle functionality
+			if( !self.options.multiple ){
+				self.radios.not(this).removeAttr('checked');
 			}
 			
 			// set the original option tag to selected
