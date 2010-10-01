@@ -348,6 +348,11 @@ $.widget("ech.multiselect", {
 			? group
 			: this.labels.find('input');
 		
+		// reduce set to first input if single select and checkAll
+		if( !this.options.multiple && flag ){
+			$inputs = $inputs.eq(0);
+		}
+		
 		// toggle state on inputs
 		$inputs.not(':disabled').attr('checked', (flag ? 'checked' : '')); 
 		
