@@ -518,20 +518,22 @@ $.widget("ech.multiselect", {
 	
 	// react to option changes after initialization
 	_setOption: function( key, value ){
-		this.options[ key ] = value;
+		var menu = this.menu;
+		
+		console.log(value);
 		
 		switch(key){
 			case "header":
-				this.menu.find('div.ui-multiselect-header')[ value ? 'show' : 'hide' ]();
+				menu.find('div.ui-multiselect-header')[ value ? 'show' : 'hide' ]();
 				break;
 			case "checkAllText":
-				this.menu.find('a.ui-multiselect-all span').eq(-1).text(value);
+				menu.find('a.ui-multiselect-all span').eq(-1).text(value);
 				break;
 			case "uncheckAllText":
-				this.menu.find('a.ui-multiselect-none span').eq(-1).text(value);
+				menu.find('a.ui-multiselect-none span').eq(-1).text(value);
 				break;
 			case "height":
-				this.menu.find('ul:last').height( parseInt(value,10) );
+				menu.find('ul:last').height( parseInt(value,10) );
 				break;
 			case "minWidth":
 				this.options[ key ] = parseInt(value,10);
@@ -541,9 +543,15 @@ $.widget("ech.multiselect", {
 			case "selectedText":
 			case "selectedList":
 			case "noneSelectedText":
+				this.options[key] = value; // these all needs to update immediately for the update() call
 				this.update();
 				break;
+			case "classes":
+				menu.add(this.button).removeClass(this.options.classes).addClass(value);
+				break;
 		}
+		
+		$.Widget.prototype._setOption.apply( this, arguments );
 	}
 });
 

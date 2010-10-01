@@ -174,5 +174,23 @@
 		
 		el.multiselect("destroy");
 	});
+
+	test("classes", function(){
+		expect(6);
+		
+		var classname = 'foo';
+		
+		el = $("select").multiselect({ classes:classname });
+		equals( widget().hasClass(classname), true, 'menu has the class ' + classname);
+		equals( button().hasClass(classname), true, 'button has the class ' + classname);
+		
+		// change it up
+		var newclass = 'bar';
+		el.multiselect("option", "classes", newclass);
+		equals( widget().hasClass(newclass), true, 'menu has the new class ' + newclass);
+		equals( button().hasClass(newclass), true, 'button has the new class ' + newclass);
+		equals( button().hasClass(classname), false, 'menu no longer has the class ' + classname);
+		equals( button().hasClass(classname), false, 'button no longer has the class ' + classname);
+	});
 	
 })(jQuery);
