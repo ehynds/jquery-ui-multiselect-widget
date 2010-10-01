@@ -520,8 +520,6 @@ $.widget("ech.multiselect", {
 	_setOption: function( key, value ){
 		var menu = this.menu;
 		
-		console.log(value);
-		
 		switch(key){
 			case "header":
 				menu.find('div.ui-multiselect-header')[ value ? 'show' : 'hide' ]();
