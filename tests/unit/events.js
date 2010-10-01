@@ -3,7 +3,7 @@
 	module("events");
 
 	test("multiselectopen", function(){
-		expect(9);
+		expect(26);
 	 
 	 	// inject widget
 		el = $("<select></select>").appendTo("body");
@@ -12,6 +12,7 @@
 				ok( true, 'option: multiselect("open") fires open callback' );
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectopen', 'option: event type in callback');
+				equals(menu().css("display"), 'block', 'menu display css property equals block'); 
 				same(ui, {}, 'option: ui hash in callback');
 			}
 		})
@@ -22,7 +23,16 @@
 		});
 		
 		// now try to open it..
-		el.multiselect("open");
+		el.multiselect("open").multiselect("close");
+		
+		// make sure a click event on the button opens the menu as well.
+		button().trigger("click");
+		el.multiselect("close");
+		
+		// make sure a click event on a span inside the button opens the menu as well.
+		button().find("span:first").trigger("click");
+		el.multiselect("close");
+		
 		el.multiselect("destroy").remove();
 		
 		// now try returning false prevent opening
@@ -41,7 +51,7 @@
 
 
 	test("multiselectclose", function(){
-		expect(9);
+		expect(26);
 	 
 	 	// inject widget
 		el = $("<select></select>").appendTo("body");
@@ -50,6 +60,7 @@
 				ok( true, 'option: multiselect("close") fires close callback' );
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectclose', 'option: event type in callback');
+				equals(menu().css("display"), 'none', 'menu display css property equals none'); 
 				same(ui, {}, 'option: ui hash');
 			}
 		})
@@ -60,8 +71,16 @@
 		})
 		.multiselect("open")
 		.multiselect("close")
-		.multiselect("destroy")
-		.remove();
+		.multiselect("open");
+		
+		// make sure a click event on the button closes the menu as well.
+		button().trigger("click");
+		el.multiselect("open");
+		
+		// make sure a click event on a span inside the button closes the menu as well.
+		button().find("span:first").trigger("click");
+		
+		el.multiselect("destroy").remove();
 		
 		// now try returning false prevent opening
 		el = $("<select></select>")
