@@ -38,7 +38,7 @@
 			// build the input box
 			this.input = wrapper.find("input").bind("keydown", function( e ){
 				// prevent the enter key from submitting the form / closing the widget
-				if( e.keyCode === 13 ){
+				if( e.which === 13 ){
 					return false;
 				}
 			}).bind("keyup", $.proxy(self._handler, self) );
