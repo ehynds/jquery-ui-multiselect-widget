@@ -257,7 +257,7 @@ $.widget("ech.multiselect", {
 					break;
 			}
 		})
-		.delegate('input', 'click', function(e){
+		.delegate(':checkbox, :radio', 'click', function(e){
 			var $this = $(this),
 				val = this.value,
 				checked = this.checked;
