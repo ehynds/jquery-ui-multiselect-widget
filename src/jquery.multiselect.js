@@ -89,26 +89,26 @@ $.widget("ech.multiselect", {
 				isDisabled = $this.is(':disabled'), 
 				labelClasses = ['ui-corner-all'];
 			
-			if($parent.is('optgroup')){
+			if( $parent.is('optgroup') ){
 				var label = $parent.attr('label');
 				
-				if($.inArray(label,optgroups) === -1){
+				if( $.inArray(label,optgroups) === -1 ){
 					html.push('<li class="ui-multiselect-optgroup-label"><a href="#">' + label + '</a></li>');
 					optgroups.push(label);
 				}
 			}
 		
-			if(value.length > 0){
-				if(isDisabled){
+			if( value.length > 0 ){
+				if( isDisabled ){
 					labelClasses.push('ui-state-disabled');
 				}
 				
 				html.push('<li class="'+(isDisabled ? 'ui-multiselect-disabled' : '')+'">');
 				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '"><input id="'+inputID+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
-				if($this.is(':selected')){
+				if( $this.is(':selected') ){
 					html.push(' checked="checked"');
 				}
-				if(isDisabled){
+				if( isDisabled ){
 					html.push(' disabled="disabled"');
 				}
 				html.push(' />'+title+'</label></li>');
@@ -143,13 +143,13 @@ $.widget("ech.multiselect", {
 	},
 	
 	_init: function(){
-		if(!this.options.header){
+		if( !this.options.header ){
 			this.menu.find('div.ui-multiselect-header').hide();
 		}
-		if(this.options.autoOpen){
+		if( this.options.autoOpen ){
 			this.open();
 		}
-		if(this.element.is(':disabled')){
+		if( this.element.is(':disabled') ){
 			this.disable();
 		}
 	},
@@ -204,7 +204,7 @@ $.widget("ech.multiselect", {
 		this.menu.find('div.ui-multiselect-header a').bind('click.multiselect', function(e){
 	
 			// close link
-			if($(this).hasClass('ui-multiselect-close')){
+			if( $(this).hasClass('ui-multiselect-close') ){
 				self.close();
 		
 			// check all / uncheck all
@@ -329,7 +329,7 @@ $.widget("ech.multiselect", {
 			$next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)')[ moveToLast ? 'last' : 'first']();
 		
 		// if at the first/last element
-		if(!$next.length){
+		if( !$next.length ){
 			var $container = this.menu.find('ul:last');
 			
 			// move to the first/last
@@ -376,7 +376,7 @@ $.widget("ech.multiselect", {
 			numChecked = $checked.length,
 			value;
 		
-		if(numChecked === 0){
+		if( numChecked === 0 ){
 			value = o.noneSelectedText;
 		} else {
 			if($.isFunction(o.selectedText)){
