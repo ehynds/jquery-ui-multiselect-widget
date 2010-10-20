@@ -135,11 +135,6 @@ $.widget("ech.multiselect", {
 		
 		// perform event bindings
 		this._bindEvents();
-		
-		// update the number of selected elements when the page initially loads,
-		// and use that as the defaultValue.  necessary for form resets when
-		// options are pre-selected.
-		this.button[0].defaultValue = this.update();
 	},
 	
 	_init: function(){
@@ -292,6 +287,14 @@ $.widget("ech.multiselect", {
 			if(self._isOpen && !$target.closest('div.ui-multiselect-menu').length && !$target.is('button.ui-multiselect')){
 				self.close();
 			}
+		});
+		
+		// deal with form resets.  the problem here is that buttons aren't
+		// restored to their defaultValue prop on form reset, and the reset
+		// handler fires before the form is actually reset.  delaying it a bit
+		// gives the form inputs time to clear.
+		this.element.closest('form').bind('reset', function(){
+			setTimeout($.proxy(self, 'update'), 1);
 		});
 	},
 
