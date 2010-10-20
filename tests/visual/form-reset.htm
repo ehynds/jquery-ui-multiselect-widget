@@ -11,10 +11,17 @@
 <script type="text/javascript" src="../../src/jquery.multiselect.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("select").multiselect({
-		noneSelectedText: 'Please select a checkbox'
-	});
-});
+	$("select")
+		.filter(".single")
+		.multiselect({
+			multiple: false,
+			noneSelectedText: 'Please select a radio'
+		})
+		.end()
+		.not(".single")
+		.multiselect({
+			noneSelectedText: 'Please select a checkbox'
+		})});
 </script>
 </head>
 <body>
@@ -22,30 +29,41 @@ $(function(){
 <h1>Form Reset Tests</h1>
 
 <p>None selected text</p>
-
 <form>
-	<select multiple="multiple" size="5">
-	<option value="option1">Option 1</option>
-	<option value="option2">Option 2</option>
-	<option value="option3">Option 3</option>
-	<option value="option4">Option 4</option>
-	</select>
-	
-	<p><input type="reset" value="Reset" /></p>
-</form>
+
+<select multiple="multiple" size="5">
+<option value="option1">Option 1</option>
+<option value="option2">Option 2</option>
+<option value="option3">Option 3</option>
+<option value="option4">Option 4</option>
+</select>
 
 <p>Selected text - pre-selected values</p>
-<form>
-	<select multiple="multiple" size="5">
-	<option value="option1">Option 1</option>
-	<option value="option2" selected="selected">Option 2</option>
-	<option value="option3" selected="selected">Option 3</option>
-	<option value="option4">Option 4</option>
-	</select>
-	
-	<p><input type="reset" value="Reset" /></p>
-</form>
+<select multiple="multiple" size="5">
+<option value="option1">Option 1</option>
+<option value="option2" selected="selected">Option 2</option>
+<option value="option3" selected="selected">Option 3</option>
+<option value="option4">Option 4</option>
+</select>
 
+<p>Single select - none selected text</p>
+<select multiple="multiple" class="single" size="5">
+<option value="option1">Option 1</option>
+<option value="option2">Option 2</option>
+<option value="option3">Option 3</option>
+<option value="option4">Option 4</option>
+</select>
+
+
+<p>Single select - pre-selected value</p>
+<select multiple="multiple" class="single" size="5">
+<option value="option1">Option 1</option>
+<option value="option2" selected="selected">Option 2</option>
+<option value="option3">Option 3</option>
+<option value="option4">Option 4</option>
+</select>
+
+<p><input type="reset" value="Reset" /></p>
 
 </body>
 </html>
