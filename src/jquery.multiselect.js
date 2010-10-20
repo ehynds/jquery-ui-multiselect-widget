@@ -135,6 +135,8 @@ $.widget("ech.multiselect", {
 		
 		// perform event bindings
 		this._bindEvents();
+		
+		this.button[0].defaultValue = this.update();
 	},
 	
 	_init: function(){
