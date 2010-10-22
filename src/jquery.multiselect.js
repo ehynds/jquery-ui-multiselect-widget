@@ -247,6 +247,7 @@ $.widget("ech.multiselect", {
 				case 37: // left
 				case 39: // right
 					self._traverse(e.keyCode, this);
+					e.preventDefault();
 					break;
 				case 13: // enter
 					e.preventDefault();
