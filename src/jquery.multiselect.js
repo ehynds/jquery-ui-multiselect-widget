@@ -50,6 +50,63 @@ $.widget("ech.multiselect", {
 		this._isOpen = false; // assume no
 	
 		// the actual button
+		var 
+			button = (this.button = $('<button type="button"></button>'))
+				.addClass('ui-multiselect ui-widget ui-state-default ui-corner-all' + o.classes)
+				.attr('title', title)
+				.html('<span class="ui-icon ui-icon-triangle-2-n-s"></span><span>'+ o.noneSelectedText +'</span>')
+				.insertAfter(el),
+			
+			header = (this.header = $('<div></div>'))
+				.addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
+				.appendTo( this.button ),
+				
+			headerLinkContainer = $('<ul></ul>')
+				.addClass('ui-helper-reset')
+				.append('<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li>')
+				.append('<li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>')
+				.appendTo( this.header ),
+				
+			menu = (this.menu = $('<ul></ul>'))
+				.addClass('ui-multiselect-checkboxes ui-helper-reset');
+			
+		// build items
+		el.find('option').each(function(i){
+			var $this = $(this), 
+				title = $this.html(),
+				value = this.value, 
+				inputID = this.id || "ui-multiselect-"+id+"-option-"+i, 
+				$parent = $this.parent(), 
+				isDisabled = $this.is(':disabled'), 
+				labelClasses = ['ui-corner-all'];
+			
+			if( $parent.is('optgroup') ){
+				var label = $parent.attr('label');
+				
+				if( $.inArray(label,optgroups) === -1 ){
+					html.push('<li class="ui-multiselect-optgroup-label"><a href="#">' + label + '</a></li>');
+					optgroups.push(label);
+				}
+			}
+		
+			if( value.length > 0 ){
+				if( isDisabled ){
+					labelClasses.push('ui-state-disabled');
+				}
+				
+				html.push('<li class="'+(isDisabled ? 'ui-multiselect-disabled' : '')+'">');
+				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '"><input id="'+inputID+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
+				if( $this.is(':selected') ){
+					html.push(' checked="checked"');
+				}
+				if( isDisabled ){
+					html.push(' disabled="disabled"');
+				}
+				html.push(' />'+title+'</label></li>');
+			}
+		});
+			
+		/*
 		html.push('<button type="button" class="ui-multiselect ui-widget ui-state-default ui-corner-all');
 		if( o.classes.length ){
 			html.push(' ' + o.classes);
@@ -62,8 +119,10 @@ $.widget("ech.multiselect", {
 		
 		// start menu container
 		html.push('<div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all ' +(o.classes.length ? o.classes : '')+ '">');
-	
+		*/
+		
 		// header
+		/*
 		html.push('<div class="ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix">');
 		html.push('<ul class="ui-helper-reset">');
 		if(o.header === true && o.multiple ){
@@ -75,7 +134,8 @@ $.widget("ech.multiselect", {
 		html.push('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>');
 		html.push('</ul>');
 		html.push('</div>');
-
+		*/
+		
 		// checkboxes
 		html.push('<ul class="ui-multiselect-checkboxes ui-helper-reset">');
 		
