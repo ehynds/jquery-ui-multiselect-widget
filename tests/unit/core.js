@@ -39,7 +39,6 @@ function menu(){
 		
 		el.multiselect("uncheckAll");
 		data = form.serialize();
-		console.log(data);
 		equals( data.length, 0, 'after unchecking all and serializing the form, nothing was serialized');
 		
 		// re-check all and destroy, exposing original select
