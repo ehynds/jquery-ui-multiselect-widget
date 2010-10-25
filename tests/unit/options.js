@@ -147,28 +147,27 @@
 		expect(6);
 		
 		el = $("select").multiselect({ multiple:false });
-		ok( !widget().find(":checkbox").length, 'no checkboxes are present');
-		ok( widget().find(":radio").length > 0, 'but radio boxes are');
+		ok( !menu().find(":checkbox").length, 'no checkboxes are present');
+		ok( menu().find(":radio").length > 0, 'but radio boxes are');
 		
 		// simulate click on ALL radios
-		var radios = widget().find("input:radio").trigger("click");
+		var radios = menu().find(":radio").trigger("click");
 		
 		// at the end of that, only one radio should be checked
 		equals( radios.filter(":checked").length, 1, 'After checking all radios, only one is actually checked');
 		
 		// uncheck boxes... should only be one
-		radios.filter(":checked").removeAttr("checked");
+		radios.filter(":checked").trigger("click");
 		
 		// method calls
 		el.multiselect("checkAll");
-		equals( widget().find("input:radio:checked").length, 1, 'After checkAll method call only one is actually checked');
+		equals( menu().find("input:radio:checked").length, 1, 'After checkAll method call only one is actually checked');
 		
-		//console.log( widget().find("input:radio:checked"));
 		el.multiselect("uncheckAll");
-		equals( widget().find("input:radio:checked").length, 0, 'After uncheckAll method nothing is checked');
+		equals( menu().find("input:radio:checked").length, 0, 'After uncheckAll method nothing is checked');
 
 		// check/uncheck all links
-		equals( widget().find(".ui-multiselect-all, ui-multiselect-none").length, 0, "Check/uncheck all links don't exist");
+		equals( menu().find(".ui-multiselect-all, ui-multiselect-none").length, 0, "Check/uncheck all links don't exist");
 		
 		// not testing change on the fly here - IE doesn't support that.
 		

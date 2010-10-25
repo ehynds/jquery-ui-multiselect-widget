@@ -44,7 +44,7 @@ $.widget("ech.multiselect", {
 			html = [],
 			optgroups = [], 
 			title = el.attr('title'),
-			id = el.id || multiselectID++; // unique ID for the label & option tags
+			id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
 		
 		this.speed = $.fx.speeds._default; // default speed for effects
 		this._isOpen = false; // assume no
@@ -104,7 +104,7 @@ $.widget("ech.multiselect", {
 				}
 				
 				html.push('<li class="'+(isDisabled ? 'ui-multiselect-disabled' : '')+'">');
-				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '"><input id="'+inputID+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
+				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '"><input id="'+inputID+'" name="multiselect_'+id+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
 				if( $this.is(':selected') ){
 					html.push(' checked="checked"');
 				}
@@ -123,11 +123,6 @@ $.widget("ech.multiselect", {
 		this.menu			= this.button.next('div.ui-multiselect-menu');
 		this.labels			= this.menu.find('label');
 		this.buttonlabel 	= this.button.find('span').eq(-1);
-		
-		// cache radios for single select
-		if( !o.multiple ){
-			this.radios = this.menu.find(":radio");
-		}
 
 		// set widths
 		this._setButtonWidth();
@@ -258,22 +253,25 @@ $.widget("ech.multiselect", {
 		.delegate(':checkbox, :radio', 'click', function(e){
 			var $this = $(this),
 				val = this.value,
-				checked = this.checked;
+				checked = this.checked,
+				tags = self.element.find('option');
 			
 			// bail if this input is disabled or the event is cancelled
-			if( $this.is(':disabled') || self._trigger('click', e, { value:this.value, text:this.title, checked:checked }) === false ){
+			if( $this.is(':disabled') || self._trigger('click', e, { value:val, text:this.title, checked:checked }) === false ){
 				e.preventDefault();
 				return;
 			}
 			
-			// inputs don't have a name attr so they won't be submitted
-			// in the form.  for single select, handle functionality
+			// make sure the original option tags are unselected first 
+			// in a single select
 			if( !self.options.multiple ){
-				self.radios.not(this).removeAttr('checked');
+				tags.not(function(){
+					return this.value === val;
+				}).removeAttr('selected');
 			}
 			
 			// set the original option tag to selected
-			self.element.find('option').filter(function(){
+			tags.filter(function(){
 				return this.value === val;
 			}).attr('selected', (checked ? 'selected' : ''));
 			
@@ -353,12 +351,7 @@ $.widget("ech.multiselect", {
 		var $inputs = (group && group.length) 
 			? group
 			: this.labels.find('input');
-		
-		// reduce set to first input if single select and checkAll
-		if( !this.options.multiple && flag ){
-			$inputs = $inputs.eq(0);
-		}
-		
+
 		// toggle state on inputs
 		$inputs.not(':disabled').attr('checked', (flag ? 'checked' : '')); 
 		
