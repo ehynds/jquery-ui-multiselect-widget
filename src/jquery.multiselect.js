@@ -299,7 +299,7 @@ $.widget("ech.multiselect", {
 		// handler fires before the form is actually reset.  delaying it a bit
 		// gives the form inputs time to clear.
 		this.element.closest('form').bind('reset', function(){
-			setTimeout($.proxy(self, 'update'), 1);
+			setTimeout(function(){ self.update(); }, 1);
 		});
 	},
 
@@ -373,10 +373,14 @@ $.widget("ech.multiselect", {
 
 	// updates the number of selected items in the button
 	update: function( offset ){
+		if( typeof offset === "undefined" ){
+			offset = 0;
+		}
+		
 		var o = this.options,
 			$inputs = this.labels.find('input'),
 			$checked = $inputs.filter(':checked'),
-			numChecked = $checked.length,
+			numChecked = $checked.length + offset,
 			value;
 		
 		if( numChecked === 0 ){
