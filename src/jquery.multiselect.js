@@ -1,12 +1,16 @@
 /*
- * jQuery MultiSelect UI Widget 1.5
+ * jQuery MultiSelect UI Widget 1.6
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
  *
  * Depends:
- *   - jQuery 1.4.2
- *   - jQuery UI 1.8 (widget factory and effects if you want to use them)
+ *   - jQuery 1.4.2+
+ *   - jQuery UI 1.8 widget factory
+ *
+ * Optional:
+ *   - jQuery UI effects
+ *   - jQuery UI position utility
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
