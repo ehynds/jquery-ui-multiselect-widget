@@ -1,5 +1,13 @@
 jQuery UI Multiselect Widget Changelog
 
+Version 1.6 - 10/26/2010
+==============================================
+- Fixed: a number of single select issues, especially in IE7.
+- Fixed: jumpy keyboard traversal.  MUCH better now (thx Angel Garcia).
+- Fixed: button text wasn't updating correctly on form reset.
+- Fixed: ID attribute wasn't being retrieved from the original select correctly.
+
+
 Version 1.5 - 10/11/2010
 ==============================================
 - Added: 'classes' option (string), allowing you to apply additional classes to the widget.
@@ -11,7 +19,7 @@ Version 1.5 - 10/11/2010
 - Fixed: make sure the click event is only triggered by checkbox/radio buttons.
 - Fixed: destroy method now calls the widget factory's base destroy.
 - Modified: use event.which instead of event.keyCode for keydown events.
-- Modified: better filter plugin matching (thx to Peter Bengtsson),
+- Modified: better filter plugin matching (thx to Peter Bengtsson).
 - Modified: replaced hard-coded default animation speed with $.fx.speeds._default.
 
 
