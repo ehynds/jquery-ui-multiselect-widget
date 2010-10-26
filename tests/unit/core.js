@@ -90,7 +90,7 @@ function menu(){
 	asyncTest("form reset, nothing pre-selected", function(){
 		expect(2);
 		
-		var form = $('<form></form'),
+		var form = $('<form></form>'),
 			noneSelected = 'Please check something';
 		
 		el = $('<select name="test" multiple="multiple"><option value="foo">foo</option><option value="bar">bar</option></select>')
@@ -111,18 +111,19 @@ function menu(){
 	asyncTest("form reset, pre-selected options", function(){
 		expect(2);
 		
-		var form = $('<form></form');
+		var form = $('<form></form>');
 		
 		el = $('<select name="test" multiple="multiple"><option value="foo" selected="selected">foo</option><option value="bar" selected="selected">bar</option></select>')
 			.appendTo(form)
-			.multiselect({ selectedText: '# of # selected' });
+			.multiselect({ selectedText: '# of # selected' })
+			.multiselect("uncheckAll");
 			
 		// trigger reset
 		form.trigger("reset");
 		
 		setTimeout(function(){
 			equals( menu().find(":checked").length, 2, "two checked checkboxes" );
-			equals( button().text(), '2 of 2 selected', "selected text" );
+			equals( button().text(), "2 of 2 selected", "selected text" );
 			start();
 		}, 1);
 	});
