@@ -123,10 +123,10 @@ $.widget("ech.multiselect", {
 		html.push('</ul></div>');
 		
 		// cache elements
-		this.button			= el.hide().after( html.join('') ).next('button');
-		this.menu			= this.button.next('div.ui-multiselect-menu');
-		this.labels			= this.menu.find('label');
-		this.buttonlabel 	= this.button.find('span').eq(-1);
+		this.button = el.hide().after( html.join('') ).next('button');
+		this.menu = this.button.next('div.ui-multiselect-menu');
+		this.labels = this.menu.find('label');
+		this.buttonlabel = this.button.find('span').eq(-1);
 
 		// set widths
 		this._setButtonWidth();
