@@ -215,9 +215,12 @@ $.widget("ech.multiselect", {
 		.end()
 		.find('li.ui-multiselect-optgroup-label a').bind('click.multiselect', function(e){
 			var $this = $(this),
-				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible');
-				
+				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)');
+			
+			// toggle inputs
 			self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
+			
+			// trigger event
 			self._trigger('optgrouptoggle', e, {
 				inputs: $inputs.get(),
 				label: $this.parent().text(),
@@ -355,14 +358,23 @@ $.widget("ech.multiselect", {
 		var $inputs = (group && group.length) 
 			? group
 			: this.labels.find('input');
-
+		
 		// toggle state on inputs
 		$inputs.not(':disabled').attr('checked', (flag ? 'checked' : '')); 
 		
 		this.update();
 		
+		var values = $inputs.map(function(){
+			return this.value;
+		}).get();
+		
 		// toggle state on original option tags
-		this.element.find('option').not(':disabled').attr('selected', (flag ? 'selected' : ''));
+		var original = this.element
+			.find('option')
+			.filter(function(){
+				return !this.disabled && $.inArray(this.value, values) > -1;
+			})
+			.attr('selected', (flag ? 'selected' : ''));
 	},
 
 	_toggleDisabled: function(flag){
