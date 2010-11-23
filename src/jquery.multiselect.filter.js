@@ -92,13 +92,11 @@
 		},
 		
 		updateCache: function(){
-			var optiontags = this.element.children();
-			
-			this.cache = optiontags.map(function(){
+			this.cache = this.element.children().map(function(){
 				var self = $(this);
 				
 				// account for optgroups
-				if( this.tagName === "OPTGROUP" ){
+				if( this.tagName.toLowerCase() === "optgroup" ){
 					self = self.children();
 				}
 				
