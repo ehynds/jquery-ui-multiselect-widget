@@ -43,10 +43,10 @@ $.widget("ech.multiselect", {
 
 	_create: function(){
 		var self = this,
-			el = this.element,
+			el = this.element.hide(),
 			o = this.options,
 			optgroups = [], 
-			id = el.id || multiselectID++; // unique ID for the label & option tags
+			id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
 		
 		this.speed = $.fx.speeds._default; // default speed for effects
 		this._isOpen = false; // assume no
@@ -74,7 +74,7 @@ $.widget("ech.multiselect", {
 			headerLinkContainer = $('<ul />')
 				.addClass('ui-helper-reset')
 				.html(function(){
-					if( o.header === true && o.multiple ){
+					if( o.header === true ){
 						return '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li><li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
 					} else if(typeof o.header === "string"){
 						return '<li>' + o.header + '</li>';
@@ -116,7 +116,7 @@ $.widget("ech.multiselect", {
 				if( isDisabled ){
 					labelClasses.push('ui-state-disabled');
 				}
-
+				
 				li = $('<li />')
 					.addClass(isDisabled ? 'ui-multiselect-disabled' : '')
 					.appendTo( checkboxContainer );
@@ -125,11 +125,13 @@ $.widget("ech.multiselect", {
 					.attr('for', inputID)
 					.addClass(labelClasses.join(' '))
 					.appendTo( li );
-					
-				checkbox = $('<input type="' + (o.multiple ? "checkbox" : "radio") + '" />')
-					.attr({ id:inputID, title:title, disabled:isDisabled, checked:$this.is(':selected') })
-					.val( value )
-					.appendTo( label );
+				
+				// attr's are inlined to support form reset
+				checkbox = $('<input type="'+(o.multiple ? "checkbox" : "radio")+'" '+($this.is(':selected') ? 'checked="checked"' : '')+ '" name="multiselect_'+id + '" />')
+					.attr({ id:inputID, title:title, disabled:isDisabled })
+					.val( value );
+				
+				checkbox.appendTo( label );
 				
 				$('<span>'+title+'</span>')
 					.appendTo( label );
@@ -137,9 +139,9 @@ $.widget("ech.multiselect", {
 		});
 		
 		// cache some useful elements
-		this.labels = this.menu.find('label');
+		this.labels = menu.find('label');
 		if( !o.multiple ){
-			this.radios = this.menu.find(":radio");
+			this.radios = menu.find(":radio");
 		}
 
 		// set widths
@@ -149,14 +151,11 @@ $.widget("ech.multiselect", {
 		// perform event bindings
 		this._bindEvents();
 		
-		this.button[0].defaultValue = this.update();
-
-		// hide original
-		el.hide();
+		button[0].defaultValue = this.update();
 	},
 	
 	_init: function(){
-		if( !this.options.header ){
+		if( !this.options.header || !this.options.multiple ){
 			this.header.hide();
 		}
 		if( this.options.autoOpen ){
@@ -315,7 +314,7 @@ $.widget("ech.multiselect", {
 		// handler fires before the form is actually reset.  delaying it a bit
 		// gives the form inputs time to clear.
 		this.element.closest('form').bind('reset', function(){
-			setTimeout(function(){ self.update(); }, 1);
+			setTimeout(function(){ self.update(); }, 10);
 		});
 	},
 

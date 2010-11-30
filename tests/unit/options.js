@@ -167,7 +167,7 @@
 		equals( menu().find("input:radio:checked").length, 0, 'After uncheckAll method nothing is checked');
 
 		// check/uncheck all links
-		equals( menu().find(".ui-multiselect-all, ui-multiselect-none").length, 0, "Check/uncheck all links don't exist");
+		equals( menu().find(".ui-multiselect-all, ui-multiselect-none").filter(":visible").length, 0, "Check/uncheck all links don't exist");
 		
 		// not testing change on the fly here - IE doesn't support that.
 		
