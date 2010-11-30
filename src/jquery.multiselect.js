@@ -93,7 +93,7 @@ $.widget("ech.multiselect", {
 			var $this = $(this), 
 				title = $this.html(),
 				value = this.value, 
-				inputID = this.id || "ui-multiselect-"+id+"-option-"+i, 
+				inputID = this.id || 'ui-multiselect-'+id+'-option-'+i, 
 				$parent = $this.parent(), 
 				isDisabled = $this.is(':disabled'), 
 				labelClasses = ['ui-corner-all'],
@@ -128,7 +128,7 @@ $.widget("ech.multiselect", {
 					.appendTo( li );
 				
 				// attr's are inlined to support form reset
-				checkbox = $('<input type="'+(o.multiple ? "checkbox" : "radio")+'" '+($this.is(':selected') ? 'checked="checked"' : '')+ '" name="multiselect_'+id + '" />')
+				checkbox = $('<input type="'+(o.multiple ? 'checkbox' : 'radio')+'" '+($this.is(':selected') ? 'checked="checked"' : '')+ '" name="multiselect_'+id + '" />')
 					.attr({ id:inputID, title:title, disabled:isDisabled, 'aria-disabled':isDisabled })
 					.val( value )
 					.appendTo( label )
@@ -139,7 +139,7 @@ $.widget("ech.multiselect", {
 		// cache some moar useful elements
 		this.labels = menu.find('label');
 		if( !o.multiple ){
-			this.radios = menu.find(":radio");
+			this.radios = menu.find(':radio');
 		}
 
 		// set widths
@@ -564,30 +564,30 @@ $.widget("ech.multiselect", {
 		var menu = this.menu;
 		
 		switch(key){
-			case "header":
+			case 'header':
 				menu.find('div.ui-multiselect-header')[ value ? 'show' : 'hide' ]();
 				break;
-			case "checkAllText":
+			case 'checkAllText':
 				menu.find('a.ui-multiselect-all span').eq(-1).text(value);
 				break;
-			case "uncheckAllText":
+			case 'uncheckAllText':
 				menu.find('a.ui-multiselect-none span').eq(-1).text(value);
 				break;
-			case "height":
+			case 'height':
 				menu.find('ul:last').height( parseInt(value,10) );
 				break;
-			case "minWidth":
+			case 'minWidth':
 				this.options[ key ] = parseInt(value,10);
 				this._setButtonWidth();
 				this._setMenuWidth();
 				break;
-			case "selectedText":
-			case "selectedList":
-			case "noneSelectedText":
+			case 'selectedText':
+			case 'selectedList':
+			case 'noneSelectedText':
 				this.options[key] = value; // these all needs to update immediately for the update() call
 				this.update();
 				break;
-			case "classes":
+			case 'classes':
 				menu.add(this.button).removeClass(this.options.classes).addClass(value);
 				break;
 		}
