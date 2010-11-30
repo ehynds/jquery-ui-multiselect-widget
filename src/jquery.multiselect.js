@@ -51,7 +51,6 @@ $.widget("ech.multiselect", {
 		this.speed = $.fx.speeds._default; // default speed for effects
 		this._isOpen = false; // assume no
 	
-		// the actual button
 		var 
 			button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
 				.addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
@@ -100,9 +99,11 @@ $.widget("ech.multiselect", {
 				labelClasses = ['ui-corner-all'],
 				label, input, li;
 			
+			// is this an optgroup?
 			if( $parent.is('optgroup') ){
 				var label = $parent.attr('label');
 				
+				// has this optgroup been added already?
 				if( $.inArray(label, optgroups) === -1 ){
 					$('<li><a href="#">' + label + '</a></li>')
 						.addClass('ui-multiselect-optgroup-label')
@@ -111,7 +112,7 @@ $.widget("ech.multiselect", {
 					optgroups.push(label);
 				}
 			}
-		
+			
 			if( value.length > 0 ){
 				if( isDisabled ){
 					labelClasses.push('ui-state-disabled');
