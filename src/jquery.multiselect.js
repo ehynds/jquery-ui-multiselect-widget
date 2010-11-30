@@ -194,7 +194,7 @@ $.widget("ech.multiselect", {
 				}
 			},
 			mouseenter: function(){
-				if(!button.hasClass('ui-state-disabled')){
+				if( !button.hasClass('ui-state-disabled') ){
 					$(this).addClass('ui-state-hover');
 				}
 			},
@@ -202,7 +202,7 @@ $.widget("ech.multiselect", {
 				$(this).removeClass('ui-state-hover');
 			},
 			focus: function(){
-				if(!button.hasClass('ui-state-disabled')){
+				if( !button.hasClass('ui-state-disabled') ){
 					$(this).addClass('ui-state-focus');
 				}
 			},
@@ -304,7 +304,7 @@ $.widget("ech.multiselect", {
 		$(document).bind('click.multiselect', function(e){
 			var $target = $(e.target);
 			
-			if(self._isOpen && !$target.closest('div.ui-multiselect-menu').length && !$target.is('button.ui-multiselect')){
+			if(self._isOpen && !$.contains(self.menu[0], e.target) && !$target.is('button.ui-multiselect')){
 				self.close();
 			}
 		});
@@ -313,7 +313,7 @@ $.widget("ech.multiselect", {
 		// restored to their defaultValue prop on form reset, and the reset
 		// handler fires before the form is actually reset.  delaying it a bit
 		// gives the form inputs time to clear.
-		this.element.closest('form').bind('reset', function(){
+		$(this.element[0].form).bind('reset', function(){
 			setTimeout(function(){ self.update(); }, 10);
 		});
 	},
