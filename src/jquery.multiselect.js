@@ -54,7 +54,7 @@ $.widget("ech.multiselect", {
 			button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
 				.addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
 				.addClass( o.classes )
-				.attr('title', el.attr('title'))
+				.attr({ 'title':el.attr('title'), 'aria-haspopup':true })
 				.insertAfter( el ),
 			
 			buttonlabel = (this.buttonlabel = $('<span></span>'))
@@ -372,7 +372,9 @@ $.widget("ech.multiselect", {
 			: this.labels.find('input');
 		
 		// toggle state on inputs
-		$inputs.not(':disabled').attr('checked', (flag ? 'checked' : '')); 
+		$inputs
+			.not(':disabled')
+			.attr({ 'checked':flag, 'aria-disabled':flag }); 
 		
 		this.update();
 		
@@ -386,13 +388,20 @@ $.widget("ech.multiselect", {
 			.filter(function(){
 				return !this.disabled && $.inArray(this.value, values) > -1;
 			})
-			.attr('selected', (flag ? 'selected' : ''));
+			.attr({ 'selected':flag, 'aria-selected':flag });
 	},
 
-	_toggleDisabled: function(flag){
-		this.button.attr('disabled', (flag ? 'disabled' : ''))[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
-		this.menu.find('input').attr('disabled', (flag ? 'disabled' : '')).parent()[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
-		this.element.attr('disabled', (flag ? 'disabled' : ''));
+	_toggleDisabled: function( flag ){
+		this.button
+			.attr('aria-disabled', flag)[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
+		
+		this.menu
+			.find('input')
+			.attr({ 'checked':flag, 'aria-disabled':flag })
+			.parent()[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
+		
+		this.element
+			.attr({ 'checked':flag, 'aria-disabled':flag });
 	},
 
 	// updates the number of selected items in the button
