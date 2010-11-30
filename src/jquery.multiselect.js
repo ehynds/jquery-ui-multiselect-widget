@@ -169,7 +169,7 @@ $.widget("ech.multiselect", {
 	_bindEvents: function(){
 		var self = this, button = this.button;
 		
-		function clickHandler( e ){
+		function clickHandler(){
 			self[ self._isOpen ? 'close' : 'open' ]();
 			return false;
 		}
