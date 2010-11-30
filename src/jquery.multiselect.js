@@ -181,7 +181,7 @@ $.widget("ech.multiselect", {
 		button.bind({
 			click: clickHandler,
 			keypress: function(e){
-				switch(e.keyCode){
+				switch(e.which){
 					case 27: // esc
 					case 38: // up
 					case 37: // left
@@ -251,7 +251,7 @@ $.widget("ech.multiselect", {
 				}
 			})
 			.delegate('label', 'keydown', function(e){
-				switch(e.keyCode){
+				switch(e.which){
 					case 9: // tab
 					case 27: // esc
 						self.close();
@@ -260,7 +260,7 @@ $.widget("ech.multiselect", {
 					case 40: // down
 					case 37: // left
 					case 39: // right
-						self._traverse(e.keyCode, this);
+						self._traverse(e.which, this);
 						e.preventDefault();
 						break;
 					case 13: // enter
@@ -347,9 +347,9 @@ $.widget("ech.multiselect", {
 	},
 	
 	// move up or down within the menu
-	_traverse: function(keycode, start){
+	_traverse: function(which, start){
 		var $start = $(start),
-			moveToLast = keycode === 38 || keycode === 37,
+			moveToLast = which === 38 || which === 37,
 			
 			// select the first li that isn't an optgroup label / disabled
 			$next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)')[ moveToLast ? 'last' : 'first']();
