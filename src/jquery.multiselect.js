@@ -42,8 +42,7 @@ $.widget("ech.multiselect", {
 	},
 
 	_create: function(){
-		var self = this,
-			el = this.element.hide(),
+		var el = this.element.hide(),
 			o = this.options,
 			optgroups = [], 
 			id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
@@ -83,7 +82,7 @@ $.widget("ech.multiselect", {
 					}
 				})
 				.append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
-				.appendTo( header );
+				.appendTo( header ),
 			
 			checkboxContainer = (this.checkboxContainer = $('<ul />'))
 				.addClass('ui-multiselect-checkboxes ui-helper-reset')
@@ -98,19 +97,19 @@ $.widget("ech.multiselect", {
 				$parent = $this.parent(), 
 				isDisabled = $this.is(':disabled'), 
 				labelClasses = ['ui-corner-all'],
-				label, input, li;
+				label, input, checkbox, li;
 			
 			// is this an optgroup?
 			if( $parent.is('optgroup') ){
-				var label = $parent.attr('label');
+				var optLabel = $parent.attr('label');
 				
 				// has this optgroup been added already?
-				if( $.inArray(label, optgroups) === -1 ){
-					$('<li><a href="#">' + label + '</a></li>')
+				if( $.inArray(optLabel, optgroups) === -1 ){
+					$('<li><a href="#">' + optLabel + '</a></li>')
 						.addClass('ui-multiselect-optgroup-label')
 						.appendTo( checkboxContainer );
 					
-					optgroups.push(label);
+					optgroups.push( optLabel );
 				}
 			}
 			
@@ -347,7 +346,7 @@ $.widget("ech.multiselect", {
 	// move up or down within the menu
 	_traverse: function(keycode, start){
 		var $start = $(start),
-			moveToLast = (keycode === 38 || keycode === 37) ? true : false,
+			moveToLast = keycode === 38 || keycode === 37,
 			
 			// select the first li that isn't an optgroup label / disabled
 			$next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)')[ moveToLast ? 'last' : 'first']();
@@ -382,7 +381,7 @@ $.widget("ech.multiselect", {
 		}).get();
 		
 		// toggle state on original option tags
-		var original = this.element
+		this.element
 			.find('option')
 			.filter(function(){
 				return !this.disabled && $.inArray(this.value, values) > -1;
@@ -493,7 +492,7 @@ $.widget("ech.multiselect", {
 			return;
 		}
 	
-		var self = this, o = this.options, effect = o.hide, speed = this.speed;
+		var o = this.options, effect = o.hide, speed = this.speed;
 		
 		// figure out opening effects/speeds
 		if( $.isArray(o.hide) ){
