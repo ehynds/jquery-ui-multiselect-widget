@@ -87,7 +87,7 @@
 			} else {
 				rows.hide();
 
-				var regex = new RegExp('\\b' + term, 'i');
+				var regex = new RegExp(term, 'gi');
 				this._trigger( "filter", e, $.map(cache, function(v,i){
 					if( v.search(regex) !== -1 ){
 						rows.eq(i).show();
