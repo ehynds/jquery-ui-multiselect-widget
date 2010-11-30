@@ -190,6 +190,41 @@
 		equals( button().hasClass(newclass), true, 'button has the new class ' + newclass);
 		equals( button().hasClass(classname), false, 'menu no longer has the class ' + classname);
 		equals( button().hasClass(classname), false, 'button no longer has the class ' + classname);
+		el.multiselect("destroy");
+	});
+
+	test("header", function(){
+		expect(7);
+		
+		function countLinks(){
+		 return header().find("a").length;
+		}
+		
+		// default
+		el = $("select").multiselect({ autoOpen:true });
+		ok(header().is(':visible'), "default config: header is visible" );
+		el.multiselect("option", "header", false);
+		ok(header().is(':hidden'), "after changing header option on default config: header is no longer visible" );
+		
+		// test for all links within the default header
+		equals(countLinks(), 3, "number of links in the default header config");
+		
+		el.multiselect("destroy");
+		
+		// create again, this time header false
+		el = $("select").multiselect({ header:false, autoOpen:true });
+		ok(header().is(':hidden'), "init with header false: header is not visible" );
+		el.multiselect("option", "header", true);
+		ok(header().is(':visible'), "after changing header option: header is visible" );
+		
+		el.multiselect("destroy");
+		
+		// create again, this time custom header
+		el = $("select").multiselect({ header:"hai guyz", autoOpen:true });
+		equals(header().text(), "hai guyz", "header equals custom text");
+		equals(countLinks(), 1, "number of links in the custom header config (should be close button)");
+		
+		el.multiselect("destroy");
 	});
 	
 })(jQuery);

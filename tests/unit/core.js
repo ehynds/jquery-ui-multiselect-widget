@@ -12,6 +12,10 @@ function menu(){
 	return button().next();
 }
 
+function header(){
+	return menu().find('.ui-multiselect-header');
+}
+
 (function($){
 
 	module("core");

@@ -153,7 +153,7 @@ $.widget("ech.multiselect", {
 	},
 	
 	_init: function(){
-		if( !this.options.header || !this.options.multiple ){
+		if( this.options.header === false || this.options.multiple === false ){
 			this.header.hide();
 		}
 		if( this.options.autoOpen ){
