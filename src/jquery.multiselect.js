@@ -210,92 +210,93 @@ $.widget("ech.multiselect", {
 		});
 
 		// header links
-		this.header.find('a').bind('click.multiselect', function(e){
-			// close link
-			if( $(this).hasClass('ui-multiselect-close') ){
-				self.close();
-		
-			// check all / uncheck all
-			} else {
-				self[ $(this).hasClass('ui-multiselect-all') ? 'checkAll' : 'uncheckAll' ]();
-			}
-		
-			e.preventDefault();
-		});
+		this.header
+			.delegate('a', 'click.multiselect', function(e){
+				// close link
+				if( $(this).hasClass('ui-multiselect-close') ){
+					self.close();
+			
+				// check all / uncheck all
+				} else {
+					self[ $(this).hasClass('ui-multiselect-all') ? 'checkAll' : 'uncheckAll' ]();
+				}
+			
+				e.preventDefault();
+			});
 		
 		// optgroup label toggle support
 		this.menu
-		.delegate('li.ui-multiselect-optgroup-label a', 'click.multiselect', function(e){
-			var $this = $(this),
-				$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)');
-			
-			// toggle inputs
-			self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
-			
-			// trigger event
-			self._trigger('optgrouptoggle', e, {
-				inputs: $inputs.get(),
-				label: $this.parent().text(),
-				checked: $inputs[0].checked
-			});
-			
-			e.preventDefault();
-		})
-		.delegate('label', 'mouseenter', function(){
-			if( !$(this).hasClass('ui-state-disabled') ){
-				self.labels.removeClass('ui-state-hover');
-				$(this).addClass('ui-state-hover').find('input').focus();
-			}
-		})
-		.delegate('label', 'keydown', function(e){
-			switch(e.keyCode){
-				case 9: // tab
-				case 27: // esc
-					self.close();
-					break;
-				case 38: // up
-				case 40: // down
-				case 37: // left
-				case 39: // right
-					self._traverse(e.keyCode, this);
-					e.preventDefault();
-					break;
-				case 13: // enter
-					e.preventDefault();
-					$(this).find('input').trigger('click');
-					break;
-			}
-		})
-		.delegate(':checkbox, :radio', 'click', function(e){
-			var $this = $(this),
-				val = this.value,
-				checked = this.checked,
-				tags = self.element.find('option');
-			
-			// bail if this input is disabled or the event is cancelled
-			if( $this.is(':disabled') || self._trigger('click', e, { value:val, text:this.title, checked:checked }) === false ){
+			.delegate('li.ui-multiselect-optgroup-label a', 'click.multiselect', function(e){
+				var $this = $(this),
+					$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)');
+				
+				// toggle inputs
+				self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
+				
+				// trigger event
+				self._trigger('optgrouptoggle', e, {
+					inputs: $inputs.get(),
+					label: $this.parent().text(),
+					checked: $inputs[0].checked
+				});
+				
 				e.preventDefault();
-				return;
-			}
-			
-			// make sure the original option tags are unselected first 
-			// in a single select
-			if( !self.options.multiple ){
-				tags.not(function(){
+			})
+			.delegate('label', 'mouseenter', function(){
+				if( !$(this).hasClass('ui-state-disabled') ){
+					self.labels.removeClass('ui-state-hover');
+					$(this).addClass('ui-state-hover').find('input').focus();
+				}
+			})
+			.delegate('label', 'keydown', function(e){
+				switch(e.keyCode){
+					case 9: // tab
+					case 27: // esc
+						self.close();
+						break;
+					case 38: // up
+					case 40: // down
+					case 37: // left
+					case 39: // right
+						self._traverse(e.keyCode, this);
+						e.preventDefault();
+						break;
+					case 13: // enter
+						e.preventDefault();
+						$(this).find('input').trigger('click');
+						break;
+				}
+			})
+			.delegate(':checkbox, :radio', 'click', function(e){
+				var $this = $(this),
+					val = this.value,
+					checked = this.checked,
+					tags = self.element.find('option');
+				
+				// bail if this input is disabled or the event is cancelled
+				if( $this.is(':disabled') || self._trigger('click', e, { value:val, text:this.title, checked:checked }) === false ){
+					e.preventDefault();
+					return;
+				}
+				
+				// make sure the original option tags are unselected first 
+				// in a single select
+				if( !self.options.multiple ){
+					tags.not(function(){
+						return this.value === val;
+					}).removeAttr('selected');
+				}
+				
+				// set the original option tag to selected
+				tags.filter(function(){
 					return this.value === val;
-				}).removeAttr('selected');
-			}
-			
-			// set the original option tag to selected
-			tags.filter(function(){
-				return this.value === val;
-			}).attr('selected', (checked ? 'selected' : ''));
-			
-			// issue 14: if this event is natively fired, the box will be checked
-			// before running the update.  using trigger(), the events fire BEFORE
-			// the box is checked. http://dev.jquery.com/ticket/3827
-			self.update( !e.originalEvent ? checked ? -1 : 1 : 0 );
-		});
+				}).attr('selected', (checked ? 'selected' : ''));
+				
+				// issue 14: if this event is natively fired, the box will be checked
+				// before running the update.  using trigger(), the events fire BEFORE
+				// the box is checked. http://dev.jquery.com/ticket/3827
+				self.update( !e.originalEvent ? checked ? -1 : 1 : 0 );
+			});
 		
 		// close each widget when clicking on any other element/anywhere else on the page
 		$(document).bind('click.multiselect', function(e){
