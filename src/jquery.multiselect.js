@@ -82,6 +82,7 @@ $.widget("ech.multiselect", {
 						return '';
 					}
 				})
+				.append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
 				.appendTo( header );
 			
 			checkboxContainer = (this.checkboxContainer = $('<ul />'))
