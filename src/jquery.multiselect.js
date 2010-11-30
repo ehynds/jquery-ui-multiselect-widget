@@ -103,9 +103,8 @@ $.widget("ech.multiselect", {
 				var label = $parent.attr('label');
 				
 				if( $.inArray(label, optgroups) === -1 ){
-					$('<li />')
+					$('<li><a href="#">' + label + '</a></li>')
 						.addClass('ui-multiselect-optgroup-label')
-						.html('<a href="#">' + label + '</a>')
 						.appendTo( checkboxContainer );
 					
 					optgroups.push(label);
