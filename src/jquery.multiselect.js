@@ -289,6 +289,9 @@ $.widget("ech.multiselect", {
 					}).removeAttr('selected');
 				}
 				
+				// toggle aria state
+				$this.attr('aria-selected', checked);
+				
 				// set the original option tag to selected
 				tags.filter(function(){
 					return this.value === val;
