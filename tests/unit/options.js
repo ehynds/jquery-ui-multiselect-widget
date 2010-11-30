@@ -133,6 +133,7 @@
 		expect(2);
 		
 		el = $("select").multiselect({ autoOpen:false });
+		
 		ok( menu().is(":hidden"), 'menu is hidden with autoOpen off');
 		el.multiselect("destroy");
 		
@@ -147,11 +148,14 @@
 		expect(6);
 		
 		el = $("select").multiselect({ multiple:false });
-		ok( !menu().find(":checkbox").length, 'no checkboxes are present');
-		ok( menu().find(":radio").length > 0, 'but radio boxes are');
+		
+		var $menu = menu();
+		
+		ok( !$menu.find(":checkbox").length, 'no checkboxes are present');
+		ok( $menu.find(":radio").length > 0, 'but radio boxes are');
 		
 		// simulate click on ALL radios
-		var radios = menu().find(":radio").trigger("click");
+		var radios = $menu.find(":radio").trigger("click");
 		
 		// at the end of that, only one radio should be checked
 		equals( radios.filter(":checked").length, 1, 'After checking all radios, only one is actually checked');
@@ -161,13 +165,13 @@
 		
 		// method calls
 		el.multiselect("checkAll");
-		equals( menu().find("input:radio:checked").length, 1, 'After checkAll method call only one is actually checked');
+		equals( $menu.find("input:radio:checked").length, 1, 'After checkAll method call only one is actually checked');
 		
 		el.multiselect("uncheckAll");
-		equals( menu().find("input:radio:checked").length, 0, 'After uncheckAll method nothing is checked');
+		equals( $menu.find("input:radio:checked").length, 0, 'After uncheckAll method nothing is checked');
 
 		// check/uncheck all links
-		equals( menu().find(".ui-multiselect-all, ui-multiselect-none").filter(":visible").length, 0, "Check/uncheck all links don't exist");
+		equals( $menu.find(".ui-multiselect-all, ui-multiselect-none").filter(":visible").length, 0, "Check/uncheck all links don't exist");
 		
 		// not testing change on the fly here - IE doesn't support that.
 		
@@ -180,16 +184,18 @@
 		var classname = 'foo';
 		
 		el = $("select").multiselect({ classes:classname });
-		equals( widget().hasClass(classname), true, 'menu has the class ' + classname);
-		equals( button().hasClass(classname), true, 'button has the class ' + classname);
+		var $button = button(), $widget = widget();
+		
+		equals( $widget.hasClass(classname), true, 'menu has the class ' + classname);
+		equals( $button.hasClass(classname), true, 'button has the class ' + classname);
 		
 		// change it up
 		var newclass = 'bar';
 		el.multiselect("option", "classes", newclass);
-		equals( widget().hasClass(newclass), true, 'menu has the new class ' + newclass);
-		equals( button().hasClass(newclass), true, 'button has the new class ' + newclass);
-		equals( button().hasClass(classname), false, 'menu no longer has the class ' + classname);
-		equals( button().hasClass(classname), false, 'button no longer has the class ' + classname);
+		equals( $widget.hasClass(newclass), true, 'menu has the new class ' + newclass);
+		equals( $button.hasClass(newclass), true, 'button has the new class ' + newclass);
+		equals( $button.hasClass(classname), false, 'menu no longer has the class ' + classname);
+		equals( $button.hasClass(classname), false, 'button no longer has the class ' + classname);
 		el.multiselect("destroy");
 	});
 
