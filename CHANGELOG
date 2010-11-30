@@ -7,6 +7,7 @@ Version 1.7pre - TBA
 - Fixed: filtering widget now works properly on optgroups (thx Dario).
 - Fixed: manually triggering click on an input now correctly updates the selectedText.
 - Added: ARIA attributes.
+- Added: filter widget now uses input type=search for a better experience in WebKit.
 - Added: various bug fixes, performance optimizations, and unit tests.
 
 
