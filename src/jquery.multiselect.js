@@ -129,12 +129,9 @@ $.widget("ech.multiselect", {
 				// attr's are inlined to support form reset
 				checkbox = $('<input type="'+(o.multiple ? "checkbox" : "radio")+'" '+($this.is(':selected') ? 'checked="checked"' : '')+ '" name="multiselect_'+id + '" />')
 					.attr({ id:inputID, title:title, disabled:isDisabled })
-					.val( value );
-				
-				checkbox.appendTo( label );
-				
-				$('<span>'+title+'</span>')
-					.appendTo( label );
+					.val( value )
+					.appendTo( label )
+					.after('<span>'+title+'</span>');
 			}
 		});
 		
