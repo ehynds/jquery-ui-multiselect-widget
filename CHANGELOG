@@ -1,4 +1,14 @@
-jQuery UI Multiselect Widget Changelog
+jQuery UI MultiSelect Widget Changelog
+
+Version 1.7pre - TBA
+==============================================
+- Modified: completely refactored creation code to be consistent with the official jQuery UI widgets.
+- Fixed: clicking on an optgroup label now selects the correct option tags on the underlying select.
+- Fixed: filtering widget now works properly on optgroups (thx Dario).
+- Fixed: manually triggering click on an input now correctly updates the selectedText.
+- Added: ARIA attributes.
+- Added: various bug fixes, performance optimizations, and unit tests.
+
 
 Version 1.6 - 10/26/2010
 ==============================================
