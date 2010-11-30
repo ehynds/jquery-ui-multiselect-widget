@@ -135,7 +135,7 @@ $.widget("ech.multiselect", {
 			}
 		});
 		
-		// cache some useful elements
+		// cache some moar useful elements
 		this.labels = menu.find('label');
 		if( !o.multiple ){
 			this.radios = menu.find(":radio");
@@ -148,6 +148,7 @@ $.widget("ech.multiselect", {
 		// perform event bindings
 		this._bindEvents();
 		
+		// remember default value
 		button[0].defaultValue = this.update();
 	},
 	

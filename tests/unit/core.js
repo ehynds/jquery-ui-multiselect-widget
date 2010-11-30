@@ -105,7 +105,7 @@ function menu(){
 			equals( menu().find(":checked").length, 0, "no checked checkboxes" );
 			equals( button().text(), noneSelected, "none selected text");
 			start();
-		}, 1);
+		}, 10);
 	});
 	
 	asyncTest("form reset, pre-selected options", function(){
@@ -125,7 +125,7 @@ function menu(){
 			equals( menu().find(":checked").length, 2, "two checked checkboxes" );
 			equals( button().text(), "2 of 2 selected", "selected text" );
 			start();
-		}, 1);
+		}, 10);
 	});
 	
 })(jQuery);
