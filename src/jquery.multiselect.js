@@ -26,9 +26,9 @@ $.widget("ech.multiselect", {
 	// default options
 	options: {
 		header: true,
-		height: 175, // height of the checkbox container (scroll) in pixels
-		minWidth: 225, // min width of the entire widget in pixels. setting to 'auto' will disable
-		classes: '', // additional class(es) to apply to the button & menu
+		height: 175,
+		minWidth: 225,
+		classes: '',
 		checkAllText: 'Check all',
 		uncheckAllText: 'Uncheck all',
 		noneSelectedText: 'Select options',
@@ -58,7 +58,8 @@ $.widget("ech.multiselect", {
 				.attr('title', el.attr('title'))
 				.insertAfter( el ),
 			
-			buttonlabel = (this.buttonlabel = $('<span>'+ o.noneSelectedText +'</span>'))
+			buttonlabel = (this.buttonlabel = $('<span></span>'))
+				.html( o.noneSelectedText )
 				.appendTo( button ),
 				
 			menu = (this.menu = $('<div />'))

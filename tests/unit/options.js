@@ -203,7 +203,7 @@
 		expect(7);
 		
 		function countLinks(){
-		 return header().find("a").length;
+			return header().find("a").length;
 		}
 		
 		// default
