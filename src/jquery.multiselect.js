@@ -17,7 +17,7 @@
  *   http://www.gnu.org/licenses/gpl.html
  *
 */
-(function($){
+(function($, undefined){
 
 var multiselectID = 0;
 
@@ -406,7 +406,7 @@ $.widget("ech.multiselect", {
 
 	// updates the number of selected items in the button
 	update: function( offset ){
-		if( typeof offset === "undefined" ){
+		if( offset === undefined ){
 			offset = 0;
 		}
 		
