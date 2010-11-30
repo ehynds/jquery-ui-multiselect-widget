@@ -393,15 +393,15 @@ $.widget("ech.multiselect", {
 
 	_toggleDisabled: function( flag ){
 		this.button
-			.attr('aria-disabled', flag)[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
+			.attr({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 		
 		this.menu
 			.find('input')
-			.attr({ 'checked':flag, 'aria-disabled':flag })
+			.attr({ 'disabled':flag, 'aria-disabled':flag })
 			.parent()[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 		
 		this.element
-			.attr({ 'checked':flag, 'aria-disabled':flag });
+			.attr({ 'disabled':flag, 'aria-disabled':flag });
 	},
 
 	// updates the number of selected items in the button
