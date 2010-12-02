@@ -337,11 +337,11 @@ $.widget("ech.multiselect", {
 	// set menu width
 	_setMenuWidth: function(){
 		var m = this.menu,
-			width = this.button.outerWidth()
-				-parseInt(m.css('padding-left'),10)
-				-parseInt(m.css('padding-right'),10)
-				-parseInt(m.css('border-right-width'),10)
-				-parseInt(m.css('border-left-width'),10);
+			width = this.button.outerWidth()-
+				parseInt(m.css('padding-left'),10)-
+				parseInt(m.css('padding-right'),10)-
+				parseInt(m.css('border-right-width'),10)-
+				parseInt(m.css('border-left-width'),10);
 				
 		m.width( width || this.button.outerWidth() );
 	},
@@ -370,9 +370,9 @@ $.widget("ech.multiselect", {
 	},
 
 	_toggleChecked: function(flag, group){
-		var $inputs = (group && group.length) 
-			? group
-			: this.labels.find('input');
+		var $inputs = (group && group.length) ?
+			group :
+			this.labels.find('input');
 		
 		// toggle state on inputs
 		$inputs
