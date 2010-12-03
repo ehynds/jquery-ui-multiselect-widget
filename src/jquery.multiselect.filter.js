@@ -87,7 +87,7 @@
 			} else {
 				rows.hide();
 
-				var regex = new RegExp(term, 'gi');
+				var regex = new RegExp(term.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'gi');
 				this._trigger( "filter", e, $.map(cache, function(v,i){
 					if( v.search(regex) !== -1 ){
 						rows.eq(i).show();
