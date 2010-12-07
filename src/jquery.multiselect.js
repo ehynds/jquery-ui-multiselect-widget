@@ -546,7 +546,7 @@ $.widget("ech.multiselect", {
 	    } else {
 	        var arr = options.slice();
 	    }
-	    this.uncheckAll();
+	    this._toggleChecked(false);
 	    $.each(this.menu.find('input'),function(i,item) {
 	        if(arr.length === 0) {
 	            return false;
