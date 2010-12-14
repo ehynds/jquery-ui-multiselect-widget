@@ -60,18 +60,30 @@
 			// rewrite internal _toggleChecked fn so that when checkAll/uncheckAll is fired,
 			// only the currently filtered elements are checked
 			instance._toggleChecked = function(flag, group){
-				var $inputs = (group && group.length) 
-						? group
-						: this.labels.find('input'),
+				var $inputs = (group && group.length) ?
+						group :
+						this.labels.find('input'),
 					
 					// do not include hidden elems if the menu isn't open.
-					selector = self.instance._isOpen
-						? ":disabled, :hidden"
-						: ":disabled";
-						
-				$inputs.not( selector ).attr('checked', (flag ? 'checked' : '')); 
+					selector = self.instance._isOpen ?
+						":disabled, :hidden" :
+						":disabled";
+				
+				// toggle checked
+				$inputs.not( selector ).attr('checked', flag); 
+				
+				// update text
 				this.update();
-				this.element.children().not('disabled').attr('selected', (flag ? 'selected' : ''));
+				
+				// figure out which option tags need to be selected
+				var values = $inputs.map(function(){
+					return this.value;
+				}).get();
+				
+				// select option tags
+				this.element.find('option').filter(function(){
+					return !this.disabled && $.inArray(this.value, values) > -1;
+				}).attr({ 'selected':flag, 'aria-selected':flag });
 			};
 		},
 		

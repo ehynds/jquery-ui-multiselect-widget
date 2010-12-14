@@ -385,12 +385,9 @@ $.widget("ech.multiselect", {
 		}).get();
 		
 		// toggle state on original option tags
-		this.element
-			.find('option')
-			.filter(function(){
-				return !this.disabled && $.inArray(this.value, values) > -1;
-			})
-			.attr({ 'selected':flag, 'aria-selected':flag });
+		this.element.find('option').filter(function(){
+			return !this.disabled && $.inArray(this.value, values) > -1;
+		}).attr({ 'selected':flag, 'aria-selected':flag });
 	},
 
 	_toggleDisabled: function( flag ){
