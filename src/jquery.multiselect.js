@@ -1,5 +1,5 @@
 /*
- * jQuery MultiSelect UI Widget 1.7
+ * jQuery MultiSelect UI Widget 1.7.1pre
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
