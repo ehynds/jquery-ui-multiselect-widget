@@ -297,10 +297,9 @@ $.widget("ech.multiselect", {
 					return this.value === val;
 				}).attr('selected', (checked ? 'selected' : ''));
 				
-				// issue 14: if this event is natively fired, the box will be checked
-				// before running the update.  using trigger(), the events fire BEFORE
-				// the box is checked. http://dev.jquery.com/ticket/3827
-				self.update( !e.originalEvent ? checked ? -1 : 1 : 0 );
+				// setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
+				// http://bugs.jquery.com/ticket/3827 
+				setTimeout($.proxy(self.update, self), 10);
 			});
 		
 		// close each widget when clicking on any other element/anywhere else on the page
@@ -408,15 +407,11 @@ $.widget("ech.multiselect", {
 	},
 
 	// updates the number of selected items in the button
-	update: function( offset ){
-		if( offset === undefined ){
-			offset = 0;
-		}
-		
+	update: function(){
 		var o = this.options,
 			$inputs = this.labels.find('input'),
 			$checked = $inputs.filter(':checked'),
-			numChecked = $checked.length + offset,
+			numChecked = $checked.length,
 			value;
 		
 		if( numChecked === 0 ){
