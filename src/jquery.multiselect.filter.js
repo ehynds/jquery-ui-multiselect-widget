@@ -45,14 +45,8 @@
 						e.preventDefault();
 					}
 				},
-				keyup: function(){
-					self._handler();
-				},
-				click: function(){
-					if( !this.value.length ){
-						self._handler();
-					}
-				}
+				keyup: $.proxy(self._handler, self),
+				click: $.proxy(self._handler, self)
 			});
 			
 			// cache input values for searching
@@ -95,15 +89,16 @@
 		_handler: function( e ){
 			var term = $.trim( this.input[0].value.toLowerCase() ),
 			
-				// speed up references
+				// speed up lookups
 				rows = this.rows, inputs = this.inputs, cache = this.cache;
 			
 			if( !term ){
 				rows.show();
 			} else {
 				rows.hide();
-
+				
 				var regex = new RegExp(term.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'gi');
+				
 				this._trigger( "filter", e, $.map(cache, function(v,i){
 					if( v.search(regex) !== -1 ){
 						rows.eq(i).show();
@@ -113,6 +108,12 @@
 					return null;
 				}));
 			}
+
+			// show/hide optgroups
+			this.instance.menu.find(".ui-multiselect-optgroup-label").each(function(){
+				var $this = $(this);
+				$this[ $this.nextUntil('.ui-multiselect-optgroup-label').filter(':visible').length ? 'show' : 'hide' ]();
+			});
 		},
 		
 		updateCache: function(){

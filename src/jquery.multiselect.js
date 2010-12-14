@@ -141,7 +141,7 @@ $.widget("ech.multiselect", {
 		if( !o.multiple ){
 			this.radios = menu.find(':radio');
 		}
-
+		
 		// set widths
 		this._setButtonWidth();
 		this._setMenuWidth();
