@@ -38,16 +38,20 @@
 			// build the input box
 			this.input = wrapper
 			.find("input")
-			.bind("keydown", function( e ){
-				// prevent the enter key from submitting the form / closing the widget
-				if( e.which === 13 ){
-					e.preventDefault();
-				}
-			})
-			.bind("keyup", $.proxy(self._handler, self) )
-			.bind("click", function(){
-				if( !this.value.length ){
+			.bind({
+				keydown: function( e ){
+					// prevent the enter key from submitting the form / closing the widget
+					if( e.which === 13 ){
+						e.preventDefault();
+					}
+				},
+				keyup: function(){
 					self._handler();
+				},
+				click: function(){
+					if( !this.value.length ){
+						self._handler();
+					}
 				}
 			});
 			
