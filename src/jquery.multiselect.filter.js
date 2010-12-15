@@ -13,6 +13,8 @@
  *
 */
 (function($){
+	var rEscape = /[-[\]{}()*+?.,\\^$|#\s]/g;
+	
 	$.widget("ech.multiselectfilter", {
 		
 		options: {
@@ -97,7 +99,7 @@
 			} else {
 				rows.hide();
 				
-				var regex = new RegExp(term.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'gi');
+				var regex = new RegExp(term.replace(rEscape, "\\$&"), 'gi');
 				
 				this._trigger( "filter", e, $.map(cache, function(v,i){
 					if( v.search(regex) !== -1 ){
