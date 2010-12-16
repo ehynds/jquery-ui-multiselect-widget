@@ -90,6 +90,31 @@
 			equals( el.multiselect("getChecked").length, 7, 'number of checkboxes returned after checking all and calling getChecked');
 		el.multiselect("uncheckAll");
 			equals( el.multiselect("getChecked").length, 0, 'number of checkboxes returned after unchecking all and calling getChecked');
+		el.multiselect("destroy");
 	});
-	
+
+	test("refresh", function(){
+		expect(4);
+		
+		el = $("select").clone().appendTo("body").multiselect();
+		el.empty().html('<option value="foo">foo</option><option value="bar">bar</option>');
+		el.multiselect('refresh');
+		
+		var checkboxes, getCheckboxes = (function hai(){
+			checkboxes = menu().find('input[type="checkbox"]');
+			return hai;
+		})();
+		
+		equals( checkboxes.length, 2, "After clearing the select, adding 2 options, and refresh(), only 2 checkboxes exist");
+		equals( checkboxes.eq(0).val(), 'foo', 'first is foo' );
+		equals( checkboxes.eq(1).val(), 'bar', 'second is foo' );
+		
+		// add one more w/ append, just for safety's sake
+		el.append('<option value="baz">baz</option>');
+		el.multiselect('refresh');
+		getCheckboxes();
+		equals( checkboxes.eq(2).val(), 'baz', 'after an append() call, the third option is now' );
+		
+		el.multiselect("destroy").remove();
+	});
 })(jQuery);

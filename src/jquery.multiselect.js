@@ -43,9 +43,7 @@ $.widget("ech.multiselect", {
 
 	_create: function(){
 		var el = this.element.hide(),
-			o = this.options,
-			optgroups = [], 
-			id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
+			o = this.options;
 		
 		this.speed = $.fx.speeds._default; // default speed for effects
 		this._isOpen = false; // assume no
@@ -87,9 +85,39 @@ $.widget("ech.multiselect", {
 			checkboxContainer = (this.checkboxContainer = $('<ul />'))
 				.addClass('ui-multiselect-checkboxes ui-helper-reset')
 				.appendTo( menu );
-			
+		
+		// perform event bindings
+		this._bindEvents();
+		
+		// build menu
+		this.refresh();
+	},
+	
+	_init: function(){
+		if( this.options.header === false || this.options.multiple === false ){
+			this.header.hide();
+		}
+		if( this.options.autoOpen ){
+			this.open();
+		}
+		if( this.element.is(':disabled') ){
+			this.disable();
+		}
+	},
+	
+	refresh: function(){
+		var el = this.element,
+			o = this.options,
+			menu = this.menu,
+			button = this.button,
+			checkboxContainer = this.checkboxContainer,
+			optgroups = [],
+			id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
+		
+		checkboxContainer.empty();
+		
 		// build items
-		el.find('option').each(function(i){
+		this.element.find('option').each(function(i){
 			var $this = $(this), 
 				title = $this.html(),
 				value = this.value, 
@@ -146,23 +174,32 @@ $.widget("ech.multiselect", {
 		this._setButtonWidth();
 		this._setMenuWidth();
 		
-		// perform event bindings
-		this._bindEvents();
-		
 		// remember default value
 		button[0].defaultValue = this.update();
 	},
-	
-	_init: function(){
-		if( this.options.header === false || this.options.multiple === false ){
-			this.header.hide();
+
+	// updates the button text.  call refresh() to rebuild
+	update: function(){
+		var o = this.options,
+			$inputs = this.labels.find('input'),
+			$checked = $inputs.filter(':checked'),
+			numChecked = $checked.length,
+			value;
+		
+		if( numChecked === 0 ){
+			value = o.noneSelectedText;
+		} else {
+			if($.isFunction(o.selectedText)){
+				value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
+			} else if( /\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList){
+				value = $checked.map(function(){ return this.title; }).get().join(', ');
+			} else {
+				value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
+			}
 		}
-		if( this.options.autoOpen ){
-			this.open();
-		}
-		if( this.element.is(':disabled') ){
-			this.disable();
-		}
+		
+		this.buttonlabel.html( value );
+		return value;
 	},
 	
 	// binds events
@@ -401,30 +438,6 @@ $.widget("ech.multiselect", {
 		
 		this.element
 			.attr({ 'disabled':flag, 'aria-disabled':flag });
-	},
-
-	// updates the number of selected items in the button
-	update: function(){
-		var o = this.options,
-			$inputs = this.labels.find('input'),
-			$checked = $inputs.filter(':checked'),
-			numChecked = $checked.length,
-			value;
-		
-		if( numChecked === 0 ){
-			value = o.noneSelectedText;
-		} else {
-			if($.isFunction(o.selectedText)){
-				value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
-			} else if( /\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList){
-				value = $checked.map(function(){ return this.title; }).get().join(', ');
-			} else {
-				value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
-			}
-		}
-		
-		this.buttonlabel.html( value );
-		return value;
 	},
 	
 	// open the menu
