@@ -54,9 +54,6 @@
 			// cache input values for searching
 			this.updateCache();
 			
-			// each list item
-			this.rows = instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
-		
 			// rewrite internal _toggleChecked fn so that when checkAll/uncheckAll is fired,
 			// only the currently filtered elements are checked
 			instance._toggleChecked = function(flag, group){
@@ -85,6 +82,11 @@
 					return !this.disabled && $.inArray(this.value, values) > -1;
 				}).attr({ 'selected':flag, 'aria-selected':flag });
 			};
+			
+			// rebuild cache when multiselect is updated
+			$(document).bind("multiselectrefresh", function(){
+				self.updateCache();
+			});
 		},
 		
 		// thx for the logic here ben alman
@@ -119,6 +121,10 @@
 		},
 		
 		updateCache: function(){
+			// each list item
+			this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
+			
+			// cache
 			this.cache = this.element.children().map(function(){
 				var self = $(this);
 				

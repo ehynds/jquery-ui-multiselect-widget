@@ -90,7 +90,7 @@ $.widget("ech.multiselect", {
 		this._bindEvents();
 		
 		// build menu
-		this.refresh();
+		this.refresh( true );
 	},
 	
 	_init: function(){
@@ -105,7 +105,7 @@ $.widget("ech.multiselect", {
 		}
 	},
 	
-	refresh: function(){
+	refresh: function( init ){
 		var el = this.element,
 			o = this.options,
 			menu = this.menu,
@@ -176,6 +176,11 @@ $.widget("ech.multiselect", {
 		
 		// remember default value
 		button[0].defaultValue = this.update();
+		
+		// broadcast refresh event; useful for widgets
+		if( !init ){
+			this._trigger('refresh');
+		}
 	},
 
 	// updates the button text.  call refresh() to rebuild
