@@ -128,7 +128,7 @@ $.widget("ech.multiselect", {
 				$parent = $this.parent(), 
 				isDisabled = $this.is(':disabled'), 
 				labelClasses = ['ui-corner-all'],
-				label, input, checkbox, li;
+				label, input, li;
 			
 			// is this an optgroup?
 			if( $parent.is('optgroup') ){
@@ -158,9 +158,9 @@ $.widget("ech.multiselect", {
 					.addClass(labelClasses.join(' '))
 					.appendTo( li );
 				
-				// attr's are inlined to support form reset
-				checkbox = $('<input type="'+(o.multiple ? 'checkbox' : 'radio')+'" '+($this.is(':selected') ? 'checked="checked"' : '')+ '" name="multiselect_'+id + '" />')
-					.attr({ id:inputID, title:title, disabled:isDisabled, 'aria-disabled':isDisabled })
+				// attr's are inlined to support form reset.  double checked attr is to support chrome bug - see #46
+				$('<input type="'+(o.multiple ? 'checkbox' : 'radio')+'" '+(this.selected ? 'checked="checked"' : '')+ ' name="multiselect_'+id + '" />')
+					.attr({ id:inputID, checked:this.selected, title:title, disabled:isDisabled, 'aria-disabled':isDisabled, 'aria-selected':this.selected })
 					.val( value )
 					.appendTo( label )
 					.after('<span>'+title+'</span>');
