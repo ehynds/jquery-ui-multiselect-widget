@@ -68,7 +68,7 @@ $.widget("ech.multiselect", {
 				.addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
 				.appendTo( menu ),
 				
-			headerLinkContainer = $('<ul />')
+			headerLinkContainer = (this.headerLinkContainer = $('<ul />'))
 				.addClass('ui-helper-reset')
 				.html(function(){
 					if( o.header === true ){
@@ -94,8 +94,11 @@ $.widget("ech.multiselect", {
 	},
 	
 	_init: function(){
-		if( this.options.header === false || this.options.multiple === false ){
+		if( this.options.header === false ){
 			this.header.hide();
+		}
+		if( !this.options.multiple ){
+			this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
 		}
 		if( this.options.autoOpen ){
 			this.open();
