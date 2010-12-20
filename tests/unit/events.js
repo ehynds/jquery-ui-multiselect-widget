@@ -51,7 +51,7 @@
 
 
 	test("multiselectclose", function(){
-		expect(26);
+		expect(24);
 	 
 	 	// inject widget
 		el = $("<select></select>").appendTo("body");
@@ -81,24 +81,44 @@
 		button().find("span:first").trigger("click");
 		
 		el.multiselect("destroy").remove();
-		
-		// now try returning false prevent opening
-		el = $("<select></select>")
-		.appendTo("body")
-		.multiselect()
-		.bind("multiselectbeforeclose", function(){
-			ok( true, "event: binding multiselectbeforeclose to return false (prevent from closing)" );
-			return false;
+	});
+	
+	test("multiselectbeforeclose", function(){
+		expect(8);
+	 
+	 	// inject widget
+		el = $("<select></select>").appendTo("body");
+		el.multiselect({
+			beforeclose: function(e,ui){
+				ok( true, 'option: multiselect("beforeclose") fires close callback' );
+				equals(this, el[0], "option: context of callback");
+				equals(e.type, 'multiselectbeforeclose', 'option: event type in callback');
+				same(ui, {}, 'option: ui hash');
+			}
+		})
+		.bind("multiselectbeforeclose", function(e,ui){
+			ok(true, 'multiselect("beforeclose") fires multiselectclose event');
+			equals(this, el[0], 'event: context of event');
+			same(ui, {}, 'event: ui hash');
 		})
 		.multiselect("open")
 		.multiselect("close");
 		
-		ok( el.multiselect("isOpen"), "multiselect is still open after a multiselect('close')" );
+		el.multiselect("destroy").remove();
 		
+		// test 'return false' functionality
+		el = $("<select></select>").appendTo("body");
+		el.multiselect({
+			beforeclose: function(){
+				return false;
+			}
+		});
+		
+		el.multiselect('open').multiselect('close');
+		ok( widget().is(':visible') && el.multiselect("isOpen"), "returning false inside callback prevents menu from closing" );
 		el.multiselect("destroy").remove();
 	});
 	
-
 	test("multiselectclick", function(){
 		expect(10);
 	 
