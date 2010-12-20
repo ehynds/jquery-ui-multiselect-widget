@@ -169,9 +169,6 @@ $.widget("ech.multiselect", {
 		
 		// cache some moar useful elements
 		this.labels = menu.find('label');
-		if( !o.multiple ){
-			this.radios = menu.find(':radio');
-		}
 		
 		// set widths
 		this._setButtonWidth();
@@ -185,7 +182,7 @@ $.widget("ech.multiselect", {
 			this._trigger('refresh');
 		}
 	},
-
+	
 	// updates the button text.  call refresh() to rebuild
 	update: function(){
 		var o = this.options,
@@ -469,7 +466,7 @@ $.widget("ech.multiselect", {
 				$this.multiselect('close');
 			}
 		});
-
+		
 		var $container = menu.find('ul:last'),
 			effect = o.show,
 			pos = button.position();
