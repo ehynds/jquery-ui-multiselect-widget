@@ -3,10 +3,10 @@
 	module("events");
 
 	test("multiselectopen", function(){
-		expect(26);
+		expect(27);
 	 
 	 	// inject widget
-		el = $("<select></select>").appendTo("body");
+		el = $("<select><option value='foo'>foo</option></select>").appendTo("body");
 		el.multiselect({
 			open: function(e,ui){
 				ok( true, 'option: multiselect("open") fires open callback' );
@@ -23,7 +23,13 @@
 		});
 		
 		// now try to open it..
-		el.multiselect("open").multiselect("close");
+		el.multiselect("open")
+		
+		// make sure the width of the menu and button are equivalent
+		equals( button().outerWidth(), menu().outerWidth(), 'button and menu widths are equivalent');
+		
+		// close
+		el.multiselect("close");
 		
 		// make sure a click event on the button opens the menu as well.
 		button().trigger("click");
@@ -31,24 +37,23 @@
 		
 		// make sure a click event on a span inside the button opens the menu as well.
 		button().find("span:first").trigger("click");
-		el.multiselect("close");
 		
+		// reset for next test
 		el.multiselect("destroy").remove();
 		
 		// now try returning false prevent opening
 		el = $("<select></select>")
-		.appendTo("body")
-		.multiselect()
-		.bind("multiselectbeforeopen", function(){
-			ok( true, "event: binding multiselectbeforeopen to return false (prevent from opening)" );
-			return false;
-		})
-		.multiselect("open");
+			.appendTo("body")
+			.multiselect()
+			.bind("multiselectbeforeopen", function(){
+				ok( true, "event: binding multiselectbeforeopen to return false (prevent from opening)" );
+				return false;
+			})
+			.multiselect("open");
 		
 		ok( !el.multiselect("isOpen"), "multiselect is not open after multiselect('open')" );
 		el.multiselect("destroy").remove();
 	});
-
 
 	test("multiselectclose", function(){
 		expect(24);
