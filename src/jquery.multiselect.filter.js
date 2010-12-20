@@ -86,6 +86,7 @@
 			// rebuild cache when multiselect is updated
 			$(document).bind("multiselectrefresh", function(){
 				self.updateCache();
+				self._handler();
 			});
 		},
 		
