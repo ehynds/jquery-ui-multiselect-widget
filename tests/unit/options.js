@@ -202,13 +202,17 @@
 		// no built in support for change on the fly; not testing it.
 	});
 	
-	test("multiple", function(){
-		expect(6);
+	test("multiple (false - single select)", function(){
+		expect(9);
 		
 		el = $("select").multiselect({ multiple:false });
 		
-		var $menu = menu();
+		// get some references
+		var $menu = menu(), $header = header();
 		
+		ok( $header.find('a.ui-multiselect-all').is(':hidden'), 'select all link is hidden' );
+		ok( $header.find('a.ui-multiselect-all').is(':hidden'), 'select none link is hidden' );
+		ok( $header.find('a.ui-multiselect-close').css('display') !== 'hidden', 'close link is visible' );
 		ok( !$menu.find(":checkbox").length, 'no checkboxes are present');
 		ok( $menu.find(":radio").length > 0, 'but radio boxes are');
 		
@@ -227,7 +231,7 @@
 		
 		el.multiselect("uncheckAll");
 		equals( $menu.find("input:radio:checked").length, 0, 'After uncheckAll method nothing is checked');
-
+		
 		// check/uncheck all links
 		equals( $menu.find(".ui-multiselect-all, ui-multiselect-none").filter(":visible").length, 0, "Check/uncheck all links don't exist");
 		

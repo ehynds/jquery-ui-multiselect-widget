@@ -17,17 +17,21 @@ function header(){
 }
 
 (function($){
-
+	
 	module("core");
-
+	
 	test("init", function(){
-		expect(1);
+		expect(4);
 	 
-		el = $("select").multiselect();
-			ok( el.is(":hidden"), 'Original select is hidden');
+		el = $("select").multiselect(), $header = header();
+		ok( $header.find('a.ui-multiselect-all').css('display') !== 'hidden', 'select all is visible' );
+		ok( $header.find('a.ui-multiselect-all').is(':visible') !== 'hidden', 'select none is visible' );
+		ok( $header.find('a.ui-multiselect-close').css('display') !== 'hidden', 'close link is visible' );
+		ok( el.is(":hidden"), 'Original select is hidden');
+		
 		el.multiselect("destroy");
 	});
-
+	
 	test("form submission", function(){
 		expect(3);
 		
@@ -50,7 +54,7 @@ function header(){
 		data = form.serialize();
 		equals( data, 'test=foo&test=bar', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
 	});
-
+	
 	test("form submission, single select", function(){
 		expect(7);
 		
