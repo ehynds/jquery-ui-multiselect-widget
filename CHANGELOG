@@ -1,5 +1,20 @@
 jQuery UI MultiSelect Widget Changelog
 
+Version 1.8 - 12/21/2010
+==============================================
+- Fixed: Chrome was not honoring pre-selected tags in a single select.
+- Fixed: Do no hide the header on single selects; just the check all/none links.
+- Fixed: when filtering plugin is used and an optgroup label is clicked, select the underlying option tags.
+- Fixed: issues manually triggering click on a checkbox.
+- Fixed: filter plugin was allowing regex patterns as values.
+- Fixed: removed word boundry from filtering.
+- Fixed: when filtering with optgroups, if no children match the keyword, do not show the optgroup label.
+- Modified: use input type=serach on the filter widget.
+- Modified: improved selectors to work with querySelectorAll.
+- Added: public refresh method!
+- Added: various bug fixes, performance optimizations, and unit tests.
+
+
 Version 1.7 - 12/2/2010
 ==============================================
 - Modified: completely refactored creation code to be consistent with the official jQuery UI widgets.
