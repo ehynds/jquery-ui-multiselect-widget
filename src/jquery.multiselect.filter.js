@@ -1,5 +1,5 @@
 /*
- * jQuery MultiSelect UI Widget Filtering Plugin 1.1pre
+ * jQuery MultiSelect UI Widget Filtering Plugin 1.1
  * Copyright (c) 2010 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -13,7 +13,7 @@
  *
 */
 (function($){
-	var rEscape = /[-[\]{}()*+?.,\\^$|#\s]/g;
+	var rEscape = /[\-\[\]{}()*+?.,\\^$|#\s]/g;
 	
 	$.widget("ech.multiselectfilter", {
 		

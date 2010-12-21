@@ -11,7 +11,7 @@ Version 1.8 - 12/21/2010
 - Fixed: when filtering with optgroups, if no children match the keyword, do not show the optgroup label.
 - Modified: use input type=serach on the filter widget.
 - Modified: improved selectors to work with querySelectorAll.
-- Added: public refresh method!
+- Added: public refresh method.  BOOM!
 - Added: various bug fixes, performance optimizations, and unit tests.
 
 
