@@ -1,5 +1,5 @@
-/* Spanish initialisation for the jQuery UI multiselect plugin. */
-/* Written by Vinícius Fontoura Corrêa (vinusfc@gmail.com). */
+ï»¿/* Spanish initialisation for the jQuery UI multiselect plugin. */
+/* Written by Vinius Fontoura Correa(vinusfc@gmail.com). */
 
 $.extend($.ech.multiselect.prototype.options, {
 	checkAllText: 'Marca todas',

@@ -55,7 +55,7 @@ $.widget("ech.multiselect", {
 				.attr({ 'title':el.attr('title'), 'aria-haspopup':true })
 				.insertAfter( el ),
 			
-			buttonlabel = (this.buttonlabel = $('<span></span>'))
+			buttonlabel = (this.buttonlabel = $('<span />'))
 				.html( o.noneSelectedText )
 				.appendTo( button ),
 				
