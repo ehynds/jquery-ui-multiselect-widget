@@ -91,6 +91,11 @@ $.widget("ech.multiselect", {
 		
 		// build menu
 		this.refresh( true );
+		
+		// some addl. logic for single selects
+		if( !o.multiple ){
+			menu.addClass('ui-multiselect-single');
+		}
 	},
 	
 	_init: function(){
@@ -311,7 +316,7 @@ $.widget("ech.multiselect", {
 						break;
 				}
 			})
-			.delegate(':checkbox, :radio', 'click', function(e){
+			.delegate('input[type="checkbox"], input[type="radio"]', 'click', function(e){
 				var $this = $(this),
 					val = this.value,
 					checked = this.checked,
@@ -329,6 +334,9 @@ $.widget("ech.multiselect", {
 					tags.not(function(){
 						return this.value === val;
 					}).removeAttr('selected');
+					
+					self.labels.removeClass('ui-state-active');
+					$this.closest('label').toggleClass('ui-state-active', checked );
 				}
 				
 				// toggle aria state
