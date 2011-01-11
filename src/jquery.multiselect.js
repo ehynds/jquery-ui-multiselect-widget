@@ -43,7 +43,8 @@ $.widget("ech.multiselect", {
 
 	_create: function(){
 		var el = this.element.hide(),
-			o = this.options;
+			o = this.options,
+			self = this;
 		
 		this.speed = $.fx.speeds._default; // default speed for effects
 		this._isOpen = false; // assume no
@@ -96,6 +97,7 @@ $.widget("ech.multiselect", {
 		if( !o.multiple ){
 			menu.addClass('ui-multiselect-single');
 		}
+		el.change(function () { self._updateSelections(); });
 	},
 	
 	_init: function(){
@@ -161,7 +163,8 @@ $.widget("ech.multiselect", {
 				label = $('<label />')
 					.attr('for', inputID)
 					.addClass(labelClasses.join(' '))
-					.appendTo( li );
+					.addClass((!o.multiple && this.selected) ? 'ui-state-active' : '')
+					.appendTo(li);
 				
 				// attr's are inlined to support form reset.  double checked attr is to support chrome bug - see #46
 				$('<input type="'+(o.multiple ? 'checkbox' : 'radio')+'" '+(this.selected ? 'checked="checked"' : '')+ ' name="multiselect_'+id + '" />')
@@ -327,13 +330,18 @@ $.widget("ech.multiselect", {
 					e.preventDefault();
 					return;
 				}
-				
+
+				var originalChanged = false;
 				// make sure the original option tags are unselected first 
 				// in a single select
 				if( !self.options.multiple ){
-					tags.not(function(){
-						return this.value === val;
-					}).removeAttr('selected');
+					tags.filter(function(){
+						return this.value !== val && $(this).is(':selected, :checked');
+					}).each(function () {
+						originalChanged = true;
+						$(this).removeAttr('selected');
+					});
+
 					
 					self.labels.removeClass('ui-state-active');
 					$this.closest('label').toggleClass('ui-state-active', checked );
@@ -344,9 +352,16 @@ $.widget("ech.multiselect", {
 				
 				// set the original option tag to selected
 				tags.filter(function(){
-					return this.value === val;
-				}).attr('selected', (checked ? 'selected' : ''));
-				
+			        return this.value === val && checked !== $(this).is(':selected, :checked');
+			    }).each(function () {
+			        originalChanged = true;
+			        $(this).attr('selected', (checked ? 'selected' : ''));
+			    });
+
+				// Fire a change event in the original select element
+				if (originalChanged)
+					$(self.element).change();
+
 				// setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
 				// http://bugs.jquery.com/ticket/3827 
 				setTimeout($.proxy(self.update, self), 10);
@@ -369,6 +384,23 @@ $.widget("ech.multiselect", {
 			setTimeout(function(){ self.update(); }, 10);
 		});
 	},
+
+		_updateSelections: function () {
+			var self = this;
+			var tags = self.element.find('option');
+			self.menu.find('input[type="checkbox"], input[type="radio"]').each(function () {
+			var widgetInput = $(this);
+				var checked = widgetInput.is(':selected, :checked');
+				var val = this.value;
+				// TODO save a reference to the original input in widgetInput
+				var origInput = tags.filter(function () {
+					return this.value === val;
+				}).first();
+
+				if (checked !== origInput.is(':selected, :checked'))
+					self._toggleChecked(!checked, widgetInput);
+			});
+		},
 
 	// set button width
 	_setButtonWidth: function(){
@@ -427,6 +459,11 @@ $.widget("ech.multiselect", {
 		$inputs
 			.not(':disabled')
 			.attr({ 'checked':flag, 'aria-selected':flag }); 
+
+			if (!this.options.multiple) {
+				this.labels.removeClass('ui-state-active');
+				$inputs.closest('label').toggleClass('ui-state-active', flag);
+			}
 		
 		this.update();
 		
@@ -434,10 +471,19 @@ $.widget("ech.multiselect", {
 			return this.value;
 		}).get();
 		
+		var originalChanged = false;
+
 		// toggle state on original option tags
 		this.element.find('option').filter(function(){
-			return !this.disabled && $.inArray(this.value, values) > -1;
-		}).attr({ 'selected':flag, 'aria-selected':flag });
+			return !this.disabled && $.inArray(this.value, values) > -1 && flag !== $(this).is(':selected, :checked');
+		}).each(function () {
+			originalChanged = true;
+			$(this).attr({ 'selected': flag, 'aria-selected': flag });
+		});
+
+		// Fire a change event in the original select element
+		if (originalChanged)
+			$(self.element).change();
 	},
 
 	_toggleDisabled: function( flag ){
