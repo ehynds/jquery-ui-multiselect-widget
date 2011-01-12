@@ -360,7 +360,7 @@ $.widget("ech.multiselect", {
 
 				// Fire a change event in the original select element
 				if (originalChanged)
-					$(self.element).change();
+					$(self.element).trigger('change');
 
 				// setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
 				// http://bugs.jquery.com/ticket/3827 
@@ -483,7 +483,7 @@ $.widget("ech.multiselect", {
 
 		// Fire a change event in the original select element
 		if (originalChanged)
-			$(self.element).change();
+			$(self.element).trigger('change');
 	},
 
 	_toggleDisabled: function( flag ){
@@ -520,6 +520,10 @@ $.widget("ech.multiselect", {
 				$this.multiselect('close');
 			}
 		});
+
+		var elementToScroll = null;
+		if (!o.multiple)
+			elementToScroll = menu.find(':selected, :checked').first();
 		
 		var $container = menu.find('ul:last'),
 			effect = o.show,
@@ -532,7 +536,9 @@ $.widget("ech.multiselect", {
 		}
 		
 		// set the scroll of the checkbox container
-		$container.scrollTop(0).height(o.height);
+		$container.height(o.height);
+		if (elementToScroll.length === 0)
+			$container.scrollTop(0);
 		
 		// position and show menu
 		if( $.ui.position && !$.isEmptyObject(o.position) ){
@@ -551,12 +557,21 @@ $.widget("ech.multiselect", {
 				left: pos.left
 			}).show( effect, speed );
 		}
-		
-		// select the first option
-		// triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
-		// will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
-		this.labels.eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
-		
+
+
+		if (elementToScroll.length > 0) {
+			menu.queue(function () {
+				elementToScroll.focus();
+				$(this).dequeue();
+			});
+		}
+		else {
+			// select the first option
+			// triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
+			// will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
+			this.labels.eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+		}
+
 		button.addClass('ui-state-active');
 		this._isOpen = true;
 		this._trigger('open');
