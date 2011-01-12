@@ -312,7 +312,7 @@ $.widget("ech.multiselect", {
 						break;
 					case 13: // enter
 						e.preventDefault();
-						$(this).find('input').trigger('click');
+						$(this).find('input')[0].click();
 						break;
 				}
 			})
