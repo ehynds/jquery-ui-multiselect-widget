@@ -328,6 +328,14 @@ $.widget("ech.multiselect", {
 					return;
 				}
 				
+				// toggle aria state
+				$this.attr('aria-selected', checked);
+				
+				// set the original option tag to selected
+				tags.filter(function(){
+					return this.value === val;
+				}).attr('selected', (checked ? 'selected' : ''));
+				
 				// make sure the original option tags are unselected first 
 				// in a single select
 				if( !self.options.multiple ){
@@ -337,15 +345,10 @@ $.widget("ech.multiselect", {
 					
 					self.labels.removeClass('ui-state-active');
 					$this.closest('label').toggleClass('ui-state-active', checked );
+					
+					// close menu
+					self.close();
 				}
-				
-				// toggle aria state
-				$this.attr('aria-selected', checked);
-				
-				// set the original option tag to selected
-				tags.filter(function(){
-					return this.value === val;
-				}).attr('selected', (checked ? 'selected' : ''));
 				
 				// setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
 				// http://bugs.jquery.com/ticket/3827 
