@@ -211,7 +211,7 @@
 		var $menu = menu(), $header = header();
 		
 		ok( $header.find('a.ui-multiselect-all').is(':hidden'), 'select all link is hidden' );
-		ok( $header.find('a.ui-multiselect-all').is(':hidden'), 'select none link is hidden' );
+		ok( $header.find('a.ui-multiselect-none').is(':hidden'), 'select none link is hidden' );
 		ok( $header.find('a.ui-multiselect-close').css('display') !== 'hidden', 'close link is visible' );
 		ok( !$menu.find(":checkbox").length, 'no checkboxes are present');
 		ok( $menu.find(":radio").length > 0, 'but radio boxes are');
