@@ -222,7 +222,9 @@ $.widget("ech.multiselect", {
 		}
 		
 		// webkit doesn't like it when you click on the span :(
-		button.find('span').bind('click.multiselect', clickHandler);
+		button
+			.find('span')
+			.bind('click.multiselect', clickHandler);
 		
 		// button events
 		button.bind({
@@ -291,13 +293,13 @@ $.widget("ech.multiselect", {
 				
 				e.preventDefault();
 			})
-			.delegate('label', 'mouseenter', function(){
+			.delegate('label', 'mouseenter.multiselect', function(){
 				if( !$(this).hasClass('ui-state-disabled') ){
 					self.labels.removeClass('ui-state-hover');
 					$(this).addClass('ui-state-hover').find('input').focus();
 				}
 			})
-			.delegate('label', 'keydown', function(e){
+			.delegate('label', 'keydown.multiselect', function(e){
 				switch(e.which){
 					case 9: // tab
 					case 27: // esc
@@ -316,7 +318,7 @@ $.widget("ech.multiselect", {
 						break;
 				}
 			})
-			.delegate('input[type="checkbox"], input[type="radio"]', 'click', function(e){
+			.delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e){
 				var $this = $(this),
 					val = this.value,
 					checked = this.checked,
@@ -368,7 +370,7 @@ $.widget("ech.multiselect", {
 		// restored to their defaultValue prop on form reset, and the reset
 		// handler fires before the form is actually reset.  delaying it a bit
 		// gives the form inputs time to clear.
-		$(this.element[0].form).bind('reset', function(){
+		$(this.element[0].form).bind('reset.multiselect', function(){
 			setTimeout(function(){ self.update(); }, 10);
 		});
 	},
