@@ -203,7 +203,7 @@
 	});
 	
 	test("multiple (false - single select)", function(){
-		expect(9);
+		expect(10);
 		
 		el = $("select").multiselect({ multiple:false });
 		
@@ -219,8 +219,9 @@
 		// simulate click on ALL radios
 		var radios = $menu.find(":radio").trigger("click");
 		
-		// at the end of that, only one radio should be checked
+		// at the end of that, only one radio should be checked and the menu closed
 		equals( radios.filter(":checked").length, 1, 'After checking all radios, only one is actually checked');
+		equals( false, el.multiselect('isOpen'), 'Menu is closed' );
 		
 		// uncheck boxes... should only be one
 		radios.filter(":checked").trigger("click");

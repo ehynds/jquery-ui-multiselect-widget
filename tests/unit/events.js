@@ -125,7 +125,7 @@
 	});
 	
 	test("multiselectclick", function(){
-		expect(10);
+		expect(11);
 	 
 	 	// inject widget.  test will use the second option tag because the
 	 	// first will be selected by default by some (if not all) browsers
@@ -155,6 +155,9 @@
 		
 		// trigger a click event on the input
 		menu().find("input:last").trigger("click");
+		
+		// make sure menu isn't closed automatically
+		equals( true, el.multiselect('isOpen'), 'menu stays open' );
 		
 		el.multiselect("destroy").remove();
 	});
