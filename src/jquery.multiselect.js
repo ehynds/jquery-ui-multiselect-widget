@@ -282,20 +282,21 @@ $.widget("ech.multiselect", {
 		// optgroup label toggle support
 		this.menu
 			.delegate('li.ui-multiselect-optgroup-label a', 'click.multiselect', function(e){
+				e.preventDefault();
+				
 				var $this = $(this),
 					$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)');
 				
+				// trigger event and bail if the return is false
+				if( self._trigger('optgrouptoggle', e, { inputs:$inputs.get(), label:$this.parent().text(), checked:$inputs[0].checked }) === false ){
+					return;
+				}
+				
 				// toggle inputs
-				self._toggleChecked( $inputs.filter(':checked').length !== $inputs.length, $inputs );
-				
-				// trigger event
-				self._trigger('optgrouptoggle', e, {
-					inputs: $inputs.get(),
-					label: $this.parent().text(),
-					checked: $inputs[0].checked
-				});
-				
-				e.preventDefault();
+				self._toggleChecked(
+					$inputs.filter(':checked').length !== $inputs.length,
+					$inputs
+				);
 			})
 			.delegate('label', 'mouseenter.multiselect', function(){
 				if( !$(this).hasClass('ui-state-disabled') ){
