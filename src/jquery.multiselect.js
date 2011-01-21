@@ -89,17 +89,13 @@ $.widget("ech.multiselect", {
 		// perform event bindings
 		this._bindEvents();
 		
+		// build menu
+		this.refresh( true );
+		
 		// some addl. logic for single selects
 		if( !o.multiple ){
 			menu.addClass('ui-multiselect-single');
-		
-		// force multiple attr on the original select
-		} else {
-			this.element.attr('multiple', 'multiple');
 		}
-		
-		// build menu
-		this.refresh( true );
 	},
 	
 	_init: function(){
