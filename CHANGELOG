@@ -1,5 +1,16 @@
 jQuery UI MultiSelect Widget Changelog
 
+Version 1.9 - TBA
+==============================================
+- Added: auto-close single select menus when an item is chosen.
+- Added: if the optgrouptoggle handler returns false, prevent the items from being selected.
+- Added: force the multiple attribute on the original select box (except on single selects).
+- Added: namespaced all events.
+- Added: brazilian and spanish localizations (thanks Vinicius).
+- Fixed: when an item is chosen via the enter key, the underlying option tag wasn't being selected properly (thanks zlamma).
+- Modified: hide option tags in single selects, and add the ui-state-active class instead.
+
+
 Version 1.8 - 12/21/2010
 ==============================================
 - Fixed: Chrome was not honoring pre-selected tags in a single select.
