@@ -359,10 +359,10 @@ $.widget("ech.multiselect", {
 			});
 		
 		// close each widget when clicking on any other element/anywhere else on the page
-		$(document).bind('click.multiselect', function(e){
+		$(document).bind('mousedown.multiselect', function(e){
 			var $target = $(e.target);
 			
-			if(self._isOpen && !$.contains(self.menu[0], e.target) && !$target.is('button.ui-multiselect')){
+			if(self._isOpen && !$.contains(self.menu[0], e.target) && e.target !== self.button[0]){
 				self.close();
 			}
 		});
@@ -466,20 +466,11 @@ $.widget("ech.multiselect", {
 			menu = this.menu,
 			speed = this.speed,
 			o = this.options;
-	
+		
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
 		if( this._trigger('beforeopen') === false || button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
 		}
-		
-		// close other instances
-		$(':ech-multiselect').not(this.element).each(function(){
-			var $this = $(this);
-			
-			if( $this.multiselect('isOpen') ){
-				$this.multiselect('close');
-			}
-		});
 		
 		var $container = menu.find('ul:last'),
 			effect = o.show,
