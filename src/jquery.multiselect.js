@@ -335,7 +335,7 @@ $.widget("ech.multiselect", {
 				$this.attr('aria-selected', checked);
 				
 				// set the original option tag to selected
-				var t= tags.filter(function(){
+				tags.filter(function(){
 					return this.value === val;
 				}).attr('selected', (checked ? 'selected' : ''));
 				
