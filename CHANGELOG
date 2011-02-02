@@ -7,6 +7,7 @@ Version 1.9 - TBA
 - Added: namespaced all events.
 - Added: brazilian and spanish localizations (thanks Vinicius).
 - Fixed: when an item is chosen via the enter key, the underlying option tag wasn't being selected properly (thanks zlamma).
+- Fixed: refactored redundant close logic when clicking on the document to close the widget (thanks zlamma).
 - Modified: hide option tags in single selects, and add the ui-state-active class instead.
 
 

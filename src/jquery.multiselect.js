@@ -360,8 +360,6 @@ $.widget("ech.multiselect", {
 		
 		// close each widget when clicking on any other element/anywhere else on the page
 		$(document).bind('mousedown.multiselect', function(e){
-			var $target = $(e.target);
-			
 			if(self._isOpen && !$.contains(self.menu[0], e.target) && e.target !== self.button[0]){
 				self.close();
 			}
