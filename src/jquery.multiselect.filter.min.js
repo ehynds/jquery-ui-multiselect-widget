@@ -1,6 +1,6 @@
 /*
  * jQuery MultiSelect UI Widget Filtering Plugin 1.1
- * Copyright (c) 2010 Eric Hynds
+ * Copyright (c) 2011 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
  *

@@ -1,6 +1,6 @@
 jQuery UI MultiSelect Widget Changelog
 
-Version 1.9 - TBA
+Version 1.9 - 2/2/2011
 ==============================================
 - Added: auto-close single select menus when an item is chosen.
 - Added: if the optgrouptoggle handler returns false, prevent the items from being selected.
