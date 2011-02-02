@@ -133,7 +133,7 @@ $.widget("ech.multiselect", {
 				$parent = $this.parent(), 
 				isDisabled = $this.is(':disabled'), 
 				labelClasses = ['ui-corner-all'],
-				label, input, li;
+				label, li;
 			
 			// is this an optgroup?
 			if( $parent.is('optgroup') ){
