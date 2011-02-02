@@ -59,6 +59,46 @@ QUnit.done = function(){
 		
 		form.remove();
 	});
+
+	test("form submission, optgroups", function(){
+		expect(4);
+		
+		var form = $('<form></form>').appendTo(document.body), data;
+		
+		el = $('<select id="test" name="test" multiple="multiple"><optgroup label="foo"><option value="foo">foo</option><option value="bar">bar</option></optgroup><optgroup label="bar"><option value="baz">baz</option><option value="bax">bax</option></optgroup></select>')
+			.appendTo(form)
+			.multiselect()
+			.multiselect("checkAll");
+			
+		data = form.serialize();
+		equals( data, 'test=foo&test=bar&test=baz&test=bax&multiselect_test=foo&multiselect_test=bar&multiselect_test=baz&multiselect_test=bax', 'after checking all and serializing the form, the correct keys were serialized');
+		
+		el.multiselect("uncheckAll");
+		data = form.serialize();
+		equals( data.length, 0, 'after unchecking all and serializing the form, nothing was serialized');
+		
+		// re-check all and destroy, exposing original select
+		el.multiselect("checkAll").multiselect("destroy");
+		data = form.serialize();
+		equals( data, 'test=foo&test=bar&test=baz&test=bax', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
+		
+		// reset option tags
+		el.find("option").removeAttr("selected");
+		
+		// test checking one option in both optgroups
+		el.multiselect();
+		
+		// finds the first input in each optgroup (assumes 2 options per optgroup)
+		el.multiselect("widget").find('.ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label):even input').each(function(){
+			this.click();
+		});
+		
+		data = form.serialize();
+		equals( data, 'test=foo&test=baz&multiselect_test=foo&multiselect_test=baz', 'after manually checking one input in each group, the correct two are serialized');
+		
+		el.multiselect('destroy');
+		form.remove();
+	});
 	
 	test("form submission, single select", function(){
 		expect(7);
