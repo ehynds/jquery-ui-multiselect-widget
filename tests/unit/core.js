@@ -27,9 +27,9 @@ QUnit.done = function(){
 		expect(5);
 	 
 		el = $("select").multiselect(), $header = header();
-		ok( $header.find('a.ui-multiselect-all').css('display') !== 'hidden', 'select all is visible' );
-		ok( $header.find('a.ui-multiselect-all').is(':visible') !== 'hidden', 'select none is visible' );
-		ok( $header.find('a.ui-multiselect-close').css('display') !== 'hidden', 'close link is visible' );
+		ok( $header.find('a.ui-multiselect-all').css('display') !== 'none', 'select all is visible' );
+		ok( $header.find('a.ui-multiselect-none').css('display') !== 'none', 'select none is visible' );
+		ok( $header.find('a.ui-multiselect-close').css('display') !== 'none', 'close link is visible' );
 		ok( menu().is(':hidden'), 'menu is hidden');
 		ok( el.is(":hidden"), 'Original select is hidden');
 		el.multiselect("destroy");
