@@ -301,6 +301,8 @@ $.widget("ech.multiselect", {
 				}
 			})
 			.delegate('label', 'keydown.multiselect', function(e){
+				e.preventDefault();
+				
 				switch(e.which){
 					case 9: // tab
 					case 27: // esc
@@ -311,10 +313,8 @@ $.widget("ech.multiselect", {
 					case 37: // left
 					case 39: // right
 						self._traverse(e.which, this);
-						e.preventDefault();
 						break;
 					case 13: // enter
-						e.preventDefault();
 						$(this).find('input')[0].click();
 						break;
 				}
