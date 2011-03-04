@@ -28,7 +28,10 @@ $.widget("ech.multiselect", {
 		header: true,
 		height: 175,
 		minWidth: 225,
-		classes: '',
+		classes: 'ui-corner-all',
+		menuClasses: 'ui-multiselect-menu ui-widget ui-widget-content ui-corner-all',
+		headerClasses: 'ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix',
+		labelClasses: 'ui-corner-all',
 		checkAllText: 'Check all',
 		uncheckAllText: 'Uncheck all',
 		noneSelectedText: 'Select options',
@@ -50,7 +53,7 @@ $.widget("ech.multiselect", {
 	
 		var 
 			button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
-				.addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
+				.addClass('ui-multiselect ui-widget ui-state-default')
 				.addClass( o.classes )
 				.attr({ 'title':el.attr('title'), 'aria-haspopup':true })
 				.insertAfter( el ),
@@ -60,21 +63,20 @@ $.widget("ech.multiselect", {
 				.appendTo( button ),
 				
 			menu = (this.menu = $('<div />'))
-				.addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
-				.addClass( o.classes )
+				.addClass( o.menuClasses )
 				.insertAfter( button ),
 				
 			header = (this.header = $('<div />'))
-				.addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
+				.addClass( o.headerClasses )
 				.appendTo( menu ),
 				
 			headerLinkContainer = (this.headerLinkContainer = $('<ul />'))
 				.addClass('ui-helper-reset')
 				.html(function(){
 					if( o.header === true ){
-						return '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li><li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
+						return '<li class="ui-helper-reset"><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li><li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
 					} else if(typeof o.header === "string"){
-						return '<li>' + o.header + '</li>';
+						return '<li class="ui-helper-reset">' + o.header + '</li>';
 					} else {
 						return '';
 					}
@@ -132,8 +134,10 @@ $.widget("ech.multiselect", {
 				inputID = this.id || 'ui-multiselect-'+id+'-option-'+i, 
 				$parent = $this.parent(), 
 				isDisabled = $this.is(':disabled'), 
-				labelClasses = ['ui-corner-all'],
+				labelClasses = [],
 				label, li;
+
+			labelClasses.push(o.labelClasses);
 			
 			// is this an optgroup?
 			if( $parent.is('optgroup') ){
@@ -155,6 +159,7 @@ $.widget("ech.multiselect", {
 				}
 				
 				li = $('<li />')
+					.addClass('ui-helper-reset')
 					.addClass(isDisabled ? 'ui-multiselect-disabled' : '')
 					.appendTo( checkboxContainer );
 					
