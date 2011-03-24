@@ -77,10 +77,24 @@
 					return this.value;
 				}).get();
 				
-				// select option tags
-				this.element.find('option').filter(function(){
+				
+				// figure out which option tags need to be selected
+				//patched by danenania so only checked options are selected 3-23-2011
+				var isChecked = {};
+				var values = $inputs.map(function(){
+					isChecked[this.value] = this.checked;
+					return this.value;
+				}).get();
+				
+				var opts = this.element.find('option').filter(function(){
 					return !this.disabled && $.inArray(this.value, values) > -1;
-				}).attr({ 'selected':flag, 'aria-selected':flag });
+				});
+				
+				for (var i = 0; i < opts.length; i++){
+					var op = opts[i];
+					var checked = isChecked[op.value];
+					$(op).attr({'selected': checked , 'aria-selected': checked});
+				}
 			};
 			
 			// rebuild cache when multiselect is updated
