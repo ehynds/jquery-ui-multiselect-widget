@@ -527,8 +527,8 @@ $.widget("ech.multiselect", {
 	
 		this.menu.hide(effect, speed);
 		this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
-		this._trigger('close');
 		this._isOpen = false;
+		this._trigger('close');
 	},
 
 	enable: function(){
