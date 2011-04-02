@@ -24,14 +24,15 @@ QUnit.done = function(){
 	module("core");
 	
 	test("init", function(){
-		expect(5);
+		expect(6);
 	 
 		el = $("select").multiselect(), $header = header();
 		ok( $header.find('a.ui-multiselect-all').css('display') !== 'none', 'select all is visible' );
 		ok( $header.find('a.ui-multiselect-none').css('display') !== 'none', 'select none is visible' );
 		ok( $header.find('a.ui-multiselect-close').css('display') !== 'none', 'close link is visible' );
 		ok( menu().is(':hidden'), 'menu is hidden');
-		ok( el.is(":hidden"), 'Original select is hidden');
+		ok( el.is(":hidden"), 'the original select is hidden');
+		ok( el.attr('tabIndex') == 2, 'button inherited the correct tab index');
 		el.multiselect("destroy");
 	});
 	

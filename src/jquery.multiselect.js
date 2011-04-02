@@ -52,7 +52,7 @@ $.widget("ech.multiselect", {
 			button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
 				.addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
 				.addClass( o.classes )
-				.attr({ 'title':el.attr('title'), 'aria-haspopup':true })
+				.attr({ 'title':el.attr('title'), 'aria-haspopup':true, 'tabIndex':el.attr('tabIndex') })
 				.insertAfter( el ),
 			
 			buttonlabel = (this.buttonlabel = $('<span />'))
