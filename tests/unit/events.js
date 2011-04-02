@@ -213,8 +213,50 @@
 	});
 	
 	
+	test("multiselectbeforeoptgrouptoggle", function(){
+		expect(9);
+		
+		// inject widget
+		el = $('<select><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>').appendTo("body");
+		el.multiselect({
+			beforeoptgrouptoggle: function(e,ui){
+				equals(this, el[0], "option: context of callback");
+				equals(e.type, 'multiselectbeforeoptgrouptoggle', 'option: event type in callback');
+				equals(ui.label, "Set One", 'option: ui.label equals');
+				equals(ui.inputs.length, 2, 'option: number of inputs in the ui.inputs key');
+			}
+		})
+		.bind("multiselectbeforeoptgrouptoggle", function(e,ui){
+			ok( true, 'option: multiselect("uncheckall") fires multiselectuncheckall event' );
+			equals(this, el[0], 'event: context of event');
+			equals(ui.label, "Set One", 'event: ui.label equals');
+			equals(ui.inputs.length, 2, 'event: number of inputs in the ui.inputs key');
+		})
+		.multiselect("open");
+		
+		menu().find("li.ui-multiselect-optgroup-label a").click();
+		
+		el.multiselect("destroy").remove();
+		
+		// test return false preventing checkboxes from activating
+		el.multiselect({
+			beforeoptgrouptoggle: function(){
+				return false;
+			},
+			// if this fires the expected count will be off.  just a redundant way of checking that return false worked
+            optgrouptoggle: function(){
+                ok( true );
+            }
+		}).appendTo( document.body );
+		
+		menu().find("li.ui-multiselect-optgroup-label a").click();
+		equals( menu().find(":input:checked").length, 0, "when returning false inside the optgrouptoggle handler, no checkboxes are checked" );
+		
+		el.multiselect("destroy").remove();
+	});
+
 	test("multiselectoptgrouptoggle", function(){
-		expect(10);
+		expect(9);
 		
 		// inject widget
 		el = $('<select><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>').appendTo("body");
@@ -239,17 +281,6 @@
 		equals( menu().find(":input:checked").length, 2, "both checkboxes are actually checked" );
 		
 		el.multiselect("destroy").remove();
-		
-		// test return false preventing checkboxes from activating
-		el.multiselect({
-			optgrouptoggle: function(){
-				return false;
-			}
-		}).appendTo( document.body );
-		
-		menu().find("li.ui-multiselect-optgroup-label a").click();
-		equals( menu().find(":input:checked").length, 0, "when returning false inside the optgrouptoggle handler, no checkboxes are checked" );
-		
-		el.multiselect("destroy").remove();
 	});
+
 })(jQuery);

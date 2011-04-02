@@ -281,10 +281,12 @@ $.widget("ech.multiselect", {
 				e.preventDefault();
 				
 				var $this = $(this),
-					$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)');
+					$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)'),
+				    nodes = $inputs.get(),
+				    label = $this.parent().text();
 				
 				// trigger event and bail if the return is false
-				if( self._trigger('optgrouptoggle', e, { inputs:$inputs.get(), label:$this.parent().text(), checked:$inputs[0].checked }) === false ){
+				if( self._trigger('beforeoptgrouptoggle', e, { inputs:nodes, label:label }) === false ){
 					return;
 				}
 				
@@ -293,6 +295,12 @@ $.widget("ech.multiselect", {
 					$inputs.filter(':checked').length !== $inputs.length,
 					$inputs
 				);
+
+				self._trigger('optgrouptoggle', e, {
+				    inputs: nodes,
+				    label: label,
+				    checked: nodes[0].checked
+				});
 			})
 			.delegate('label', 'mouseenter.multiselect', function(){
 				if( !$(this).hasClass('ui-state-disabled') ){
