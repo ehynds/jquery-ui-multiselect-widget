@@ -67,7 +67,7 @@
 						":disabled";
 				
 				// toggle checked
-				$inputs.not( selector ).attr('checked', flag); 
+				$inputs = $inputs.not( selector ).attr('checked', flag); 
 				
 				// update text
 				this.update();
