@@ -117,34 +117,29 @@ $.widget("ech.multiselect", {
 		var el = this.element,
 			o = this.options,
 			menu = this.menu,
-			button = this.button,
 			checkboxContainer = this.checkboxContainer,
 			optgroups = [],
+			html = [],
 			id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
 		
-		checkboxContainer.empty();
-		
 		// build items
-		this.element.find('option').each(function(i){
+		this.element.find('option').each(function( i ){
 			var $this = $(this), 
-				title = $this.html(),
+				parent = this.parentNode,
+				title = this.innerHTML,
 				value = this.value, 
 				inputID = this.id || 'ui-multiselect-'+id+'-option-'+i, 
-				$parent = $this.parent(), 
-				isDisabled = $this.is(':disabled'), 
+				isDisabled = this.disabled,
 				labelClasses = ['ui-corner-all'],
-				label, li;
+				optLabel;
 			
 			// is this an optgroup?
-			if( $parent.is('optgroup') ){
-				var optLabel = $parent.attr('label');
+			if( parent.tagName.toLowerCase() === 'optgroup' ){
+				optLabel = parent.getAttribute('label');
 				
 				// has this optgroup been added already?
 				if( $.inArray(optLabel, optgroups) === -1 ){
-					$('<li><a href="#">' + optLabel + '</a></li>')
-						.addClass('ui-multiselect-optgroup-label')
-						.appendTo( checkboxContainer );
-					
+					html.push('<li class="ui-multiselect-optgroup-label"><a href="#">' + optLabel + '</a></li>');
 					optgroups.push( optLabel );
 				}
 			}
@@ -154,24 +149,32 @@ $.widget("ech.multiselect", {
 					labelClasses.push('ui-state-disabled');
 				}
 				
-				li = $('<li />')
-					.addClass(isDisabled ? 'ui-multiselect-disabled' : '')
-					.appendTo( checkboxContainer );
-					
-				label = $('<label />')
-					.attr('for', inputID)
-					.addClass(labelClasses.join(' '))
-					.appendTo( li );
+				html.push('<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') + '">');
 				
-				// attr's are inlined to support form reset.  double checked attr is to support chrome bug - see #46
-				$('<input type="'+(o.multiple ? 'checkbox' : 'radio')+'" '+(this.selected ? 'checked="checked"' : '')+ ' name="multiselect_'+id + '" />')
-					.attr({ id:inputID, checked:this.selected, title:title, disabled:isDisabled, 'aria-disabled':isDisabled, 'aria-selected':this.selected })
-					.val( value )
-					.appendTo( label )
-					.after('<span>'+title+'</span>');
+				// create the label
+				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '">');
+				html.push('<input id="'+inputID+'" name="multiselect_'+id+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
+
+				// pre-selected?
+				if( this.selected ){
+					html.push(' checked="checked"');
+					html.push(' aria-selected="true"');
+				}
+
+				// disabled?
+				if( isDisabled ){
+					html.push(' disabled="disabled"');
+					html.push(' aria-disabled="true"');
+				}
+
+				// add the title and close everything off
+				html.push(' /><span>' + title + '</span></label></li>');
 			}
 		});
 		
+		// insert into the DOM
+		checkboxContainer.html( html.join('') );
+
 		// cache some moar useful elements
 		this.labels = menu.find('label');
 		
@@ -180,7 +183,7 @@ $.widget("ech.multiselect", {
 		this._setMenuWidth();
 		
 		// remember default value
-		button[0].defaultValue = this.update();
+		this.button[0].defaultValue = this.update();
 		
 		// broadcast refresh event; useful for widgets
 		if( !init ){
