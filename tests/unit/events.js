@@ -56,10 +56,10 @@
 	});
 
 	test("multiselectclose", function(){
-		expect(24);
+		expect(25);
 	 
 	 	// inject widget
-		el = $("<select></select>").appendTo("body");
+		el = $("<select><option>foo</option></select>").appendTo("body");
 		el.multiselect({
 			close: function(e,ui){
 				ok( true, 'option: multiselect("close") fires close callback' );
@@ -79,12 +79,15 @@
 		.multiselect("open");
 		
 		// make sure a click event on the button closes the menu as well.
-		button().trigger("click");
+		button().click();
 		el.multiselect("open");
 		
 		// make sure a click event on a span inside the button closes the menu as well.
-		button().find("span:first").trigger("click");
-		
+		button().find("span:first").click();
+
+		// make sure that the menu is actually closed.  see issue #68
+		ok( el.multiselect('isOpen') === false, 'menu is indeed closed' );
+
 		el.multiselect("destroy").remove();
 	});
 	
