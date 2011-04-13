@@ -127,7 +127,7 @@ $.widget("ech.multiselect", {
 			var $this = $(this), 
 				parent = this.parentNode,
 				title = this.innerHTML,
-				value = this.value, 
+				value = this.value,
 				inputID = this.id || 'ui-multiselect-'+id+'-option-'+i, 
 				isDisabled = this.disabled,
 				labelClasses = ['ui-corner-all'],
@@ -143,33 +143,31 @@ $.widget("ech.multiselect", {
 					optgroups.push( optLabel );
 				}
 			}
-			
-			if( value.length > 0 ){
-				if( isDisabled ){
-					labelClasses.push('ui-state-disabled');
-				}
-				
-				html.push('<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') + '">');
-				
-				// create the label
-				html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '">');
-				html.push('<input id="'+inputID+'" name="multiselect_'+id+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
-
-				// pre-selected?
-				if( this.selected ){
-					html.push(' checked="checked"');
-					html.push(' aria-selected="true"');
-				}
-
-				// disabled?
-				if( isDisabled ){
-					html.push(' disabled="disabled"');
-					html.push(' aria-disabled="true"');
-				}
-
-				// add the title and close everything off
-				html.push(' /><span>' + title + '</span></label></li>');
+		
+			if( isDisabled ){
+				labelClasses.push('ui-state-disabled');
 			}
+			
+			html.push('<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') + '">');
+			
+			// create the label
+			html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '">');
+			html.push('<input id="'+inputID+'" name="multiselect_'+id+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
+
+			// pre-selected?
+			if( this.selected ){
+				html.push(' checked="checked"');
+				html.push(' aria-selected="true"');
+			}
+
+			// disabled?
+			if( isDisabled ){
+				html.push(' disabled="disabled"');
+				html.push(' aria-disabled="true"');
+			}
+
+			// add the title and close everything off
+			html.push(' /><span>' + title + '</span></label></li>');
 		});
 		
 		// insert into the DOM
