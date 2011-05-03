@@ -439,7 +439,10 @@ $.widget("ech.multiselect", {
 		// toggle state on inputs
 		$inputs
 			.not(':disabled')
-			.attr({ 'checked':flag, 'aria-selected':flag }); 
+			.attr({ 'aria-selected':flag })
+			.each(function(){
+				this.checked = flag;
+			});
 		
 		this.update();
 		
