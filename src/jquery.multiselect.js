@@ -345,12 +345,12 @@ $.widget("ech.multiselect", {
 				
 				// set the original option tag to selected
 				tags.each(function(){
-					if( !self.options.multiple ){
-						this.selected = false;
-					}
-
 					if( this.value === val ){
 						this.selected = checked;
+
+					// deselect all others in a single select
+					} else if( !self.options.multiple ){
+						this.selected = false;
 					}
 				});
 				
