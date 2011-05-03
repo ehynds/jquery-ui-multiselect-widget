@@ -335,7 +335,7 @@ $.widget("ech.multiselect", {
 					tags = self.element.find('option');
 				
 				// bail if this input is disabled or the event is cancelled
-				if( $this.is(':disabled') || self._trigger('click', e, { value:val, text:this.title, checked:checked }) === false ){
+				if( this.disabled || self._trigger('click', e, { value:val, text:this.title, checked:checked }) === false ){
 					e.preventDefault();
 					return;
 				}
@@ -344,17 +344,18 @@ $.widget("ech.multiselect", {
 				$this.attr('aria-selected', checked);
 				
 				// set the original option tag to selected
-				tags.filter(function(){
-					return this.value === val;
-				}).attr('selected', (checked ? 'selected' : ''));
+				tags.each(function(){
+					if( !self.options.multiple ){
+						this.selected = false;
+					}
+
+					if( this.value === val ){
+						this.selected = checked;
+					}
+				});
 				
-				// make sure the original option tags are unselected first 
-				// in a single select
+				// some additional single select-specific logic
 				if( !self.options.multiple ){
-					tags.not(function(){
-						return this.value === val;
-					}).removeAttr('selected');
-					
 					self.labels.removeClass('ui-state-active');
 					$this.closest('label').toggleClass('ui-state-active', checked );
 					
@@ -436,24 +437,37 @@ $.widget("ech.multiselect", {
 			group :
 			this.labels.find('input');
 		
+		function toggle( prop ){
+			return function(){
+				!this.disabled && (this[ prop ] = flag);
+
+				if( flag ){
+					this.setAttribute('aria-selected', true);
+				} else {
+					this.removeAttribute('aria-selected');
+				}
+			}
+		}
+
 		// toggle state on inputs
-		$inputs
-			.not(':disabled')
-			.attr({ 'aria-selected':flag })
-			.each(function(){
-				this.checked = flag;
-			});
+		$inputs.each(toggle('checked'));
 		
+		// update button text
 		this.update();
 		
+		// gather an array of the values that actually changed
 		var values = $inputs.map(function(){
 			return this.value;
 		}).get();
-		
+
 		// toggle state on original option tags
-		this.element.find('option').filter(function(){
-			return !this.disabled && $.inArray(this.value, values) > -1;
-		}).attr({ 'selected':flag, 'aria-selected':flag });
+		this.element
+			.find('option')
+			.each(function(){
+				if( !this.disabled && $.inArray(this.value, values) > -1 ){
+					toggle('selected').call( this );
+				}
+			});
 	},
 
 	_toggleDisabled: function( flag ){

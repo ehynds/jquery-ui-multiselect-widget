@@ -84,13 +84,15 @@ QUnit.done = function(){
 		equals( data, 'test=foo&test=bar&test=baz&test=bax', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
 		
 		// reset option tags
-		el.find("option").removeAttr("selected");
+		el.find("option").removeAttr("selected").each(function(){
+			this.selected = false;
+		});
 		
 		// test checking one option in both optgroups
 		el.multiselect();
 		
 		// finds the first input in each optgroup (assumes 2 options per optgroup)
-		el.multiselect("widget").find('.ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label):even input').each(function(){
+		el.multiselect("widget").find('.ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label) input:even').each(function( i ){
 			this.click();
 		});
 		
