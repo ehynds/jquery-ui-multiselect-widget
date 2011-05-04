@@ -154,8 +154,8 @@ $.widget("ech.multiselect", {
 			html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '">');
 			html.push('<input id="'+inputID+'" name="multiselect_'+id+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
 
-			// pre-selected?
-			if( this.selected ){
+			// pre selected or refreshing a multi-selection list
+			if( (this.selected && o.multiple) || attributes['selected'] ){
 				html.push(' checked="checked"');
 				html.push(' aria-selected="true"');
 			}
