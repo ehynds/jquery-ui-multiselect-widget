@@ -1,4 +1,5 @@
 var el;
+var body = document.body;
 
 function widget(){
 	return el.multiselect("widget");
@@ -39,7 +40,8 @@ QUnit.done = function(){
 	test("form submission", function(){
 		expect(3);
 		
-		var form = $('<form></form>'), data;
+		var form = $('<form></form>').appendTo(body),
+			data;
 		
 		el = $('<select id="test" name="test" multiple="multiple"><option value="foo" selected="selected">foo</option><option value="bar">bar</option></select>')
 			.appendTo(form)
@@ -64,7 +66,8 @@ QUnit.done = function(){
 	test("form submission, optgroups", function(){
 		expect(4);
 		
-		var form = $('<form></form>').appendTo(document.body), data;
+		var form = $('<form></form>').appendTo(body),
+			data;
 		
 		el = $('<select id="test" name="test" multiple="multiple"><optgroup label="foo"><option value="foo">foo</option><option value="bar">bar</option></optgroup><optgroup label="bar"><option value="baz">baz</option><option value="bax">bax</option></optgroup></select>')
 			.appendTo(form)
@@ -106,7 +109,8 @@ QUnit.done = function(){
 	test("form submission, single select", function(){
 		expect(7);
 		
-		var form = $('<form></form>').appendTo("body"), radios, data;
+		var form = $('<form></form>').appendTo("body"),
+			radios, data;
 		
 		el = $('<select id="test" name="test" multiple="multiple"><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>')
 			.appendTo(form)
@@ -146,7 +150,7 @@ QUnit.done = function(){
 	asyncTest("form reset, nothing pre-selected", function(){
 		expect(2);
 		
-		var form = $('<form></form>'),
+		var form = $('<form></form>').appendTo(body),
 			noneSelected = 'Please check something';
 		
 		el = $('<select name="test" multiple="multiple"><option value="foo">foo</option><option value="bar">bar</option></select>')
@@ -160,6 +164,8 @@ QUnit.done = function(){
 		setTimeout(function(){
 			equals( menu().find(":checked").length, 0, "no checked checkboxes" );
 			equals( button().text(), noneSelected, "none selected text");
+			el.multiselect('destroy');
+			form.remove();
 			start();
 		}, 10);
 	});
@@ -167,7 +173,7 @@ QUnit.done = function(){
 	asyncTest("form reset, pre-selected options", function(){
 		expect(2);
 		
-		var form = $('<form></form>');
+		var form = $('<form></form>').appendTo(body);
 		
 		el = $('<select name="test" multiple="multiple"><option value="foo" selected="selected">foo</option><option value="bar" selected="selected">bar</option></select>')
 			.appendTo(form)
@@ -180,6 +186,8 @@ QUnit.done = function(){
 		setTimeout(function(){
 			equals( menu().find(":checked").length, 2, "two checked checkboxes" );
 			equals( button().text(), "2 of 2 selected", "selected text" );
+			el.multiselect('destroy');
+			form.remove();
 			start();
 		}, 10);
 	});
