@@ -33,7 +33,7 @@
 		expect(2);
 	 
 	 	// clone this one so the original is not affected
-		el = $("select").clone(true).insertAfter("body").multiselect().multiselect("disable");
+		el = $("select").clone(true).insertAfter(body).multiselect().multiselect("disable");
 			ok( widget().prev().is(":disabled"), 'Widget is disabled');
 			ok( el.is(":disabled"), 'Original select is disabled');
 		el.multiselect("destroy").remove();
@@ -96,7 +96,7 @@
 	test("refresh", function(){
 		expect(4);
 		
-		el = $("select").clone().appendTo("body").multiselect();
+		el = $("select").clone().appendTo(body).multiselect();
 		el.empty().html('<option value="foo">foo</option><option value="bar">bar</option>');
 		el.multiselect('refresh');
 		

@@ -90,7 +90,7 @@
 		var html = '<select multiple><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>',
 			checkboxes;
 		
-		el = $(html).appendTo("body").multiselect({
+		el = $(html).appendTo(body).multiselect({
 			selectedList: 2
 		});
 		
