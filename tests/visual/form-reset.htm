@@ -15,7 +15,8 @@ $(function(){
 		.filter(".single")
 		.multiselect({
 			multiple: false,
-			noneSelectedText: 'Please select a radio'
+			noneSelectedText: 'Please select a radio',
+			header: false
 		})
 		.end()
 		.not(".single")
@@ -31,7 +32,7 @@ $(function(){
 <p>None selected text</p>
 <form>
 
-<select multiple="multiple" size="5">
+<select multiple="multiple">
 <option value="option1">Option 1</option>
 <option value="option2">Option 2</option>
 <option value="option3">Option 3</option>
@@ -39,7 +40,7 @@ $(function(){
 </select>
 
 <p>Selected text - pre-selected values</p>
-<select multiple="multiple" size="5">
+<select multiple="multiple">
 <option value="option1">Option 1</option>
 <option value="option2" selected="selected">Option 2</option>
 <option value="option3" selected="selected">Option 3</option>
@@ -47,7 +48,7 @@ $(function(){
 </select>
 
 <p>Single select - none selected text</p>
-<select multiple="multiple" class="single" size="5">
+<select class="single">
 <option value="option1">Option 1</option>
 <option value="option2">Option 2</option>
 <option value="option3">Option 3</option>
@@ -56,7 +57,7 @@ $(function(){
 
 
 <p>Single select - pre-selected value</p>
-<select multiple="multiple" class="single" size="5">
+<select class="single">
 <option value="option1">Option 1</option>
 <option value="option2" selected="selected">Option 2</option>
 <option value="option3">Option 3</option>

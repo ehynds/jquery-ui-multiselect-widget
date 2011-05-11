@@ -130,6 +130,7 @@ $.widget("ech.multiselect", {
 				value = this.value,
 				inputID = this.id || 'ui-multiselect-'+id+'-option-'+i, 
 				isDisabled = this.disabled,
+				isSelected = this.selected,
 				labelClasses = ['ui-corner-all'],
 				optLabel;
 			
@@ -147,6 +148,12 @@ $.widget("ech.multiselect", {
 			if( isDisabled ){
 				labelClasses.push('ui-state-disabled');
 			}
+
+			// browsers automatically select the first option
+			// by default with single selects
+			if( isSelected && !o.multiple ){
+				labelClasses.push('ui-state-active');
+			}
 			
 			html.push('<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') + '">');
 			
@@ -155,7 +162,7 @@ $.widget("ech.multiselect", {
 			html.push('<input id="'+inputID+'" name="multiselect_'+id+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
 
 			// pre-selected?
-			if( this.selected ){
+			if( isSelected ){
 				html.push(' checked="checked"');
 				html.push(' aria-selected="true"');
 			}

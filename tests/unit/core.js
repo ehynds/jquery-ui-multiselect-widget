@@ -191,5 +191,26 @@ QUnit.done = function(){
 			start();
 		}, 10);
 	});
-
+	
+	asyncTest("form reset, single select", function(){
+		expect(2);
+		
+		var form = $('<form></form>').appendTo(body);
+		
+		el = $('<select name="test"><option value="foo">foo</option><option value="bar">bar</option></select>')
+			.appendTo(form)
+			.multiselect({ multiple: false });
+			
+		// trigger reset
+		form.trigger("reset");
+		
+		setTimeout(function(){
+			equals( menu().find(":checked").length, 1, "one checked radio button (browser default)" );
+			equals( menu().find('.ui-state-active').length, 1, "one elements with the class ui-state-active");
+			el.multiselect('destroy');
+			form.remove();
+			start();
+		}, 10);
+	});
+	
 })(jQuery);
