@@ -1,5 +1,19 @@
 jQuery UI MultiSelect Widget Changelog
 
+Version 1.10 - Unreleased
+==============================================
+- Fixed: full support for jQuery 1.6+ (#89).
+- Fixed: invalid unit tests (#70, et. al.).
+- Fixed: all inputs with no values (#79).
+- Fixed: make sure the button inherits the original tab index (#76).
+- Fixed: incorrect items sent to the server after filtering, checking all, then submitting the form (#48).
+- Fixed: make sure the menu is closed before triggering the close event.
+- Fixed: in single select mode with the filter widget, make sure only the radio buttons are hidden, not the text input as well.
+- Fixed: make sure the escape key doesn't accidently abort any active xhrs in FF.
+- Modified: refactored create logic to use native JS instead of jQuery. Menus will build much faster now, especially in IE.
+- Added: beforeoptgrouptoggle event.
+
+
 Version 1.9 - 2/2/2011
 ==============================================
 - Added: auto-close single select menus when an item is chosen.
