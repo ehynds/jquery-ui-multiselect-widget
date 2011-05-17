@@ -61,13 +61,14 @@
 						group :
 						this.labels.find('input'),
 					
+					_self = this,
+
 					// do not include hidden elems if the menu isn't open.
 					selector = self.instance._isOpen ?
 						":disabled, :hidden" :
 						":disabled";
-				
-				// toggle checked
-				$inputs = $inputs.not( selector ).attr('checked', flag); 
+
+				$inputs = $inputs.not( selector ).each(this._toggleCheckbox('checked', flag));
 				
 				// update text
 				this.update();
@@ -78,9 +79,13 @@
 				}).get();
 				
 				// select option tags
-				this.element.find('option').filter(function(){
-					return !this.disabled && $.inArray(this.value, values) > -1;
-				}).attr({ 'selected':flag, 'aria-selected':flag });
+				this.element
+					.find('option')
+					.filter(function(){
+						if( !this.disabled && $.inArray(this.value, values) > -1 ){
+							_self._toggleCheckbox('selected', flag).call( this );
+						}
+					});
 			};
 			
 			// rebuild cache when multiselect is updated

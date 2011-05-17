@@ -439,25 +439,31 @@ $.widget("ech.multiselect", {
 		}
 	},
 
+	// This is an internal function to toggle the checked property and
+	// other related attributes of a checkbox.
+	//
+	// The context of this function should be a checkbox; do not proxy it.
+	_toggleCheckbox: function( prop, flag ){
+		return function(){
+			!this.disabled && (this[ prop ] = flag);
+
+			if( flag ){
+				this.setAttribute('aria-selected', true);
+			} else {
+				this.removeAttribute('aria-selected');
+			}
+		}
+	},
+
 	_toggleChecked: function(flag, group){
 		var $inputs = (group && group.length) ?
 			group :
-			this.labels.find('input');
-		
-		function toggle( prop ){
-			return function(){
-				!this.disabled && (this[ prop ] = flag);
+			this.labels.find('input'),
 
-				if( flag ){
-					this.setAttribute('aria-selected', true);
-				} else {
-					this.removeAttribute('aria-selected');
-				}
-			}
-		}
+			self = this;
 
 		// toggle state on inputs
-		$inputs.each(toggle('checked'));
+		$inputs.each(this._toggleCheckbox('checked', flag));
 		
 		// update button text
 		this.update();
@@ -472,7 +478,7 @@ $.widget("ech.multiselect", {
 			.find('option')
 			.each(function(){
 				if( !this.disabled && $.inArray(this.value, values) > -1 ){
-					toggle('selected').call( this );
+					self._toggleCheckbox('selected', flag).call( this );
 				}
 			});
 	},
