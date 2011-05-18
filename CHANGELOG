@@ -1,8 +1,8 @@
 jQuery UI MultiSelect Widget Changelog
 
-Version 1.10 - Unreleased
+Version 1.10 - 5/10/2011
 ==============================================
-- Fixed: full support for jQuery 1.6+ (#85).
+- Fixed: full support for jQuery 1.6+ (#85, #100).
 - Fixed: invalid unit tests (#70, et. al.).
 - Fixed: all inputs with no values (#79).
 - Fixed: make sure the button inherits the original tab index (#76).
