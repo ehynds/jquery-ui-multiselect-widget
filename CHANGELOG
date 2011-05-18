@@ -1,6 +1,6 @@
 jQuery UI MultiSelect Widget Changelog
 
-Version 1.10 - 5/10/2011
+Version 1.10 - 5/18/2011
 ==============================================
 - Fixed: full support for jQuery 1.6+ (#85, #100).
 - Fixed: invalid unit tests (#70, et. al.).
