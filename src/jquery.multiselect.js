@@ -352,11 +352,17 @@ $.widget("ech.multiselect", {
 				
 				// set the original option tag to selected
 				tags.each(function(){
-					if( this.value === val ){
-						this.selected = checked;
+					var $this = $(this);
+					if( $this.val() == val ){
+						if (checked) {
+							$this.attr('selected', 'selected');
+						} else {
+							$this.removeAttr('selected');
+						}
+					}
 
 					// deselect all others in a single select
-					} else if( !self.options.multiple ){
+					if( !self.options.multiple ){
 						this.selected = false;
 					}
 				});
