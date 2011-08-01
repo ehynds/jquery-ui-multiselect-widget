@@ -127,6 +127,7 @@ $.widget("ech.multiselect", {
 			var $this = $(this), 
 				parent = this.parentNode,
 				title = this.innerHTML,
+				description = this.title,
 				value = this.value,
 				inputID = this.id || 'ui-multiselect-'+id+'-option-'+i, 
 				isDisabled = this.disabled,
@@ -158,7 +159,7 @@ $.widget("ech.multiselect", {
 			html.push('<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') + '">');
 			
 			// create the label
-			html.push('<label for="'+inputID+'" class="'+labelClasses.join(' ')+ '">');
+			html.push('<label for="'+inputID+'" title="'+description+'" class="'+labelClasses.join(' ')+ '">');
 			html.push('<input id="'+inputID+'" name="multiselect_'+id+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
 
 			// pre-selected?
