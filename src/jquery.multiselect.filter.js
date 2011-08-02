@@ -139,11 +139,6 @@
 					self = self.children();
 				}
 				
-				// see _create() in jquery.multiselect.js
-				if( !self.val().length ){
-					return null;
-				}
-				
 				return self.map(function(){
 					return this.innerHTML.toLowerCase();
 				}).get();
