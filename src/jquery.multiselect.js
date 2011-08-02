@@ -336,7 +336,7 @@ $.widget("ech.multiselect", {
 						break;
 				}
 			})
-			.delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e){
+			.delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function( e ){
 				var $this = $(this),
 					val = this.value,
 					checked = this.checked,
@@ -351,10 +351,17 @@ $.widget("ech.multiselect", {
 				// toggle aria state
 				$this.attr('aria-selected', checked);
 				
-				// set the original option tag to selected
+				// change state on the original option tags
 				tags.each(function(){
 					if( this.value === val ){
 						this.selected = checked;
+
+						// for good measure. see #104
+						if( checked ) {
+							this.setAttribute('checked', 'checked');
+						} else {
+							this.removeAttribute('checked');
+						}
 
 					// deselect all others in a single select
 					} else if( !self.options.multiple ){
