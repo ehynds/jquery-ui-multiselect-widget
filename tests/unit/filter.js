@@ -32,13 +32,15 @@
     setup: function() {
       el = $('<select multiple>' +
         '<option></option>' + 
-        '<option value="foo">testfootest</option>' + 
-        '<option value="bar">testbartest</option>' + 
-        '<option value=" baz "> testbaztest </option>' + 
+        '<option value="foo">testffoooo</option>' + 
+        '<option value="bar">testbbaarr</option>' + 
+        '<option value=" baz ">testbbaazz</option>' + 
         '<option value="qux">testquxtest</option>' + 
         '<option value="10">ten</option>' + 
         '<option value="100">one hundred</option>' + 
         '<option value="5">five</option>' + 
+        '<option>a test with word boundaries</option>' + 
+        '<option>special regex !^$()//-|{}/: characters</option>' + 
         '</option>');
 
       el.appendTo(document.body);
@@ -64,12 +66,23 @@
   });
 
   test("filtering by node text", function(){
-    searchTest( "bar", 1);
-    searchTest( "ba", 2);
-    searchTest( "  ba  ", 2, "searching for '#' with whitespace");
+    searchTest( "bbaa", 2);
+    searchTest( "bbaarr", 1);
+    searchTest( "  bbaa  ", 2, "searching for '#' with whitespace");
     searchTest( " ", el.children().length, "searching for an empty string");
-    searchTest( "test", 4);
+    searchTest( "test", 5);
     searchTest( "one hundred", 1);
+    searchTest( "with wor", 1);
+    searchTest( " with wor  ", 1);
+
+    $.each("$ ^ / : // { } | -".split(" "), function( i, char ){
+      searchTest( char, 1 );
+    });
+  });
+
+  test("filtering by node value", function(){
+    // searchTest( "100", 1);
+    // searchTest( "baz", 1);
   });
 
   test("filtering & checking", function(){
