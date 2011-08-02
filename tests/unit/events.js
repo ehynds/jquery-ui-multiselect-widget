@@ -128,7 +128,7 @@
 	});
 	
 	test("multiselectclick", function(){
-		expect(11);
+		expect(22);
 	 
 	 	// inject widget.  test will use the second option tag because the
 	 	// first will be selected by default by some (if not all) browsers
@@ -138,14 +138,13 @@
 		// quick check to prove that the second option tag is NOT selected.
 		ok( el.find("option").eq(1).is(":selected") === false, "option tag is not selected." );
 		
-		el..multiselect({
+		el.multiselect({
 			click: function(e,ui){
 				ok( true, 'option: triggering the click event on the second checkbox fires the click callback' );
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectclick', 'option: event type in callback');
 				equals(ui.value, "2", "option: ui.value equals");
 				equals(ui.text, "Option 2", "option: ui.title equals");
-				// ok( el.data("multiselect").optiontags[1].selected === true, "option: detached option tag is selected");
 			}
 		})
 		.bind("multiselectclick", function(e,ui){
@@ -153,13 +152,20 @@
 			equals(this, el[0], 'event: context of event');
 			equals(ui.value, "2", "event: ui.value equals");
 			equals(ui.text, "Option 2", "event: ui.title equals");
-			// ok( el.data("multiselect").optiontags[1].selected === true, "event: detached option tag is selected");
 		})
 		.multiselect("open");
 		
 		// trigger a click event on the input
-		menu().find("input:last").trigger("click");
+		var lastOption = menu().find("input:last")[0];
+		lastOption.click();
 		
+		// make sure the option we just selected has the selected attr
+		equals(el.find('option[value="2"]')[0].getAttribute("selected"), "selected", "Option has the checked attribute");
+
+		// make sure the option we just selected has the selected attr
+		lastOption.click();
+		equals(el.find('option[value="2"]')[0].getAttribute("selected"), null, "After checking the option again, the selected attribute is removed");
+
 		// make sure menu isn't closed automatically
 		equals( true, el.multiselect('isOpen'), 'menu stays open' );
 		

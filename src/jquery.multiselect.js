@@ -358,9 +358,9 @@ $.widget("ech.multiselect", {
 
 						// for good measure. see #104
 						if( checked ) {
-							this.setAttribute('checked', 'checked');
+							this.setAttribute('selected', 'selected');
 						} else {
-							this.removeAttribute('checked');
+							this.removeAttribute('selected');
 						}
 
 					// deselect all others in a single select
