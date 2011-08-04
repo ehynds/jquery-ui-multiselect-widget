@@ -128,8 +128,10 @@
 	});
 	
 	test("multiselectclick", function(){
-		expect(22);
+		expect(26);
 	 
+	 	var times = 0;
+
 	 	// inject widget.  test will use the second option tag because the
 	 	// first will be selected by default by some (if not all) browsers
 		el = $("<select multiple><option value='1'>Option 1</option><option value='2'>Option 2</option></select>")
@@ -153,6 +155,15 @@
 			equals(ui.value, "2", "event: ui.value equals");
 			equals(ui.text, "Option 2", "event: ui.title equals");
 		})
+		.bind("change", function(e){
+			if( ++times === 1 ){
+				equals( el.val().join(), "2", "event: select element val() within the change event is correct" );
+			} else {
+				equals( el.val(), null, "event: select element val() within the change event is correct" );
+			}
+
+			ok(true, "event: the select's change event fires");
+		})
 		.multiselect("open");
 		
 		// trigger a click event on the input
@@ -173,7 +184,7 @@
 	});
 
 	test("multiselectcheckall", function(){
-		expect(7);
+		expect(9);
 	 
 	 	// inject widget
 		el = $('<select multiple><option value="1">Option 1</option><option value="2">Option 2</option></select>').appendTo(body);
@@ -191,6 +202,10 @@
 			equals(this, el[0], 'event: context of event');
 			same(ui, {}, 'event: ui hash');
 		})
+		.bind("change", function(){
+			ok(true, "event: the select's change event fires");
+			equals( el.val().join(), "1,2", "event: select element val() within the change event is correct" );
+		})
 		.multiselect("open")
 		.multiselect("checkAll");
 		
@@ -199,7 +214,7 @@
 	});
 	
 	test("multiselectuncheckall", function(){
-		expect(7);
+		expect(9);
 	 
 	 	// inject widget
 		el = $('<select multiple><option value="1">Option 1</option><option value="2">Option 2</option></select>').appendTo(body);
@@ -216,6 +231,10 @@
 			ok( true, 'event: multiselect("uncheckall") fires multiselectuncheckall event' );
 			equals(this, el[0], 'event: context of event');
 			same(ui, {}, 'event: ui hash');
+		})
+		.bind("change", function(){
+			ok(true, "event: the select's change event fires");
+			equals( el.val(), null, "event: select element val() within the change event is correct" );
 		})
 		.multiselect("open")
 		.multiselect("uncheckAll");

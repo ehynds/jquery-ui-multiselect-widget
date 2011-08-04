@@ -377,6 +377,9 @@ $.widget("ech.multiselect", {
 					// close menu
 					self.close();
 				}
+
+				// fire change on the select box
+				self.element.trigger("change");
 				
 				// setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
 				// http://bugs.jquery.com/ticket/3827 
@@ -489,6 +492,11 @@ $.widget("ech.multiselect", {
 					self._toggleCheckbox('selected', flag).call( this );
 				}
 			});
+
+		// trigger the change event on the select
+		if( $inputs.length ) {
+			this.element.trigger("change");
+		}
 	},
 
 	_toggleDisabled: function( flag ){
