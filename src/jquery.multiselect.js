@@ -38,7 +38,8 @@ $.widget("ech.multiselect", {
 		hide: '',
 		autoOpen: false,
 		multiple: true,
-		position: {}
+		position: {},
+		delimiter: ', '
 	},
 
 	_create: function(){
@@ -211,7 +212,7 @@ $.widget("ech.multiselect", {
 			if($.isFunction(o.selectedText)){
 				value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
 			} else if( /\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList){
-				value = $checked.map(function(){ return this.title; }).get().join(', ');
+				value = $checked.map(function(){ return this.title; }).get().join(o.delimiter);
 			} else {
 				value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
 			}
