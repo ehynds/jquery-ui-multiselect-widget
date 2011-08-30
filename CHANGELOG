@@ -1,5 +1,17 @@
 jQuery UI MultiSelect Widget Changelog
 
+Version 1.11 - 8/29/2011
+==============================================
+- Fixed: set/remove the "selected" attribute on option tags instead of just the property (#104).
+- Fixed: filter widget: do not exclude options with empty values (#105).
+- Added: allow options to display tooltips (thanks rogerschlachter)
+- Added: fire the select box's change event when checkbox/radio inputs are changed (#124).
+- Added: started unit tests for the filter widget.
+- Added: Chinese translation (thanks benz303).
+- Added: German translation (thanks CitySim).
+- Added: Czech translation (thanks Michi).
+- Added: license file.
+
 Version 1.10 - 5/18/2011
 ==============================================
 - Fixed: full support for jQuery 1.6+ (#85, #100).
