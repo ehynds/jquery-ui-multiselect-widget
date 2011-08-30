@@ -208,7 +208,7 @@ $.widget("ech.multiselect", {
 		if( numChecked === 0 ){
 			value = o.noneSelectedText;
 		} else {
-			if($.isFunction(o.selectedText)){
+			if($.isFunction( o.selectedText )){
 				value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
 			} else if( /\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList){
 				value = $checked.map(function(){ return this.title; }).get().join(', ');
@@ -238,7 +238,7 @@ $.widget("ech.multiselect", {
 		// button events
 		button.bind({
 			click: clickHandler,
-			keypress: function(e){
+			keypress: function( e ){
 				switch(e.which){
 					case 27: // esc
 					case 38: // up
@@ -271,7 +271,7 @@ $.widget("ech.multiselect", {
 
 		// header links
 		this.header
-			.delegate('a', 'click.multiselect', function(e){
+			.delegate('a', 'click.multiselect', function( e ){
 				// close link
 				if( $(this).hasClass('ui-multiselect-close') ){
 					self.close();
@@ -286,7 +286,7 @@ $.widget("ech.multiselect", {
 		
 		// optgroup label toggle support
 		this.menu
-			.delegate('li.ui-multiselect-optgroup-label a', 'click.multiselect', function(e){
+			.delegate('li.ui-multiselect-optgroup-label a', 'click.multiselect', function( e ){
 				e.preventDefault();
 				
 				var $this = $(this),
@@ -317,7 +317,7 @@ $.widget("ech.multiselect", {
 					$(this).addClass('ui-state-hover').find('input').focus();
 				}
 			})
-			.delegate('label', 'keydown.multiselect', function(e){
+			.delegate('label', 'keydown.multiselect', function( e ){
 				e.preventDefault();
 				
 				switch(e.which){
@@ -387,7 +387,7 @@ $.widget("ech.multiselect", {
 			});
 		
 		// close each widget when clicking on any other element/anywhere else on the page
-		$(document).bind('mousedown.multiselect', function(e){
+		$(document).bind('mousedown.multiselect', function( e ){
 			if(self._isOpen && !$.contains(self.menu[0], e.target) && !$.contains(self.button[0], e.target) && e.target !== self.button[0]){
 				self.close();
 			}
@@ -428,7 +428,7 @@ $.widget("ech.multiselect", {
 	},
 	
 	// move up or down within the menu
-	_traverse: function(which, start){
+	_traverse: function( which, start ){
 		var $start = $(start),
 			moveToLast = which === 38 || which === 37,
 			
@@ -466,7 +466,7 @@ $.widget("ech.multiselect", {
 		}
 	},
 
-	_toggleChecked: function(flag, group){
+	_toggleChecked: function( flag, group ){
 		var $inputs = (group && group.length) ?
 			group :
 			this.labels.find('input'),
@@ -513,7 +513,7 @@ $.widget("ech.multiselect", {
 	},
 	
 	// open the menu
-	open: function(e){
+	open: function( e ){
 		var self = this,
 			button = this.button,
 			menu = this.menu,
@@ -594,7 +594,7 @@ $.widget("ech.multiselect", {
 		this._toggleDisabled(true);
 	},
 	
-	checkAll: function(e){
+	checkAll: function( e ){
 		this._toggleChecked(true);
 		this._trigger('checkAll');
 	},
