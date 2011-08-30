@@ -245,7 +245,7 @@
 	
 	
 	test("multiselectbeforeoptgrouptoggle", function(){
-		expect(9);
+		expect(11);
 		
 		// inject widget
 		el = $('<select multiple><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>').appendTo(body);
@@ -256,6 +256,7 @@
 				equals(e.type, 'multiselectbeforeoptgrouptoggle', 'option: event type in callback');
 				equals(ui.label, "Set One", 'option: ui.label equals');
 				equals(ui.inputs.length, 2, 'option: number of inputs in the ui.inputs key');
+				ok(true, "option: the select's change event fires");
 			}
 		})
 		.bind("multiselectbeforeoptgrouptoggle", function(e,ui){
@@ -263,6 +264,7 @@
 			equals(this, el[0], 'event: context of event');
 			equals(ui.label, "Set One", 'event: ui.label equals');
 			equals(ui.inputs.length, 2, 'event: number of inputs in the ui.inputs key');
+			ok(true, "event: the select's change event fires");
 		})
 		.multiselect("open");
 		
