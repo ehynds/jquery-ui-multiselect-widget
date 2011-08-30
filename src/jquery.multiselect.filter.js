@@ -140,7 +140,7 @@
 				}
 				
 				return self.map(function(){
-					return this.innerHTML.toLowerCase();
+					return this.innerHTML.toLowerCase() + ' ' + $(this).parent().attr('label').toLowerCase();
 				}).get();
 			}).get();
 		},
