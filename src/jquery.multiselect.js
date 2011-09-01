@@ -355,15 +355,6 @@ $.widget("ech.multiselect", {
 				tags.each(function(){
 					if( this.value === val ){
 						this.selected = checked;
-
-						// for good measure. see #104
-						if( checked ) {
-							this.setAttribute('selected', 'selected');
-						} else {
-							this.removeAttribute('selected');
-						}
-
-					// deselect all others in a single select
 					} else if( !self.options.multiple ){
 						this.selected = false;
 					}

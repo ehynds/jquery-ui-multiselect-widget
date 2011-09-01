@@ -128,7 +128,7 @@
 	});
 	
 	test("multiselectclick", function(){
-		expect(26);
+		expect(25);
 	 
 	 	var times = 0;
 
@@ -170,9 +170,6 @@
 		var lastOption = menu().find("input:last")[0];
 		lastOption.click();
 		
-		// make sure the option we just selected has the selected attr
-		equals(el.find('option[value="2"]')[0].getAttribute("selected"), "selected", "Option has the checked attribute");
-
 		// make sure the option we just selected has the selected attr
 		lastOption.click();
 		equals(el.find('option[value="2"]')[0].getAttribute("selected"), null, "After checking the option again, the selected attribute is removed");
