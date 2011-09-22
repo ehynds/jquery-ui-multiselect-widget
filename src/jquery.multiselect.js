@@ -207,7 +207,7 @@ $.widget("ech.multiselect", {
 		
 		if( numChecked === 0 ){
 			if($.isFunction(o.noneSelectedText)){
-          		value = o.noneSelectedText.call(this);
+				value = o.noneSelectedText.call(this);
 			} else {
 				value = o.noneSelectedText;
 			}
