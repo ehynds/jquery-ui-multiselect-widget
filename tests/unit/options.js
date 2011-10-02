@@ -64,14 +64,14 @@
 	test("selectedList", function(){
 		expect(2);
 		
-		var html = '<select multiple><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>';
+		var html = '<select multiple><option value="foo">foo &quot;with quotes&quot;</option><option value="bar">bar</option><option value="baz">baz</option></select>';
 		
 		el = $(html).multiselect({
 			selectedList: 3
 		});
 		
 		el.multiselect("checkAll");
-		equals( button().text(), 'foo, bar, baz', 'after checkAll, button text is a list of all options in the select');
+		equals( button().text(), 'foo "with quotes", bar, baz', 'after checkAll, button text is a list of all options in the select');
 		el.multiselect("destroy");
 		
 		el = $(html).multiselect({
