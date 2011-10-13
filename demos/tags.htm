@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery MultiSelect Widget Demo</title>
+<link rel="stylesheet" type="text/css" href="../jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="../jquery.multiselect.tags.css" />
+<link rel="stylesheet" type="text/css" href="assets/style.css" />
+<link rel="stylesheet" type="text/css" href="assets/prettify.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="assets/prettify.js"></script>
+<script type="text/javascript" src="../src/jquery.multiselect.js"></script>
+<script type="text/javascript" src="../src/jquery.multiselect.tags.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("select").multiselect().multiselecttags();
+});
+</script>
+</head>
+<body id="test" onload="prettyPrint();">
+
+<h2>Tags Plugin</h2>
+
+<p>Tags are available by including the <a href="http://github.com/ehynds/jquery-ui-multiselect-widget/raw/master/src/jquery.multiselect.tags.js">jquery.multiselect.tags.js</a> plugin and the <a href="http://github.com/ehynds/jquery-ui-multiselect-widget/raw/master/jquery.multiselect.tags.css">jquery.multiselect.tags.css</a> CSS file.  Initialize filtering on any of your multiselects by calling <code class="prettyprint">multiselecttags()</code> on the widget.</p>
+
+<p>The tags plugin displays a list of the selected elements in tag form below the multiselect :</p>
+<pre class="prettyprint">
+$(function(){
+   $("select").multiselect().multiselecttags(); 
+});
+</pre>
+
+<h3>Basic</h3>
+<p>
+	<select title="Basic example" multiple="multiple" name="example-basic" size="5">
+	<option value="option1">Option 1</option>
+	<option value="option2">Option 2</option>
+	<option value="option3">Option 3</option>
+	<option value="option4">Option 4</option>
+	<option value="option5">Option 5</option>
+	<option value="option6">Option 6</option>
+	<option value="option7">Option 7</option>
+	<option value="option8">Option 8</option>
+	<option value="option9">Option 9</option>
+	<option value="option10">Option 10</option>
+	<option value="option11">Option 11</option>
+	<option value="option12">Option 12</option>
+	</select>
+</p>
+
+
+<h3>Methods</h3>
+<p>Syntax: <code class="prettyprint">$("select").multiselecttags("method_name");</code></p>
+<ul>
+<li><code><strong>updateTags</strong></code><p>Call if you update the checked/selected state of the multiselect without trigering the "change" event on the <code>select</code> element.</p></li>
+<li><code><strong>destroy</strong></code><p>Destroys the widget.</p></li>
+<li><code><strong>widget</strong></code><p>Returns the wrapper ul with the tags inside.  This is a quick and easy way to access the HTML created by the plugin.</p></li>
+</ul>
+
+</body>
+</html>
