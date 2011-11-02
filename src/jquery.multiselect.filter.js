@@ -122,7 +122,7 @@
 			// show/hide optgroups
 			this.instance.menu.find(".ui-multiselect-optgroup-label").each(function(){
 				var $this = $(this);
-				$this[ $this.nextUntil('.ui-multiselect-optgroup-label').filter(':visible').length ? 'show' : 'hide' ]();
+				$this[ $this.nextUntil('.ui-multiselect-optgroup-label').filter(function () { return $.css(this, "display") !== 'none' }).length ? 'show' : 'hide' ]();
 			});
 		},
 		
