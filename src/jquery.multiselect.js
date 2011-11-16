@@ -201,7 +201,7 @@ $.widget("ech.multiselect", {
 	update: function(){
 		var o = this.options,
 			$inputs = this.labels.find('input'),
-			$checked = $inputs.filter(':checked'),
+			$checked = $inputs.filter('[checked]'),
 			numChecked = $checked.length,
 			value;
 		
@@ -301,7 +301,7 @@ $.widget("ech.multiselect", {
 				
 				// toggle inputs
 				self._toggleChecked(
-					$inputs.filter(':checked').length !== $inputs.length,
+					$inputs.filter('[checked]').length !== $inputs.length,
 					$inputs
 				);
 
@@ -343,7 +343,7 @@ $.widget("ech.multiselect", {
 					tags = self.element.find('option');
 				
 				// bail if this input is disabled or the event is cancelled
-				if( this.disabled || self._trigger('click', e, { value:val, text:this.title, checked:checked }) === false ){
+				if( this.disabled || self._trigger('click', e, { value: val, text: this.title, checked: checked }) === false ){
 					e.preventDefault();
 					return;
 				}
@@ -428,7 +428,7 @@ $.widget("ech.multiselect", {
 		
 		// if at the first/last element
 		if( !$next.length ){
-			var $container = this.menu.find('ul:last');
+			var $container = this.menu.find('ul').last();
 			
 			// move to the first/last
 			this.menu.find('label')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
@@ -516,7 +516,7 @@ $.widget("ech.multiselect", {
 			return;
 		}
 		
-		var $container = menu.find('ul:last'),
+		var $container = menu.find('ul').last(),
 			effect = o.show,
 			pos = button.position();
 		
@@ -596,7 +596,7 @@ $.widget("ech.multiselect", {
 	},
 	
 	getChecked: function(){
-		return this.menu.find('input').filter(':checked');
+		return this.menu.find('input').filter('[checked]');
 	},
 	
 	destroy: function(){
@@ -633,7 +633,7 @@ $.widget("ech.multiselect", {
 				menu.find('a.ui-multiselect-none span').eq(-1).text(value);
 				break;
 			case 'height':
-				menu.find('ul:last').height( parseInt(value,10) );
+				menu.find('ul').last().height( parseInt(value,10) );
 				break;
 			case 'minWidth':
 				this.options[ key ] = parseInt(value,10);
