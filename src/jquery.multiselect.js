@@ -160,7 +160,7 @@ $.widget("ech.multiselect", {
 			
 			// create the label
 			html.push('<label for="'+inputID+'" title="'+description+'" class="'+labelClasses.join(' ')+ '">');
-			html.push('<input id="'+inputID+'" name="multiselect_'+id+(o.multiple ? "[]" : "")'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
+			html.push('<input id="'+inputID+'" name="multiselect_'+id+(o.multiple ? "[]" : "")+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
 
 			// pre-selected?
 			if( isSelected ){
