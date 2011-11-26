@@ -109,7 +109,7 @@
 				
 				var regex = new RegExp(term.replace(rEscape, "\\$&"), 'gi');
 				
-				this._trigger( "filter", e, $.map(cache, function(v,i){
+				this._trigger( "filter", e, $.map(cache, function(v, i){
 					if( v.search(regex) !== -1 ){
 						rows.eq(i).show();
 						return inputs.get(i);
@@ -122,7 +122,11 @@
 			// show/hide optgroups
 			this.instance.menu.find(".ui-multiselect-optgroup-label").each(function(){
 				var $this = $(this);
-				$this[ $this.nextUntil('.ui-multiselect-optgroup-label').filter(function () { return $.css(this, "display") !== 'none' }).length ? 'show' : 'hide' ]();
+				var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').filter(function(){
+				  return $.css(this, "display") !== 'none'
+				}).length;
+				
+				$this[ isVisible ? 'show' : 'hide' ]();
 			});
 		},
 		
