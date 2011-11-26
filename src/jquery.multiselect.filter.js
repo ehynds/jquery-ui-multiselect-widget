@@ -70,7 +70,7 @@
 						":disabled, :hidden" :
 						":disabled";
 
-				$inputs = $inputs.not( selector ).each(this._toggleCheckbox('checked', flag));
+				$inputs = $inputs.not( selector ).each(this._toggleState('checked', flag));
 				
 				// update text
 				this.update();
@@ -85,7 +85,7 @@
 					.find('option')
 					.filter(function(){
 						if( !this.disabled && $.inArray(this.value, values) > -1 ){
-							_self._toggleCheckbox('selected', flag).call( this );
+							_self._toggleState('selected', flag).call( this );
 						}
 					});
 			};

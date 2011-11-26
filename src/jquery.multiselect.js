@@ -450,7 +450,7 @@ $.widget("ech.multiselect", {
 	// other related attributes of a checkbox.
 	//
 	// The context of this function should be a checkbox; do not proxy it.
-	_toggleCheckbox: function( prop, flag ){
+	_toggleState: function( prop, flag ){
 		return function(){
 			if( !this.disabled ) {
 				this[ prop ] = flag;
@@ -472,7 +472,7 @@ $.widget("ech.multiselect", {
 			self = this;
 
 		// toggle state on inputs
-		$inputs.each(this._toggleCheckbox('checked', flag));
+		$inputs.each(this._toggleState('checked', flag));
 
 		// give the first input focus
 		$inputs.eq(0).focus();
@@ -490,7 +490,7 @@ $.widget("ech.multiselect", {
 			.find('option')
 			.each(function(){
 				if( !this.disabled && $.inArray(this.value, values) > -1 ){
-					self._toggleCheckbox('selected', flag).call( this );
+					self._toggleState('selected', flag).call( this );
 				}
 			});
 
