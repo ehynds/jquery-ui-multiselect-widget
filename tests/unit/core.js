@@ -1,10 +1,6 @@
 var el;
 var body = document.body;
 
-// function widget(){
-	// return el.multiselect("widget");
-// }
-
 function button(){
 	return el.next();
 }
@@ -88,7 +84,7 @@ QUnit.done = function(){
 		equals( data, 'test=foo&test=bar&test=baz&test=bax', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
 		
 		// reset option tags
-		el.find("option").removeAttr("selected").each(function(){
+		el.find("option").each(function(){
 			this.selected = false;
 		});
 		
