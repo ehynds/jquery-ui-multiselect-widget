@@ -1,5 +1,16 @@
 jQuery UI MultiSelect Widget Changelog
 
+Version 1.12 - 11/26/2011
+==============================================
+- Fixed: append the widget menu to the body rather than directly after the button (#38, 181).
+- Fixed: optgroups disappeared when refresh() was called on a closed widget (thx anakinj, #154).
+- Fixed: use the span element's nodeValue rather than the title attribute in selectedList (#135).
+- Fixed: keep focus on the inputs as much as possible as to not break the esc key (partial fix for #165).
+- Fixed: do not alter selected attributes at all - just properties (#104).
+- Fixed: other minor bug fixes & perf enhancements.
+- Added: Filter: option to automatically clear the last search on widget close (#166).
+- Added: MIT license file (#143).
+
 Version 1.11 - 8/29/2011
 ==============================================
 - Fixed: set/remove the "selected" attribute on option tags instead of just the property (#104).
