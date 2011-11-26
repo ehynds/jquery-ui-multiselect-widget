@@ -123,13 +123,13 @@ $.widget("ech.multiselect", {
 			id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
 		
 		// build items
-		this.element.find('option').each(function( i ){
+		el.find('option').each(function( i ){
 			var $this = $(this), 
 				parent = this.parentNode,
 				title = this.innerHTML,
 				description = this.title,
 				value = this.value,
-				inputID = this.id || 'ui-multiselect-'+id+'-option-'+i, 
+				inputID = this.id || 'ui-multiselect-' + id + '-option-' + i,
 				isDisabled = this.disabled,
 				isSelected = this.selected,
 				labelClasses = ['ui-corner-all'],
@@ -159,8 +159,8 @@ $.widget("ech.multiselect", {
 			html.push('<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') + '">');
 			
 			// create the label
-			html.push('<label for="'+inputID+'" title="'+description+'" class="'+labelClasses.join(' ')+ '">');
-			html.push('<input id="'+inputID+'" name="multiselect_'+id+'" type="'+(o.multiple ? "checkbox" : "radio")+'" value="'+value+'" title="'+title+'"');
+			html.push('<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">');
+			html.push('<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"');
 
 			// pre-selected?
 			if( isSelected ){
@@ -197,7 +197,7 @@ $.widget("ech.multiselect", {
 		}
 	},
 	
-	// updates the button text.  call refresh() to rebuild
+	// updates the button text. call refresh() to rebuild
 	update: function(){
 		var o = this.options,
 			$inputs = this.labels.find('input'),
