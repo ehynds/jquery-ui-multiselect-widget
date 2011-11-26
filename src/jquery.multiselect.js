@@ -296,7 +296,6 @@ $.widget("ech.multiselect", {
 				
 				// trigger event and bail if the return is false
 				if( self._trigger('beforeoptgrouptoggle', e, { inputs:nodes, label:label }) === false ){
-				  console.log('returning' );
 					return;
 				}
 				
