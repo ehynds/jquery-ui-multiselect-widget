@@ -197,6 +197,29 @@ $.widget("ech.multiselect", {
 		}
 	},
 	
+	
+	// reselects checkboxes in widget. Does not rebuild widget - better performance on large amout of options
+	reselect: function(){
+ 		var self = this;
+ 			
+		// Reselect multiselect
+		this.element.find('option').each(function( i ){
+ 			var isSelected = this.selected;
+ 			// selected?
+			if( isSelected ){
+				$(self.labels[i]).children('input').attr('checked', 'checked').attr('aria-selected', true);
+			}
+			else {
+				$(self.labels[i]).children('input').removeAttr('checked').removeAttr('aria-selected');
+			}
+		});
+	
+		this.update();
+		
+		this._trigger('reselect');
+	},
+	
+	
 	// updates the button text.  call refresh() to rebuild
 	update: function(){
 		var o = this.options,
