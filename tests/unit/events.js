@@ -128,7 +128,7 @@
 	});
 	
 	test("multiselectclick", function(){
-		expect(25);
+		expect(23);
 	 
 	 	var times = 0;
 
@@ -136,9 +136,6 @@
 	 	// first will be selected by default by some (if not all) browsers
 		el = $("<select multiple><option value='1'>Option 1</option><option value='2'>Option 2</option></select>")
 			.appendTo(body);
-		
-		// quick check to prove that the second option tag is NOT selected.
-		ok( el.find("option").eq(1).is(":selected") === false, "option tag is not selected." );
 		
 		el.multiselect({
 			click: function(e,ui){
@@ -167,12 +164,11 @@
 		.multiselect("open");
 		
 		// trigger a click event on the input
-		var lastOption = menu().find("input:last")[0];
-		lastOption.click();
-		
-		// make sure the option we just selected has the selected attr
-		lastOption.click();
-		equals(el.find('option[value="2"]')[0].getAttribute("selected"), null, "After checking the option again, the selected attribute is removed");
+		var lastInput = menu().find("input").last()[0];
+		lastInput.click();
+
+		// trigger once more.
+		lastInput.click();
 
 		// make sure menu isn't closed automatically
 		equals( true, el.multiselect('isOpen'), 'menu stays open' );
