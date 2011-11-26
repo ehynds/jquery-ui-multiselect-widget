@@ -1,5 +1,6 @@
+/* jshint forin:true, noarg:true, noempty:true, eqeqeq:true, boss:true, undef:true, curly:true, browser:true, jquery:true */
 /*
- * jQuery MultiSelect UI Widget Filtering Plugin 1.4pre
+ * jQuery MultiSelect UI Widget Filtering Plugin 1.4
  * Copyright (c) 2011 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -13,7 +14,7 @@
  *
 */
 (function($){
-	var rEscape = /[\-\[\]{}()*+?.,\\^$|#\s]/g;
+	var rEscape = /[\-\[\]{}()*+?.,\\\^$|#\s]/g;
 	
 	$.widget("ech.multiselectfilter", {
 		
@@ -129,7 +130,7 @@
 			this.instance.menu.find(".ui-multiselect-optgroup-label").each(function(){
 				var $this = $(this);
 				var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').filter(function(){
-				  return $.css(this, "display") !== 'none'
+				  return $.css(this, "display") !== 'none';
 				}).length;
 				
 				$this[ isVisible ? 'show' : 'hide' ]();

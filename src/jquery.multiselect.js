@@ -1,5 +1,6 @@
+/* jshint forin:true, noarg:true, noempty:true, eqeqeq:true, boss:true, undef:true, curly:true, browser:true, jquery:true */
 /*
- * jQuery MultiSelect UI Widget 1.12pre
+ * jQuery MultiSelect UI Widget 1.12
  * Copyright (c) 2011 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -451,14 +452,16 @@ $.widget("ech.multiselect", {
 	// The context of this function should be a checkbox; do not proxy it.
 	_toggleCheckbox: function( prop, flag ){
 		return function(){
-			!this.disabled && (this[ prop ] = flag);
+			if( !this.disabled ) {
+				this[ prop ] = flag;
+			}
 
 			if( flag ){
 				this.setAttribute('aria-selected', true);
 			} else {
 				this.removeAttribute('aria-selected');
 			}
-		}
+		};
 	},
 
 	_toggleChecked: function( flag, group ){
