@@ -20,7 +20,8 @@
 		options: {
 			label: "Filter:",
 			width: null, /* override default width set in css file (px). null will inherit */
-			placeholder: "Enter keywords"
+			placeholder: "Enter keywords",
+			autoReset: false
 		},
 		
 		_create: function(){
@@ -89,10 +90,15 @@
 			};
 			
 			// rebuild cache when multiselect is updated
-			$(document).bind("multiselectrefresh", function(){
+			var doc = $(document).bind("multiselectrefresh", function(){
 				self.updateCache();
 				self._handler();
 			});
+
+			// automatically reset the widget on close?
+			if(this.options.autoReset) {
+				doc.bind("multiselectclose", $.proxy(this._reset, this));
+			}
 		},
 		
 		// thx for the logic here ben alman
@@ -128,6 +134,10 @@
 				
 				$this[ isVisible ? 'show' : 'hide' ]();
 			});
+		},
+
+		_reset: function() {
+			this.input.val('').trigger('keyup');
 		},
 		
 		updateCache: function(){
