@@ -24,8 +24,8 @@
 		expect(2);
 	 
 		el = $("select").multiselect().multiselect("disable").multiselect("enable");
-			ok( !widget().is(":disabled"), "Widget is enabled" );
-			ok( !el.is(":disabled"), "Original select is enabled" );
+			ok( button().is(":disabled") === false, "Button is enabled" );
+			ok( el.is(":disabled") === false, "Original select is enabled" );
 		el.multiselect("destroy");
 	});
 	
@@ -33,18 +33,17 @@
 		expect(2);
 	 
 	 	// clone this one so the original is not affected
-		el = $("select").clone(true).insertAfter(body).multiselect().multiselect("disable");
-			ok( widget().prev().is(":disabled"), 'Widget is disabled');
+		el = $("select").clone(true).appendTo(body).multiselect().multiselect("disable");
+			ok( button().is(":disabled"), 'Button is disabled');
 			ok( el.is(":disabled"), 'Original select is disabled');
 		el.multiselect("destroy").remove();
 	});
 	
 	test("widget", function(){
-		expect(2);
+		expect(1);
 	 
 		el = $("select").multiselect();
-			ok( widget().is("div.ui-multiselect-menu"), 'Widget is the menu element');
-			ok( widget().prev().is("button"), 'multiselect("button") is the button element');
+			ok( menu().is("div.ui-multiselect-menu"), 'Widget is the menu element');
 		el.multiselect("destroy");
 	});
 	

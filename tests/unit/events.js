@@ -123,7 +123,7 @@
 		});
 		
 		el.multiselect('open').multiselect('close');
-		ok( widget().is(':visible') && el.multiselect("isOpen"), "returning false inside callback prevents menu from closing" );
+		ok( menu().is(':visible') && el.multiselect("isOpen"), "returning false inside callback prevents menu from closing" );
 		el.multiselect("destroy").remove();
 	});
 	
@@ -202,7 +202,6 @@
 		.multiselect("open")
 		.multiselect("checkAll");
 		
-		
 		el.multiselect("destroy").remove();
 	});
 	
@@ -232,16 +231,16 @@
 		.multiselect("open")
 		.multiselect("uncheckAll");
 		
-		
 		el.multiselect("destroy").remove();
 	});
 	
 	
 	test("multiselectbeforeoptgrouptoggle", function(){
 		expect(10);
-		
+
 		// inject widget
-		el = $('<select multiple><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>').appendTo(body);
+		el = $('<select multiple><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>')
+          .appendTo(body);
 
 		el.bind("change", function(){
 			ok(true, "the select's change event fires");
@@ -265,11 +264,11 @@
 		menu().find("li.ui-multiselect-optgroup-label a").click();
 		
 		el.multiselect("destroy").remove();
+		el = el.clone();
 		
 		// test return false preventing checkboxes from activating
 		el.bind("change", function(){
-			// this should not fire.
-			ok( true );
+			ok( true ); // should not fire
 		}).multiselect({
 			beforeoptgrouptoggle: function(){
 				return false;
@@ -279,11 +278,10 @@
                 ok( true );
             }
 		}).appendTo( body );
-		
-		menu().find("li.ui-multiselect-optgroup-label a").click();
-		equals( menu().find(":input:checked").length, 0, "when returning false inside the optgrouptoggle handler, no checkboxes are checked" );
-		
-		el.multiselect("destroy").remove();
+
+        var label = menu().find("li.ui-multiselect-optgroup-label a").click();
+        equals( menu().find(":input:checked").length, 0, "when returning false inside the optgrouptoggle handler, no checkboxes are checked" );
+        el.multiselect("destroy").remove();
 	});
 
 	test("multiselectoptgrouptoggle", function(){

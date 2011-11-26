@@ -125,12 +125,12 @@
 		var height = 234;
 		
 		el = $("select").multiselect({ height: height }).multiselect("open");
-		equals( height, widget().find("ul.ui-multiselect-checkboxes").height(), 'height after opening propertly set to '+height );
+		equals( height, menu().find("ul.ui-multiselect-checkboxes").height(), 'height after opening propertly set to '+height );
 		
 		// change height and re-test
 		height = 333;
 		el.multiselect("option", "height", height);
-		equals( height, widget().find("ul.ui-multiselect-checkboxes").height(), 'changing value through api to '+height );
+		equals( height, menu().find("ul.ui-multiselect-checkboxes").height(), 'changing value through api to '+height );
 		
 		el.multiselect("destroy");
 	});
@@ -162,12 +162,12 @@
 		var text = "foo";
 		
 		el = $("select").multiselect({ checkAllText:text });
-		equals( text, widget().find(".ui-multiselect-all").text(), 'check all link reads '+text );
+		equals( text, menu().find(".ui-multiselect-all").text(), 'check all link reads '+text );
 		
 		// set through option
 		text = "bar";
 		el.multiselect("option","checkAllText","bar");
-		equals( text, widget().find(".ui-multiselect-all").text(), 'check all link reads '+text );
+		equals( text, menu().find(".ui-multiselect-all").text(), 'check all link reads '+text );
 		
 		el.multiselect("destroy");
 	});
@@ -177,12 +177,12 @@
 		var text = "foo";
 		
 		el = $("select").multiselect({ uncheckAllText:text });
-		equals( text, widget().find(".ui-multiselect-none").text(), 'check all link reads '+text );
+		equals( text, menu().find(".ui-multiselect-none").text(), 'check all link reads '+text );
 		
 		// set through option
 		text = "bar";
 		el.multiselect("option","uncheckAllText","bar");
-		equals( text, widget().find(".ui-multiselect-none").text(), 'changing value through api to '+text );
+		equals( text, menu().find(".ui-multiselect-none").text(), 'changing value through api to '+text );
 		
 		el.multiselect("destroy");
 	});
@@ -245,7 +245,7 @@
 		var classname = 'foo';
 		
 		el = $("select").multiselect({ classes:classname });
-		var $button = button(), $widget = widget();
+		var $button = button(), $widget = menu();
 		
 		equals( $widget.hasClass(classname), true, 'menu has the class ' + classname);
 		equals( $button.hasClass(classname), true, 'button has the class ' + classname);

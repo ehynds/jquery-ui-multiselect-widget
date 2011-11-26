@@ -62,7 +62,7 @@ $.widget("ech.multiselect", {
 			menu = (this.menu = $('<div />'))
 				.addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
 				.addClass( o.classes )
-				.insertAfter( button ),
+				.appendTo( document.body ),
 				
 			header = (this.header = $('<div />'))
 				.addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
@@ -296,6 +296,7 @@ $.widget("ech.multiselect", {
 				
 				// trigger event and bail if the return is false
 				if( self._trigger('beforeoptgrouptoggle', e, { inputs:nodes, label:label }) === false ){
+				  console.log('returning' );
 					return;
 				}
 				
@@ -389,7 +390,7 @@ $.widget("ech.multiselect", {
 		// handler fires before the form is actually reset.  delaying it a bit
 		// gives the form inputs time to clear.
 		$(this.element[0].form).bind('reset.multiselect', function(){
-			setTimeout(function(){ self.update(); }, 10);
+			setTimeout($.proxy(self.refresh, self), 10);
 		});
 	},
 
@@ -518,7 +519,7 @@ $.widget("ech.multiselect", {
 		
 		var $container = menu.find('ul').last(),
 			effect = o.show,
-			pos = button.position();
+			pos = button.offset();
 		
 		// figure out opening effects/speeds
 		if( $.isArray(o.show) ){
@@ -542,7 +543,7 @@ $.widget("ech.multiselect", {
 		// if position utility is not available...
 		} else {
 			menu.css({ 
-				top: pos.top+button.outerHeight(),
+				top: pos.top + button.outerHeight(),
 				left: pos.left
 			}).show( effect, speed );
 		}
