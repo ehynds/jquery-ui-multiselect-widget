@@ -348,6 +348,10 @@ $.widget("ech.multiselect", {
 					e.preventDefault();
 					return;
 				}
+
+				// make sure the input has focus. otherwise, the esc key
+				// won't close the menu after clicking an item.
+				$this.focus();
 				
 				// toggle aria state
 				$this.attr('aria-selected', checked);
@@ -377,14 +381,14 @@ $.widget("ech.multiselect", {
 				// http://bugs.jquery.com/ticket/3827 
 				setTimeout($.proxy(self.update, self), 10);
 			});
-		
+
 		// close each widget when clicking on any other element/anywhere else on the page
 		$(document).bind('mousedown.multiselect', function( e ){
 			if(self._isOpen && !$.contains(self.menu[0], e.target) && !$.contains(self.button[0], e.target) && e.target !== self.button[0]){
 				self.close();
 			}
 		});
-		
+
 		// deal with form resets.  the problem here is that buttons aren't
 		// restored to their defaultValue prop on form reset, and the reset
 		// handler fires before the form is actually reset.  delaying it a bit
@@ -467,6 +471,9 @@ $.widget("ech.multiselect", {
 
 		// toggle state on inputs
 		$inputs.each(this._toggleCheckbox('checked', flag));
+
+		// give the first input focus
+		$inputs.eq(0).focus();
 		
 		// update button text
 		this.update();

@@ -128,18 +128,17 @@
 	});
 	
 	test("multiselectclick", function(){
-		expect(23);
+		expect(24);
 	 
 	 	var times = 0;
 
-	 	// inject widget.  test will use the second option tag because the
-	 	// first will be selected by default by some (if not all) browsers
+	 	// inject widget
 		el = $("<select multiple><option value='1'>Option 1</option><option value='2'>Option 2</option></select>")
 			.appendTo(body);
 		
 		el.multiselect({
 			click: function(e,ui){
-				ok( true, 'option: triggering the click event on the second checkbox fires the click callback' );
+				ok(true, 'option: triggering the click event on the second checkbox fires the click callback' );
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectclick', 'option: event type in callback');
 				equals(ui.value, "2", "option: ui.value equals");
@@ -153,10 +152,10 @@
 			equals(ui.text, "Option 2", "event: ui.title equals");
 		})
 		.bind("change", function(e){
-			if( ++times === 1 ){
-				equals( el.val().join(), "2", "event: select element val() within the change event is correct" );
+			if(++times === 1){
+				equals(el.val().join(), "2", "event: select element val() within the change event is correct" );
 			} else {
-				equals( el.val(), null, "event: select element val() within the change event is correct" );
+				equals(el.val(), null, "event: select element val() within the change event is correct" );
 			}
 
 			ok(true, "event: the select's change event fires");
@@ -164,20 +163,23 @@
 		.multiselect("open");
 		
 		// trigger a click event on the input
-		var lastInput = menu().find("input").last()[0];
-		lastInput.click();
+		var lastInput = menu().find("input").last();
+		lastInput[0].click();
 
 		// trigger once more.
-		lastInput.click();
+		lastInput[0].click();
+
+		// make sure it has focus
+		equals(true, lastInput.is(":focus"), "The input has focus");
 
 		// make sure menu isn't closed automatically
 		equals( true, el.multiselect('isOpen'), 'menu stays open' );
-		
+
 		el.multiselect("destroy").remove();
 	});
 
 	test("multiselectcheckall", function(){
-		expect(9);
+		expect(10);
 	 
 	 	// inject widget
 		el = $('<select multiple><option value="1">Option 1</option><option value="2">Option 2</option></select>').appendTo(body);
@@ -201,12 +203,14 @@
 		})
 		.multiselect("open")
 		.multiselect("checkAll");
+
+		equals(menu().find("input").first().is(":focus"), true, "The first input has focus");
 		
 		el.multiselect("destroy").remove();
 	});
 	
 	test("multiselectuncheckall", function(){
-		expect(9);
+		expect(10);
 	 
 	 	// inject widget
 		el = $('<select multiple><option value="1">Option 1</option><option value="2">Option 2</option></select>').appendTo(body);
@@ -231,6 +235,8 @@
 		.multiselect("open")
 		.multiselect("uncheckAll");
 		
+		equals(menu().find("input").first().is(":focus"), true, "The first input has focus");
+
 		el.multiselect("destroy").remove();
 	});
 	
@@ -285,7 +291,7 @@
 	});
 
 	test("multiselectoptgrouptoggle", function(){
-		expect(11);
+		expect(12);
 		
 		// inject widget
 		el = $('<select multiple><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>').appendTo(body);
@@ -310,7 +316,9 @@
 		
 		// trigger native click event on optgroup
 		menu().find("li.ui-multiselect-optgroup-label a").click();
-		equals( menu().find(":input:checked").length, 2, "both checkboxes are actually checked" );
+		equals(menu().find(":input:checked").length, 2, "both checkboxes are actually checked" );
+
+		equals(menu().find("input").first().is(":focus"), true, "The first input has focus");
 		
 		el.multiselect("destroy").remove();
 	});
