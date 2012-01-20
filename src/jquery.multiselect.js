@@ -302,7 +302,7 @@ $.widget("ech.multiselect", {
 				
 				// toggle inputs
 				self._toggleChecked(
-					$inputs.filter('[checked]').length !== $inputs.length,
+					$inputs.filter(':checked').length !== $inputs.length,
 					$inputs
 				);
 
