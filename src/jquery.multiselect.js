@@ -212,7 +212,7 @@ $.widget("ech.multiselect", {
 			if($.isFunction( o.selectedText )){
 				value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
 			} else if( /\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList){
-				value = $checked.map(function(){ return $(this).next().text(); }).get().join(', ');
+				value = $checked.map(function(){ return $(this).next().html(); }).get().join(', ');
 			} else {
 				value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
 			}

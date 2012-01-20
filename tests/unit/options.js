@@ -48,7 +48,7 @@
 		equals( button().text(), numOptions+' of '+numOptions+' selected', 'after checkAll, button reflects the total number of checked boxes');
 		
 		// change option value
-		el.multiselect("option","selectedText", function( numChecked ){
+		el.multiselect("option", "selectedText", function( numChecked ){
 			return numChecked + ' options selected';
 		});
 		
@@ -57,7 +57,7 @@
 		// uncheck all
 		el.multiselect("uncheckAll");
 		equals( button().text(), el.multiselect("option","noneSelectedText"), 'after unchecking all, button text now reflects noneSelectedText option value');
-		
+
 		el.multiselect("destroy");
 	});
 
@@ -119,6 +119,16 @@
 		asyncSelectedList( false, 'manually checking items with element.click()' );
 	});
 	
+	test("selectedList - encoding", function() {
+		el = $('<select><option value="A&amp;E">A&amp;E</option></select>')
+			.appendTo(document.body)
+			.multiselect({ selectedList: 1 });
+
+		equals(button().text(), 'A&E');
+		equals(button().find("span").last().html(), 'A&amp;E');
+		el.multiselect("destroy").remove();
+	});
+
 	test("height", function(){
 		expect(2);
 		
