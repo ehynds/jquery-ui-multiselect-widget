@@ -88,6 +88,7 @@ $.widget("ech.multiselect", {
 				.appendTo( menu );
 		
 		// perform event bindings
+		this.element.data("multiselect_button", button);
 		this._bindEvents();
 		
 		// build menu
