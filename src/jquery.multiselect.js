@@ -139,7 +139,7 @@ $.widget("ech.multiselect", {
 			// is this an optgroup?
 			if( parent.tagName.toLowerCase() === 'optgroup' ){
 				optLabel = parent.getAttribute('label');
-				
+
 				// has this optgroup been added already?
 				if( $.inArray(optLabel, optgroups) === -1 ){
 					html.push('<li class="ui-multiselect-optgroup-label"><a href="#">' + optLabel + '</a></li>');
@@ -177,6 +177,14 @@ $.widget("ech.multiselect", {
 
 			// add the title and close everything off
 			html.push(' /><span>' + title + '</span></label></li>');
+			
+			// End optgroup
+			if( parent.tagName.toLowerCase() === 'optgroup' ){
+				var $next_parent = $this.next('option').parent();
+				if ( !$next_parent.is('optgroup') ) {
+					html.push('<li class="ui-multiselect-optgroup-last"></li>');
+				}
+			}
 		});
 		
 		// insert into the DOM
@@ -291,7 +299,7 @@ $.widget("ech.multiselect", {
 				e.preventDefault();
 				
 				var $this = $(this),
-					$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)'),
+					$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label, li.ui-multiselect-optgroup-last').find('input:visible:not(:disabled)'),
 				    nodes = $inputs.get(),
 				    label = $this.parent().text();
 				
