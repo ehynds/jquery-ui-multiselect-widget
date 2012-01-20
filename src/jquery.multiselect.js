@@ -128,7 +128,7 @@ $.widget("ech.multiselect", {
 			var $this = $(this), 
 				parent = this.parentNode,
 				title = this.innerHTML,
-				description = this.title,
+				description = $this.attr("title") || this.title,
 				value = this.value,
 				inputID = this.id || 'ui-multiselect-' + id + '-option-' + i,
 				isDisabled = this.disabled,
