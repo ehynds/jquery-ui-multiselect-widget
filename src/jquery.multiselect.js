@@ -627,6 +627,10 @@ $.widget("ech.multiselect", {
 	widget: function(){
 		return this.menu;
 	},
+
+	getButton: function(){
+	  return this.button;
+  },
 	
 	// react to option changes after initialization
 	_setOption: function( key, value ){

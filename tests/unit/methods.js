@@ -47,6 +47,15 @@
 		el.multiselect("destroy");
 	});
 	
+	test("getButton", function(){
+		expect(1);
+	 
+		el = $("select").multiselect();
+		var button = el.multiselect("getButton");
+			ok( button.is("button.ui-multiselect"), 'Button is the button element');
+		el.multiselect("destroy");
+	});
+	
 	test("checkAll", function(){
 		expect(1);
 	 
