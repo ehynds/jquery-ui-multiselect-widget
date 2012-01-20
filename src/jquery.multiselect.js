@@ -120,7 +120,7 @@ $.widget("ech.multiselect", {
 			menu = this.menu,
 			checkboxContainer = this.checkboxContainer,
 			optgroups = [],
-			html = [],
+			html = "",
 			id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
 		
 		// build items
@@ -133,54 +133,54 @@ $.widget("ech.multiselect", {
 				inputID = this.id || 'ui-multiselect-' + id + '-option-' + i,
 				isDisabled = this.disabled,
 				isSelected = this.selected,
-				labelClasses = ['ui-corner-all'],
+				labelClasses = [ 'ui-corner-all' ],
 				optLabel;
 			
 			// is this an optgroup?
-			if( parent.tagName.toLowerCase() === 'optgroup' ){
-				optLabel = parent.getAttribute('label');
+			if( parent.tagName === 'OPTGROUP' ){
+				optLabel = parent.getAttribute( 'label' );
 				
 				// has this optgroup been added already?
 				if( $.inArray(optLabel, optgroups) === -1 ){
-					html.push('<li class="ui-multiselect-optgroup-label"><a href="#">' + optLabel + '</a></li>');
+					html += '<li class="ui-multiselect-optgroup-label"><a href="#">' + optLabel + '</a></li>';
 					optgroups.push( optLabel );
 				}
 			}
 		
 			if( isDisabled ){
-				labelClasses.push('ui-state-disabled');
+				labelClasses.push( 'ui-state-disabled' );
 			}
 
 			// browsers automatically select the first option
 			// by default with single selects
 			if( isSelected && !o.multiple ){
-				labelClasses.push('ui-state-active');
+				labelClasses.push( 'ui-state-active' );
 			}
 			
-			html.push('<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') + '">');
+			html += '<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') + '">';
 			
 			// create the label
-			html.push('<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">');
-			html.push('<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"');
+			html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
+			html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
 
 			// pre-selected?
 			if( isSelected ){
-				html.push(' checked="checked"');
-				html.push(' aria-selected="true"');
+				html += ' checked="checked"';
+				html += ' aria-selected="true"';
 			}
 
 			// disabled?
 			if( isDisabled ){
-				html.push(' disabled="disabled"');
-				html.push(' aria-disabled="true"');
+				html += ' disabled="disabled"';
+				html += ' aria-disabled="true"';
 			}
 
 			// add the title and close everything off
-			html.push(' /><span>' + title + '</span></label></li>');
+			html += ' /><span>' + title + '</span></label></li>';
 		});
 		
 		// insert into the DOM
-		checkboxContainer.html( html.join('') );
+		checkboxContainer.html( html );
 
 		// cache some moar useful elements
 		this.labels = menu.find('label');
