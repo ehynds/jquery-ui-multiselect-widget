@@ -406,14 +406,23 @@ $.widget("ech.multiselect", {
 	},
 
 	_loadData: function(options) {
-		var s = options.source;
+		var s = options.source,
+			self = this;
 		if (typeof s == "string") {
 			$.ajax({
 				url: s,
 				data: options.data,
 				error: this._onLoadError,
 				success: this._onLoadSuccess,
-				context: this
+				context: this,
+				beforeSend: function() { 
+					self.buttonlabel.html('Loading...');
+					self.button.addClass('ui-autocomplete-loading') 
+				},
+				complete: function() { 
+					self.buttonlabel.html(self.options.noneSelectedText);
+					self.button.removeClass('ui-autocomplete-loading') 
+				}
 			});
 		}
 		else if (typeof s == "function") {
