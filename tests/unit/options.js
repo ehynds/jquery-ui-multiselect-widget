@@ -324,6 +324,21 @@
     	}, 500);  
 	});
 
+	test("source callback", function(){
+		expect(2);
+		el = $("select").multiselect({ 
+			source: function() { 
+				return [{ id: 123, value: 'alice'}, {id: 456, value: 'bob'}]
+			} 
+		});
+		el.multiselect("open");
+        equals(1, $('option[value="123"]').length, "option with value 123 should exist.");
+        equals(1, $('option[value="456"]').length, "option with value 456 should exist.");
+		$('option[value="123"]').remove();
+		$('option[value="456"]').remove();
+		el.multiselect("destroy"); 
+	});
+
 	test("source json url with custom value desc attributes", function(){
 		expect(2);
 		$.mockjax({
@@ -348,7 +363,7 @@
     	}, 500);  
 	});
 
-	test("server error handled correctly", function() {
+	test("source server error handled correctly", function() {
 		expect(2);
 		$.mockjax({
   			url: '/restful/error.json',
