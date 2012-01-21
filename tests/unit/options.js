@@ -303,5 +303,70 @@
 		
 		el.multiselect("destroy");
 	});
+
+	test("source json url", function(){
+		expect(2);
+		$.mockjax({
+  			url: '/restful/foo.json',
+			  responseTime: 250,
+			  responseText: [ {id : '123', value: 'alice'}, {id: 456, value: 'bob'} ]
+		});
+		el = $("select").multiselect({ source: '/restful/foo.json' });
+		el.multiselect("open");
+		stop();
+		setTimeout(function() {  
+        	equals(1, $('option[value="123"]').length, "option with value 123 should exist.");
+        	equals(1, $('option[value="456"]').length, "option with value 456 should exist.");
+			$('option[value="123"]').remove();
+			$('option[value="456"]').remove();
+			el.multiselect("destroy");
+        	start();  
+    	}, 500);  
+	});
+
+	test("source json url with custom value desc attributes", function(){
+		expect(2);
+		$.mockjax({
+  			url: '/restful/custom.json',
+			  responseTime: 250,
+			  responseText: [ {res_id : 1420, name: 'alice'}, {res_id: 1520, name: 'bob'} ]
+		});
+		el = $("select").multiselect({ 
+			source: '/restful/custom.json',
+			descAttribute: 'name',
+			valueAttribute: 'res_id' 
+		});
+		el.multiselect("open");
+		stop();
+		setTimeout(function() {  
+        	equals(1, $('option[value="1420"]').length, "option with value 1420 should exist.");
+        	equals(1, $('option[value="1520"]').length, "option with value 1520 should exist.");
+			$('option[value="1420"]').remove();
+			$('option[value="1520"]').remove();
+			el.multiselect("destroy");
+        	start();  
+    	}, 500);  
+	});
+
+	test("server error handled correctly", function() {
+		expect(2);
+		$.mockjax({
+  			url: '/restful/error.json',
+  			status: 500,
+  			responseTime: 250,
+  			responseText: 'A text response from the server'
+		});
+		el = $("select").multiselect({ source: '/restful/error.json' });
+		el.multiselect("open");
+		stop();
+		setTimeout(function() {  
+        	equals(0, $('option[value="123"]').length, "option with value 123 should not exist.");
+        	equals(0, $('option[value="456"]').length, "option with value 456 should not exist.");
+        	el.multiselect("destroy");
+        	start();  
+    	}, 500); 
+	});
+
+
 	
 })(jQuery);
