@@ -184,6 +184,7 @@ $.widget("ech.multiselect", {
 
 		// cache some moar useful elements
 		this.labels = menu.find('label');
+		this.inputs = this.labels.children('input');
 		
 		// set widths
 		this._setButtonWidth();
@@ -201,7 +202,7 @@ $.widget("ech.multiselect", {
 	// updates the button text. call refresh() to rebuild
 	update: function(){
 		var o = this.options,
-			$inputs = this.labels.find('input'),
+			$inputs = this.inputs,
 			$checked = $inputs.filter('[checked]'),
 			numChecked = $checked.length,
 			value;
@@ -292,9 +293,9 @@ $.widget("ech.multiselect", {
 				
 				var $this = $(this),
 					$inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)'),
-				    nodes = $inputs.get(),
-				    label = $this.parent().text();
-				
+					nodes = $inputs.get(),
+					label = $this.parent().text();
+
 				// trigger event and bail if the return is false
 				if( self._trigger('beforeoptgrouptoggle', e, { inputs:nodes, label:label }) === false ){
 					return;
@@ -465,10 +466,7 @@ $.widget("ech.multiselect", {
 	},
 
 	_toggleChecked: function( flag, group ){
-		var $inputs = (group && group.length) ?
-			group :
-			this.labels.find('input'),
-
+		var $inputs = (group && group.length) ?  group : this.inputs,
 			self = this;
 
 		// toggle state on inputs
