@@ -1,9 +1,13 @@
-ï»¿/* Brazilian initialisation for the jQuery UI multiselect plugin. */
-/* Written by Vinícius Fontoura Corrêa (vinusfc@gmail.com). */
+/* Brazilian initialisation for the jQuery UI multiselect plugin. */
+/* Written by VinÃ­cius Fontoura CorrÃªa (vinusfc@gmail.com). */
+
+(function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
 	checkAllText: 'Marcar todos',
 	uncheckAllText: 'Desmarcar todos',
-	noneSelectedText: 'Selecione as opções',
+	noneSelectedText: 'Selecione as opÃ§Ãµes',
 	selectedText: '# selecionado'
 });
+	
+})( jQuery );
