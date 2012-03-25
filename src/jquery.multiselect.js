@@ -57,6 +57,7 @@ $.widget("ech.multiselect", {
 				.insertAfter( el ),
 			
 			buttonlabel = (this.buttonlabel = $('<span />'))
+				.addClass('ui-multiselect-label')
 				.html( o.noneSelectedText )
 				.appendTo( button ),
 				
