@@ -674,6 +674,11 @@ $.widget("ech.multiselect", {
 			case 'classes':
 				menu.add(this.button).removeClass(this.options.classes).addClass(value);
 				break;
+			case 'multiple':
+				menu.toggleClass('ui-multiselect-single', !value);
+				this.options.multiple = value;
+				this.element[0].multiple = value;
+				this.refresh();
 		}
 		
 		$.Widget.prototype._setOption.apply( this, arguments );

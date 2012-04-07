@@ -249,6 +249,26 @@
 		el.multiselect("destroy");
 	});
 
+	test("multiple (changing dynamically)", function(){
+		expect(6);
+		
+		el = $('<select multiple><option value="foo">foo</option></select>')
+			.appendTo("body")
+			.multiselect();
+		
+		el.multiselect("option", "multiple", false);
+		equals(el[0].multiple, false, "When changing a multiple select to a single select, the select element no longer has the multiple property");
+		equals(menu().hasClass("ui-multiselect-single"), true, "...and the menu now has the single select class");
+		equals(menu().find('input[type="radio"]').length, 1, "...and the checkbox is now a radio button");
+
+		el.multiselect("option", "multiple", true);
+		equals(el[0].multiple, true, "When changing a single select to a multiple select, the select element has the multiple property");
+		equals(menu().hasClass("ui-multiselect-single"), false, "...and the menu doesn't have the single select class");
+		equals(menu().find('input[type="checkbox"]').length, 1, "...and the radio button is now a checkbox");
+
+		el.multiselect("destroy").remove();
+	});
+
 	test("classes", function(){
 		expect(6);
 		
