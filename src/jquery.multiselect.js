@@ -502,11 +502,24 @@ $.widget("ech.multiselect", {
 		this.button
 			.attr({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 		
-		this.menu
-			.find('input')
-			.attr({ 'disabled':flag, 'aria-disabled':flag })
+		var inputs = this.menu.find('input');
+		var key = "ech-multiselect-disabled";
+
+		if(flag) {
+			// remember which elements this widget disabled (not pre-disabled)
+			// elements, so that they can be restored if the widget is re-enabled.
+			inputs = inputs.filter(':enabled')
+				.data(key, true)
+		} else {
+			inputs = inputs.filter(function() {
+				return $.data(this, key) === true;
+			}).removeData(key);
+		}
+
+		inputs
+			.attr({ 'disabled':flag, 'arial-disabled':flag })
 			.parent()[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
-		
+
 		this.element
 			.attr({ 'disabled':flag, 'aria-disabled':flag });
 	},

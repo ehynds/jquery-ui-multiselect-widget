@@ -39,6 +39,28 @@
 		el.multiselect("destroy").remove();
 	});
 	
+	test("enabling w/ pre-disabled tags (#216)", function(){
+		expect(5);
+	 
+	 	el = $('<select><option disabled value="foo">foo</option><option value="bar">bar</option>')
+			.appendTo(document.body)
+			.multiselect();
+
+		var boxes = menu().find("input")
+		var disabled = boxes.first();
+		var enabled = boxes.last();
+		var key = "ech-multiselect-disabled";
+
+		equals(disabled.is(":disabled"), true, "The first option is disabled");
+		el.multiselect("disable");
+		equals(disabled.data(key), undefined, "After disabling the widget, the pre-disabled option is not flagged to re-enable");
+		equals(enabled.data(key), true, "and the enabled option is flagged to be re-enable");
+		el.multiselect("enable");
+		equals(disabled.is(":disabled"), true, "After enabling, the first option is still disabled");
+		equals(disabled.data(key), undefined, "and the option no longer has the stored data flag");
+		el.multiselect("destroy").remove();
+	});
+	
 	test("widget", function(){
 		expect(1);
 	 
