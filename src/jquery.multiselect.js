@@ -203,7 +203,7 @@ $.widget("ech.multiselect", {
 	update: function(){
 		var o = this.options,
 			$inputs = this.inputs,
-			$checked = $inputs.filter('[checked]'),
+			$checked = $inputs.filter(':checked'),
 			numChecked = $checked.length,
 			value;
 		
@@ -604,7 +604,7 @@ $.widget("ech.multiselect", {
 	},
 	
 	getChecked: function(){
-		return this.menu.find('input').filter('[checked]');
+		return this.menu.find('input').filter(':checked');
 	},
 	
 	destroy: function(){
