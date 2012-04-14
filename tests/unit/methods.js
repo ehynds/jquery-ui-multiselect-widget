@@ -117,7 +117,7 @@
 		expect(2);
 	 
 		el = $("select").multiselect().multiselect("checkAll");
-			equals( el.multiselect("getChecked").length, 7, 'number of checkboxes returned after checking all and calling getChecked');
+			equals( el.multiselect("getChecked").length, 9, 'number of checkboxes returned after checking all and calling getChecked');
 		el.multiselect("uncheckAll");
 			equals( el.multiselect("getChecked").length, 0, 'number of checkboxes returned after unchecking all and calling getChecked');
 		el.multiselect("destroy");
