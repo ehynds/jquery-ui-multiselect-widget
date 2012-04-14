@@ -134,7 +134,7 @@ $.widget("ech.multiselect", {
 				isDisabled = this.disabled,
 				isSelected = this.selected,
 				labelClasses = [ 'ui-corner-all' ],
-				liClasses = isDisabled ? ['ui-multiselect-disabled'] : [],
+				liClass = isDisabled ? 'ui-multiselect-disabled' : '',
 				optLabel,
 				optClass;
 			
@@ -150,8 +150,8 @@ $.widget("ech.multiselect", {
 				}
 			}
 
-			if( $this.attr('class') ){
-				liClasses.push( $this.attr('class') );
+			if( this.getAttribute('class') ){
+				liClass += ' ' + this.getAttribute('class');
 			}
 		
 			if( isDisabled ){
@@ -164,7 +164,7 @@ $.widget("ech.multiselect", {
 				labelClasses.push( 'ui-state-active' );
 			}
 			
-			html += '<li class="' + liClasses.join(' ') + '">';
+			html += '<li' + (liClass ? ' class="' + liClass + '"' : '') + '>';
 			
 			// create the label
 			html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
