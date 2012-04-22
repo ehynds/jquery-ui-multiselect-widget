@@ -167,6 +167,31 @@
 		el.multiselect("destroy");
 	});
 
+	test("menuWidth", function(){
+		expect(4);
+
+		var minWidth = 321;
+		var menuWidth = 432;
+
+		el = $("select").multiselect({ minWidth:minWidth, menuWidth:menuWidth }).multiselect("open");
+
+		// check if width of menu is set to the correct value
+		equals( menuWidth, menu().width(), 'width of menu is '+menuWidth );
+
+		// check if width of menu is set to correct value
+		equals( minWidth, button().outerWidth(), 'outerWidth of button is '+minWidth );
+
+		// button and menu should have different sizes
+		notEqual(button().outerWidth(), menu().width(), 'outerWidth of button is '+minWidth+' and width of menu is '+menuWidth);
+
+		// change menu width and retest
+		menuWidth = 345;
+		el.multiselect("option", "menuWidth", menuWidth);
+		equals( menuWidth, menu().width(), 'changing the value through api to '+menuWidth);
+
+		el.multiselect("destroy");
+	});
+
 	test("checkAllText", function(){
 		expect(2);
 		var text = "foo";

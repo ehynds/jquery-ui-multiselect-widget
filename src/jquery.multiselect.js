@@ -29,6 +29,7 @@ $.widget("ech.multiselect", {
 		header: true,
 		height: 175,
 		minWidth: 225,
+		menuWidth: 0,
 		classes: '',
 		checkAllText: 'Check all',
 		uncheckAllText: 'Uncheck all',
@@ -419,7 +420,13 @@ $.widget("ech.multiselect", {
 				parseInt(m.css('padding-left'),10)-
 				parseInt(m.css('padding-right'),10)-
 				parseInt(m.css('border-right-width'),10)-
-				parseInt(m.css('border-left-width'),10);
+				parseInt(m.css('border-left-width'),10),
+            o = this.options;
+
+		if( /\d/.test(o.menuWidth) && o.menuWidth > 0)
+        {
+            width = o.menuWidth;
+        }
 				
 		m.width( width || this.button.outerWidth() );
 	},
@@ -661,6 +668,7 @@ $.widget("ech.multiselect", {
 				menu.find('ul').last().height( parseInt(value,10) );
 				break;
 			case 'minWidth':
+			case 'menuWidth':
 				this.options[ key ] = parseInt(value,10);
 				this._setButtonWidth();
 				this._setMenuWidth();
