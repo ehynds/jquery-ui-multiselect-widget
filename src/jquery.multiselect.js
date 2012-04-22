@@ -655,6 +655,7 @@ $.widget("ech.multiselect", {
 				menu.find('ul').last().height( parseInt(value,10) );
 				break;
 			case 'minWidth':
+			case 'menuWidth':
 				this.options[ key ] = parseInt(value,10);
 				this._setButtonWidth();
 				this._setMenuWidth();
