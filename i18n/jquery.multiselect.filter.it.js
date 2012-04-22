@@ -1,5 +1,5 @@
-/* French initialisation for the jQuery UI multiselect plugin. */
-/* Written by Charles SANQUER (charles.sanquer@spyrit.net). */
+/* Italian initialization for the jQuery UI multiselect plugin. */
+/* Written by Vincenzo Farruggia(mastropinguino@networky.net). */
 
 (function ( $ ) {
 
@@ -9,3 +9,4 @@ $.extend($.ech.multiselectfilter.prototype.options, {
 });
 
 })( jQuery );
+

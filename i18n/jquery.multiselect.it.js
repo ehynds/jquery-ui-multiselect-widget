@@ -1,4 +1,4 @@
-/* Italian initialisation for the jQuery UI multiselect plugin. */
+/* Italian initialization for the jQuery UI multiselect plugin. */
 /* Written by Vincenzo Farruggia(mastropinguino@networky.net). */
 
 (function ( $ ) {
