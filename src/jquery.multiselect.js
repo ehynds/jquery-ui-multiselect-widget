@@ -316,7 +316,7 @@ $.widget("ech.multiselect", {
 			.delegate('label', 'mouseenter.multiselect', function(){
 				if( !$(this).hasClass('ui-state-disabled') ){
 					self.labels.removeClass('ui-state-hover');
-					$(this).addClass('ui-state-hover').find('input').focus();
+					$(this).addClass('ui-state-hover').find('input:not(:disabled)').focus();
 				}
 			})
 			.delegate('label', 'keydown.multiselect', function( e ){
