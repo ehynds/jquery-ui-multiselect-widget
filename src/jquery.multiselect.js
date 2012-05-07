@@ -298,7 +298,6 @@ $.widget("ech.multiselect", {
 
 				// trigger event and bail if the return is false
 				if( self._trigger('beforeoptgrouptoggle', e, { inputs:nodes, label:label }) === false ){
-                         alert('return is false, bailing')
 					return;
 				}
 				
@@ -444,7 +443,6 @@ $.widget("ech.multiselect", {
 			$container.scrollTop( moveToLast ? $container.height() : 0 );
 			
 		} else {
-          alert('triggering mouseover');
 			$next.find('label').trigger('mouseover');
 		}
 	},
