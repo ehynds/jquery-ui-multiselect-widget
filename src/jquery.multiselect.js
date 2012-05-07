@@ -298,6 +298,7 @@ $.widget("ech.multiselect", {
 
 				// trigger event and bail if the return is false
 				if( self._trigger('beforeoptgrouptoggle', e, { inputs:nodes, label:label }) === false ){
+                         alert('return is false, bailing')
 					return;
 				}
 				
@@ -316,7 +317,7 @@ $.widget("ech.multiselect", {
 			.delegate('label', 'mouseenter.multiselect', function(){
 				if( !$(this).hasClass('ui-state-disabled') ){
 					self.labels.removeClass('ui-state-hover');
-					$(this).addClass('ui-state-hover').find('input').focus();
+					$(this).addClass('ui-state-hover').find('input:not(:disabled)').focus();
 				}
 			})
 			.delegate('label', 'keydown.multiselect', function( e ){
@@ -443,6 +444,7 @@ $.widget("ech.multiselect", {
 			$container.scrollTop( moveToLast ? $container.height() : 0 );
 			
 		} else {
+          alert('triggering mouseover');
 			$next.find('label').trigger('mouseover');
 		}
 	},
