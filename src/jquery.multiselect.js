@@ -30,6 +30,7 @@ $.widget("ech.multiselect", {
 		height: 175,
 		minWidth: 225,
 		classes: '',
+		idSuffix: false,
 		checkAllText: 'Check all',
 		uncheckAllText: 'Uncheck all',
 		noneSelectedText: 'Select options',
@@ -86,6 +87,10 @@ $.widget("ech.multiselect", {
 			checkboxContainer = (this.checkboxContainer = $('<ul />'))
 				.addClass('ui-multiselect-checkboxes ui-helper-reset')
 				.appendTo( menu );
+		
+		// set id to button
+		if ( o.idSuffix )
+			 button.attr("id", el.attr("id") + o.idSuffix);
 		
 		// perform event bindings
 		this._bindEvents();
@@ -268,6 +273,7 @@ $.widget("ech.multiselect", {
 			},
 			blur: function(){
 				$(this).removeClass('ui-state-focus');
+				self.element.blur();
 			}
 		});
 
