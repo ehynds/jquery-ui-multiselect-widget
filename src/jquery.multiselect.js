@@ -39,7 +39,8 @@ $.widget("ech.multiselect", {
 		hide: '',
 		autoOpen: false,
 		multiple: true,
-		position: {}
+		position: {},
+		highlightSelected: false
 	},
 
 	_create: function(){
@@ -115,7 +116,8 @@ $.widget("ech.multiselect", {
 	},
 	
 	refresh: function( init ){
-		var el = this.element,
+		var self = this,
+			el = this.element,
 			o = this.options,
 			menu = this.menu,
 			checkboxContainer = this.checkboxContainer,
@@ -158,7 +160,12 @@ $.widget("ech.multiselect", {
 			}
 			
 			html += '<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') + '">';
-			
+
+			// if pre-selected, add the highlight class to the label class list.
+			if ( isSelected ){
+				labelClasses.push('ui-state-highlight');
+			}
+
 			// create the label
 			html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
 			html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
@@ -356,7 +363,14 @@ $.widget("ech.multiselect", {
 				
 				// toggle aria state
 				$this.attr('aria-selected', checked);
-				
+				if (self.options.highlightSelected) {
+					if (checked) {
+						$this.closest('label').addClass('ui-state-highlight');
+					} else {
+						$this.closest('label').removeClass('ui-state-highlight');
+					}
+				}
+
 				// change state on the original option tags
 				tags.each(function(){
 					if( this.value === val ){
@@ -451,7 +465,7 @@ $.widget("ech.multiselect", {
 	// other related attributes of a checkbox.
 	//
 	// The context of this function should be a checkbox; do not proxy it.
-	_toggleState: function( prop, flag ){
+	_toggleState: function( prop, flag, highlightSelected ){
 		return function(){
 			if( !this.disabled ) {
 				this[ prop ] = flag;
@@ -459,8 +473,12 @@ $.widget("ech.multiselect", {
 
 			if( flag ){
 				this.setAttribute('aria-selected', true);
+				if (highlightSelected)
+					$(this).closest('label').addClass('ui-state-highlight');
 			} else {
 				this.removeAttribute('aria-selected');
+				if (highlightSelected)
+					$(this).closest('label').removeClass('ui-state-highlight');
 			}
 		};
 	},
@@ -470,7 +488,7 @@ $.widget("ech.multiselect", {
 			self = this;
 
 		// toggle state on inputs
-		$inputs.each(this._toggleState('checked', flag));
+		$inputs.each(this._toggleState('checked', flag, self.options.highlightSelected));
 
 		// give the first input focus
 		$inputs.eq(0).focus();
