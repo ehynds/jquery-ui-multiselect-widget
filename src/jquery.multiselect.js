@@ -430,7 +430,7 @@ $.widget("ech.multiselect", {
 	// set menu width
 	_setMenuWidth: function(){
 		var m = this.menu,
-			width = this.button.outerWidth()-
+			width = this.button.width()-
 				parseInt(m.css('padding-left'),10)-
 				parseInt(m.css('padding-right'),10)-
 				parseInt(m.css('border-right-width'),10)-
