@@ -324,7 +324,7 @@ $.widget("ech.multiselect", {
 			.delegate('label', 'mouseenter.multiselect', function(){
 				if( !$(this).hasClass('ui-state-disabled') ){
 					self.labels.removeClass('ui-state-hover');
-					$(this).addClass('ui-state-hover').find('input').focus();
+					$(this).addClass('ui-state-hover');
 				}
 			})
 			.delegate('label', 'keydown.multiselect', function( e ){
@@ -445,20 +445,24 @@ $.widget("ech.multiselect", {
 			moveToLast = which === 38 || which === 37,
 			
 			// select the first li that isn't an optgroup label / disabled
-			$next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)')[ moveToLast ? 'last' : 'first']();
+			$next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label):visible')[ moveToLast ? 'last' : 'first']();
 		
 		// if at the first/last element
 		if( !$next.length ){
 			var $container = this.menu.find('ul').last();
 			
 			// move to the first/last
-			this.menu.find('label')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
+			var label = this.menu.find('li:visible label')[ moveToLast ? 'last' : 'first' ]();
+			label.find('input').focus();
+			label.trigger('mouseover');
 			
 			// set scroll position
 			$container.scrollTop( moveToLast ? $container.height() : 0 );
 			
 		} else {
-			$next.find('label').trigger('mouseover');
+			var label = $next.find('label');
+			label.find('input').focus();
+			label.trigger('mouseover');
 		}
 	},
 
