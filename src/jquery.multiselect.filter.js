@@ -70,7 +70,7 @@
 						":disabled, :hidden" :
 						":disabled";
 
-				$inputs = $inputs.not( selector ).each(this._toggleState('checked', flag));
+				$inputs = $inputs.not( selector ).each(this._toggleState('checked', flag, _self.options.highlightSelected));
 				
 				// update text
 				this.update();

@@ -39,7 +39,9 @@ $.widget("ech.multiselect", {
 		hide: '',
 		autoOpen: false,
 		multiple: true,
-		position: {}
+		position: {},
+		highlightSelected: false,
+		enableCloseIcon: true
 	},
 
 	_create: function(){
@@ -80,7 +82,7 @@ $.widget("ech.multiselect", {
 						return '';
 					}
 				})
-				.append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
+				.append(!o.enableCloseIcon ? '' : '<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
 				.appendTo( header ),
 			
 			checkboxContainer = (this.checkboxContainer = $('<ul />'))
@@ -115,7 +117,8 @@ $.widget("ech.multiselect", {
 	},
 	
 	refresh: function( init ){
-		var el = this.element,
+		var self = this,
+			el = this.element,
 			o = this.options,
 			menu = this.menu,
 			checkboxContainer = this.checkboxContainer,
@@ -158,7 +161,12 @@ $.widget("ech.multiselect", {
 			}
 			
 			html += '<li class="' + (isDisabled ? 'ui-multiselect-disabled' : '') + '">';
-			
+
+			// if pre-selected, add the highlight class to the label class list.
+			if ( isSelected ){
+				labelClasses.push('ui-state-highlight');
+			}
+
 			// create the label
 			html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
 			html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
@@ -316,7 +324,7 @@ $.widget("ech.multiselect", {
 			.delegate('label', 'mouseenter.multiselect', function(){
 				if( !$(this).hasClass('ui-state-disabled') ){
 					self.labels.removeClass('ui-state-hover');
-					$(this).addClass('ui-state-hover').find('input').focus();
+					$(this).addClass('ui-state-hover');
 				}
 			})
 			.delegate('label', 'keydown.multiselect', function( e ){
@@ -356,7 +364,14 @@ $.widget("ech.multiselect", {
 				
 				// toggle aria state
 				$this.attr('aria-selected', checked);
-				
+				if (self.options.highlightSelected) {
+					if (checked) {
+						$this.closest('label').addClass('ui-state-highlight');
+					} else {
+						$this.closest('label').removeClass('ui-state-highlight');
+					}
+				}
+
 				// change state on the original option tags
 				tags.each(function(){
 					if( this.value === val ){
@@ -415,7 +430,7 @@ $.widget("ech.multiselect", {
 	// set menu width
 	_setMenuWidth: function(){
 		var m = this.menu,
-			width = this.button.outerWidth()-
+			width = this.button.width()-
 				parseInt(m.css('padding-left'),10)-
 				parseInt(m.css('padding-right'),10)-
 				parseInt(m.css('border-right-width'),10)-
@@ -430,20 +445,24 @@ $.widget("ech.multiselect", {
 			moveToLast = which === 38 || which === 37,
 			
 			// select the first li that isn't an optgroup label / disabled
-			$next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)')[ moveToLast ? 'last' : 'first']();
+			$next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label):visible')[ moveToLast ? 'last' : 'first']();
 		
 		// if at the first/last element
 		if( !$next.length ){
 			var $container = this.menu.find('ul').last();
 			
 			// move to the first/last
-			this.menu.find('label')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
+			var label = this.menu.find('li:visible label')[ moveToLast ? 'last' : 'first' ]();
+			label.find('input').focus();
+			label.trigger('mouseover');
 			
 			// set scroll position
 			$container.scrollTop( moveToLast ? $container.height() : 0 );
 			
 		} else {
-			$next.find('label').trigger('mouseover');
+			var label = $next.find('label');
+			label.find('input').focus();
+			label.trigger('mouseover');
 		}
 	},
 
@@ -451,7 +470,7 @@ $.widget("ech.multiselect", {
 	// other related attributes of a checkbox.
 	//
 	// The context of this function should be a checkbox; do not proxy it.
-	_toggleState: function( prop, flag ){
+	_toggleState: function( prop, flag, highlightSelected ){
 		return function(){
 			if( !this.disabled ) {
 				this[ prop ] = flag;
@@ -459,8 +478,12 @@ $.widget("ech.multiselect", {
 
 			if( flag ){
 				this.setAttribute('aria-selected', true);
+				if (highlightSelected)
+					$(this).closest('label').addClass('ui-state-highlight');
 			} else {
 				this.removeAttribute('aria-selected');
+				if (highlightSelected)
+					$(this).closest('label').removeClass('ui-state-highlight');
 			}
 		};
 	},
@@ -470,7 +493,7 @@ $.widget("ech.multiselect", {
 			self = this;
 
 		// toggle state on inputs
-		$inputs.each(this._toggleState('checked', flag));
+		$inputs.each(this._toggleState('checked', flag, self.options.highlightSelected));
 
 		// give the first input focus
 		$inputs.eq(0).focus();
