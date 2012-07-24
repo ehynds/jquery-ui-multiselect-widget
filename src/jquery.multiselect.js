@@ -134,9 +134,8 @@ $.widget("ech.multiselect", {
 				isDisabled = this.disabled,
 				isSelected = this.selected,
 				labelClasses = [ 'ui-corner-all' ],
-				liClass = isDisabled ? 'ui-multiselect-disabled' : '',
-				optLabel,
-				optClass;
+				liClass = isDisabled ? 'ui-multiselect-disabled ' : ' ',
+				optLabel;
 			
 			// is this an optgroup?
 			if( parent.tagName === 'OPTGROUP' ){
@@ -144,15 +143,12 @@ $.widget("ech.multiselect", {
 				
 				// has this optgroup been added already?
 				if( $.inArray(optLabel, optgroups) === -1 ){
-					optClass = parent.getAttribute('class') ? ' '+parent.getAttribute('class') : '';
-					html += '<li class="ui-multiselect-optgroup-label'+ optClass +'"><a href="#">' + optLabel + '</a></li>';
+					html += '<li class="ui-multiselect-optgroup-label '+ parent.className +'"><a href="#">' + optLabel + '</a></li>';
 					optgroups.push( optLabel );
 				}
 			}
 
-			if( this.getAttribute('class') ){
-				liClass += ' ' + this.getAttribute('class');
-			}
+			liClass += this.className;
 		
 			if( isDisabled ){
 				labelClasses.push( 'ui-state-disabled' );
