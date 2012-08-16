@@ -35,8 +35,8 @@ $.widget("ech.multiselect", {
 		noneSelectedText: 'Select options',
 		selectedText: '# selected',
 		selectedList: 0,
-		show: '',
-		hide: '',
+		show: null,
+		hide: null,
 		autoOpen: false,
 		multiple: true,
 		position: {}
