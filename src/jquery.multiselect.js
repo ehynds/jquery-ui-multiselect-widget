@@ -531,7 +531,8 @@ $.widget("ech.multiselect", {
 			button = this.button,
 			menu = this.menu,
 			speed = this.speed,
-			o = this.options;
+			o = this.options,
+			args = [];
 		
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
 		if( this._trigger('beforeopen') === false || button.hasClass('ui-state-disabled') || this._isOpen ){
@@ -547,7 +548,13 @@ $.widget("ech.multiselect", {
 			effect = o.show[0];
 			speed = o.show[1] || self.speed;
 		}
-		
+
+		// if there's an effect, assume jQuery UI is in use
+		// build the arguments to pass to show()
+		if( effect ) {
+      args = [ effect, speed ];
+		}
+
 		// set the scroll of the checkbox container
 		$container.scrollTop(0).height(o.height);
 		
@@ -558,16 +565,18 @@ $.widget("ech.multiselect", {
 			menu
 				.show()
 				.position( o.position )
-				.hide()
-				.show( effect, speed );
+				.hide();
 		
 		// if position utility is not available...
 		} else {
 			menu.css({ 
 				top: pos.top + button.outerHeight(),
 				left: pos.left
-			}).show( effect, speed );
+			});
 		}
+
+		// show the menu, maybe with a speed/effect combo
+		$.fn.show.apply(menu, args);
 		
 		// select the first option
 		// triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
@@ -585,15 +594,23 @@ $.widget("ech.multiselect", {
 			return;
 		}
 	
-		var o = this.options, effect = o.hide, speed = this.speed;
-		
+		var o = this.options,
+		    effect = o.hide,
+		    speed = this.speed,
+		    args = [];
+
 		// figure out opening effects/speeds
 		if( $.isArray(o.hide) ){
 			effect = o.hide[0];
 			speed = o.hide[1] || this.speed;
 		}
+
+    if( effect ) {
+      args = [ effect, speed ];
+    }
 	
-		this.menu.hide(effect, speed);
+		this.menu.hide(effect, args);
+    $.fn.hide.apply(this.menu, args);
 		this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
 		this._isOpen = false;
 		this._trigger('close');
