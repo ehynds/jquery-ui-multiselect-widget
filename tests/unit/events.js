@@ -143,7 +143,6 @@
 				equals(e.type, 'multiselectclick', 'option: event type in callback');
 				equals(ui.value, "2", "option: ui.value equals");
 				equals(ui.text, "Option 2", "option: ui.title equals");
-				console.log('times', times);
 
 				if(times === 0) {
           equals(ui.checked, true, "option: ui.checked equals");
