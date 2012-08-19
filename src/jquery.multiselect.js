@@ -609,7 +609,6 @@ $.widget("ech.multiselect", {
       args = [ effect, speed ];
     }
 	
-		this.menu.hide(effect, args);
     $.fn.hide.apply(this.menu, args);
 		this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
 		this._isOpen = false;
