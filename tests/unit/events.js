@@ -128,7 +128,7 @@
 	});
 	
 	test("multiselectclick", function(){
-		expect(24);
+		expect(28);
 	 
 	 	var times = 0;
 
@@ -143,6 +143,13 @@
 				equals(e.type, 'multiselectclick', 'option: event type in callback');
 				equals(ui.value, "2", "option: ui.value equals");
 				equals(ui.text, "Option 2", "option: ui.title equals");
+				console.log('times', times);
+
+				if(times === 0) {
+          equals(ui.checked, true, "option: ui.checked equals");
+				} else if(times === 1) {
+          equals(ui.checked, false, "option: ui.checked equals");
+				}
 			}
 		})
 		.bind("multiselectclick", function(e,ui){
@@ -150,6 +157,12 @@
 			equals(this, el[0], 'event: context of event');
 			equals(ui.value, "2", "event: ui.value equals");
 			equals(ui.text, "Option 2", "event: ui.title equals");
+
+      if(times === 0) {
+        equals(ui.checked, true, "option: ui.checked equals");
+      } else if(times === 1) {
+        equals(ui.checked, false, "option: ui.checked equals");
+      }
 		})
 		.bind("change", function(e){
 			if(++times === 1){
