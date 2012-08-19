@@ -1,5 +1,18 @@
 jQuery UI MultiSelect Widget Changelog
 
+Version 1.13 - 08/19/2012
+==============================================
+- Fixed: jQuery 1.8 compatibility
+- Fixed: make sure the widget doesn't spit out duplicate IDs (#236)
+- Fixed: select boxes with a single option work properly now (#199, #222)
+- Fixed: speed improvements (#157)
+- Added: getButton() method (#205)
+- Added: list items now inherit the classes from their option/optgroups (#244, thanks doits)
+- Added: Japanese translation (thanks dtaniwaki)
+- Added: Italian translation (thanks mastropinguino)
+- Added: Turkish translation (thanks realsby)
+- Added: French translation (thanks csanqeur)
+
 Version 1.12 - 11/26/2011
 ==============================================
 - Fixed: append the widget menu to the body rather than directly after the button (#38, 181).
