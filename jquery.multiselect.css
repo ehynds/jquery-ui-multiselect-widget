@@ -21,3 +21,6 @@
 
 /* remove label borders in IE6 because IE6 does not support transparency */
 * html .ui-multiselect-checkboxes label { border:none }
+
+/* loading spinner */
+.ui-multiselect-loading { background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; }

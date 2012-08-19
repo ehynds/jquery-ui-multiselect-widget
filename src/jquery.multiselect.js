@@ -39,7 +39,10 @@ $.widget("ech.multiselect", {
 		hide: null,
 		autoOpen: false,
 		multiple: true,
-		position: {}
+		position: {},
+		source: null,
+		valueAttribute : 'id',
+		descAttribute: 'value'
 	},
 
 	_create: function(){
@@ -48,6 +51,7 @@ $.widget("ech.multiselect", {
 		
 		this.speed = $.fx.speeds._default; // default speed for effects
 		this._isOpen = false; // assume no
+		this._isLoaded = !o.source;
 	
 		var 
 			button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
@@ -91,7 +95,10 @@ $.widget("ech.multiselect", {
 		this._bindEvents();
 		
 		// build menu
-		this.refresh( true );
+
+		if (this._isLoaded){
+			this.refresh( true );
+		}
 		
 		// some addl. logic for single selects
 		if( !o.multiple ){
@@ -400,6 +407,48 @@ $.widget("ech.multiselect", {
 		});
 	},
 
+	_loadData: function(options) {
+		var s = options.source,
+			self = this;
+		if (typeof s == "string") {
+			$.ajax({
+				url: s,
+				data: options.data,
+				error: this._onLoadError,
+				success: this._onLoadSuccess,
+				context: this,
+				beforeSend: function() { 
+					self.buttonlabel.html('Loading...');
+					self.button.addClass('ui-autocomplete-loading') 
+				},
+				complete: function() { 
+					self.buttonlabel.html(self.options.noneSelectedText);
+					self.button.removeClass('ui-autocomplete-loading') 
+				}
+			});
+		}
+		else if (typeof s == "function") {
+			this._onLoadSuccess(s.call(this));
+		}
+	},
+
+	_onLoadError: function(data, status, xhr) {
+		throw "Attempt to load resulted in status: " + status;
+	},
+
+	_onLoadSuccess: function(data, status, xhr) {
+		var self = this;
+		$(data).each(function(index, item) {
+        	$("<option>")
+          		.html( item[self.options.descAttribute])
+          		.attr( "value", item[self.options.valueAttribute])
+          		.appendTo( self.element );
+		});
+		this.refresh(true);
+		this._isLoaded = true;
+		this._drawMenu();
+	},
+
 	// set button width
 	_setButtonWidth: function(){
 		var width = this.element.outerWidth(),
@@ -524,21 +573,13 @@ $.widget("ech.multiselect", {
 		this.element
 			.attr({ 'disabled':flag, 'aria-disabled':flag });
 	},
-	
-	// open the menu
-	open: function( e ){
-		var self = this,
-			button = this.button,
+
+	_drawMenu: function() {
+		var button = this.button,
 			menu = this.menu,
 			speed = this.speed,
-			o = this.options;
-		
-		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
-		if( this._trigger('beforeopen') === false || button.hasClass('ui-state-disabled') || this._isOpen ){
-			return;
-		}
-		
-		var $container = menu.find('ul').last(),
+			o = this.options,
+			$container = menu.find('ul').last(),
 			effect = o.show,
 			pos = button.offset();
 		
@@ -576,7 +617,22 @@ $.widget("ech.multiselect", {
 		
 		button.addClass('ui-state-active');
 		this._isOpen = true;
-		this._trigger('open');
+		this._trigger('open');		
+	},
+	
+	// open the menu
+	open: function( e ){
+		// bail if the multiselectopen event returns false, this widget is disabled, or is already open 
+		if( this._trigger('beforeopen') === false || this.button.hasClass('ui-state-disabled') || this._isOpen ){
+			return;
+		}
+
+		if (!this._isLoaded && this.options.source) {
+			this._loadData(this.options);
+		}
+		else {
+			this._drawMenu();
+		}
 	},
 	
 	// close the menu
