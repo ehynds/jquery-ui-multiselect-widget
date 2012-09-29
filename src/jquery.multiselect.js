@@ -129,7 +129,7 @@ $.widget("ech.multiselect", {
 				parent = this.parentNode,
 				title = this.innerHTML,
 				description = this.title,
-				value = this.value,
+				value = (this.value ? this.value : this.innerHTML), // if value attribute is missing
 				inputID = 'ui-multiselect-' + (this.id || id + '-option-' + i),
 				isDisabled = this.disabled,
 				isSelected = this.selected,
@@ -360,7 +360,7 @@ $.widget("ech.multiselect", {
 
 				// change state on the original option tags
 				tags.each(function(){
-					if( this.value === val ){
+					if ( (this.value ? this.value : this.innerHTML) === val) {
 						this.selected = checked;
 					} else if( !self.options.multiple ){
 						this.selected = false;
@@ -488,7 +488,7 @@ $.widget("ech.multiselect", {
 		this.element
 			.find('option')
 			.each(function(){
-				if( !this.disabled && $.inArray(this.value, values) > -1 ){
+				if (!this.disabled && $.inArray((this.value ? this.value : this.innerHTML), values) > -1) {
 					self._toggleState('selected', flag).call( this );
 				}
 			});
