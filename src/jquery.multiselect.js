@@ -534,6 +534,9 @@ $.widget("ech.multiselect", {
 			o = this.options,
 			args = [];
 
+		//Fix for jQuery 1.8.1
+		var buttonHeight = button.height() + parseFloat(button.css("margin-top")) + parseFloat(button.css("margin-bottom")) + parseFloat(button.css("padding-top")) + parseFloat(button.css("padding-bottom") + parseFloat(button.css("border-top-width")) + parseFloat(button.css("border-bottom-width")));
+
 		// bail if the multiselectopen event returns false, this widget is disabled, or is already open
 		if( this._trigger('beforeopen') === false || button.hasClass('ui-state-disabled') || this._isOpen ){
 			return;
@@ -570,7 +573,7 @@ $.widget("ech.multiselect", {
 		// if position utility is not available...
 		} else {
 			menu.css({
-				top: pos.top + button.outerHeight(),
+				top: pos.top + buttonHeight,
 				left: pos.left
 			});
 		}
