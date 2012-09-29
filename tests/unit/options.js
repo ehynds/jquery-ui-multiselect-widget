@@ -66,15 +66,15 @@
 		
 		var html = '<select multiple><option value="foo">foo &quot;with quotes&quot;</option><option value="bar">bar</option><option value="baz">baz</option></select>';
 		
-		el = $(html).multiselect({
+		el = $(html).appendTo("body").multiselect({
 			selectedList: 3
 		});
 		
 		el.multiselect("checkAll");
 		equals( button().text(), 'foo "with quotes", bar, baz', 'after checkAll, button text is a list of all options in the select');
-		el.multiselect("destroy");
+		el.multiselect("destroy").remove();
 		
-		el = $(html).multiselect({
+		el = $(html).appendTo("body").multiselect({
 			selectedList: 2
 		});
 		
@@ -121,7 +121,7 @@
 	
 	test("selectedList - encoding", function() {
 		el = $('<select><option value="A&amp;E">A&amp;E</option></select>')
-			.appendTo(document.body)
+			.appendTo("body")
 			.multiselect({ selectedList: 1 });
 
 		equals(button().text(), 'A&E');
