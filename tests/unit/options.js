@@ -151,7 +151,7 @@
 		var minWidth = 321;
 		
 		el = $("select").multiselect({ minWidth:minWidth }).multiselect("open");
-		equals( minWidth, button().outerWidth(), 'outerWidth of button is '+minWidth );
+		equals( minWidth, button().outerWidth(), 'outerWidth of button is ' + minWidth );
 		
 		// change height and re-test
 		minWidth = 351;

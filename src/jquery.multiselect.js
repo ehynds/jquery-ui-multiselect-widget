@@ -410,19 +410,13 @@ $.widget("ech.multiselect", {
 		}
 
 		// set widths
-		this.button.width( width );
+		this.button.outerWidth( width );
 	},
 
 	// set menu width
 	_setMenuWidth: function(){
-		var m = this.menu,
-			width = this.button.outerWidth()-
-				parseInt(m.css('padding-left'),10)-
-				parseInt(m.css('padding-right'),10)-
-				parseInt(m.css('border-right-width'),10)-
-				parseInt(m.css('border-left-width'),10);
-
-		m.width( width || this.button.outerWidth() );
+		var m = this.menu;
+		m.outerWidth( this.button.outerWidth() );
 	},
 
 	// move up or down within the menu
