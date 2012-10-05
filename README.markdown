@@ -4,4 +4,4 @@ MultiSelect progessively enhances an ordinary multiple select control into elega
 
 ![Example](http://www.erichynds.com/examples/jquery-multiselect/screenshot-widget.gif)
 
-![Another Example](screenshot.png)
+![Another Example](https://raw.github.com/aerichmond/jquery-ui-multiselect-widget/master/screenshot.png)
