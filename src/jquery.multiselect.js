@@ -147,7 +147,7 @@
 
 					// has this optgroup been added already?
 					if ($.inArray(optLabel, optgroups) === -1) {
-						html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><label class="ui-corner-all"><a href="#" class="ui-multiselect-optgroup-collapse"></a><a href="#" class="ui-multiselect-optgroup-checkbox"></a><span>' + optLabel + '</span></label></li>';
+						html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><label class="ui-corner-all">' + (o.optGroupCollapsible ? '<a href="#" class="ui-multiselect-optgroup-collapse"></a>' : '') + (o.optGroupSelectable ? '<a href="#" class="ui-multiselect-optgroup-checkbox"></a>' : '') + '<span>' + optLabel + '</span></label></li>';
 						optgroups.push(optLabel);
 					}
 				}
@@ -304,7 +304,7 @@
 
 			// optgroup label toggle support
 			this.menu
-			.delegate('li.ui-multiselect-optgroup-label a.ui-multiselect-optgroup-checkbox', 'click.multiselect', function (e) {
+			.delegate('li.ui-multiselect-optgroup-label a.ui-multiselect-optgroup-checkbox, .ui-multiselect-optgroup-selectable li.ui-multiselect-optgroup-label span', 'click.multiselect', function (e) {
 				e.preventDefault();
 
 				var $this = $(this),
