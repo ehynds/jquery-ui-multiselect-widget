@@ -17,7 +17,44 @@
 .ui-multiselect-checkboxes label input { position:relative; top:1px }
 .ui-multiselect-checkboxes li { clear:both; font-size:0.9em; padding-right:3px }
 .ui-multiselect-checkboxes li.ui-multiselect-optgroup-label { text-align:center; font-weight:bold; border-bottom:1px solid }
-.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label a { display:block; padding:3px; margin:1px 0; text-decoration:none }
+.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label a { display:block; margin:1px 0; text-decoration:none }
 
 /* remove label borders in IE6 because IE6 does not support transparency */
 * html .ui-multiselect-checkboxes label { border:none }
+
+.ui-multiselect-checkboxes label { padding: 0 1px 2px; }
+.ui-multiselect-checkboxes  li.ui-multiselect-optgroup-label label { padding: 3px 1px 4px; }
+
+.ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable li.ui-multiselect-optgroup-label,
+.ui-multiselect-checkboxes.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-label { text-align:left; border-bottom:none; }
+
+.ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable li.ui-multiselect-optgroup-content label,
+.ui-multiselect-checkboxes.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-content label { text-align:left; padding-left: 10px; }
+
+.ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-content label { padding-left: 25px; }
+
+.ui-multiselect-checkboxes a.ui-multiselect-optgroup-collapse, .ui-multiselect-checkboxes a.ui-multiselect-optgroup-checkbox
+{
+	float: left;
+	height: 16px;
+	width: 15px;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-image: url(sprite.png);
+	cursor: default;
+	display : none;
+	margin-left: 10px;
+}
+
+.ui-multiselect-checkboxes.ui-multiselect-optgroup-collapsible a.ui-multiselect-optgroup-collapse, .ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable a.ui-multiselect-optgroup-checkbox { display: block; }
+
+.ui-multiselect-checkboxes a.ui-multiselect-optgroup-collapse { background-position: -16px -17px; }
+.ui-multiselect-checkboxes .ui-multiselect-optgroup-collapsed a.ui-multiselect-optgroup-collapse { background-position: 0px -17px; }
+
+.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label a.ui-multiselect-optgroup-checkbox { margin-right: 3px; }
+.ui-multiselect-checkboxes a.ui-multiselect-optgroup-checkbox { background-position: 0px -2px; }
+.ui-multiselect-checkboxes a.ui-multiselect-optgroup-checkbox:hover { background-position: -16px -2px; }
+.ui-multiselect-checkboxes a.ui-multiselect-optgroup-checkbox.checked { background-position: -32px -2px; }
+.ui-multiselect-checkboxes a.ui-multiselect-optgroup-checkbox.checked:hover { background-position: -48px -2px; }
+.ui-multiselect-checkboxes a.ui-multiselect-optgroup-checkbox.partial { background-position: -64px -2px; }
+.ui-multiselect-checkboxes a.ui-multiselect-optgroup-checkbox.partial:hover { background-position: -80px -2px; }
