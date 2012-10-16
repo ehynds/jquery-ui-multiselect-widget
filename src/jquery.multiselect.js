@@ -39,15 +39,19 @@ $.widget("ech.multiselect", {
 		hide: null,
 		autoOpen: false,
 		multiple: true,
-		position: {}
+		position: {},
+        bindToOptGroup:false
 	},
 
 	_create: function(){
 		var el = this.element.hide(),
 			o = this.options;
-
+        if(o.bindToOptGroup === true) {
+            o.header = false;
+        }
 		this.speed = $.fx.speeds._default; // default speed for effects
 		this._isOpen = false; // assume no
+        this._myMap = new Object;
 
 		var
 			button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
@@ -302,6 +306,15 @@ $.widget("ech.multiselect", {
 					return;
 				}
 
+                if(self.options.bindToOptGroup === true) {
+                    var $optgroup = $this.parent();
+                    if(!($optgroup.text() in self._myMap)) {
+                        self._toggleChecked(false, self._myMap[$optgroup.text()]);
+                        self._myMap = new Object();
+                        self._myMap[$optgroup.text()] = $inputs;
+                    }
+                }
+
 				// toggle inputs
 				self._toggleChecked(
 					$inputs.filter(':checked').length !== $inputs.length,
@@ -344,6 +357,18 @@ $.widget("ech.multiselect", {
 					val = this.value,
 					checked = this.checked,
 					tags = self.element.find('option');
+
+                if(self.options.bindToOptGroup === true) {
+                    var $optgroup = $this.closest('li').prevAll('li.ui-multiselect-optgroup-label:first');
+                    if(!($optgroup.text() in self._myMap)) {
+                        var $inputs = $optgroup.nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)');
+                        for (group in self._myMap) {
+                            self._toggleChecked(false, self._myMap[group]);
+                        }
+                        self._myMap = new Object();
+                        self._myMap[$optgroup.text()] = $inputs;
+                    }
+                }
 
 				// bail if this input is disabled or the event is cancelled
 				if( this.disabled || self._trigger('click', e, { value: val, text: this.title, checked: checked }) === false ){
@@ -671,6 +696,9 @@ $.widget("ech.multiselect", {
 			case 'height':
 				menu.find('ul').last().height( parseInt(value,10) );
 				break;
+            case 'bindToOptGroup':
+                this.options.bindToOptGroup = value;
+                break;
 			case 'minWidth':
 				this.options[ key ] = parseInt(value,10);
 				this._setButtonWidth();

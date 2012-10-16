@@ -323,5 +323,40 @@
 		
 		el.multiselect("destroy");
 	});
-	
+
+    test("bindToOptGroup", function () {
+        expect(3);
+
+        var form = $('<form></form>').appendTo(body),
+            data;
+
+        var el = $('<select id="test" name="test" multiple="multiple">' +
+            '<optgroup label="foo"><option value="foo">foo</option><option value="bar">bar</option></optgroup>' +
+            '<optgroup label="bar"><option value="baz">baz</option><option value="bax">bax</option></optgroup>' +
+            '</select>')
+            .appendTo(form)
+            .multiselect({ bindToOptGroup:true, autoOpen:true });
+        // finds the first input in each optgroup (assumes 2 options per optgroup)
+        el.multiselect("widget")
+            .find('.ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label) input:even')
+            .each(function() {
+                this.click();
+            });
+        data = form.serialize();
+        equals(data, 'test=baz', 'after manually checking one input in each group, the correct one is serialized');
+
+        el.multiselect("uncheckAll");
+        data = form.serialize();
+        equals(data.length, 0, 'after unchecking all and serializing the form, nothing was serialized');
+
+        el.multiselect("widget").find('.ui-multiselect-optgroup-label a').each(function () {
+            $(this).click();
+        });
+        data = form.serialize();
+        equals(data, 'test=baz&test=bax', 'after checking all, destroying the widget, and serializing the form, the correct keys were serialized');
+
+        el.multiselect('destroy');
+        form.remove();
+    });
+
 })(jQuery);
