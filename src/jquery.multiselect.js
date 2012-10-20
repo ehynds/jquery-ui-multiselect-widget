@@ -45,6 +45,14 @@ $.widget("ech.multiselect", {
 	_create: function(){
 		var el = this.element.hide(),
 			o = this.options;
+		// this addition makes certain that the select will support multiple selection
+		// this also makes it possible to use this jquery control in the jqgrid toolbar search to support multi select filtering.
+		if (o.multiple) {
+		  el.attr('multiple', 'multiple');
+		  el.val('');
+		} else {
+		  el.attr('multiple');
+		}
 
 		this.speed = $.fx.speeds._default; // default speed for effects
 		this._isOpen = false; // assume no
