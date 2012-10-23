@@ -59,23 +59,19 @@
 			// rewrite internal _toggleChecked fn so that when checkAll/uncheckAll is fired,
 			// only the currently filtered elements are checked
 			instance._toggleChecked = function(flag, group){
-				var $inputs = (group && group.length) ?
-						group :
-						this.labels.find('input'),
-					
-					_self = this,
+				var $inputs = (group && group.length) ?  group : this.labels.find('input');
+				var _self = this;
+        // do not include hidden elems if the menu isn't open.
+				var selector = self.instance._isOpen ?  ":disabled, :hidden" : ":disabled";
 
-					// do not include hidden elems if the menu isn't open.
-					selector = self.instance._isOpen ?
-						":disabled, :hidden" :
-						":disabled";
-
-				$inputs = $inputs.not( selector ).each(this._toggleState('checked', flag));
+				$inputs = $inputs
+				  .not( selector )
+				  .each(this._toggleState('checked', flag));
 				
 				// update text
 				this.update();
 				
-				// figure out which option tags need to be selected
+        // gather an array of the values that actually changed
 				var values = $inputs.map(function(){
 					return this.value;
 				}).get();
@@ -88,6 +84,11 @@
 							_self._toggleState('selected', flag).call( this );
 						}
 					});
+
+        // trigger the change event on the select
+        if($inputs.length) {
+          this.element.trigger("change");
+        }
 			};
 			
 			// rebuild cache when multiselect is updated
