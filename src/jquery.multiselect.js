@@ -228,9 +228,15 @@
         }
       }
 
-      this.buttonlabel.html(value);
+      this._setButtonValue(value);
 
       return value;
+    },
+
+    // this exists as a separate method so that the developer 
+    // can easily override it.
+    _setButtonValue: function(value) {
+      this.buttonlabel.text(value);
     },
 
     // binds events

@@ -120,12 +120,13 @@
 	});
 	
 	test("selectedList - encoding", function() {
+	  expect(1);
+
 		el = $('<select><option value="A&amp;E">A&amp;E</option></select>')
 			.appendTo("body")
 			.multiselect({ selectedList: 1 });
 
-		equals(button().text(), 'A&E');
-		equals(button().find("span").last().html(), 'A&amp;E');
+		equals(button().text(), 'A&amp;E');
 		el.multiselect("destroy").remove();
 	});
 
