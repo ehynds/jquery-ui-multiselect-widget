@@ -534,8 +534,7 @@ $.widget("ech.multiselect", {
 		}
 
 		var $container = menu.find('ul').last(),
-			effect = o.show,
-			pos = button.offset();
+			effect = o.show;
 
 		// figure out opening effects/speeds
 		if( $.isArray(o.show) ){
@@ -552,22 +551,8 @@ $.widget("ech.multiselect", {
 		// set the scroll of the checkbox container
 		$container.scrollTop(0).height(o.height);
 
-		// position and show menu
-		if( $.ui.position && !$.isEmptyObject(o.position) ){
-			o.position.of = o.position.of || button;
-
-			menu
-				.show()
-				.position( o.position )
-				.hide();
-
-		// if position utility is not available...
-		} else {
-			menu.css({
-				top: pos.top + button.outerHeight(),
-				left: pos.left
-			});
-		}
+    // positon
+		this.position();
 
 		// show the menu, maybe with a speed/effect combo
 		$.fn.show.apply(menu, args);
@@ -654,11 +639,34 @@ $.widget("ech.multiselect", {
 	  return this.button;
   },
 
+  position: function() {
+    var o = this.options;
+
+    // use the position utility if it exists and options are specifified
+    if( $.ui.position && !$.isEmptyObject(o.position) ){
+      o.position.of = o.position.of || button;
+
+      this.menu
+        .show()
+        .position( o.position )
+        .hide();
+
+    // otherwise fallback to custom positioning
+    } else {
+      var pos = this.button.offset();
+
+      this.menu.css({
+        top: pos.top + this.button.outerHeight(),
+        left: pos.left
+      });
+    }
+  },
+
 	// react to option changes after initialization
 	_setOption: function( key, value ){
 		var menu = this.menu;
 
-		switch(key){
+		switch(key) {
 			case 'header':
 				menu.find('div.ui-multiselect-header')[ value ? 'show' : 'hide' ]();
 				break;
@@ -669,10 +677,10 @@ $.widget("ech.multiselect", {
 				menu.find('a.ui-multiselect-none span').eq(-1).text(value);
 				break;
 			case 'height':
-				menu.find('ul').last().height( parseInt(value,10) );
+				menu.find('ul').last().height( parseInt(value, 10) );
 				break;
 			case 'minWidth':
-				this.options[ key ] = parseInt(value,10);
+				this.options[ key ] = parseInt(value, 10);
 				this._setButtonWidth();
 				this._setMenuWidth();
 				break;
@@ -690,6 +698,8 @@ $.widget("ech.multiselect", {
 				this.options.multiple = value;
 				this.element[0].multiple = value;
 				this.refresh();
+			case 'position':
+			  this.position();
 		}
 
 		$.Widget.prototype._setOption.apply( this, arguments );

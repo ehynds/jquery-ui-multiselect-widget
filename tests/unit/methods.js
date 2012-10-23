@@ -147,4 +147,27 @@
 		
 		el.multiselect("destroy").remove();
 	});
+
+	test("position", function() {
+    expect(2);
+
+    var left = "500px";
+
+    el = $("select").clone().appendTo(body).multiselect();
+
+    // move the button
+    button().css({ position: "absolute", left: left });
+
+    // sanity check the fact that the menu and button are out of sync
+    notEqual(menu().css("left"), left, "After moving the button, the menu remains in its old position");
+
+    // update the menu position
+    el.multiselect("position");
+
+    // make sure the new position is accurate
+    equals(menu().css("left"), left, "After calling position(), the menu has updated to the same left value as the button");
+
+    el.multiselect("destroy").remove();
+	});
+
 })(jQuery);
