@@ -21,6 +21,7 @@
 (function($, undefined) {
 
   var multiselectID = 0;
+  var $doc = $(document);
 
   $.widget("ech.multiselect", {
 
@@ -48,6 +49,11 @@
 
       this.speed = $.fx.speeds._default; // default speed for effects
       this._isOpen = false; // assume no
+
+      // create a unique namespace for events that the widget
+      // factory cannot unbind automatically. Use eventNamespace if on
+      // jQuery UI 1.9+, and otherwise fallback to a custom string.
+      this._namespaceID = this.eventNamespace || ('multiselect' + multiselectID);
 
       var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
@@ -96,6 +102,9 @@
         if(!o.multiple) {
           menu.addClass('ui-multiselect-single');
         }
+
+        // bump unique ID
+        multiselectID++;
     },
 
     _init: function() {
@@ -120,7 +129,7 @@
       var checkboxContainer = this.checkboxContainer;
       var optgroups = [];
       var html = "";
-      var id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
+      var id = el.attr('id') || multiselectID; // unique ID for the label & option tags
 
       // build items
       el.find('option').each(function(i) {
@@ -384,7 +393,7 @@
       });
 
       // close each widget when clicking on any other element/anywhere else on the page
-      $(document).bind('mousedown.multiselect', function(e) {
+      $doc.bind('mousedown.' + this._namespaceID, function(e) {
         if(self._isOpen && !$.contains(self.menu[0], e.target) && !$.contains(self.button[0], e.target) && e.target !== self.button[0]) {
           self.close();
         }
@@ -618,6 +627,9 @@
     destroy: function() {
       // remove classes + data
       $.Widget.prototype.destroy.call(this);
+
+      // unbind events
+      $doc.unbind(this._namespaceID);
 
       this.button.remove();
       this.menu.remove();
