@@ -237,6 +237,7 @@
     // can easily override it.
     _setButtonValue: function(value) {
       this.buttonlabel.text(value);
+      this._trigger('buttonvaluechanged');
     },
 
     // binds events
