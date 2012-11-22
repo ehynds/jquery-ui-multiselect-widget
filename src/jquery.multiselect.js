@@ -661,7 +661,7 @@
 
       // use the position utility if it exists and options are specifified
       if($.ui.position && !$.isEmptyObject(o.position)) {
-        o.position.of = o.position.of || button;
+        o.position.of = o.position.of || this.button;
 
         this.menu
           .show()
