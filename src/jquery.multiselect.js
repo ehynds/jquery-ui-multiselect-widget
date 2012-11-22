@@ -706,6 +706,10 @@
         case 'height':
           menu.find('ul').last().height(parseInt(value, 10));
           break;
+        case 'menuWidth':
+          this.options[key] = parseInt(value, 10);
+          this._setMenuWidth();
+          break;
         case 'minWidth':
           this.options[key] = parseInt(value, 10);
           this._setButtonWidth();
