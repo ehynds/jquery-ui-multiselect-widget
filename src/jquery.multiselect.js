@@ -88,7 +88,7 @@
           .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
           .appendTo(header),
 
-        checkboxContainer = (this.checkboxContainer = $('<ul />'))
+        checkboxContainer = (this.checkboxContainer = $('<div />'))
           .addClass('ui-multiselect-checkboxes ui-helper-reset')
           .appendTo(menu);
 
@@ -130,6 +130,8 @@
       var optgroups = [];
       var html = "";
       var id = el.attr('id') || multiselectID; // unique ID for the label & option tags
+      var inOptGroup = false;
+      var inUl = false;
 
       // build items
       el.find('option').each(function(i) {
@@ -147,13 +149,33 @@
 
         // is this an optgroup?
         if(parent.tagName === 'OPTGROUP') {
-          optLabel = parent.getAttribute('label');
+          if( !$(parent).prop( 'jquery-multiselect-parsed' ) ) { 
+            $(parent).prop( 'jquery-multiselect-parsed', true );
 
-          // has this optgroup been added already?
-          if($.inArray(optLabel, optgroups) === -1) {
-            html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><a href="#">' + optLabel + '</a></li>';
-            optgroups.push(optLabel);
+            inOptGroup = true;
+
+            if( inUl ) {
+              html += '</ul>';
+            }
+
+            html += '<ul class="' + parent.className + '">';
+            inUl = true;
+
+            optLabel = parent.getAttribute( 'label' );
+            if( optLabel ) {
+              html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><a href="#">' + optLabel + '</a></li>';
+            }
+
           }
+        } else if( inOptGroup ) {
+          html += '</ul>';
+          inUl = false;
+          inOptGroup = false; 
+        }
+
+        if( !inUl ) {
+          html += '<ul>';
+          inUl = true;
         }
 
         if(isDisabled) {
@@ -187,6 +209,12 @@
         // add the title and close everything off
         html += ' /><span>' + title + '</span></label></li>';
       });
+
+      // close last item properly
+      html += '</ul>';
+
+      // remove any added data from select
+      $(el).find("optgroup").removeProp("jquery-multiselect-parsed");
 
       // insert into the DOM
       checkboxContainer.html(html);
@@ -443,7 +471,7 @@
 
       // if at the first/last element
       if(!$next.length) {
-        var $container = this.menu.find('ul').last();
+        var $container = this.menu.find('div').last();
 
         // move to the first/last
         this.menu.find('label')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
@@ -547,7 +575,7 @@
         return;
       }
 
-      var $container = menu.find('ul').last();
+      var $container = menu.find('div').last();
       var effect = o.show;
 
       // figure out opening effects/speeds
@@ -694,7 +722,7 @@
           menu.find('a.ui-multiselect-none span').eq(-1).text(value);
           break;
         case 'height':
-          menu.find('ul').last().height(parseInt(value, 10));
+          menu.find('div').last().height(parseInt(value, 10));
           break;
         case 'minWidth':
           this.options[key] = parseInt(value, 10);
