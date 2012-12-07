@@ -129,7 +129,7 @@
       var checkboxContainer = this.checkboxContainer;
       var optgroups = [];
       var html = "";
-      var id = el.attr('id') || multiselectID; // unique ID for the label & option tags
+      var id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
 
       // build items
       el.find('option').each(function(i) {
