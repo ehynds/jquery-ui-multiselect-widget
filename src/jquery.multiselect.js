@@ -553,13 +553,14 @@
       // figure out opening effects/speeds
       if($.isArray(o.show)) {
         effect = o.show[0];
-        speed = o.show[1] || self.speed;
+        direct = o.show[1];
+        speed = o.show[2] || self.speed;
       }
 
       // if there's an effect, assume jQuery UI is in use
       // build the arguments to pass to show()
       if(effect) {
-        args = [ effect, speed ];
+        args = [ effect, direct, speed ];
       }
 
       // set the scroll of the checkbox container
@@ -595,11 +596,12 @@
       // figure out opening effects/speeds
       if($.isArray(o.hide)) {
         effect = o.hide[0];
-        speed = o.hide[1] || this.speed;
+        direct = o.hide[1];
+        speed = o.hide[2] || this.speed;
       }
 
       if(effect) {
-        args = [ effect, speed ];
+        args = [ effect, direct, speed ];
       }
 
       $.fn.hide.apply(this.menu, args);
