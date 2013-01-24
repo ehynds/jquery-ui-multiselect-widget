@@ -116,32 +116,7 @@ $("select").bind("multiselectfilterfilter", function(event, matches){
 </ul>
 
 <script type="text/javascript">
-//$("select").multiselect().multiselectfilter();
-
-$("select")
-        .multiselect({
-            noneSelectedText: "filter_categories",
-            selectedText: "filter_categories",
-            checkAllText: "check_all",
-            uncheckAllText: "uncheck_all",
-            minWidth: 320,
-            multiple: true,
-            classes: "selector"
-        })
-        .multiselectfilter({
-            label: "filter",
-            placeholder: "filter"
-        })
-        .bind("multiselectclick", function(event, ui){
-            /*
-            ui.value: value of the checkbox
-            ui.text: text of the checkbox
-            ui.checked: whether or not the input was checked or unchecked (boolean)
-            */
-            var action = (ui.checked===true ? "add" : "remove");
-console.debug(ui.value, action);
-        });
-
+$("select").multiselect().multiselectfilter();
 </script>
 
 </body>
