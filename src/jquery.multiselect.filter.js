@@ -29,7 +29,8 @@
       var opts = this.options;
 
       // get the multiselect instance
-      var instance = (this.instance = $(this.element).data('multiselect'));
+//      var instance = (this.instance = $(this.element).data('multiselect'));
+      var instance = (this.instance = $(this.element).data('echMultiselect'));
 
       // store header; add filter class so the close/check all/uncheck all links can be positioned correctly
       var header = (this.header = instance.menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter'));
@@ -78,7 +79,8 @@
         // select option tags
         this.element.find('option').filter(function() {
           if(!this.disabled && $.inArray(this.value, values) > -1) {
-            _self._toggleState('selected', flag).call(this);
+//            _self._toggleState('selected', flag).call(this);
+            instance._toggleState('selected', flag).call(this);
           }
         });
 

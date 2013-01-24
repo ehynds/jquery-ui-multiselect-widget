@@ -7,9 +7,11 @@
 <link rel="stylesheet" type="text/css" href="../jquery.multiselect.filter.css" />
 <link rel="stylesheet" type="text/css" href="assets/style.css" />
 <link rel="stylesheet" type="text/css" href="assets/prettify.css" />
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/ui-lightness/jquery-ui.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+
 <script type="text/javascript" src="../src/jquery.multiselect.js"></script>
 <script type="text/javascript" src="../src/jquery.multiselect.filter.js"></script>
 <script type="text/javascript" src="assets/prettify.js"></script>
@@ -114,7 +116,32 @@ $("select").bind("multiselectfilterfilter", function(event, matches){
 </ul>
 
 <script type="text/javascript">
-$("select").multiselect().multiselectfilter();
+//$("select").multiselect().multiselectfilter();
+
+$("select")
+        .multiselect({
+            noneSelectedText: "filter_categories",
+            selectedText: "filter_categories",
+            checkAllText: "check_all",
+            uncheckAllText: "uncheck_all",
+            minWidth: 320,
+            multiple: true,
+            classes: "selector"
+        })
+        .multiselectfilter({
+            label: "filter",
+            placeholder: "filter"
+        })
+        .bind("multiselectclick", function(event, ui){
+            /*
+            ui.value: value of the checkbox
+            ui.text: text of the checkbox
+            ui.checked: whether or not the input was checked or unchecked (boolean)
+            */
+            var action = (ui.checked===true ? "add" : "remove");
+console.debug(ui.value, action);
+        });
+
 </script>
 
 </body>
