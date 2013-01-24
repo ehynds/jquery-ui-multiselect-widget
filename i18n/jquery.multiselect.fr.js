@@ -6,7 +6,7 @@
 $.extend($.ech.multiselect.prototype.options, {
 	checkAllText: 'Tout cocher',
 	uncheckAllText: 'Tout décocher',
-	noneSelectedText: 'Selectionner les options',
+	noneSelectedText: 'Sélectionner les options',
 	selectedText: '# selectionnés'
 });
 
