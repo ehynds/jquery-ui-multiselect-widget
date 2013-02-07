@@ -437,7 +437,7 @@
       if(/\d/.test(o.menuWidth)) {
         width = o.menuWidth;
       } else {
-        width = this.button.outedWidth();
+        width = this.button.outerWidth();
       }
 
       m.outerWidth(width);
