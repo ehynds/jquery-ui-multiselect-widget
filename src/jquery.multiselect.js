@@ -28,6 +28,7 @@
     // default options
     options: {
       header: true,
+      withTitle: true,
       height: 175,
       minWidth: 225,
       classes: '',
@@ -135,8 +136,8 @@
       el.find('option').each(function(i) {
         var $this = $(this);
         var parent = this.parentNode;
-        var title = this.innerHTML;
-        var description = this.title;
+        var description = this.innerHTML;
+        var title = o.withTitle ? this.title : '';
         var value = this.value;
         var inputID = 'ui-multiselect-' + (this.id || id + '-option-' + i);
         var isDisabled = this.disabled;
@@ -169,7 +170,7 @@
         html += '<li class="' + liClasses + '">';
 
         // create the label
-        html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
+        html += '<label for="' + inputID + '" title="' + title + '" class="' + labelClasses.join(' ') + '">';
         html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
 
         // pre-selected?
@@ -184,8 +185,8 @@
           html += ' aria-disabled="true"';
         }
 
-        // add the title and close everything off
-        html += ' /><span>' + title + '</span></label></li>';
+        // add the description and close everything off
+        html += ' /><span>' + description + '</span></label></li>';
       });
 
       // insert into the DOM
