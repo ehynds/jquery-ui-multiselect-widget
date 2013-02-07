@@ -578,10 +578,10 @@
       // show the menu, maybe with a speed/effect combo
       $.fn.show.apply(menu, args);
 
-      // select the first option
+      // select the first not disabled option
       // triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
       // will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
-      this.labels.eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+      this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
 
       button.addClass('ui-state-active');
       this._isOpen = true;
