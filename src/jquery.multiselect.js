@@ -403,11 +403,11 @@
         var target = event.target;
 
         if(self._isOpen
+            && target !== self.button[0]
+            && target !== self.menu[0]
             && !$.contains(self.menu[0], target)
             && !$.contains(self.button[0], target)
-            && target !== self.button[0]
-            && target !== self.menu[0])
-        {
+          ) {
           self.close();
         }
       });
