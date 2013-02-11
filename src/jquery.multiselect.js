@@ -637,6 +637,10 @@
       return this.menu.find('input').filter(':checked');
     },
 
+    getUnChecked: function() {
+      return this.menu.find('input[type="checkbox"]');
+    },
+
     destroy: function() {
       // remove classes + data
       $.Widget.prototype.destroy.call(this);
