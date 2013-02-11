@@ -638,7 +638,7 @@
     },
 
     getUnChecked: function() {
-      return this.menu.find('input[type="checkbox"]');
+      return this.menu.find('input[type="checkbox"]').filter(':not(:checked)');
     },
 
     destroy: function() {
