@@ -40,7 +40,8 @@
       hide: null,
       autoOpen: false,
       multiple: true,
-      position: {}
+      position: {},
+      appendTo: document.body
     },
 
     _create: function() {
@@ -55,7 +56,7 @@
       // jQuery UI 1.9+, and otherwise fallback to a custom string.
       this._namespaceID = this.eventNamespace || ('multiselect' + multiselectID);
 
-      var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
+      var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
         .addClass(o.classes)
         .attr({ 'title':el.attr('title'), 'aria-haspopup':true, 'tabIndex':el.attr('tabIndex') })
@@ -68,7 +69,7 @@
         menu = (this.menu = $('<div />'))
           .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
           .addClass(o.classes)
-          .appendTo(document.body),
+          .appendTo(o.appendMenuTo),
 
         header = (this.header = $('<div />'))
           .addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
@@ -129,7 +130,7 @@
       var checkboxContainer = this.checkboxContainer;
       var optgroups = [];
       var html = "";
-      var id = el.attr('id') || multiselectID; // unique ID for the label & option tags
+      var id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
       var inOptGroup = false;
       var inUl = false;
 
@@ -427,8 +428,15 @@
       });
 
       // close each widget when clicking on any other element/anywhere else on the page
-      $doc.bind('mousedown.' + this._namespaceID, function(e) {
-        if(self._isOpen && !$.contains(self.menu[0], e.target) && !$.contains(self.button[0], e.target) && e.target !== self.button[0]) {
+      $doc.bind('mousedown.' + this._namespaceID, function(event) {
+        var target = event.target;
+
+        if(self._isOpen
+            && !$.contains(self.menu[0], target)
+            && !$.contains(self.button[0], target)
+            && target !== self.button[0]
+            && target !== self.menu[0])
+        {
           self.close();
         }
       });
@@ -599,10 +607,10 @@
       // show the menu, maybe with a speed/effect combo
       $.fn.show.apply(menu, args);
 
-      // select the first option
+      // select the first not disabled option
       // triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
       // will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
-      this.labels.eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+      this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
 
       button.addClass('ui-state-active');
       this._isOpen = true;
@@ -689,7 +697,7 @@
 
       // use the position utility if it exists and options are specifified
       if($.ui.position && !$.isEmptyObject(o.position)) {
-        o.position.of = o.position.of || button;
+        o.position.of = o.position.of || this.button;
 
         this.menu
           .show()
