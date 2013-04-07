@@ -41,12 +41,14 @@
       autoOpen: false,
       multiple: true,
       position: {},
-      appendTo: document.body
+      appendTo: null
     },
 
     _create: function() {
       var el = this.element.hide();
       var o = this.options;
+
+      if( !o.appendTo ) o.appendTo = document.body;
 
       this.speed = $.fx.speeds._default; // default speed for effects
       this._isOpen = false; // assume no
@@ -69,7 +71,7 @@
         menu = (this.menu = $('<div />'))
           .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
           .addClass(o.classes)
-          .appendTo(o.appendMenuTo),
+          .appendTo(o.appendTo),
 
         header = (this.header = $('<div />'))
           .addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
