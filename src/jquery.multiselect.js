@@ -543,7 +543,7 @@
       });
     },
     //get select value
-    getselectvalue: function () {
+    getSelectValue: function () {
       var o = this.options;
       var $inputs = this.inputs;
       var $checked = $inputs.filter(':checked');
@@ -571,7 +571,7 @@
         return;
       }
       //set before select option value
-      beforeSelOpts = this.getselectvalue();
+      beforeSelOpts = this.getSelectValue();
       
       var $container = menu.find('ul').last();
       var effect = o.show;
@@ -633,7 +633,7 @@
       this._isOpen = false;
       this._trigger('close');
       //if the select value is changed,so provider the changed event
-      if (beforeSelOpts != this.getselectvalue()) {
+      if (beforeSelOpts != this.getSelectValue()) {
         this._trigger('changed');
       }
     },
