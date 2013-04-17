@@ -354,6 +354,9 @@
           break;
         }
       })
+      .delegate('label', 'keyup.multiselect', function(e) {
+          e.preventDefault();
+      })
       .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e) {
         var $this = $(this);
         var val = this.value;
