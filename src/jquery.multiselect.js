@@ -350,6 +350,7 @@
             self._traverse(e.which, this);
           break;
           case 13: // enter
+          case 32: // space
             $(this).find('input')[0].click();
           break;
         }
