@@ -6,8 +6,8 @@
 $.extend($.ech.multiselect.prototype.options, {
 	checkAllText: 'Tout cocher',
 	uncheckAllText: 'Tout décocher',
-	noneSelectedText: 'Selectionner les options',
-	selectedText: '# selectionnés'
+	noneSelectedText: 'Sélectionner les options',
+	selectedText: '# sélectionnés'
 });
 
 })( jQuery );
