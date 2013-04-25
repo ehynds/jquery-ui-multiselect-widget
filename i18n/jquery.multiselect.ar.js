@@ -1,5 +1,5 @@
-/* French initialisation for the jQuery UI multiselect plugin. */
-/* Written by Charles SANQUER (charles.sanquer@spyrit.net). */
+/* Arabic initialisation for the jQuery UI multiselect plugin. */
+/* Written by A. Bennouna (a@tellibus.com). */
 
 (function ( $ ) {
 
