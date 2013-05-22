@@ -91,6 +91,7 @@
 
         checkboxContainer = (this.checkboxContainer = $('<ul />'))
           .addClass('ui-multiselect-checkboxes ui-helper-reset')
+          .attr({"id": "checkboxContainer"+multiselectID})
           .appendTo(menu);
 
         // perform event bindings
@@ -149,9 +150,17 @@
         // is this an optgroup?
         if(parent.tagName === 'OPTGROUP') {
           optLabel = parent.getAttribute('label');
-
+          var optValue = "";
+          var optText = 'text="' + parent.getAttribute('label') + '"';
+          if(parent.getAttribute('value')){
+            optValue = 'value="' + parent.getAttribute('value') + '"';
+          }
           // has this optgroup been added already?
           if($.inArray(optLabel, optgroups) === -1) {
+            if(optgroups.length > 0){
+              html += '</ul></li>';
+            }
+            html += '<li><ul ' + optValue + ' ' + optText + '>';
             html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><a href="#">' + optLabel + '</a></li>';
             optgroups.push(optLabel);
           }
@@ -451,7 +460,7 @@
 
       // if at the first/last element
       if(!$next.length) {
-        var $container = this.menu.find('ul').last();
+        var $container = this.menu.find('#checkboxContainer'+(multiselectID-1));
 
         // move to the first/last
         this.menu.find('label')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
@@ -555,7 +564,7 @@
         return;
       }
 
-      var $container = menu.find('ul').last();
+      var $container = menu.find('#checkboxContainer'+(multiselectID-1));
       var effect = o.show;
 
       // figure out opening effects/speeds
@@ -638,6 +647,10 @@
       return this.menu.find('input').filter(':checked');
     },
 
+    getGroup: function(checkBox){
+      return checkBox.parentElement.parentElement.parentElement;
+    },
+
     destroy: function() {
       // remove classes + data
       $.Widget.prototype.destroy.call(this);
@@ -702,7 +715,7 @@
           menu.find('a.ui-multiselect-none span').eq(-1).text(value);
           break;
         case 'height':
-          menu.find('ul').last().height(parseInt(value, 10));
+          menu.find('#checkboxContainer'+(multiselectID-1)).height(parseInt(value, 10));
           break;
         case 'minWidth':
           this.options[key] = parseInt(value, 10);
