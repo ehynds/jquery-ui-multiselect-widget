@@ -1,5 +1,5 @@
 {
-  "name": "jQuery UI MultiSelect Widget",
+  "name": "tapmantwo-fork-of-jQuery-UI-MultiSelect-Widget",
   "version": "1.13.0",
   "main": "/src/jquery.multiselect.min.js",
   "ignore": [
