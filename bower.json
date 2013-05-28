@@ -1,0 +1,13 @@
+{
+  "name": "jQuery-UI-MultiSelect-Widget",
+  "version": "1.13.0",
+  "main": "/src/jquery.multiselect.min.js",
+  "ignore": [
+  ],
+  "dependencies": {
+    "JQuery": "jquery",
+    "JQuery-UI": "jquery-ui"
+  },
+  "devDependencies": {
+  }
+}
