@@ -62,11 +62,8 @@
         var $inputs = (group && group.length) ?  group : this.labels.find('input');
         var _self = this;
 
-        // do not include hidden elems if the menu isn't open.
-        var selector = instance._isOpen ?  ':disabled, :hidden' : ':disabled';
-
         $inputs = $inputs
-          .not(selector)
+          .not(":disabled, .ui-multiselect-filtered")
           .each(this._toggleState('checked', flag));
 
         // update text
@@ -110,15 +107,29 @@
       rows = this.rows, inputs = this.inputs, cache = this.cache;
 
       if(!term) {
-        rows.show();
+        rows.removeClass('ui-multiselect-filtered');
+        inputs.removeClass('ui-multiselect-filtered');
       } else {
-        rows.hide();
+        rows.addClass('ui-multiselect-filtered');
+        inputs.addClass('ui-multiselect-filtered');
 
         var regex = new RegExp(term.replace(rEscape, "\\$&"), 'gi');
 
+        $.each(this.groups, function (i, v) {
+          if (v.text.search(regex) !== -1) {
+            rows.slice(v.start, v.start + v.length).removeClass('ui-multiselect-filtered');
+            inputs.slice(v.start, v.start + v.length).removeClass('ui-multiselect-filtered');
+          }
+        });
+
         this._trigger("filter", e, $.map(cache, function(v, i) {
-          if(v.search(regex) !== -1) {
-            rows.eq(i).show();
+          var row = rows.eq(i);
+          if (!row.hasClass("ui-multiselect-filtered")) {
+            return inputs.get(i);
+          }
+          if (v.search(regex) !== -1) {
+            inputs.eq(i).removeClass('ui-multiselect-filtered');
+            row.removeClass('ui-multiselect-filtered');
             return inputs.get(i);
           }
 
@@ -129,9 +140,7 @@
       // show/hide optgroups
       this.instance.menu.find(".ui-multiselect-optgroup-label").each(function() {
         var $this = $(this);
-        var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').filter(function() {
-          return $.css(this, "display") !== 'none';
-        }).length;
+        var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').filter(":not(.ui-multiselect-filtered)").length;
 
         $this[isVisible ? 'show' : 'hide']();
       });
@@ -144,6 +153,8 @@
     updateCache: function() {
       // each list item
       this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
+      var groups = new Array();
+      var i = 0;
 
       // cache
       this.cache = this.element.children().map(function() {
@@ -151,13 +162,19 @@
 
         // account for optgroups
         if(this.tagName.toLowerCase() === "optgroup") {
+          var group = elem.attr('label');
           elem = elem.children();
+          groups.push({ 'text': group, 'start': i, 'length': elem.length });
+          i = i + elem.length;
+        } else {
+          i++;
         }
 
         return elem.map(function() {
           return this.innerHTML.toLowerCase();
         }).get();
       }).get();
+      this.groups = groups;
     },
 
     widget: function() {
