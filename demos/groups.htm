@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery MultiSelect Widget Demo</title>
+<link rel="stylesheet" type="text/css" href="../jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="../jquery.multiselect.filter.css" />
+<link rel="stylesheet" type="text/css" href="assets/style.css" />
+<link rel="stylesheet" type="text/css" href="assets/prettify.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../src/jquery.multiselect.js"></script>
+<script type="text/javascript" src="assets/prettify.js"></script>
+<script type="text/javascript">
+  $(function () {
+
+    var $widget = $("select").multiselect(), state = true;
+    $("#toggle-collapsed").click(function () {
+      state = !state;
+      $widget.multiselect(state ? 'expandAll' : 'collapseAll').multiselect('open');
+    });
+
+  });
+</script>
+</head>
+<body onload="prettyPrint();">
+
+<h2>Collapse Groups</h2>
+
+<pre class="prettyprint">
+var $widget = $("select").multiselect(), state = true;
+$("#toggle-collapsed").click(function () {
+  state = !state;
+  $widget.multiselect(state ? 'expandAll' : 'collapseAll').multiselect('open');
+});
+</pre>
+
+<p style="margin-top:5px"><button type="button" name="toggle" id="toggle-collapsed">Toggle Collapsed</button></p>
+
+<form style="margin:20px 0">
+	<p>
+		<select multiple="multiple" style="width:370px">
+		<optgroup label="test">
+			<option value="red">Red</option>
+			<option value="green">Green</option>
+			<option value="blue">Blue</option>
+		</optgroup>
+		<optgroup label="foo">
+			<option value="orange">Orange</option>
+			<option value="purple">Purple</option>
+			<option value="yellow">Yellow</option>
+			<option value="brown">Brown</option>
+			<option value="black">Black</option>
+		</optgroup>
+		</select>
+	</p>
+</form>
+
+<script type="text/javascript">
+  $("select").multiselect({
+    'header': '<ul class="ui-helper-reset"><li><a href="#" onclick="$(\'select\').multiselect(\'collapseAll\'); return false"><span class="ui-icon ui-icon ui-icon-triangle-1-e"></span><span>Collapse</span></a></li> ' +
+              '<li><a href="#" onclick="$(\'select\').multiselect(\'expandAll\'); return false;"><span class="ui-icon ui-icon ui-icon-triangle-1-s"></span><span>Expand</span></a></li></ul>'
+  });
+</script>
+
+</body>
+</html>

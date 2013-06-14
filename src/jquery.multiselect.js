@@ -334,18 +334,8 @@
         });
       })
       .delegate('li.ui-multiselect-optgroup-label span.ui-icon', 'click.multiselect', function (e) {
-        var icons = self.options.icons;
-        var $this = $(this)
-        if ($this.hasClass(icons.activeHeader)) {
-          //Collapse
-          $this.removeClass(icons.activeHeader).addClass(icons.header);
-          $this.parent().nextUntil('li.ui-multiselect-optgroup-label').addClass("ui-multiselect-collapsed");
-        } else {
-          //Expand
-          $this.removeClass(icons.header).addClass(icons.activeHeader);
-          $this.parent().nextUntil('li.ui-multiselect-optgroup-label').removeClass("ui-multiselect-collapsed");
-        }
-
+        var $this = $(this);
+        self._toggleCollapsed($this.hasClass(self.options.icons.activeHeader), $this);
       })
       .delegate('label', 'mouseenter.multiselect', function () {
         if (!$(this).hasClass('ui-state-disabled')) {
@@ -559,6 +549,23 @@
       });
     },
 
+    _toggleCollapsed: function (flag, group) {
+      var groups = (group && group.length) ? group : this.menu.find("li.ui-multiselect-optgroup-label span.ui-icon");
+      var icons = this.options.icons;
+
+      if (flag) {
+        //Collapse
+        groups
+                    .removeClass(icons.activeHeader).addClass(icons.header)
+                    .parent().nextUntil('li.ui-multiselect-optgroup-label').addClass("ui-multiselect-collapsed");
+      } else {
+        //Expand
+        groups
+                    .removeClass(icons.header).addClass(icons.activeHeader)
+                    .parent().nextUntil('li.ui-multiselect-optgroup-label').removeClass("ui-multiselect-collapsed");
+      }
+    },
+
     // open the menu
     open: function (e) {
       var self = this;
@@ -680,6 +687,16 @@
 
     getButton: function () {
       return this.button;
+    },
+
+    collapseAll: function () {
+      this._toggleCollapsed(true)
+      return this;
+    },
+
+    expandAll: function () {
+      this._toggleCollapsed(false)
+      return this;
     },
 
     position: function () {
