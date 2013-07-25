@@ -1,4 +1,6 @@
-.ui-multiselect { padding:3px 0 1px 4px; text-align:left; }
+.ui-multiselect { padding:3px 0 3px 4px; text-align:left; }
+/* firefox specific css */
+@-moz-document url-prefix() { .ui-multiselect { padding: 2px 0 2px 4px; } }
 .ui-multiselect span.ui-icon { float:right; }
 .ui-multiselect-single .ui-multiselect-checkboxes input { position:absolute !important; top: auto !important; left:-9999px; }
 .ui-multiselect-single .ui-multiselect-checkboxes label { padding:5px !important }
@@ -17,17 +19,18 @@
 .ui-multiselect-checkboxes label input { position:relative; top:3px; margin-top:0; }
 .ui-multiselect-checkboxes li { clear:both; font-size:0.9em; padding-right:3px; }
 .ui-multiselect-checkboxes li.ui-multiselect-optgroup-label { font-weight:bold; }
-.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label input { margin-left: 0; }
+.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label input { margin-left: 1px; }
 
 .ui-multiselect-checkboxes li.ui-multiselect-optgroup-label-plain { padding: 3px 0 2px; }
 
 /* remove label borders in IE6 because IE6 does not support transparency */
 * html .ui-multiselect-checkboxes label { border:none }
 
-.ui-multiselect-checkboxes.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-label label { padding: 3px 1px; }
-.ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-label label { padding: 1px 1px 4px; }
+.ui-multiselect-checkboxes.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-label label { padding: 4px 1px 4px 3px; }
+.ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable li.ui-multiselect-optgroup-label label { padding: 1px 1px 4px 3px; }
 
-.ui-multiselect-checkboxes.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-content label { padding-left: 10px; }
+.ui-multiselect-checkboxes.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-content label,
+.ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable li.ui-multiselect-optgroup-content label { padding-left: 10px; }
 .ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-content label { padding-left: 25px; }
 
 .ui-multiselect-checkboxes a.ui-multiselect-optgroup-collapse
@@ -35,11 +38,10 @@
 	text-decoration: none;
 	background-repeat: no-repeat;
 	background-image: url(collapse-sprite.png);
-	background-position: left center;
+	background-position: 0 center;
 	display: none;
-	margin-left: 2px;
-	padding-left: 9px;
-	margin-right: 6px;
+	padding-left: 11px;
+	margin-right: 2px;
 }
 
 .ui-multiselect-checkboxes.ui-multiselect-optgroup-collapsible a.ui-multiselect-optgroup-collapse{ display: inline; }

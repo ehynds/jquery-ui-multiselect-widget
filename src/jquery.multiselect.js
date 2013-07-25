@@ -55,6 +55,8 @@
 			this._isOpen = false; // assume no
 
 			this.viewPortAdjustTimeout = null;
+			this.typeAheadCharacters = "";
+			this.typeAheadTimout = null;
 
 			// create a unique namespace for events that the widget
 			// factory cannot unbind automatically. Use eventNamespace if on
@@ -205,7 +207,7 @@
 			// insert into the DOM
 			checkboxContainer.html( html );
 
-			// cache some moar useful elements
+			// cache some more useful elements
 			this.labels = menu.find('label');
 			this.inputs = this.labels.children('input:not(.ui-multiselect-optgroup-checkbox)');
 
@@ -252,7 +254,8 @@
 				}
 			}
 
-			this.buttonlabel.html(value);
+			this._setButtonValue(value);
+
 			return value;
 		},
 
@@ -325,118 +328,149 @@
 				e.preventDefault();
 			});
 
-			// optgroup label toggle support
 			this.menu
-			.on('click.multiselect', '.ui-multiselect-optgroup-collapsible:not(.ui-multiselect-optgroup-selectable) li.ui-multiselect-optgroup-label, .ui-multiselect-optgroup-selectable li.ui-multiselect-optgroup-label a.ui-multiselect-optgroup-collapse', function (e) {
-				e.preventDefault();
+				// optgroup label toggle support (if the optgroup is selectable and the collapse icon was clicked or the label was clicked and the optgroup is collapsible but not selectable)
+				.on('click.multiselect', '.ui-multiselect-optgroup-selectable a.ui-multiselect-optgroup-collapse, .ui-multiselect-optgroup-collapsible:not(.ui-multiselect-optgroup-selectable) li.ui-multiselect-optgroup-label', function (e) {
+					e.preventDefault();
+					var $this = $(this).closest('li.ui-multiselect-optgroup-label');
+					self._toggleOptgroupCollapse($this.hasClass('ui-multiselect-optgroup-collapsed'), $this);
+					$this.find('a, input').last().focus();
+				})
+				// option hover/selection
+				.on('mouseenter.multiselect', 'label', function (e) {
+					// viewPortAdjustTimeout is used to temporarily prevent the mouseenter event while scrolling (to prevent jumping)
+					if (!$(this).hasClass('ui-state-disabled') && (e.isTrigger || !self.viewPortAdjustTimeout)) {
+						self.labels.removeClass('ui-state-hover');
+						$(this).addClass('ui-state-hover').find('a, input').last().focus();
 
-				var $this = $(this).closest('li.ui-multiselect-optgroup-label');
-				self._toggleOptgroupCollapse($this.hasClass('ui-multiselect-optgroup-collapsed'), $this);
-				$this.find("a.ui-multiselect-optgroup-collapse").focus();
-			})
-			.on('mouseenter.multiselect', 'label', function (e) {
-				// viewPortAdjustTimeout is used to temporarily prevent the mouseenter event while scrolling (to prevent jumping)
-				if (!$(this).hasClass('ui-state-disabled') && (e.isTrigger || !self.viewPortAdjustTimeout)) {
-					self.labels.removeClass('ui-state-hover');
-					$(this).addClass('ui-state-hover').find('input, a').first().focus();
-				}
-			})
-			.on('keydown.multiselect', 'label', function (e) {
-				e.preventDefault();
-
-				switch (e.which) {
-					case 9: // tab
-					case 27: // esc
-						self.close();
-						break;
-					case 38: // up
-					case 40: // down
-					case 37: // left
-					case 39: // right
-						self._traverse(e.which, this);
-						break;
-					case 13: // enter
-						$(this).find('a, input').first().trigger('click');
-						break;
-					case 32: // space bar
-						if (e.target.tagName != "INPUT") {
-							$($(this).find('a, input').get().reverse()).first().trigger('click');
-						}
-						break;
-				}
-			})
-			.on('click.multiselect', 'input[type="checkbox"], input[type="radio"]', function (e) {
-				if ($(this).is(".ui-multiselect-optgroup-checkbox")) {
-					var $this = $(this),
-						$inputs = $this.closest('li.ui-multiselect-optgroup-label').nextUntil('li:not(.ui-multiselect-optgroup-content)').find('input:not(:disabled)'),
-						nodes = $inputs.get(),
-						label = $this.closest('label').text();
-
-					// trigger event and bail if the return is false
-					if (self._trigger('beforeoptgrouptoggle', e, { inputs: nodes, label: label }) === false) {
-						return;
+						self._adjustViewport(this);
 					}
+				})
+				// key down
+				.on('keydown.multiselect', 'label', function (e) {
 
-					// toggle inputs
-					self._toggleChecked(
-						$inputs.filter(':checked').length !== $inputs.length,
-						$inputs
-					);
-
-					self._trigger('optgrouptoggle', e, {
-						inputs: nodes,
-						label: label,
-						checked: nodes[0].checked
-					});
-				}
-				else {
-					var $this = $(this),
-						val = this.value,
-						checked = this.checked,
-						tags = self.element.find('option');
-
-					// bail if this input is disabled or the event is cancelled
-					if (this.disabled || self._trigger('click', e, { value: val, text: this.title, checked: checked }) === false) {
+					if (!e.ctrlKey) {
 						e.preventDefault();
-						return;
 					}
 
-					// make sure the input has focus. otherwise, the esc key
-					// won't close the menu after clicking an item.
-					$this.focus();
+					switch (e.which) {
+						case 9: // tab
+						case 27: // esc
+							self.close();
+							break;
+						case 38: // up
+						case 40: // down
+						case 37: // left
+						case 39: // right
+							self._traverse(e.which, this);
+							break;
+						case 13: // enter
+							$(this).find('a, input').first().trigger('click');
+							break;
+						case 32: // space bar
+							if (e.target.tagName != "INPUT") {
+								$(this).find('a, input').last().trigger('click');
+							}
+							break;
+					}
+				})
+				// type ahead search
+				.on('keypress.multiselect', 'label', function (e) {
+					// printable cahracters
+					if (e.which >= 32 && e.which <= 126 && !e.ctrlKey && !e.altKey) {
 
-					// toggle aria state
-					$this.attr('aria-selected', checked);
+						clearTimeout(self.typeAheadTimout);
 
-					// change state on the original option tags
-					tags.each(function () {
-						if (this.value === val) {
-							this.selected = checked;
-						} else if (!self.options.multiple) {
-							this.selected = false;
+						self.typeAheadCharacters += String.fromCharCode(e.which).toLowerCase();
+
+						var $match = $(this).closest('li').nextAll('li:visible:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label-plain)').filter(function () {
+							return $(this).text().toLowerCase().indexOf(self.typeAheadCharacters) == 0;
+						}).first();
+
+						// if we did not find a match going forward try the whole list
+						if ($match.length == 0) {
+							$match = self.checkboxContainer.find('li:visible:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label-plain)').filter(function () {
+								return $(this).text().toLowerCase().indexOf(self.typeAheadCharacters) == 0;
+							}).first();
 						}
-					});
 
-					// some additional single select-specific logic
-					if (!self.options.multiple) {
-						self.labels.removeClass('ui-state-active');
-						$this.closest('label').toggleClass('ui-state-active', checked);
+						self.typeAheadTimout = setTimeout(function () { self.typeAheadCharacters = ""; }, 1000);
 
-						// close menu
-						self.close();
+						$match.find('a, input').first().trigger('mouseover');
 					}
+				})
+				.on('click.multiselect', 'input[type="checkbox"], input[type="radio"]', function (e) {
+					if ($(this).is(".ui-multiselect-optgroup-checkbox")) {
+						var $this = $(this),
+							$inputs = $this.closest('li.ui-multiselect-optgroup-label').nextUntil('li:not(.ui-multiselect-optgroup-content)').find('input:not(:disabled)'),
+							nodes = $inputs.get(),
+							label = $this.closest('label').text();
 
-					// fire change on the select box
-					self.element.trigger("change");
+						// trigger event and bail if the return is false
+						if (self._trigger('beforeoptgrouptoggle', e, { inputs: nodes, label: label }) === false) {
+							return;
+						}
 
-					// update the optgroups
-					self._updateOptgroup($this.closest('li.ui-multiselect-optgroup-content').prevAll('li.ui-multiselect-optgroup-label'));
+						// toggle inputs
+						self._toggleChecked(
+							$inputs.filter(':checked').length !== $inputs.length,
+							$inputs
+						);
 
-					// setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
-					// http://bugs.jquery.com/ticket/3827 
-					setTimeout($.proxy(self.update, self), 10);
-				}
-			});
+						self._trigger('optgrouptoggle', e, {
+							inputs: nodes,
+							label: label,
+							checked: nodes[0].checked
+						});
+					}
+					else {
+						var $this = $(this),
+							val = this.value,
+							checked = this.checked,
+							tags = self.element.find('option');
+
+						// bail if this input is disabled or the event is cancelled
+						if (this.disabled || self._trigger('click', e, { value: val, text: this.title, checked: checked }) === false) {
+							e.preventDefault();
+							return;
+						}
+
+						// make sure the input has focus. otherwise, the esc key
+						// won't close the menu after clicking an item.
+						$this.focus();
+
+						// toggle aria state
+						$this.attr('aria-selected', checked);
+
+						// change state on the original option tags
+						tags.each(function () {
+							if (this.value === val) {
+								this.selected = checked;
+							} else if (!self.options.multiple) {
+								this.selected = false;
+							}
+						});
+
+						// some additional single select-specific logic
+						if (!self.options.multiple) {
+							self.labels.removeClass('ui-state-active');
+							$this.closest('label').toggleClass('ui-state-active', checked);
+
+							// close menu
+							self.close();
+						}
+
+						// fire change on the select box
+						self.element.trigger("change");
+
+						// update the optgroups
+						self._updateOptgroup($this.closest('li.ui-multiselect-optgroup-content').prevAll('li.ui-multiselect-optgroup-label'));
+
+						// setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
+						// http://bugs.jquery.com/ticket/3827 
+						setTimeout($.proxy(self.update, self), 10);
+					}
+				});
 
 			// close each widget when clicking on any other element/anywhere else on the page
 			$doc.bind('mousedown.' + this._namespaceID, function (event) {
@@ -464,7 +498,7 @@
 		// set button width
 		_setButtonWidth: function () {
 			var width = this.element.outerWidth(),
-			o = this.options;
+				o = this.options;
 
 			if (/\d/.test(o.minWidth) && width < o.minWidth) {
 				width = o.minWidth;
@@ -482,36 +516,40 @@
 
 		// move up or down within the menu
 		_traverse: function (which, start) {
-			var self = this,
-			$start = $(start),
+			var $start = $(start),
 			moveToLast = which === 38 || which === 37,
 			// select the first li that isn't disabled
 			$next = $start.closest('li')[moveToLast ? 'prevAll' : 'nextAll']('li:visible:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label-plain)').first();
 
 			if ($next.length) {
-
 				$next.find('label').trigger('mouseover');
-
-				var $container = this.menu.find('ul').last();
-				
-				var selectionBottom = $next.position().top + $next.outerHeight();
-
-				// check for and move down
-				if (selectionBottom > $container.innerHeight()) {
-					clearTimeout(self.viewPortAdjustTimeout);
-					this.viewPortAdjustTimeout = setTimeout(function () { self.viewPortAdjustTimeout = null; }, 500);
-
-					$container.scrollTop($container.scrollTop() + selectionBottom - $container.innerHeight());
-				}
-
-				// check for and move up						
-				if ($next.position().top < 0) {
-					clearTimeout(self.viewPortAdjustTimeout);
-					this.viewPortAdjustTimeout = setTimeout(function () { self.viewPortAdjustTimeout = null; }, 500);
-
-					$container.scrollTop($container.scrollTop() + $next.position().top);
-				}
 			}
+		},
+
+		_adjustViewport: function (label) {
+			var $item = (label ? $(label) : self.labels.filter('.ui-state-hover')).closest("li");
+			$container = this.menu.find('ul').last(),
+			itemPosition = $item.position();
+			selectionBottom = itemPosition.top + $item.outerHeight();
+
+			// check for and move down
+			if (selectionBottom > $container.innerHeight()) {
+				this._delayHover();
+				$container.scrollTop($container.scrollTop() + selectionBottom - $container.innerHeight());
+			}
+
+			// check for and move up						
+			if (itemPosition.top < 0) {
+				this._delayHover();
+				$container.scrollTop($container.scrollTop() + itemPosition.top);
+			}
+		},
+
+		// temporarily prevent the mouseenter event while scrolling, to prevent jumping due to the mouse being over another element
+		_delayHover: function () {
+			var self = this;
+			clearTimeout(this.viewPortAdjustTimeout);
+			this.viewPortAdjustTimeout = setTimeout(function () { self.viewPortAdjustTimeout = null; }, 500);
 		},
 
 		// This is an internal function to toggle the checked property and
@@ -533,14 +571,11 @@
 		},
 
 		_toggleChecked: function (flag, group) {
-			var $inputs = (group && group.length) ?  group : this.inputs,
+			var $inputs = (group && group.length) ? group : this.inputs,
 				self = this;
 
 			// toggle state on inputs
 			$inputs.each(this._toggleState('checked', flag));
-
-			// give the first input focus
-			$inputs.eq(0).focus();
 
 			// update button text
 			this.update();
@@ -560,7 +595,7 @@
 			});
 
 			// update the optgroups
-			self._updateOptgroup($inputs.closest('li.ui-multiselect-optgroup-content').prevAll('li.ui-multiselect-optgroup-label'));
+			self._updateOptgroup($inputs.first().closest('li.ui-multiselect-optgroup-content').prevAll('li.ui-multiselect-optgroup-label'));
 
 			// trigger the change event on the select
 			if ($inputs.length) {
@@ -707,13 +742,17 @@
 			this._toggleDisabled(true);
 		},
 
-		checkAll: function (e) {
+		checkAll: function () {
 			this._toggleChecked(true);
+			// reset focus to the highlighted item
+			this.labels.filter('.ui-state-hover').find('a, input').last().focus();
 			this._trigger('checkAll');
 		},
 
 		uncheckAll: function () {
 			this._toggleChecked(false);
+			// reset focus to the highlighted item
+			this.labels.filter('.ui-state-hover').find('a, input').last().focus();
 			this._trigger('uncheckAll');
 		},
 
