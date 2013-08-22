@@ -402,7 +402,7 @@
 				.on('click.multiselect', 'input[type="checkbox"], input[type="radio"]', function (e) {
 					if ($(this).is(".ui-multiselect-optgroup-checkbox")) {
 						var $this = $(this),
-							$inputs = $this.closest('li.ui-multiselect-optgroup-label').nextUntil('li:not(.ui-multiselect-optgroup-content)').find('input:not(:disabled)'),
+							$inputs = $this.closest('li.ui-multiselect-optgroup-label').nextUntil('li:not(.ui-multiselect-optgroup-content)').find('input:not(:disabled, .ui-multiselect-filtered-out input)'),
 							nodes = $inputs.get(),
 							label = $this.closest('label').text();
 
@@ -561,7 +561,6 @@
 				if (!this.disabled) {
 					this[prop] = flag;
 				}
-
 				if (flag) {
 					this.setAttribute('aria-selected', true);
 				} else {
@@ -575,7 +574,7 @@
 				self = this;
 
 			// toggle state on inputs
-			$inputs.each(this._toggleState('checked', flag));
+			this._toggleCheckedState($inputs, flag);
 
 			// update button text
 			this.update();
@@ -601,6 +600,10 @@
 			if ($inputs.length) {
 				this.element.trigger("change");
 			}
+		},
+
+		_toggleCheckedState: function ($inputs, flag) {
+			$inputs.each(this._toggleState('checked', flag));
 		},
 
 		_toggleDisabled: function (flag) {
@@ -651,7 +654,7 @@
 			if (o.optGroupCollapsible) {
 				$optgroups.each(function () {
 					var $this = $(this),
-					$options = $this.nextUntil('li:not(.ui-multiselect-optgroup-content)');
+					$options = $this.nextUntil('li:not(.ui-multiselect-optgroup-content)').not(".ui-multiselect-filtered-out");
 
 					$options.toggle(flag);
 					$this.toggleClass("ui-multiselect-optgroup-collapsed", !flag);

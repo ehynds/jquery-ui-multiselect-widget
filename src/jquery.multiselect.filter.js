@@ -56,38 +56,15 @@
       // cache input values for searching
       this.updateCache();
 
-      // rewrite internal _toggleChecked fn so that when checkAll/uncheckAll is fired,
+      // rewrite internal _toggleCheckedState fn so that when checkAll/uncheckAll is fired,
       // only the currently filtered elements are checked
-      instance._toggleChecked = function(flag, group) {
-        var $inputs = (group && group.length) ?  group : this.labels.find('input');
-        var _self = this;
+      instance._toggleCheckedState = function ($inputs, flag) {
+      	// do not include hidden elems if the menu isn't open.
+      	var selector = instance._isOpen ? ':disabled, .ui-multiselect-filtered-out input' : ':disabled';
 
-        // do not include hidden elems if the menu isn't open.
-        var selector = instance._isOpen ?  ':disabled, :hidden' : ':disabled';
-
-        $inputs = $inputs
-          .not(selector)
-          .each(this._toggleState('checked', flag));
-
-        // update text
-        this.update();
-
-        // gather an array of the values that actually changed
-        var values = $inputs.map(function() {
-          return this.value;
-        }).get();
-
-        // select option tags
-        this.element.find('option').filter(function() {
-          if(!this.disabled && $.inArray(this.value, values) > -1) {
-            _self._toggleState('selected', flag).call(this);
-          }
-        });
-
-        // trigger the change event on the select
-        if($inputs.length) {
-          this.element.trigger('change');
-        }
+      	$inputs
+		  .not(selector)
+		  .each(this._toggleState('checked', flag));
       };
 
       // rebuild cache when multiselect is updated
@@ -110,15 +87,15 @@
       rows = this.rows, inputs = this.inputs, cache = this.cache;
 
       if(!term) {
-        rows.show();
+      	rows.removeClass("ui-multiselect-filtered-out");
       } else {
-        rows.hide();
+      	rows.addClass("ui-multiselect-filtered-out");
 
         var regex = new RegExp(term.replace(rEscape, "\\$&"), 'gi');
 
         this._trigger("filter", e, $.map(cache, function(v, i) {
           if(v.search(regex) !== -1) {
-            rows.eq(i).show();
+          	rows.eq(i).removeClass("ui-multiselect-filtered-out");
             return inputs.get(i);
           }
 
@@ -129,9 +106,7 @@
       // show/hide optgroups
       this.instance.menu.find(".ui-multiselect-optgroup-label").each(function() {
         var $this = $(this);
-        var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').filter(function() {
-          return $.css(this, "display") !== 'none';
-        }).length;
+        var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').not(".ui-multiselect-filtered-out").length;
 
         $this[isVisible ? 'show' : 'hide']();
       });
