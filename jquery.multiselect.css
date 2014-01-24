@@ -29,8 +29,7 @@
 .ui-multiselect-checkboxes.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-label label { padding: 4px 1px 4px 3px; }
 .ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable li.ui-multiselect-optgroup-label label { padding: 1px 1px 4px 3px; }
 
-.ui-multiselect-checkboxes.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-content label,
-.ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable li.ui-multiselect-optgroup-content label { padding-left: 10px; }
+.ui-multiselect-checkboxes li.ui-multiselect-optgroup-content label { padding-left: 10px; }
 .ui-multiselect-checkboxes.ui-multiselect-optgroup-selectable.ui-multiselect-optgroup-collapsible li.ui-multiselect-optgroup-content label { padding-left: 25px; }
 
 .ui-multiselect-checkboxes a.ui-multiselect-optgroup-collapse
