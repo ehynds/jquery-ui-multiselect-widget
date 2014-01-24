@@ -277,10 +277,10 @@
 			// webkit doesn't like it when you click on the span :(
 			button
 			.find('span')
-			.bind('click.multiselect', clickHandler);
+			.on('click.multiselect', clickHandler);
 
 			// button events
-			button.bind({
+			button.on({
 				click: clickHandler,
 				keypress: function (e) {
 					switch (e.which) {
@@ -336,10 +336,14 @@
 					self._toggleOptgroupCollapse($this.hasClass('ui-multiselect-optgroup-collapsed'), $this);
 					$this.find('a, input').last().focus();
 				})
+				.on('mousemove.multiselect', function (e) {
+					// if the mouse is moved then re-enable the mouse hover
+					self._disableMouseHover = false;
+				})
 				// option hover/selection
 				.on('mouseenter.multiselect', 'label', function (e) {
-					// viewPortAdjustTimeout is used to temporarily prevent the mouseenter event while scrolling (to prevent jumping)
-					if (!$(this).hasClass('ui-state-disabled') && (e.isTrigger || !self.viewPortAdjustTimeout)) {
+					// _disableMouseHover is used to temporarily prevent the mouseenter event while scrolling (to prevent jumping)
+					if (!$(this).hasClass('ui-state-disabled') && (e.isTrigger || !self._disableMouseHover)) {
 						self.labels.removeClass('ui-state-hover');
 						$(this).addClass('ui-state-hover').find('a, input').last().focus();
 
@@ -362,6 +366,7 @@
 						case 40: // down
 						case 37: // left
 						case 39: // right
+							self._disableMouseHover = true; // since a keyboard was used disable the mouse hover
 							self._traverse(e.which, this);
 							break;
 						case 13: // enter
@@ -473,7 +478,7 @@
 				});
 
 			// close each widget when clicking on any other element/anywhere else on the page
-			$doc.bind('mousedown.' + this._namespaceID, function (event) {
+			$doc.on('mousedown.' + this._namespaceID, function (event) {
 				var target = event.target;
 
 				if (self._isOpen
@@ -490,7 +495,7 @@
 			// restored to their defaultValue prop on form reset, and the reset
 			// handler fires before the form is actually reset.  delaying it a bit
 			// gives the form inputs time to clear.
-			$(this.element[0].form).bind('reset.multiselect', function () {
+			$(this.element[0].form).on('reset.multiselect', function () {
 				setTimeout($.proxy(self.refresh, self), 10);
 			});
 		},
@@ -534,22 +539,13 @@
 
 			// check for and move down
 			if (selectionBottom > $container.innerHeight()) {
-				this._delayHover();
 				$container.scrollTop($container.scrollTop() + selectionBottom - $container.innerHeight());
 			}
 
 			// check for and move up						
 			if (itemPosition.top < 0) {
-				this._delayHover();
 				$container.scrollTop($container.scrollTop() + itemPosition.top);
 			}
-		},
-
-		// temporarily prevent the mouseenter event while scrolling, to prevent jumping due to the mouse being over another element
-		_delayHover: function () {
-			var self = this;
-			clearTimeout(this.viewPortAdjustTimeout);
-			this.viewPortAdjustTimeout = setTimeout(function () { self.viewPortAdjustTimeout = null; }, 500);
 		},
 
 		// This is an internal function to toggle the checked property and
@@ -691,14 +687,14 @@
 				args = [ effect, speed ];
 			}
 
+			// set the scroll of the checkbox container
+			$container.css('max-height', o.height).scrollTop(0);
+
 			// positon
 			this.position();
 
 			// show the menu, maybe with a speed/effect combo
 			$.fn.show.apply(menu, args);
-
-			// set the scroll of the checkbox container
-			$container.css('max-height', o.height).scrollTop(0);
 
 			// select the first not disabled option
 			// triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
@@ -768,7 +764,7 @@
 			$.Widget.prototype.destroy.call(this);
 
 			// unbind events
-			$doc.unbind(this._namespaceID);
+			$doc.off(this._namespaceID);
 
 			this.button.remove();
 			this.menu.remove();
@@ -801,7 +797,7 @@
 				  .position(o.position)
 				  .hide();
 
-				// otherwise fallback to custom positioning
+			// otherwise fallback to custom positioning
 			} else {
 				var pos = this.button.offset();
 
