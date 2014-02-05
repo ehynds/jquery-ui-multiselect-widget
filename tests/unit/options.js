@@ -146,6 +146,22 @@
 		el.multiselect("destroy");
 	});
 
+	test("menuWidth", function(){
+		expect(2);
+		
+		var menuWidth = 321;
+		
+		el = $("select").multiselect({ menuWidth:menuWidth }).multiselect("open");
+		equals( menuWidth, menu().outerWidth(), 'outerWidth of menu is ' + menuWidth );
+		
+		// change width and re-test
+		menuWidth = 351;
+		el.multiselect("option", "menuWidth", menuWidth);
+		equals( menuWidth, menu().outerWidth(), 'changing value through api to '+menuWidth);
+		
+		el.multiselect("destroy");
+	});
+
 	test("minWidth", function(){
 		expect(3);
 		
