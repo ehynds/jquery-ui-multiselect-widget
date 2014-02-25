@@ -427,18 +427,22 @@
       var width = this.element.outerWidth();
       var o = this.options;
 
-      if(/\d/.test(o.minWidth) && width < o.minWidth) {
-        width = o.minWidth;
-      }
+      if (o.minWidth != "none") {
+        if(/\d/.test(o.minWidth) && width < o.minWidth) {
+          width = o.minWidth;
+        }
 
-      // set widths
-      this.button.outerWidth(width);
+        // set widths
+        this.button.outerWidth(width);
+      }
     },
 
     // set menu width
     _setMenuWidth: function() {
-      var m = this.menu;
-      m.outerWidth(this.button.outerWidth());
+      var m = this.menu,
+          o = this.options;
+      if (o.minWidth != "none")
+        m.outerWidth(this.button.outerWidth());
     },
 
     // move up or down within the menu
