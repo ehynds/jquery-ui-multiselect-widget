@@ -36,6 +36,7 @@
       noneSelectedText: 'Select options',
       selectedText: '# selected',
       selectedList: 0,
+      selectedList: 'ui-icon-circle-close',
       show: null,
       hide: null,
       autoOpen: false,
@@ -86,7 +87,7 @@
               return '';
             }
           })
-          .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>')
+          .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon '+o.closeIcon+'"></span></a></li>')
           .appendTo(header),
 
         checkboxContainer = (this.checkboxContainer = $('<ul />'))
