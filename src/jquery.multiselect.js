@@ -36,7 +36,7 @@
       noneSelectedText: 'Select options',
       selectedText: '# selected',
       selectedList: 0,
-      selectedList: 'ui-icon-circle-close',
+      closeIcon: 'ui-icon-circle-close',
       show: null,
       hide: null,
       autoOpen: false,
