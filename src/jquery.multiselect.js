@@ -139,7 +139,7 @@
         var description = this.innerHTML;
         var title = this.title;
         var value = this.value;
-        var inputID = 'ui-multiselect-' + (this.id || id + '-option-' + i);
+        var inputID = 'ui-multiselect-' + multiselectID + '-' + (this.id || id + '-option-' + i);
         var isDisabled = this.disabled;
         var isSelected = this.selected;
         var labelClasses = [ 'ui-corner-all' ];
