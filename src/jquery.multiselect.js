@@ -671,7 +671,7 @@
         // otherwise fallback to custom positioning
       } else {
         var pos = this.button.offset();
-        var bottom = pos.top + o.height + this.button.outerHeight();
+        var bottom = pos.top +  (o.height === 'auto' ? this.menu.height() : o.height) + this.button.outerHeight();
         //popup on top of the button if menu will be cut off by the bottom of the window.
         this.menu.css({
           top: ( bottom < $(window).height() ) ? pos.top + this.button.outerHeight() : pos.top - this.menu.outerHeight(),
