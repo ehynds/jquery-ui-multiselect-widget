@@ -85,7 +85,11 @@
 					.find('option')
 					.filter(function () {
 					    if (!this.disabled && $.inArray(this.value, values) > -1) {
-					        _self._toggleState('selected', flag).call(this);
+					        if (flag) {
+					            $(this).attr('selected', 'selected');
+					        } else {
+					            $(this).removeAttr('selected');
+					        }
 					    }
 					});
                 // remember the change event on the select
