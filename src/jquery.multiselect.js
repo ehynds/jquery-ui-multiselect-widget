@@ -1,29 +1,23 @@
+/* jshint forin:true, noarg:true, noempty:true, eqeqeq:true, boss:true, undef:true, curly:true, browser:true, jquery:true */
 /*
-* jQuery UI Multiselect
+* jQuery MultiSelect UI Widget 1.14pre
+* Copyright (c) 2012 Eric Hynds
 *
-* Authors:
-*  Michael Aufreiter (quasipartikel.at)
-*  Yanick Rochon (yanick.rochon[at]gmail[dot]com)
-* 
-* Dual licensed under the MIT (MIT-LICENSE.txt)
-* and GPL (GPL-LICENSE.txt) licenses.
-* 
-* http://www.quasipartikel.at/multiselect/
+* http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
 *
-* 
 * Depends:
-*	ui.core.js
-*	ui.sortable.js
+*   - jQuery 1.4.2+
+*   - jQuery UI 1.8 widget factory
 *
 * Optional:
-* localization (http://plugins.jquery.com/project/localisation)
-* scrollTo (http://plugins.jquery.com/project/ScrollTo)
-* 
-* Todo:
-*  Make batch actions faster
-*  Implement dynamic insertion through remote calls
+*   - jQuery UI effects
+*   - jQuery UI position utility
+*
+* Dual licensed under the MIT and GPL licenses:
+*   http://www.opensource.org/licenses/mit-license.php
+*   http://www.gnu.org/licenses/gpl.html
+*
 */
-
 
 (function ($, undefined) {
 
@@ -39,6 +33,7 @@
             minMenuWidth: 225,
             maxMenuWidth: 450,
             maxWidth: null,
+            triggerOnCancel: false,
             classes: '',
             checkAllText: 'Check all',
             uncheckAllText: 'Uncheck all',
@@ -252,13 +247,20 @@
             var self = this, ele = null;
             tags.each(function () {
                 if (self.options.optimize) {
-                    ele = $('input[value="' + this.value + '"]', self.menu);
-                    $(this).prop("selected", ele.prop('checked'));
+                    checked = $('input[value="' + this.value + '"]', self.menu).prop('checked');
+                    $(this).prop("selected", checked);
+                    if (checked) {
+                        $(this).attr('selected', 'selected');
+                    } else {
+                        $(this).removeAttr('selected');
+                    }
                 } else {
                     if (this.value === val) {
                         $(this).prop("selected", checked);
+                        $(this).attr('selected', 'selected');
                     } else if (!self.options.multiple) {
                         $(this).prop("selected", false);
+                        $(this).removeAttr('selected');
                     }
                 }
             });
@@ -299,7 +301,7 @@
                         case 27: // esc
                         case 38: // up
                         case 37: // left
-                            self.close();
+                            self.close(false);
                             break;
                         case 39: // right
                         case 40: // down
@@ -330,7 +332,7 @@
 			.delegate('a', 'click.multiselect', function (e) {
 			    // close link
 			    if ($(this).hasClass('ui-multiselect-close')) {
-			        self.close();
+			        self.close(true);
 			    } else {    /* check all / uncheck all */
 			        self[$(this).hasClass('ui-multiselect-all') ? 'checkAll' : 'uncheckAll']();
 			    }
@@ -377,7 +379,7 @@
 			    switch (e.which) {
 			        case 9: // tab
 			        case 27: // esc
-			            self.close();
+			            self.close(false);
 			            break;
 			        case 38: // up
 			        case 40: // down
@@ -415,7 +417,7 @@
 			        $this.closest('label').toggleClass('ui-state-active', checked);
 
 			        // close menu
-			        self.close();
+			        self.close(true);
 			    }
 
 			    // change state on the original option tags
@@ -427,7 +429,7 @@
             // close each widget when clicking on any other element/anywhere else on the page
             $(document).bind('mousedown.multiselect', function (e) {
                 if (self._isOpen && !$.contains(self.menu[0], e.target) && !$.contains(self.button[0], e.target) && e.target !== self.button[0]) {
-                    self.close();
+                    self.close(false);
                 }
             });
 
@@ -650,7 +652,7 @@
         },
 
         // close the menu
-        close: function () {
+        close: function (set) {
             if (this._trigger('beforeclose') === false) {
                 return;
             }
@@ -661,7 +663,11 @@
 		        args = [];
 
             if (o.optimize) {   /* when optimized we save all the changes until we close. */
-                this._check.call(this, this.element.find('option'));
+                if ((o.triggerOnCancel && !set) || set) {
+                    this._check.call(this, this.element.find('option'));
+                } else {
+                    this.refresh.call(this);
+                }
             }
 
             // figure out opening effects/speeds
@@ -677,7 +683,9 @@
             $.fn.hide.apply(this.menu, args);
             this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
             this._isOpen = false;
-            this._trigger('close');
+            if ((o.triggerOnCancel && !set) || set) {
+                this._trigger('close');
+            }
         },
 
         enable: function () {
