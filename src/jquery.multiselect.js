@@ -163,7 +163,7 @@
 					// has this optgroup been added already?
 					if ($.inArray(optLabel, optgroups) === -1) {
 						if (o.optGroupCollapsible || o.optGroupSelectable) {
-							html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><label class="ui-corner-all">' + (o.optGroupCollapsible ? '<a href="#" class="ui-multiselect-optgroup-collapse"></a>' : '') + (o.optGroupSelectable ? '<input type="checkbox" class="ui-multiselect-optgroup-checkbox" />' : '') + '<span>' + optLabel + '</span></label></li>';
+							html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '" optGroupIndex="' + optgroups.length + '"><label class="ui-corner-all">' + (o.optGroupCollapsible ? '<a href="#" class="ui-multiselect-optgroup-collapse"></a>' : '') + (o.optGroupSelectable ? '<input type="checkbox" class="ui-multiselect-optgroup-checkbox" />' : '') + '<span>' + optLabel + '</span></label></li>';
 						}
 						else {
 							html += '<li class="ui-multiselect-optgroup-label ui-multiselect-optgroup-label-plain ' + parent.className + '"><span>' + optLabel + '</span></li>';
@@ -590,7 +590,7 @@
 			});
 
 			// update the optgroups
-			self._updateOptgroup($inputs.first().closest('li.ui-multiselect-optgroup-content').prevAll('li.ui-multiselect-optgroup-label'));
+			self._updateOptgroup($inputs.closest('li.ui-multiselect-optgroup-content').prev('li.ui-multiselect-optgroup-label'));
 
 			// trigger the change event on the select
 			if ($inputs.length) {
@@ -629,7 +629,7 @@
 		},
 
 		_updateOptgroup: function ($optgroups) {
-			var o = this.options;
+			var o = this.options, self = this;
 			if (o.optGroupSelectable) {
 				$optgroups.each(function () {
 					var $this = $(this),
@@ -640,6 +640,8 @@
 					
 					optGroupInput.prop("checked", checkedCount == inputCount);
 					optGroupInput.prop("indeterminate", checkedCount > 0 && checkedCount < inputCount);
+
+					self.element.find("optgroup").eq($this.attr("optGroupIndex")).attr("selected", (checkedCount == inputCount));
 				});
 			}
 		},
