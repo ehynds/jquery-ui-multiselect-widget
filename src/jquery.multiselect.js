@@ -30,6 +30,7 @@
       header: true,
       height: 175,
       minWidth: 225,
+      minWidthMenu:225,
       classes: '',
       checkAllText: 'Check all',
       uncheckAllText: 'Uncheck all',
@@ -438,7 +439,14 @@
     // set menu width
     _setMenuWidth: function() {
       var m = this.menu;
-      m.outerWidth(this.button.outerWidth());
+      var width = m.outerWidth();
+      var o = this.options;
+
+      if(/\d/.test(o.minWidthMenu) && width < o.minWidthMenu) {
+        width = o.minWidthMenu;
+      }
+
+      m.outerWidth(width);
     },
 
     // move up or down within the menu
