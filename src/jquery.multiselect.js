@@ -686,12 +686,14 @@
 
         // otherwise fallback to custom positioning
       } else {
-        var pos = this.button.offset();
-
-        this.menu.css({
-          top: pos.top + this.button.outerHeight(),
-          left: pos.left
-        });
+          var pos = this.button.offset();
+          var posTop = pos.top + this.button.outerHeight();
+          if ((posTop + o.height) > $(window).height())
+              posTop = posTop-o.height;
+          this.menu.css({
+              top: posTop,
+              left: pos.left
+          });
       }
     },
 
