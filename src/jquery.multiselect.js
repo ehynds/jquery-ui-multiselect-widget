@@ -361,7 +361,9 @@
         }
       })
       .delegate('label', 'keyup.multiselect', function(e) {
-          e.preventDefault();
+          if ( self.options.selectOnSpace == true ) {
+              e.preventDefault();
+          }
       })
       .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e) {
         var $this = $(this);
