@@ -625,11 +625,13 @@
     },
 
     checkAll: function(e) {
+      this._trigger('beforeCheckAll');
       this._toggleChecked(true);
       this._trigger('checkAll');
     },
 
     uncheckAll: function() {
+      this._trigger('beforeUncheckAll');
       this._toggleChecked(false);
       this._trigger('uncheckAll');
     },
