@@ -119,22 +119,17 @@
         this._trigger("filter", e, $.map(cache, function(v, i) {
           if(v.search(regex) !== -1) {
             rows.eq(i).show();
+            // Show option group children.
+            if (rows.eq(i).hasClass('ui-multiselect-optgroup-label')) {
+              var children = rows.eq(i).nextUntil('.ui-multiselect-optgroup-label');
+              children.show();
+            }
             return inputs.get(i);
           }
 
           return null;
         }));
       }
-
-      // show/hide optgroups
-      this.instance.menu.find(".ui-multiselect-optgroup-label").each(function() {
-        var $this = $(this);
-        var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').filter(function() {
-          return $.css(this, "display") !== 'none';
-        }).length;
-
-        $this[isVisible ? 'show' : 'hide']();
-      });
     },
 
     _reset: function() {
@@ -143,21 +138,10 @@
 
     updateCache: function() {
       // each list item
-      this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
-
-      // cache
-      this.cache = this.element.children().map(function() {
-        var elem = $(this);
-
-        // account for optgroups
-        if(this.tagName.toLowerCase() === "optgroup") {
-          elem = elem.children();
-        }
-
-        return elem.map(function() {
-          return this.innerHTML.toLowerCase();
-        }).get();
-      }).get();
+      this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li");
+      this.cache = $(this.rows).map(function(elem, index) {
+        return $(this).text();
+      });
     },
 
     widget: function() {
