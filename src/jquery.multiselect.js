@@ -80,6 +80,8 @@
           .html(function() {
             if(o.header === true) {
               return '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li><li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
+            } else if(o.header === "chkbxall") {
+              return '<li><a class="ui-multiselect-chkbxall" href="#"><input id="multiselect_chkbxall" name="multiselect_chkbxall" type="checkbox"><span>' + o.checkAllText + '</span></a></li>';
             } else if(typeof o.header === "string") {
               return '<li>' + o.header + '</li>';
             } else {
@@ -113,7 +115,7 @@
         this.header.hide();
       }
       if(!this.options.multiple) {
-        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
+        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-chkbxall').hide();
       }
       if(this.options.autoOpen) {
         this.open();
@@ -296,6 +298,11 @@
           self.close();
 
           // check all / uncheck all
+        } else if($(this).hasClass('ui-multiselect-chkbxall')) {
+          var chkbxall = $(this).find('input[type=checkbox]');
+          var checked = chkbxall.is(':checked');
+          self[checked ? 'uncheckAll' : 'checkAll']();
+          chkbxall.attr('checked', !checked);
         } else {
           self[$(this).hasClass('ui-multiselect-all') ? 'checkAll' : 'uncheckAll']();
         }
