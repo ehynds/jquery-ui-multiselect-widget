@@ -50,7 +50,8 @@
           }
         },
         keyup: $.proxy(this._handler, this),
-        click: $.proxy(this._handler, this)
+        click: $.proxy(this._handler, this),
+        input: $.proxy(this._handler, this)
       });
 
       // cache input values for searching
