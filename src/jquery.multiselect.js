@@ -444,21 +444,15 @@
     // move up or down within the menu
     _traverse: function(which, start) {
       var $start = $(start);
-      var moveToLast = which === 38 || which === 37;
+      var moveToLast = which === 39 || which === 37;
+      var directionDown = which === 40 || which === 39;
 
       // select the first li that isn't an optgroup label / disabled
-      var $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)').first();
+      var $next = $start.parent()[directionDown ? 'nextAll' : 'prevAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)')[ moveToLast ? 'last' : 'first']();
 
       // if at the first/last element
       if(!$next.length) {
-        var $container = this.menu.find('ul').last();
-
-        // move to the first/last
-        this.menu.find('label')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
-
-        // set scroll position
-        $container.scrollTop(moveToLast ? $container.height() : 0);
-
+        this.menu.find('label')[ directionDown ? 'first' : 'last' ]().trigger('mouseover');
       } else {
         $next.find('label').trigger('mouseover');
       }
