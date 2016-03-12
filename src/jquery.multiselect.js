@@ -30,6 +30,7 @@
       header: true,
       height: 175,
       minWidth: 225,
+      minWidthMenu:225,
       classes: '',
       checkAllText: 'Check all',
       uncheckAllText: 'Uncheck all',
@@ -438,7 +439,14 @@
     // set menu width
     _setMenuWidth: function() {
       var m = this.menu;
-      m.outerWidth(this.button.outerWidth());
+      var width = m.outerWidth();
+      var o = this.options;
+
+      if(/\d/.test(o.minWidthMenu) && width < o.minWidthMenu) {
+        width = o.minWidthMenu;
+      }
+
+      m.outerWidth(width);
     },
 
     // move up or down within the menu
@@ -678,12 +686,14 @@
 
         // otherwise fallback to custom positioning
       } else {
-        var pos = this.button.offset();
-
-        this.menu.css({
-          top: pos.top + this.button.outerHeight(),
-          left: pos.left
-        });
+          var pos = this.button.offset();
+          var posTop = pos.top + this.button.outerHeight();
+          if ((posTop + o.height) > $(window).height())
+              posTop = posTop-o.height;
+          this.menu.css({
+              top: posTop,
+              left: pos.left
+          });
       }
     },
 
