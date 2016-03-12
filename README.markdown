@@ -6,4 +6,4 @@ MultiSelect progessively enhances an ordinary multiple select control into elega
 
 # License
 
-jScrollPane is dual-licensed under the [GPL 2 license](https://github.com/ehynds/jquery-ui-multiselect-widget/blob/master/GPL-LICENSE) and the [MIT license](https://github.com/ehynds/jquery-ui-multiselect-widget/blob/master/MIT-LICENSE).
+MultiSelect is dual-licensed under the [GPL 2 license](https://github.com/ehynds/jquery-ui-multiselect-widget/blob/master/GPL-LICENSE) and the [MIT license](https://github.com/ehynds/jquery-ui-multiselect-widget/blob/master/MIT-LICENSE).
