@@ -637,6 +637,10 @@
     getChecked: function() {
       return this.menu.find('input').filter(':checked');
     },
+    
+    getUnchecked: function() {
+      return this.menu.find('input').not(':checked'); 
+    },
 
     destroy: function() {
       // remove classes + data
