@@ -145,6 +145,15 @@
         var labelClasses = [ 'ui-corner-all' ];
         var liClasses = (isDisabled ? 'ui-multiselect-disabled ' : ' ') + this.className;
         var optLabel;
+		var getDataAttrs = function (allAttrs) {
+			// copy data-* attributes
+			return $.map(allAttrs, function (a) {
+				if (a.nodeType === 2 && a.nodeName.indexOf('data-') === 0) {
+					return ' ' + a.nodeName + '="' + a.nodeValue + '"';
+				}
+				return '';
+			}).join('');
+		}
 
         // is this an optgroup?
         if(parent.tagName === 'OPTGROUP') {
@@ -152,7 +161,7 @@
 
           // has this optgroup been added already?
           if($.inArray(optLabel, optgroups) === -1) {
-            html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><a href="#">' + optLabel + '</a></li>';
+            html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"' + getDataAttrs(parent.attributes) + '><a href="#">' + optLabel + '</a></li>';
             optgroups.push(optLabel);
           }
         }
@@ -167,7 +176,7 @@
           labelClasses.push('ui-state-active');
         }
 
-        html += '<li class="' + liClasses + '">';
+        html += '<li class="' + liClasses + '"' + getDataAttrs(this.attributes) + '>';
 
         // create the label
         html += '<label for="' + inputID + '" title="' + title + '" class="' + labelClasses.join(' ') + '">';

@@ -24,10 +24,25 @@
 
 	});
 
+	test("pull in optgroup's data-* attributes", function () {
+		var expected = $("select optgroup[data-test]")
+		expect(1);
+
+		elems = widget.find('.ui-multiselect-optgroup-label[data-test]');
+		equals(elems.length, expected.length, 'copied data-test attributes ' + expected.length + ' times.');
+	});
+
 	test("pull in options's class", function(){
 		expect(1);
 
 		equals(widget.find('input[value="9"]').parents('li:first').hasClass('optionClass'),true,'Extra class is present');
 	});
 
+	test("pull in options's data-* attributes", function () {
+		var expected = $("select option[data-test]")
+		expect(1);
+
+		elems = widget.find('li[data-test]:not(.ui-multiselect-optgroup-label)');
+		equals(elems.length, expected.length, 'copied data-test attributes ' + expected.length + ' times.');
+	});
 })(jQuery);
