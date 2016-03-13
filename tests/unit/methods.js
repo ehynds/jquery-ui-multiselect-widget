@@ -122,6 +122,16 @@
 			equals( el.multiselect("getChecked").length, 0, 'number of checkboxes returned after unchecking all and calling getChecked');
 		el.multiselect("destroy");
 	});
+    
+    test("getUnchecked", function(){
+		expect(2);
+	 
+		el = $("select").multiselect().multiselect("checkAll");
+			equals( el.multiselect("getUnchecked").length, 0, 'number of checkboxes returned after checking all and calling getUnchecked');
+		el.multiselect("uncheckAll");
+			equals( el.multiselect("getUnchecked").length, 9, 'number of checkboxes returned after unchecking all and calling getUnchecked');
+		el.multiselect("destroy");
+	});
 
 	test("refresh", function(){
 		expect(4);
