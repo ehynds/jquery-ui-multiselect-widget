@@ -143,7 +143,7 @@
 
     updateCache: function() {
       // each list item
-      this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
+      this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li ul li:not(.ui-multiselect-optgroup-label)");
 
       // cache
       this.cache = this.element.children().map(function() {

@@ -1,5 +1,10 @@
 jQuery UI MultiSelect Widget Changelog
 
+Version 1.14 - 22/05/2013 (by Marcos Morales Rodrigo)
+==============================================
+- Added: <ul> tags to create sublist for each group
+- Added: getGroup method: usage: jQuery("#yourselect").multiselect("getGroup",inputCheckBox)
+
 Version 1.13 - 08/19/2012
 ==============================================
 - Fixed: jQuery 1.8 compatibility
