@@ -152,7 +152,13 @@
 
           // has this optgroup been added already?
           if($.inArray(optLabel, optgroups) === -1) {
-            html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><a href="#">' + optLabel + '</a></li>';
+            var optLabelEscaped = optLabel.replace(/&/g, '&amp;')
+              .replace(/>/g, '&gt;')
+              .replace(/</g, '&lt;')
+              .replace(/'/g, '&#39;')
+              .replace(/\//g, '&#x2F;')
+              .replace(/"/g, '&quot;');
+            html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><a href="#">' + optLabelEscaped + '</a></li>';
             optgroups.push(optLabel);
           }
         }
