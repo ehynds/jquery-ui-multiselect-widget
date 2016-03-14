@@ -137,7 +137,7 @@
         var $this = $(this);
         var parent = this.parentNode;
         var description = this.innerHTML;
-        var title = this.title;
+        var title = this.title === "" ? this.textContent : this.title;
         var value = this.value;
         var inputID = 'ui-multiselect-' + (this.id || id + '-option-' + i);
         var isDisabled = this.disabled;
