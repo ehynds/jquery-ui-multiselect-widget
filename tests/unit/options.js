@@ -126,7 +126,7 @@
 			.appendTo("body")
 			.multiselect({ selectedList: 1 });
 
-		equals(button().text(), 'A&amp;E');
+		equals(button().text(), 'A&E');
 		el.multiselect("destroy").remove();
 	});
 
