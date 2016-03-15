@@ -1,5 +1,19 @@
 jQuery UI MultiSelect Widget Changelog
 
+Version 1.14 - Soon...
+==============================================
+- Fixed: get appropriate width before hiding original element. (#609, #614)
+- Fixed: get appropriate width when source element is styled to 100% (#546)
+- Fixed: Generate a unique ID for input even with multiple selects with same name
+- Fixed: No longer showing hidden select element when printing in IE (#627)
+- Fixed: Binding mousedown to appropriate event (#628)
+- Fixed: Unit tests can be run again, pointing to appropriate libraries.
+- Fixed: Preventing XSS attacks from option group labels (#592)
+- Fixed: Preventing html artifacts when setting button text. (#663)
+- Added: getUnchecked method which provides all unchecked options (#595)
+- Added: menuWidth option to manually set the width of the menu
+
+
 Version 1.13 - 08/19/2012
 ==============================================
 - Fixed: jQuery 1.8 compatibility
