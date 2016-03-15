@@ -136,7 +136,7 @@
 		var height = 234;
 		
 		el = $("select").multiselect({ height: height }).multiselect("open");
-		equals( height, menu().find("ul.ui-multiselect-checkboxes").height(), 'height after opening propertly set to '+height );
+		equals( height, menu().find("ul.ui-multiselect-checkboxes").height(), 'height after opening property set to '+height );
 		
 		// change height and re-test
 		height = 333;
@@ -167,6 +167,22 @@
 		
 		el.multiselect("destroy");
 	});
+    
+    test("menuWidth", function(){
+        expect(2);
+        var width = 50;
+
+        el = $("select").multiselect({ minWidth: 100, menuWidth:width }).multiselect("open");
+
+        equals( menu().parent().find(".ui-multiselect-menu").outerWidth(), width, 'width after opening, property set to '+width );
+
+        // change height and re-test
+        width = 300;
+        el.multiselect("option", "menuWidth", width).multiselect('refresh');
+        equals( menu().parent().find(".ui-multiselect-menu").outerWidth(), width,  'changing value through api to '+width );
+
+        el.multiselect("destroy");
+    });
 
 	test("checkAllText", function(){
 		expect(2);
