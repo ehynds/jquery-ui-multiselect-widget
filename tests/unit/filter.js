@@ -9,6 +9,10 @@
     return el.multiselect("getChecked");
   }
 
+  function getUnChecked() {
+    return el.multiselect("getUnChecked");
+  }
+
   function getSelected() {
     return el.children(":selected");
   }
