@@ -41,7 +41,8 @@
       autoOpen: false,
       multiple: true,
       position: {},
-      appendTo: "body"
+      appendTo: "body",
+      menuWidth:null
     },
 
     _create: function() {
@@ -444,7 +445,7 @@
     // set menu width
     _setMenuWidth: function() {
       var m = this.menu;
-      m.outerWidth(this.button.outerWidth());
+      m.outerWidth(this.options.menuWidth || this.button.outerWidth());
     },
 
     // move up or down within the menu
