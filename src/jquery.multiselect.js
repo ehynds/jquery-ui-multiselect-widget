@@ -445,7 +445,8 @@
     // set menu width
     _setMenuWidth: function() {
       var m = this.menu;
-      m.outerWidth(this.options.menuWidth || this.button.outerWidth());
+      var width = (this.button.outerWidth() <= 0) ? this.options.minWidth : this.button.outerWidth();
+      m.outerWidth(this.options.menuWidth || width);
     },
 
     // move up or down within the menu
