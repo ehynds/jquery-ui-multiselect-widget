@@ -46,7 +46,7 @@
     },
 
     _create: function() {
-      var el = this.element.hide();
+      var el = this.element;
       var o = this.options;
 
       this.speed = $.fx.speeds._default; // default speed for effects
@@ -107,6 +107,7 @@
 
         // bump unique ID
         multiselectID++;
+        el.hide();
     },
 
     _init: function() {
