@@ -1,6 +1,6 @@
 jQuery UI MultiSelect Widget Changelog
 
-Version 1.14 - Soon...
+Version 1.14 - 15 March 2016
 ==============================================
 - Fixed: get appropriate width before hiding original element. (#609, #614)
 - Fixed: get appropriate width when source element is styled to 100% (#546)
