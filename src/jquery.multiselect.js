@@ -134,6 +134,15 @@
       var html = "";
       var id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
 
+      // update header link container visibility if needed
+      if (this.options.header) {
+        if(!this.options.multiple) {
+          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
+        } else {
+          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').show();
+        }
+      }
+
       // build items
       el.find('option').each(function(i) {
         var $this = $(this);
