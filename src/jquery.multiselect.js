@@ -60,7 +60,8 @@
       var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
         .addClass(o.classes)
-        .attr({ 'title':el.attr('title'), 'aria-haspopup':true, 'tabIndex':el.attr('tabIndex') })
+        .attr({ 'title':el.attr('title'), 'tabIndex':el.attr('tabIndex') })
+        .prop('aria-haspopup', true)
         .insertAfter(el),
 
         buttonlabel = (this.buttonlabel = $('<span />'))
@@ -251,7 +252,7 @@
       return value;
     },
 
-    // this exists as a separate method so that the developer 
+    // this exists as a separate method so that the developer
     // can easily override it.
     _setButtonValue: function(value) {
       this.buttonlabel.text(value);
@@ -388,7 +389,7 @@
         $this.focus();
 
         // toggle aria state
-        $this.attr('aria-selected', checked);
+        $this.prop('aria-selected', checked);
 
         // change state on the original option tags
         tags.each(function() {
@@ -534,7 +535,7 @@
     },
 
     _toggleDisabled: function(flag) {
-      this.button.attr({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
+      this.button.prop({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 
       var inputs = this.menu.find('input');
       var key = "ech-multiselect-disabled";
@@ -550,10 +551,10 @@
       }
 
       inputs
-        .attr({ 'disabled':flag, 'arial-disabled':flag })
+        .prop({ 'disabled':flag, 'arial-disabled':flag })
         .parent()[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 
-      this.element.attr({
+      this.element.prop({
         'disabled':flag,
         'aria-disabled':flag
       });
@@ -655,9 +656,9 @@
     getChecked: function() {
       return this.menu.find('input').filter(':checked');
     },
-    
+
     getUnchecked: function() {
-      return this.menu.find('input').not(':checked'); 
+      return this.menu.find('input').not(':checked');
     },
 
     destroy: function() {
