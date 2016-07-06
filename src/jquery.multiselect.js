@@ -157,6 +157,7 @@
         var labelClasses = [ 'ui-corner-all' ];
         var liClasses = (isDisabled ? 'ui-multiselect-disabled ' : ' ') + this.className;
         var optLabel;
+        var optName = $this.attr('name');
 
         // is this an optgroup?
         if(parent.tagName === 'OPTGROUP') {
@@ -189,7 +190,7 @@
 
         // create the label
         html += '<label for="' + inputID + '" title="' + title + '" class="' + labelClasses.join(' ') + '">';
-        html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
+        html += '<input id="' + inputID + '" name="'+(optName!=undefined?k:"multiselect_"+i)+'" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
 
         // pre-selected?
         if(isSelected) {
