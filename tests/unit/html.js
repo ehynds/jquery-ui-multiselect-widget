@@ -1,11 +1,12 @@
 (function($){
-	var el, widget, elems, btn;
+	var el, widget, elems, btn, selectClone;
 
 	module("html", {
 		setup: function() {
 			el = $("select").multiselect();
 			widget = el.multiselect("widget");
             btn = el.multiselect("getButton");
+            selectClone = $("select").clone();
 		}
 	});
 
@@ -31,9 +32,17 @@
 		equals(widget.find('input[value="9"]').parents('li:first').hasClass('optionClass'),true,'Extra class is present');
 	});
     
-    test("pull in select's ID and adds _ms", function(){
+    test("pull in select's ID and adds _ms if it exists", function(){
         expect(1);
         equals(btn.attr("id"), el.attr("id") + "_ms", "Id is taken from select and _ms is appended");
+    });
+    
+    test("don't attempt to pull in select's ID and adds _ms if none exists", function(){
+        expect(1);
+        selectClone.attr("id", "");
+        var clonedEl = selectClone.multiselect();
+        var clonedBtn = clonedEl.multiselect("getButton");
+        equals(clonedBtn.attr("id"), undefined, "No ID is added");
     });
 
 })(jQuery);
