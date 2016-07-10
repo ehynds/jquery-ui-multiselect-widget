@@ -49,7 +49,15 @@
             e.preventDefault();
           }
         },
-        keyup: $.proxy(this._handler, this),
+	keyup: $.proxy(function(e) {
+		if (e && e.which == 40) { // down
+			// Focus out from filter's input and trigger mouse-over on first visible menu label to enable keyboard menu traverse.
+			this.input.blur();
+			this.input.parents(".ui-multiselect-menu").find(".ui-multiselect-checkboxes label:visible:first").mouseover();
+			return;
+		}
+		this._handler(e);
+	}, this),
         click: $.proxy(this._handler, this)
       });
 

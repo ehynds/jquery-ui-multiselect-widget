@@ -466,7 +466,7 @@
       var moveToLast = which === 38 || which === 37;
 
       // select the first li that isn't an optgroup label / disabled
-      var $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)').first();
+      var $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:visible:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)').first();
 
       // if at the first/last element
       if(!$next.length) {
