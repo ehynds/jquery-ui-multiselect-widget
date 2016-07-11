@@ -149,7 +149,7 @@
         var $this = $(this);
         var parent = this.parentNode;
         var description = this.innerHTML;
-        var title = this.title === "" ? this.textContent : this.title;
+        var title = this.title;
         var value = this.value;
         var inputID = 'ui-multiselect-' + multiselectID + '-' + (this.id || id + '-option-' + i);
         var isDisabled = this.disabled;
@@ -375,11 +375,12 @@
       .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e) {
         var $this = $(this);
         var val = this.value;
+        var optionText = $this.parent().find("span").text();
         var checked = this.checked;
         var tags = self.element.find('option');
 
         // bail if this input is disabled or the event is cancelled
-        if(this.disabled || self._trigger('click', e, { value: val, text: this.title, checked: checked }) === false) {
+        if(this.disabled || self._trigger('click', e, { value: val, text: optionText, checked: checked }) === false) {
           e.preventDefault();
           return;
         }
