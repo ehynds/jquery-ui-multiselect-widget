@@ -22,7 +22,8 @@
       label: 'Filter:',
       width: null, /* override default width set in css file (px). null will inherit */
       placeholder: 'Enter keywords',
-      autoReset: false
+      autoReset: false,
+      includeOptGroups: false
     },
 
     _create: function() {
@@ -50,7 +51,8 @@
           }
         },
         keyup: $.proxy(this._handler, this),
-        click: $.proxy(this._handler, this)
+        click: $.proxy(this._handler, this),
+        input: $.proxy(this._handler, this)
       });
 
       // cache input values for searching
@@ -104,6 +106,7 @@
 
     // thx for the logic here ben alman
     _handler: function(e) {
+      var opts = this.options;
       var term = $.trim(this.input[0].value.toLowerCase()),
 
       // speed up lookups
@@ -119,22 +122,30 @@
         this._trigger("filter", e, $.map(cache, function(v, i) {
           if(v.search(regex) !== -1) {
             rows.eq(i).show();
+            if (opts.includeOptGroups) {
+              // Show option group children.
+              if (rows.eq(i).hasClass('ui-multiselect-optgroup-label')) {
+                var children = rows.eq(i).nextUntil('.ui-multiselect-optgroup-label');
+                children.show();
+              }
+            }
             return inputs.get(i);
           }
-
           return null;
         }));
       }
 
-      // show/hide optgroups
-      this.instance.menu.find(".ui-multiselect-optgroup-label").each(function() {
-        var $this = $(this);
-        var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').filter(function() {
-          return $.css(this, "display") !== 'none';
-        }).length;
+      if(!opt.includeOptGroups) {
+        // show/hide optgroups
+        this.instance.menu.find(".ui-multiselect-optgroup-label").each(function() {
+          var $this = $(this);
+          var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').filter(function() {
+            return $.css(this, "display") !== 'none';
+          }).length;
 
-        $this[isVisible ? 'show' : 'hide']();
-      });
+          $this[isVisible ? 'show' : 'hide']();
+        });
+      }
     },
 
     _reset: function() {
@@ -142,22 +153,29 @@
     },
 
     updateCache: function() {
-      // each list item
-      this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
+      if(!this.options.includeOptGroups) {
+        // each list item
+        this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
 
-      // cache
-      this.cache = this.element.children().map(function() {
-        var elem = $(this);
+        // cache
+        this.cache = this.element.children().map(function() {
+          var elem = $(this);
 
-        // account for optgroups
-        if(this.tagName.toLowerCase() === "optgroup") {
-          elem = elem.children();
-        }
+          // account for optgroups
+          if(this.tagName.toLowerCase() === "optgroup") {
+            elem = elem.children();
+          }
 
-        return elem.map(function() {
-          return this.innerHTML.toLowerCase();
+          return elem.map(function() {
+            return this.innerHTML.toLowerCase();
+          }).get();
         }).get();
-      }).get();
+      } else {
+        this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li");
+        this.cache = $(this.rows).map(function (elem, index) {
+          return $(this).text();
+        });
+      }
     },
 
     widget: function() {
