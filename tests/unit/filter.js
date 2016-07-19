@@ -14,7 +14,7 @@
   }
 
   function searchFor(term) {
-    input.val(term).trigger("keyup");
+    input.val(term).trigger("search");
   }
 
   function triggerClick() {
@@ -31,16 +31,16 @@
   module("filter widget - multiple select", {
     setup: function() {
       el = $('<select multiple>' +
-        '<option></option>' + 
-        '<option value="foo">testffoooo</option>' + 
-        '<option value="bar">testbbaarr</option>' + 
-        '<option value=" baz ">testbbaazz</option>' + 
-        '<option value="qux">testquxtest</option>' + 
-        '<option value="10">ten</option>' + 
-        '<option value="100">one hundred</option>' + 
-        '<option value="5">five</option>' + 
-        '<option>a test with word boundaries</option>' + 
-        '<option>special regex !^$()//-|{}/: characters</option>' + 
+        '<option></option>' +
+        '<option value="foo">testffoooo</option>' +
+        '<option value="bar">testbbaarr</option>' +
+        '<option value=" baz ">testbbaazz</option>' +
+        '<option value="qux">testquxtest</option>' +
+        '<option value="10">ten</option>' +
+        '<option value="100">one hundred</option>' +
+        '<option value="5">five</option>' +
+        '<option>a test with word boundaries</option>' +
+        '<option>special regex !^$()//-|{}/: characters</option>' +
         '</option>');
 
       el.appendTo(document.body);

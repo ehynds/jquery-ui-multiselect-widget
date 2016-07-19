@@ -16,13 +16,34 @@
 (function($) {
   var rEscape = /[\-\[\]{}()*+?.,\\\^$|#\s]/g;
 
+  //Courtesy of underscore.js
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) {
+          func.apply(context, args);
+        }
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) {
+        func.apply(context, args);
+      }
+    };
+  }
+
   $.widget('ech.multiselectfilter', {
 
     options: {
       label: 'Filter:',
       width: null, /* override default width set in css file (px). null will inherit */
       placeholder: 'Enter keywords',
-      autoReset: false
+      autoReset: false,
+      debounceMS: 250
     },
 
     _create: function() {
@@ -49,8 +70,8 @@
             e.preventDefault();
           }
         },
-        keyup: $.proxy(this._handler, this),
-        click: $.proxy(this._handler, this)
+        input: $.proxy(debounce(this._handler, opts.debounceMS), this),
+        search: $.proxy(this._handler, this)
       });
 
       // cache input values for searching
