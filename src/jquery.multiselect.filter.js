@@ -73,13 +73,14 @@
         this.update();
 
         // gather an array of the values that actually changed
-        var values = $inputs.map(function() {
-          return this.value;
-        }).get();
+        var values = {};
+        $inputs.each(function() {
+          values[this.value] = true;
+        });
 
         // select option tags
         this.element.find('option').filter(function() {
-          if(!this.disabled && $.inArray(this.value, values) > -1) {
+          if(!this.disabled && values[this.value]) {
             _self._toggleState('selected', flag).call(this);
           }
         });

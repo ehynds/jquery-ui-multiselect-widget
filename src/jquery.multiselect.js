@@ -517,15 +517,16 @@
       this.update();
 
       // gather an array of the values that actually changed
-      var values = $inputs.map(function() {
-        return this.value;
-      }).get();
+      var values = {};
+      $inputs.each(function() {
+        values[this.value] = true;
+      });
 
       // toggle state on original option tags
       this.element
         .find('option')
         .each(function() {
-          if(!this.disabled && $.inArray(this.value, values) > -1) {
+          if(!this.disabled && values[this.value]) {
             self._toggleState('selected', flag).call(this);
           }
         });
@@ -545,7 +546,7 @@
       if(flag) {
         // remember which elements this widget disabled (not pre-disabled)
         // elements, so that they can be restored if the widget is re-enabled.
-        inputs = inputs.filter(':enabled').data(key, true)
+        inputs = inputs.filter(':enabled').data(key, true);
       } else {
         inputs = inputs.filter(function() {
           return $.data(this, key) === true;
