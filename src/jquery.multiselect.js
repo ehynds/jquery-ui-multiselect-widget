@@ -132,7 +132,7 @@
       var o = this.options;
       var menu = this.menu;
       var checkboxContainer = this.checkboxContainer;
-      var optgroups = [];
+      var optgroups = {};
       var html = "";
       var id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
 
@@ -164,7 +164,7 @@
           optLabel = parent.getAttribute('label');
 
           // has this optgroup been added already?
-          if($.inArray(optLabel, optgroups) === -1) {
+          if(!optgroups[optLabel]) {
             var optLabelEscaped = optLabel.replace(/&/g, '&amp;')
               .replace(/>/g, '&gt;')
               .replace(/</g, '&lt;')
@@ -172,7 +172,7 @@
               .replace(/\//g, '&#x2F;')
               .replace(/"/g, '&quot;');
             html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><a href="#">' + optLabelEscaped + '</a></li>';
-            optgroups.push(optLabel);
+            optgroups[optLabel] = true;
           }
         }
 
