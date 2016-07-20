@@ -156,12 +156,21 @@
         var isDisabled = this.disabled;
         var isSelected = this.selected;
         var labelClasses = [ 'ui-corner-all' ];
-        var liClasses = (isDisabled ? 'ui-multiselect-disabled ' : ' ') + this.className;
+        var liClasses = [];
         var optLabel;
+
+        if(isDisabled) {
+          liClasses.push('ui-multiselect-disabled');
+        }
+
+        if(this.className) {
+          liClasses.push(this.className);
+        }
 
         // is this an optgroup?
         if(parent.tagName === 'OPTGROUP') {
           optLabel = parent.getAttribute('label');
+          liClasses.push('ui-multiselect-optgrp-child');
 
           // has this optgroup been added already?
           if(!optgroups[optLabel]) {
@@ -186,7 +195,7 @@
           labelClasses.push('ui-state-active');
         }
 
-        html += '<li class="' + liClasses + '">';
+        html += '<li class="' + liClasses.join(' ') + '">';
 
         // create the label
         html += '<label for="' + inputID + '" title="' + title + '" class="' + labelClasses.join(' ') + '">';
@@ -327,7 +336,7 @@
         e.preventDefault();
 
         var $this = $(this);
-        var $inputs = $this.parent().nextUntil('li.ui-multiselect-optgroup-label').find('input:visible:not(:disabled)');
+        var $inputs = $this.parent().nextUntil(':not(.ui-multiselect-optgrp-child)').find('input:visible:not(:disabled)');
         var nodes = $inputs.get();
         var label = $this.parent().text();
 
