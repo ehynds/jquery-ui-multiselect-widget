@@ -149,7 +149,7 @@
       el.find('option').each(function(i) {
         var $this = $(this);
         var parent = this.parentNode;
-        var description = this.innerHTML;
+        var contents = this.innerHTML;
         var title = this.title;
         var value = this.value;
         var inputID = 'ui-multiselect-' + multiselectID + '-' + (this.id || id + '-option-' + i);
@@ -204,8 +204,8 @@
           html += ' aria-disabled="true"';
         }
 
-        // add the title and close everything off
-        html += ' /><span>' + description + '</span></label></li>';
+        // add the contents and close everything off
+        html += ' /><span>' + contents + '</span></label></li>';
       });
 
       // insert into the DOM
