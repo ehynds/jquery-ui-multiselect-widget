@@ -128,13 +128,59 @@
     },
 
     refresh: function(init) {
+      var inputIdCounter = 0;
       var el = this.element;
       var o = this.options;
       var menu = this.menu;
       var checkboxContainer = this.checkboxContainer;
-      var optgroups = {};
       var html = "";
+      var $dropdown = $("<ul/>").addClass('ui-multiselect-checkboxes ui-helper-reset');
       var id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
+
+      function makeItem(option, isInOptionGroup) {
+        var title = option.title ? option.title : null;
+        var value = option.value;
+        var inputID = 'ui-multiselect-' + multiselectID + '-' + (option.id || id + '-option-' + inputIdCounter++);
+        var isDisabled = option.disabled;
+        var isSelected = option.selected;
+        var labelClasses = [ 'ui-corner-all' ];
+        var liClasses = [];
+
+        if(isDisabled) {
+          liClasses.push('ui-multiselect-disabled');
+          labelClasses.push('ui-state-disabled');
+        }
+        if(option.className) {
+          liClasses.push(option.className);
+        }
+        if(isSelected && !o.multiple) {
+          labelClasses.push('ui-state-active');
+        }
+        if(isInOptionGroup) {
+          liClasses.push('ui-multiselect-optgrp-child');
+        }
+
+        var $item = $("<li/>").addClass(liClasses.join(' '));
+        var $label = $("<label/>").attr({
+          "for": inputID,
+          "title": title
+        }).addClass(labelClasses.join(' ')).appendTo($item);
+        var $input = $("<input/>").attr({
+          "name": "multiselect_" + id,
+          "type": o.multiple ? "checkbox" : "radio",
+          "value": value,
+          "title": title,
+          "id": inputID,
+          "checked": isSelected ? "checked" : null,
+          "aria-selected": isSelected ? "true" : null,
+          "disabled": isDisabled ? "disabled" : null,
+          "aria-disabled": isDisabled ? "true" : null
+        }).appendTo($label);
+
+        $("<span/>").text($(option).text()).appendTo($label);
+
+        return $item;
+      }//makeItem
 
       // update header link container visibility if needed
       if (this.options.header) {
@@ -145,80 +191,25 @@
         }
       }
 
-      // build items
-      el.find('option').each(function(i) {
+      //Turn all the options and optiongroups into list items
+      el.children().each(function(i) {
         var $this = $(this);
-        var parent = this.parentNode;
-        var contents = this.innerHTML;
-        var title = this.title;
-        var value = this.value;
-        var inputID = 'ui-multiselect-' + multiselectID + '-' + (this.id || id + '-option-' + i);
-        var isDisabled = this.disabled;
-        var isSelected = this.selected;
-        var labelClasses = [ 'ui-corner-all' ];
-        var liClasses = [];
-        var optLabel;
 
-        if(isDisabled) {
-          liClasses.push('ui-multiselect-disabled');
+        if(this.tagName === 'OPTGROUP') {
+          var $groupLabel = $("<li/>").addClass('ui-multiselect-optgroup-label ' + this.className).appendTo($dropdown);
+          var $link = $("<a/>").attr("href", "#").text(this.getAttribute('label')).appendTo($groupLabel);
+
+          $this.children().each(function() {
+            var $listItem = makeItem(this, true).appendTo($dropdown);
+          });
+        } else {
+          var $listItem = makeItem(this).appendTo($dropdown);
         }
 
-        if(this.className) {
-          liClasses.push(this.className);
-        }
-
-        // is this an optgroup?
-        if(parent.tagName === 'OPTGROUP') {
-          optLabel = parent.getAttribute('label');
-          liClasses.push('ui-multiselect-optgrp-child');
-
-          // has this optgroup been added already?
-          if(!optgroups[optLabel]) {
-            var optLabelEscaped = optLabel.replace(/&/g, '&amp;')
-              .replace(/>/g, '&gt;')
-              .replace(/</g, '&lt;')
-              .replace(/'/g, '&#39;')
-              .replace(/\//g, '&#x2F;')
-              .replace(/"/g, '&quot;');
-            html += '<li class="ui-multiselect-optgroup-label ' + parent.className + '"><a href="#">' + optLabelEscaped + '</a></li>';
-            optgroups[optLabel] = true;
-          }
-        }
-
-        if(isDisabled) {
-          labelClasses.push('ui-state-disabled');
-        }
-
-        // browsers automatically select the first option
-        // by default with single selects
-        if(isSelected && !o.multiple) {
-          labelClasses.push('ui-state-active');
-        }
-
-        html += '<li class="' + liClasses.join(' ') + '">';
-
-        // create the label
-        html += '<label for="' + inputID + '" title="' + title + '" class="' + labelClasses.join(' ') + '">';
-        html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
-
-        // pre-selected?
-        if(isSelected) {
-          html += ' checked="checked"';
-          html += ' aria-selected="true"';
-        }
-
-        // disabled?
-        if(isDisabled) {
-          html += ' disabled="disabled"';
-          html += ' aria-disabled="true"';
-        }
-
-        // add the contents and close everything off
-        html += ' /><span>' + contents + '</span></label></li>';
       });
 
-      // insert into the DOM
-      checkboxContainer.html(html);
+      this.menu.find(".ui-multiselect-checkboxes").remove();
+      this.menu.append($dropdown);
 
       // cache some moar useful elements
       this.labels = menu.find('label');
