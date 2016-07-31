@@ -43,7 +43,8 @@
       multiple: true,
       position: {},
       appendTo: "body",
-      menuWidth:null
+      menuWidth:null,
+      selectedListSeparator: ', '
     },
 
     _create: function() {
@@ -242,7 +243,7 @@
         if($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
         } else if(/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
-          value = $checked.map(function() { return $(this).next().text(); }).get().join(', ');
+          value = $checked.map(function() { return $(this).next().text(); }).get().join(o.selectedListSeparator);
         } else {
           value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
         }
@@ -754,6 +755,11 @@
           break;
         case 'position':
           this.position();
+          break;
+        case 'selectedListSeparator':
+          this.options[key] = value;
+          this.button[0].defaultValue = this.update();
+          break;
       }
 
       $.Widget.prototype._setOption.apply(this, arguments);
