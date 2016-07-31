@@ -347,4 +347,19 @@
 		equals(menu().find(".ui-multiselect-close").find("."+icon).length, 1);
 		el.multiselect("destroy");
 	});
+    test("selectedListSeparator", function(){
+        expect(3);
+        el = $("select").multiselect({ selectedListSeparator: "<br/>", selectedList: 15 });
+        el.multiselect("checkAll");
+        var text = $(button()).text();
+        var matched = [];
+        equals(text.indexOf(","), -1, "There are no commas in the button text");
+        matched = text.match(/\<br\/\>/g);
+        equals(matched.length, 8, "The 9 selected values are joined by <br> tags");
+        el.multiselect("option", "selectedListSeparator", ", ");
+        text = $(button()).text();
+        matched = text.match(/\,/g)
+        equals(matched.length, 8, "The 9 selected values are joined by commas again after calling the option method");
+        el.multiselect("destroy");
+    });
 })(jQuery);
