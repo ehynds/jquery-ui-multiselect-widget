@@ -442,16 +442,33 @@
         setTimeout($.proxy(self.refresh, self), 10);
       });
     },
-
+    _getMinWidth: function() {
+      var minVal = this.options.minWidth;
+      var width = 0;
+      switch (typeof minVal) {
+        case 'number':
+          width = minVal;
+          break;
+        case 'string':
+          var lastChar = minVal[ minVal.length -1 ];
+          width = minVal.match(/\d+/);
+          if(lastChar === '%') {
+            width = this.element.parent().outerWidth() * (width/100);
+          } else {
+            width = parseInt(minVal, 10);
+          }
+          break;
+      }
+      return width;
+    },
     // set button width
     _setButtonWidth: function() {
       var width = this.element.outerWidth();
-      var o = this.options;
+      var minVal = this._getMinWidth();
 
-      if(/\d/.test(o.minWidth) && width < o.minWidth) {
-        width = o.minWidth;
+      if(width < minVal) {
+        width = minVal;
       }
-
       // set widths
       this.button.outerWidth(width);
     },
@@ -459,7 +476,7 @@
     // set menu width
     _setMenuWidth: function() {
       var m = this.menu;
-      var width = (this.button.outerWidth() <= 0) ? this.options.minWidth : this.button.outerWidth();
+      var width = (this.button.outerWidth() <= 0) ? this._getMinWidth() : this.button.outerWidth();
       m.outerWidth(this.options.menuWidth || width);
     },
 
@@ -734,7 +751,7 @@
           break;
         case 'minWidth':
         case 'menuWidth':
-          this.options[key] = parseInt(value, 10);
+          this.options[key] = value;
           this._setButtonWidth();
           this._setMenuWidth();
           break;
