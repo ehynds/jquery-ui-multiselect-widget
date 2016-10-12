@@ -43,7 +43,9 @@
       width: null, /* override default width set in css file (px). null will inherit */
       placeholder: 'Enter keywords',
       autoReset: false,
-      debounceMS: 250
+      debounceMS: 250,
+      optGroupSearchable:false,
+      onlyOptGroupSearchable:false
     },
 
     _create: function() {
@@ -129,10 +131,12 @@
       var term = $.trim(this.input[0].value.toLowerCase()),
 
       // speed up lookups
-      rows = this.rows, inputs = this.inputs, cache = this.cache;
+      rows = this.rows, inputs = this.inputs, cache = this.cache, options = this.options;
 
       if(!term) {
         rows.show();
+        rows.removeClass("multiselect-options-hide-away");
+        rows.filter(".a-multiselect-expandcollpase-optgroup").attr("alt","+").addClass('multiselect-optgroup-plus').removeClass('multiselect-optgroup-minus');
       } else {
         rows.hide();
 
@@ -141,9 +145,9 @@
         this._trigger("filter", e, $.map(cache, function(v, i) {
           if(v.search(regex) !== -1) {
             rows.eq(i).show();
+            rows.eq(i).removeClass("multiselect-options-hide-away");
             return inputs.get(i);
           }
-
           return null;
         }));
       }
@@ -151,10 +155,19 @@
       // show/hide optgroups
       this.instance.menu.find(".ui-multiselect-optgroup-label").each(function() {
         var $this = $(this);
+        $this.find(".a-multiselect-expandcollpase-optgroup").attr("alt",'-').addClass('multiselect-optgroup-minus').removeClass('multiselect-optgroup-plus');
         var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').filter(function() {
           return $.css(this, "display") !== 'none';
         }).length;
 
+        var parentVisible = $this.filter(function(){return $.css(this,"display")!='none';}).length;
+        if(parentVisible>0 && isVisible ==0 && (options.optGroupSearchable || options.onlyOptGroupSearchable))
+        {
+            $this.nextUntil('.ui-multiselect-optgroup-label').each(function() {
+                $(this).show();
+            });
+        }
+        else
         $this[isVisible ? 'show' : 'hide']();
       });
     },
@@ -165,21 +178,35 @@
 
     updateCache: function() {
       // each list item
-      this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
+      var options = this.options;
+      if(options.optGroupSearchable || options.onlyOptGroupSearchable)
+        this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li");//:not(.ui-multiselect-optgroup-label)");
+      else
+        this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
 
       // cache
       this.cache = this.element.children().map(function() {
         var elem = $(this);
 
         // account for optgroups
+        //included self to get optgroup
         if(this.tagName.toLowerCase() === "optgroup") {
-          elem = elem.children();
+            if(options.optGroupSearchable || options.onlyOptGroupSearchable)
+                elem = elem.children().andSelf();
+            else
+                elem = elem.children();
         }
 
+        //Added optgroup  
         return elem.map(function() {
-          return this.innerHTML.toLowerCase();
+            if(options.onlyOptGroupSearchable)
+                return this.localName=="optgroup"?$(this).attr("label").toLowerCase():"";
+            else
+                return this.localName == "optgroup"? $(this).attr("label").toLowerCase(): this.innerHTML.toLowerCase();
         }).get();
       }).get();
+        
+        console.log(this.cache);
     },
 
     widget: function() {

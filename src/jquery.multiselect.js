@@ -43,6 +43,7 @@
       multiple: true,
       position: {},
       appendTo: "body",
+      optGroupCheckbox : false,
       menuWidth:null,
       selectedListSeparator: ', '
     },
@@ -135,6 +136,7 @@
       var menu = this.menu;
       var checkboxContainer = this.checkboxContainer;
       var html = "";
+      var p = [];
       var $dropdown = $("<ul/>").addClass('ui-multiselect-checkboxes ui-helper-reset');
       var id = el.attr('id') || multiselectID++; // unique ID for the label & option tags
 
@@ -182,7 +184,33 @@
 
         return $item;
       }//makeItem
-
+        
+        function makeParent(optgp)
+        {
+            optgp.inputClass = "input-ui-multiselect-optgrp";
+            var $groupLabel = $("<li/>").addClass('ui-multiselect-optgroup-label').attr("optGroupIndex",p.length);//.appendTo($dropdown);
+            var $link = $("<a/>").addClass('a-multiselect-optgrp').attr("href", "#").text(optgp.getAttribute('label'));//.appendTo($groupLabel);
+            optgp.selected = optgp.getAttribute('selected') != null ? true:false;
+            optgp.disabled = optgp.getAttribute('disabled') != null ? true:false;
+            optgp.id = optgp.getAttribute("id");
+            var $input = $("<input style='postion:left'/>").attr({
+              "name": "multiselect_optgrp" + optgp.id,
+              "type": o.multiple ? "checkbox" : "radio",
+              "value": optgp.id,
+              "title": optgp.getAttribute('label'),
+              "id": optgp.id,
+              "checked": optgp.selected ? "checked" : null,
+              "aria-selected": optgp.selected ? "true" : null,
+              "disabled": optgp.disabled ? "disabled" : null,
+              "aria-disabled": optgp.disabled ? "true" : null,
+              "class":optgp.inputClass
+            });
+            var expand = $("<img/>").addClass("a-multiselect-expandcollpase-optgroup").attr("href","#").attr("alt","-").addClass('multiselect-optgroup-minus');
+            $groupLabel.append(expand);
+            var $parentItem = o.optGroupCheckbox ? $groupLabel.append($input).append($link) : $groupLabel.append($link) ;
+            p.push($parentItem);
+            return $parentItem;
+        }
       // update header link container visibility if needed
       if (this.options.header) {
         if(!this.options.multiple) {
@@ -197,9 +225,9 @@
         var $this = $(this);
 
         if(this.tagName === 'OPTGROUP') {
-          var $groupLabel = $("<li/>").addClass('ui-multiselect-optgroup-label ' + this.className).appendTo($dropdown);
-          var $link = $("<a/>").attr("href", "#").text(this.getAttribute('label')).appendTo($groupLabel);
-
+          //var $groupLabel = $("<li/>").addClass('ui-multiselect-optgroup-label ' + this.className).appendTo($dropdown);
+          //var $link = $("<a/>").attr("href", "#").text(this.getAttribute('label')).appendTo($groupLabel);
+          var $groupLabel = makeParent(this).appendTo($dropdown);
           $this.children().each(function() {
             var $listItem = makeItem(this, true).appendTo($dropdown);
           });
@@ -215,7 +243,7 @@
       // cache some moar useful elements
       this.labels = menu.find('label');
       this.inputs = this.labels.children('input');
-
+      this.optGroupInputs = menu.find(".ui-multiselect-optgroup-label").children("input");
       // set widths
       this._setButtonWidth();
       this._setMenuWidth();
@@ -250,7 +278,7 @@
       }
 
       this._setButtonValue(value);
-
+      this._updateOptGroup();
       return value;
     },
 
@@ -323,6 +351,34 @@
         e.preventDefault();
       });
 
+      // optgroup expand & collapse
+      this.menu.delegate(".a-multiselect-expandcollpase-optgroup",'click.multiselect',function(e)
+      {
+          e.preventDefault();
+          var $this = $(this);
+          var $inputs = $this.parent().nextUntil(':not(.ui-multiselect-optgrp-child)').find('input:not(:disabled)');
+          var nodes = $inputs.get();
+          var label = $this.parent().text();
+          var $show = ($this.attr("alt") == "+" || $this.hasClass("multiselect-optgroup-plus")) ? true : false;
+          $inputs.each(function(d){
+              var du = $(this);
+              console.log(du);
+              console.log($show);
+              if($show)
+              {
+                  du.parent().parent().removeClass("multiselect-options-hide-away");
+                  $this.attr("alt","-");
+                  $this.addClass("multiselect-optgroup-minus").removeClass("multiselect-optgroup-plus");
+              }
+              else
+              {
+                  du.parent().parent().addClass("multiselect-options-hide-away");
+                  $this.attr("alt","+");
+                  $this.addClass("multiselect-optgroup-plus").removeClass("multiselect-optgroup-minus");
+              }  
+          });
+          //$this.attr("alt","+");
+      });
       // optgroup label toggle support
       this.menu.delegate('li.ui-multiselect-optgroup-label a', 'click.multiselect', function(e) {
         e.preventDefault();
@@ -376,6 +432,12 @@
       })
       .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e) {
         var $this = $(this);
+        
+        if($this.hasClass("input-ui-multiselect-optgrp"))
+        {
+            $this.next().click();
+            return;
+        }
         var val = this.value;
         var optionText = $this.parent().find("span").text();
         var checked = this.checked;
@@ -547,15 +609,58 @@
           if(!this.disabled && values[this.value]) {
             self._toggleState('selected', flag).call(this);
           }
-        });
+        });        
 
       // trigger the change event on the select
       if($inputs.length) {
         this.element.trigger("change");
       }
     },
+    
+    //This is used to update the optGroup Checkbox values based on the child values.
+    _updateOptGroup:function(){
+        if(this.options.optGroupCheckbox)
+        {
+            var $optgroups = this.menu.find(".ui-multiselect-checkboxes").find("li"),self = this;
+            //Looping for all optgroups to update the values
+            $optgroups.each(function () {
+                var $this = $(this);
+                if($this.hasClass("ui-multiselect-optgroup-label"))
+                    {
+                        var $optgroupInputs = $this.nextUntil('li.ui-multiselect-optgroup-label').find('input:not(:disabled)'),
+                        inputCount = $optgroupInputs.length,
+                        checkedCount = $optgroupInputs.filter(':checked').length
+                        optGroupInput = $this.find('input');
+                        //if both total checked count and input counts are equal check it
+                        optGroupInput.prop("checked", checkedCount == inputCount);
+                        //if checked count is greater than 0 and less that total inputs under it indeterminate
+                        optGroupInput.prop("indeterminate", checkedCount > 0 && checkedCount < inputCount);
 
-    _toggleDisabled: function(flag) {
+                        self.element.find("optgroup").eq($this.attr("optGroupIndex")).attr("selected", (checkedCount == inputCount));
+                    }
+                });
+        }
+    },
+      //This is not required but after test this function can be removed
+      //{remove}
+    _updateExpandCollapse:function()      
+      {
+          var $optgroups = this.menu.find(".ui-multiselect-checkboxes").find("li"),self = this;
+            //Looping for all optgroups to update the values
+            $optgroups.each(function () {
+                var $this = $(this);
+                if($this.hasClass("ui-multiselect-optgroup-label"))
+                    {
+                        var $optgroupInputs = $this.nextUntil('li.ui-multiselect-optgroup-label'),
+                        inputCount = $optgroupInputs.length,
+                        hiddenCount = $optgroupInputs.filter('.multiselect-options-hide-away').length
+                        optGroupInput = $this.find('input');
+                        optGroupInput.attr("alt",hiddenCount == inputCount ? "+":"-");
+                        optGroupInput.addClass(hiddenCount == inputCount ? 'multiselect-optgroup-plus' : 'multiselect-optgroup-minus').removeClass(hiddenCount == inputCount ? 'multiselect-optgroup-minus' : 'multiselect-optgroup-plus');
+                    }
+                });
+      }
+    ,_toggleDisabled: function(flag) {
       this.button.prop({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 
       var inputs = this.menu.find('input');
