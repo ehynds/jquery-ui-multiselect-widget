@@ -363,8 +363,11 @@
         }
       })
       .delegate('label', 'keydown.multiselect', function(e) {
+        if(e.which === 82)
+          return; //"r" key, often used for reload.
+        if(e.which > 111 && e.which < 124)
+          return; //Keyboard function keys.
         e.preventDefault();
-
         switch(e.which) {
           case 9: // tab
             case 27: // esc
