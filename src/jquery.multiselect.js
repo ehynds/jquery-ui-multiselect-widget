@@ -34,6 +34,8 @@
       checkAllText: 'Check all',
       uncheckAllText: 'Uncheck all',
       noneSelectedText: 'Select options',
+      showCheckAll: true,
+      showUncheckAll: true,
       selectedText: '# selected',
       selectedList: 0,
       closeIcon: 'ui-icon-circle-close',
@@ -83,7 +85,12 @@
           .addClass('ui-helper-reset')
           .html(function() {
             if(o.header === true) {
-              return '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li><li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
+              var header_lis = '';
+              if(o.showCheckAll)
+                header_lis = '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li>';
+              if(o.showUncheckAll)
+                header_lis += '<li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
+              return header_lis;
             } else if(typeof o.header === "string") {
               return '<li>' + o.header + '</li>';
             } else {
@@ -356,8 +363,11 @@
         }
       })
       .delegate('label', 'keydown.multiselect', function(e) {
+        if(e.which === 82)
+          return; //"r" key, often used for reload.
+        if(e.which > 111 && e.which < 124)
+          return; //Keyboard function keys.
         e.preventDefault();
-
         switch(e.which) {
           case 9: // tab
             case 27: // esc
