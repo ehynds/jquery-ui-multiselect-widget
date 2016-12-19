@@ -164,11 +164,13 @@
     },
 
     updateCache: function() {
+
       // each list item
       this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
 
       // cache
-      this.cache = this.element.children().map(function() {
+      // Skip display-none rows
+      this.cache = this.element.children(":not(:css(display=none))").map(function() {
         var elem = $(this);
 
         // account for optgroups
