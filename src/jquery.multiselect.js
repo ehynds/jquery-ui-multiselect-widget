@@ -42,6 +42,7 @@
       show: null,
       hide: null,
       autoOpen: false,
+      closeOnSelect:false,
       multiple: true,
       position: {},
       appendTo: "body",
@@ -414,7 +415,7 @@
         });
 
         // some additional single select-specific logic
-        if(!self.options.multiple) {
+        if(!self.options.multiple || self.options.closeOnSelect) {
           self.labels.removeClass('ui-state-active');
           $this.closest('label').toggleClass('ui-state-active', checked);
 
