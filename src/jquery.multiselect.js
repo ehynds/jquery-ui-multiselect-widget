@@ -183,7 +183,7 @@
           "aria-selected": isSelected ? "true" : null,
           "disabled": isDisabled ? "disabled" : null,
           "aria-disabled": isDisabled ? "true" : null
-        }).appendTo($label);
+        }).data($(option).data()).appendTo($label);
 
         $("<span/>").text($(option).text()).appendTo($label);
 
