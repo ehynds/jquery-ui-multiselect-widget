@@ -86,10 +86,12 @@
           .html(function() {
             if(o.header === true) {
               var header_lis = '';
-              if(o.showCheckAll)
+              if(o.showCheckAll) {
                 header_lis = '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li>';
-              if(o.showUncheckAll)
+              }
+              if(o.showUncheckAll) {
                 header_lis += '<li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
+              }
               return header_lis;
             } else if(typeof o.header === "string") {
               return '<li>' + o.header + '</li>';
@@ -363,10 +365,12 @@
         }
       })
       .delegate('label', 'keydown.multiselect', function(e) {
-        if(e.which === 82)
+        if(e.which === 82) {
           return; //"r" key, often used for reload.
-        if(e.which > 111 && e.which < 124)
+        }
+        if(e.which > 111 && e.which < 124) {
           return; //Keyboard function keys.
+        }
         e.preventDefault();
         switch(e.which) {
           case 9: // tab
@@ -381,6 +385,16 @@
             break;
           case 13: // enter
             $(this).find('input')[0].click();
+            break;
+          case 65:
+            if(e.altKey) {
+              self.checkAll();
+            }
+            break;
+          case 85:
+            if(e.altKey) {
+              self.uncheckAll();
+            }
             break;
         }
       })
