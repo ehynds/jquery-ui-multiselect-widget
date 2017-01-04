@@ -22,6 +22,8 @@
 
   var multiselectID = 0;
   var $doc = $(document);
+  //save temp select value
+  var beforeSelOpts = "";
 
   $.widget("ech.multiselect", {
 
@@ -590,7 +592,21 @@
         'aria-disabled':flag
       });
     },
-
+    //get select value
+    getSelectValue: function () {
+      var o = this.options;
+      var $inputs = this.inputs;
+      var $checked = $inputs.filter(':checked');
+      var numChecked = $checked.length;
+      var value;
+      if (numChecked === 0) {
+        value = "";
+        }
+      else {
+        value = $checked.map(function () { return this.value; }).get().join(',');
+        }
+        return value;
+    },
     // open the menu
     open: function(e) {
       var self = this;
@@ -604,7 +620,9 @@
       if(this._trigger('beforeopen') === false || button.hasClass('ui-state-disabled') || this._isOpen) {
         return;
       }
-
+      //set before select option value
+      beforeSelOpts = this.getSelectValue();
+      
       var $container = menu.find('ul').last();
       var effect = o.show;
 
@@ -664,6 +682,10 @@
       this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
       this._isOpen = false;
       this._trigger('close');
+      //if the select value is changed,so provider the changed event
+      if (beforeSelOpts != this.getSelectValue()) {
+        this._trigger('changed');
+      }
     },
 
     enable: function() {
