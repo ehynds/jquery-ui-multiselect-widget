@@ -633,7 +633,11 @@
       // triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
       // will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
       this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
-
+    
+      if (!o.multiple && typeof($(menu).find('.ui-state-active').position()) !== 'undefined') {
+		  	$container.scrollTop($(menu).find('.ui-state-active').position().top);
+	    }
+    
       button.addClass('ui-state-active');
       this._isOpen = true;
       this._trigger('open');
