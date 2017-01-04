@@ -51,19 +51,18 @@
       var elem = $(this.element);
 
       // get the multiselect instance
-      var instance = (this.instance = (elem.data('echMultiselect') || elem.data("multiselect") || elem.data("ech-multiselect")));
+      this.instance = elem.multiselect('instance');
 
       // store header; add filter class so the close/check all/uncheck all links can be positioned correctly
-      var header = (this.header = instance.menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter'));
+      this.header = this.instance.menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter');
 
       // wrapper elem
-      var wrapper = (this.wrapper = $('<div class="ui-multiselect-filter">' + (opts.label.length ? opts.label : '') + '<input placeholder="'+opts.placeholder+'" type="search"' + (/\d/.test(opts.width) ? 'style="width:'+opts.width+'px"' : '') + ' /></div>').prependTo(this.header));
-
-      // reference to the actual inputs
-      this.inputs = instance.menu.find('input[type="checkbox"], input[type="radio"]');
-
-      // build the input box
-      this.input = wrapper.find('input').bind({
+      this.input = $("<input/>").attr({
+          placeholder: opts.placeholder,
+          type: "search"
+        }).css({
+          width: (/\d/.test(opts.width) ? opts.width + 'px' : null)
+        }).addClass("ui-front").bind({
         keydown: function(e) {
           // prevent the enter key from submitting the form / closing the widget
           if(e.which === 13) {
@@ -73,13 +72,17 @@
         input: $.proxy(debounce(this._handler, opts.debounceMS), this),
         search: $.proxy(this._handler, this)
       });
+      this.wrapper = $("<div/>").addClass("ui-multiselect-filter").text(opts.label).append(this.input).prependTo(this.header);
+
+      // reference to the actual inputs
+      this.inputs = this.instance.menu.find('input[type="checkbox"], input[type="radio"]');
 
       // cache input values for searching
       this.updateCache();
 
       // rewrite internal _toggleChecked fn so that when checkAll/uncheckAll is fired,
       // only the currently filtered elements are checked
-      instance._toggleChecked = function(flag, group) {
+      this.instance._toggleChecked = function(flag, group) {
         var $inputs = (group && group.length) ?  group : this.labels.find('input');
         var _self = this;
 
@@ -113,14 +116,14 @@
       };
 
       // rebuild cache when multiselect is updated
-      var doc = $(document).bind('multiselectrefresh.'+ instance._namespaceID, $.proxy(function() {
+      var doc = $(document).bind('multiselectrefresh.'+ this.instance._namespaceID, $.proxy(function() {
         this.updateCache();
         this._handler();
       }, this));
 
       // automatically reset the widget on close?
       if(this.options.autoReset) {
-        doc.bind('multiselectclose.'+ instance._namespaceID, $.proxy(this._reset, this));
+        doc.bind('multiselectclose.'+ this.instance._namespaceID, $.proxy(this._reset, this));
       }
     },
 

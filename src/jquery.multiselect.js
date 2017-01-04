@@ -623,11 +623,11 @@
       // set the scroll of the checkbox container
       $container.scrollTop(0).height(o.height);
 
-      // positon
-      this.position();
-
       // show the menu, maybe with a speed/effect combo
       $.fn.show.apply(menu, args);
+
+      // positon
+      this.position();
 
       // select the first not disabled option
       // triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
@@ -720,25 +720,22 @@
     },
 
     position: function() {
-      var o = this.options;
-
-      // use the position utility if it exists and options are specifified
-      if($.ui.position && !$.isEmptyObject(o.position)) {
-        o.position.of = o.position.of || this.button;
-
-        this.menu
-          .show()
-          .position(o.position)
-          .hide();
-
-        // otherwise fallback to custom positioning
+      var pos = {
+        my: "top",
+        at: "bottom",
+        of: this.button
+      };
+      if(!$.isEmptyObject(this.options.position)) {
+        pos.my = this.options.position.my || pos.my;
+        pos.at = this.options.position.at || pos.at;
+        pos.of = this.options.position.of || pos.of;
+      }
+      if($.ui && $.ui.position) {
+        this.menu.position(pos);
       } else {
-        var pos = this.button.offset();
-
-        this.menu.css({
-          top: pos.top + this.button.outerHeight(),
-          left: pos.left
-        });
+        pos = this.button.position();
+        pos.top += this.button.outerHeight(false);
+        this.menu.offset(pos);
       }
     },
 
