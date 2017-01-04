@@ -43,6 +43,7 @@
       hide: null,
       autoOpen: false,
       multiple: true,
+      selectOnSpace: false,
       position: {},
       appendTo: "body",
       menuWidth:null,
@@ -382,7 +383,17 @@
           case 13: // enter
             $(this).find('input')[0].click();
           break;
+          case 32: // space
+            if ( self.options.selectOnSpace == true ) {
+                $( this ).find( 'input' )[0].click();
+            }
+          break;
         }
+      })
+      .delegate('label', 'keyup.multiselect', function(e) {
+          if ( self.options.selectOnSpace == true ) {
+              e.preventDefault();
+          }
       })
       .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e) {
         var $this = $(this);
@@ -776,6 +787,9 @@
           this.options.multiple = value;
           this.element[0].multiple = value;
           this.refresh();
+          break;
+        case 'selectOnSpace':
+          this.options[key] = !!value;
           break;
         case 'position':
           this.position();
