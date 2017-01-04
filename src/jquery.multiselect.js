@@ -288,14 +288,14 @@
         keypress: function(e) {
           switch(e.which) {
             case 27: // esc
-              case 38: // up
-              case 37: // left
+            case 38: // up
+            case 37: // left
               self.close();
-            break;
+              break;
             case 39: // right
-              case 40: // down
+            case 40: // down
               self.open();
-            break;
+              break;
           }
         },
         mouseenter: function() {
@@ -370,18 +370,18 @@
         e.preventDefault();
         switch(e.which) {
           case 9: // tab
-            case 27: // esc
+          case 27: // esc
             self.close();
-          break;
+            break;
           case 38: // up
-            case 40: // down
-            case 37: // left
-            case 39: // right
+          case 40: // down
+          case 37: // left
+          case 39: // right
             self._traverse(e.which, this);
-          break;
+            break;
           case 13: // enter
             $(this).find('input')[0].click();
-          break;
+            break;
         }
       })
       .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e) {
@@ -496,20 +496,20 @@
       var moveToLast = which === 38 || which === 37;
 
       // select the first li that isn't an optgroup label / disabled
-      var $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)').first();
+      var $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label):visible').first();
 
       // if at the first/last element
       if(!$next.length) {
         var $container = this.menu.find('ul').last();
 
         // move to the first/last
-        this.menu.find('label')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
+        this.menu.find('label:visible')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
 
         // set scroll position
         $container.scrollTop(moveToLast ? $container.height() : 0);
 
       } else {
-        $next.find('label').trigger('mouseover');
+        $next.find('label:visible').trigger('mouseover');
       }
     },
 
