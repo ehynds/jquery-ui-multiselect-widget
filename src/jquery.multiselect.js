@@ -22,6 +22,14 @@
 
   var multiselectID = 0;
   var $doc = $(document);
+  
+  function focusNoScroll(multiselectObject) {
+    //save the current window position, and restore it after the focus event. 
+    var x = window.scrollX, y = window.scrollY;
+    multiselectObject.trigger("focus");
+    window.scrollTo(x, y);
+    return multiselectObject; //chainability
+};
 
   $.widget("ech.multiselect", {
 
@@ -359,7 +367,9 @@
       .delegate('label', 'mouseenter.multiselect', function() {
         if(!$(this).hasClass('ui-state-disabled')) {
           self.labels.removeClass('ui-state-hover');
-          $(this).addClass('ui-state-hover').find('input').focus();
+          $(this).addClass('ui-state-hover');
+          var multiselectObject = $(this).find('input');
+          focusNoScroll(multiselectObject);
         }
       })
       .delegate('label', 'keydown.multiselect', function(e) {
@@ -632,7 +642,9 @@
       // select the first not disabled option
       // triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
       // will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
-      this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+      this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input');
+      var multiselectObject = this.labels;
+      focusNoScroll(multiselectObject);
 
       button.addClass('ui-state-active');
       this._isOpen = true;
