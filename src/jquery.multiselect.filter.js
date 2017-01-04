@@ -67,6 +67,11 @@
           // prevent the enter key from submitting the form / closing the widget
           if(e.which === 13) {
             e.preventDefault();
+          } else if(e.which === 82 && e.altKey) {
+            e.preventDefault();
+            $(this).val('').trigger('input', '');
+          } else if(e.which === 27) {
+            elem.multiselect('instance').close();
           }
         },
         input: $.proxy(debounce(this._handler, opts.debounceMS), this),

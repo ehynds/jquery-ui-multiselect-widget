@@ -629,10 +629,15 @@
       // positon
       this.position();
 
-      // select the first not disabled option
-      // triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
-      // will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
-      this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+
+      // select the first not disabled option or the filter input if available
+      var filter = this.header.find(".ui-multiselect-filter");
+      if(filter.length) {
+        filter.first().find('input').trigger('focus');
+      } else {
+        this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+      }
+
 
       button.addClass('ui-state-active');
       this._isOpen = true;
@@ -664,6 +669,7 @@
       this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
       this._isOpen = false;
       this._trigger('close');
+      this.button.trigger('focus');
     },
 
     enable: function() {
