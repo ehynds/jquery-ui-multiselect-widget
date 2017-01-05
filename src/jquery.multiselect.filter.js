@@ -87,6 +87,15 @@
         input: $.proxy(debounce(this._handler, opts.debounceMS), this),
         search: $.proxy(this._handler, this)
       });
+      // automatically reset the widget on close?
+      if(this.options.autoReset) {
+        elem.bind('multiselectclose', $.proxy(this._reset, this));
+      }
+      // rebuild cache when multiselect is updated
+      elem.bind('multiselectrefresh', $.proxy(function() {
+        this.updateCache();
+        this._handler();
+      }, this));
       this.wrapper = $("<div/>").addClass("ui-multiselect-filter").text(opts.label).append(this.input).prependTo(this.header);
 
       // reference to the actual inputs
@@ -129,17 +138,6 @@
           this.element.trigger('change');
         }
       };
-
-      // rebuild cache when multiselect is updated
-      var doc = $(document).bind('multiselectrefresh.'+ this.instance._namespaceID, $.proxy(function() {
-        this.updateCache();
-        this._handler();
-      }, this));
-
-      // automatically reset the widget on close?
-      if(this.options.autoReset) {
-        doc.bind('multiselectclose.'+ this.instance._namespaceID, $.proxy(this._reset, this));
-      }
     },
 
     // thx for the logic here ben alman
@@ -178,7 +176,7 @@
     },
 
     _reset: function() {
-      this.input.val('').trigger('keyup');
+      this.input.val('').trigger('input', '');
     },
 
     updateCache: function() {
