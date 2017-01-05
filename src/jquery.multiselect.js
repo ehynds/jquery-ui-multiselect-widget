@@ -340,7 +340,7 @@
         self._trigger('optgrouptoggle', e, {
           inputs: nodes,
           label: label,
-          checked: nodes[0].checked
+          checked: nodes.length ? nodes[0].checked : null
         });
       })
       .delegate('label', 'mouseenter.multiselect', function() {
