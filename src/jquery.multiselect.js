@@ -44,9 +44,23 @@
       autoOpen: false,
       multiple: true,
       position: {},
-      appendTo: "body",
+      appendTo: null,
       menuWidth:null,
       selectedListSeparator: ', '
+    },
+
+    _getAppendEl: function() {
+      var element = this.options.appendTo;
+      if(element) {
+        element = element.jquery || element.nodeType ? $(element) : this.document.find(element).eq(0);
+      }
+      if(!element || !element[0]) {
+        element = this.element.closest(".ui-front, dialog");
+      }
+      if(!element.length) {
+        element = this.document[0].body;
+      }
+      return element;
     },
 
     _create: function() {
@@ -75,7 +89,7 @@
         this.menu = $('<div />')
           .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
           .addClass(o.classes)
-          .appendTo($(o.appendTo));
+          .appendTo(this._getAppendEl());
 
         this.header = $('<div />')
           .addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
