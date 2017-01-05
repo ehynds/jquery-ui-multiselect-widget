@@ -162,17 +162,16 @@
 
 	test("position", function() {
     expect(2);
-
     var left = "500px";
 
     el = $("select").clone().appendTo(body).multiselect();
+    // Position doesn't work reliably on hidden elements
+    el.multiselect("open");
 
     // move the button
     button().css({ position: "absolute", left: left });
-
     // sanity check the fact that the menu and button are out of sync
     notEqual(menu().css("left"), left, "After moving the button, the menu remains in its old position");
-
     // update the menu position
     el.multiselect("position");
 

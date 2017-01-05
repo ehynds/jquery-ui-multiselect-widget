@@ -522,13 +522,13 @@
         ulHeight += $(li).outerHeight(true);
       });
       if(ulHeight > this.options.height) {
-        this.menu.children("ui-multiselect-checkboxes").css("overflow", "auto");
+        this.menu.children(".ui-multiselect-checkboxes").css("overflow", "auto");
         ulHeight = this.options.height;
       } else {
-        this.menu.children("ui-multiselect-checkboxes").css("overflow", "hidden");
+        this.menu.children(".ui-multiselect-checkboxes").css("overflow", "hidden");
       }
 
-      this.menu.children("ui-multiselect-checkboxes").height(ulHeight);
+      this.menu.children(".ui-multiselect-checkboxes").height(ulHeight);
       this.menu.height(ulHeight + headerHeight);
     },
 

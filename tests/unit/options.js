@@ -133,15 +133,15 @@
 	test("height", function(){
 		expect(2);
 
-		var height = 234;
+		var height = 100;
 
 		el = $("select").multiselect({ height: height }).multiselect("open");
-		equals( height, menu().find("ul.ui-multiselect-checkboxes").height(), 'height after opening property set to '+height );
+		equals( height, menu().find("ul.ui-multiselect-checkboxes").height(), 'height after opening property set to '+ height );
 
 		// change height and re-test
-		height = 333;
+		height = 300;
 		el.multiselect("option", "height", height);
-		equals( height, menu().find("ul.ui-multiselect-checkboxes").height(), 'changing value through api to '+height );
+		equals( height, menu().find("ul.ui-multiselect-checkboxes").height(), 'changing value through api to '+ height );
 
 		el.multiselect("destroy");
 	});
