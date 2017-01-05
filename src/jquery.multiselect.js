@@ -225,9 +225,7 @@
       this.labels = menu.find('label');
       this.inputs = this.labels.children('input');
 
-      // set widths
       this._setButtonWidth();
-      this._setMenuWidth();
 
       // remember default value
       this.button[0].defaultValue = this.update();
@@ -517,6 +515,28 @@
       m.outerWidth(this.options.menuWidth || width);
     },
 
+    _setMenuHeight: function() {
+      var headerHeight = this.menu.children(".ui-multiselect-header:visible").outerHeight(true);
+      var ulHeight = 0;
+      this.menu.find(".ui-multiselect-checkboxes li").each(function(idx, li) {
+        ulHeight += $(li).outerHeight(true);
+      });
+      if(ulHeight > this.options.height) {
+        this.menu.children("ui-multiselect-checkboxes").css("overflow", "auto");
+        ulHeight = this.options.height;
+      } else {
+        this.menu.children("ui-multiselect-checkboxes").css("overflow", "hidden");
+      }
+
+      this.menu.children("ui-multiselect-checkboxes").height(ulHeight);
+      this.menu.height(ulHeight + headerHeight);
+    },
+
+    _resizeMenu: function() {
+      this._setMenuWidth();
+      this._setMenuHeight();
+    },
+
     // move up or down within the menu
     _traverse: function(which, start) {
       var $start = $(start);
@@ -653,6 +673,7 @@
       // show the menu, maybe with a speed/effect combo
       $.fn.show.apply(menu, args);
 
+      this._resizeMenu();
       // positon
       this.position();
 
@@ -787,7 +808,8 @@
           menu.find('a.ui-multiselect-none span').eq(-1).text(value);
           break;
         case 'height':
-          menu.find('ul').last().height(parseInt(value, 10));
+          this.options[key] = value;
+          this._setMenuHeight();
           break;
         case 'minWidth':
         case 'menuWidth':
