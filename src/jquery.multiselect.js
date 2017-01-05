@@ -66,22 +66,22 @@
         .addClass(o.classes)
         .attr({ 'title':el.attr('title'), 'tabIndex':el.attr('tabIndex'), 'id': el.attr('id') ? el.attr('id')  + '_ms' : null })
         .prop('aria-haspopup', true)
-        .insertAfter(el),
+        .insertAfter(el);
 
-        buttonlabel = (this.buttonlabel = $('<span />'))
+        this.buttonlabel = $('<span />')
           .html(o.noneSelectedText)
-          .appendTo(button),
+          .appendTo(button);
 
-        menu = (this.menu = $('<div />'))
+        this.menu = $('<div />')
           .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
           .addClass(o.classes)
-          .appendTo($(o.appendTo)),
+          .appendTo($(o.appendTo));
 
-        header = (this.header = $('<div />'))
+        this.header = $('<div />')
           .addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
-          .appendTo(menu),
+          .appendTo(this.menu);
 
-        headerLinkContainer = (this.headerLinkContainer = $('<ul />'))
+        this.headerLinkContainer = $('<ul />')
           .addClass('ui-helper-reset')
           .html(function() {
             if(o.header === true) {
@@ -100,11 +100,11 @@
             }
           })
           .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon '+o.closeIcon+'"></span></a></li>')
-          .appendTo(header),
+          .appendTo(this.header);
 
-        checkboxContainer = (this.checkboxContainer = $('<ul />'))
+        var checkboxContainer = (this.checkboxContainer = $('<ul />'))
           .addClass('ui-multiselect-checkboxes ui-helper-reset')
-          .appendTo(menu);
+          .appendTo(this.menu);
 
         // perform event bindings
         this._bindEvents();
@@ -114,7 +114,7 @@
 
         // some addl. logic for single selects
         if(!o.multiple) {
-          menu.addClass('ui-multiselect-single');
+          this.menu.addClass('ui-multiselect-single');
         }
 
         // bump unique ID
@@ -269,11 +269,9 @@
       this.buttonlabel.text(value);
     },
 
-    // binds events
-    _bindEvents: function() {
+    _bindButtonEvents: function() {
       var self = this;
       var button = this.button;
-
       function clickHandler() {
         self[ self._isOpen ? 'close' : 'open' ]();
         return false;
@@ -317,21 +315,10 @@
           $(this).removeClass('ui-state-focus');
         }
       });
+    },
 
-      // header links
-      this.header.delegate('a', 'click.multiselect', function(e) {
-        // close link
-        if($(this).hasClass('ui-multiselect-close')) {
-          self.close();
-
-          // check all / uncheck all
-        } else {
-          self[$(this).hasClass('ui-multiselect-all') ? 'checkAll' : 'uncheckAll']();
-        }
-
-        e.preventDefault();
-      });
-
+    _bindMenuEvents: function() {
+      var self = this;
       // optgroup label toggle support
       this.menu.delegate('li.ui-multiselect-optgroup-label a', 'click.multiselect', function(e) {
         e.preventDefault();
@@ -443,16 +430,42 @@
         // http://bugs.jquery.com/ticket/3827
         setTimeout($.proxy(self.update, self), 10);
       });
+    },
+
+    _bindHeaderEvents: function() {
+      var self = this;
+      // header links
+      this.header.delegate('a', 'click.multiselect', function(e) {
+        // close link
+        if($(this).hasClass('ui-multiselect-close')) {
+          self.close();
+
+          // check all / uncheck all
+        } else {
+          self[$(this).hasClass('ui-multiselect-all') ? 'checkAll' : 'uncheckAll']();
+        }
+
+        e.preventDefault();
+      });
+    },
+
+    // binds events
+    _bindEvents: function() {
+      var self = this;
+
+      this._bindButtonEvents();
+      this._bindMenuEvents();
+      this._bindHeaderEvents();
 
       // close each widget when clicking on any other element/anywhere else on the page
       $doc.bind('mousedown.' + self._namespaceID, function(event) {
         var target = event.target;
 
-        if(self._isOpen
-            && target !== self.button[0]
-            && target !== self.menu[0]
-            && !$.contains(self.menu[0], target)
-            && !$.contains(self.button[0], target)
+        if(self._isOpen &&
+            target !== self.button[0] &&
+            target !== self.menu[0] &&
+            !$.contains(self.menu[0], target) &&
+            !$.contains(self.button[0], target)
           ) {
           self.close();
         }

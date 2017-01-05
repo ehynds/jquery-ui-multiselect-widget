@@ -167,8 +167,8 @@
 
 		minWidth = "50%";
 		el.multiselect("option", "minWidth", minWidth);
-		outerWidth = Math.round(button().outerWidth());
-		var halfParent = Math.round(el.parent().outerWidth()/2);
+		outerWidth = Math.floor(button().outerWidth());
+		var halfParent = Math.floor(el.parent().outerWidth()/2);
 		ok(outerWidth === halfParent, 'changing value to 50%');
 
 		minWidth = "351px";
