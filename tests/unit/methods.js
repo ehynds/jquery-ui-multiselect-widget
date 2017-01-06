@@ -46,18 +46,18 @@
 			.appendTo(document.body)
 			.multiselect();
 
-		var boxes = menu().find("input")
+		var boxes = menu().find("input");
 		var disabled = boxes.first();
 		var enabled = boxes.last();
 		var key = "ech-multiselect-disabled";
 
 		equals(disabled.is(":disabled"), true, "The first option is disabled");
 		el.multiselect("disable");
-		equals(disabled.data(key), undefined, "After disabling the widget, the pre-disabled option is not flagged to re-enable");
-		equals(enabled.data(key), true, "and the enabled option is flagged to be re-enable");
+		equals(disabled.attr(key), undefined, "After disabling the widget, the pre-disabled option is not flagged to re-enable");
+		equals(enabled.attr(key), "true", "and the enabled option is flagged to be re-enable");
 		el.multiselect("enable");
 		equals(disabled.is(":disabled"), true, "After enabling, the first option is still disabled");
-		equals(disabled.data(key), undefined, "and the option no longer has the stored data flag");
+		equals(disabled.attr(key), undefined, "and the option no longer has the stored data flag");
 		el.multiselect("destroy").remove();
 	});
 

@@ -46,7 +46,8 @@
       position: {},
       appendTo: null,
       menuWidth:null,
-      selectedListSeparator: ', '
+      selectedListSeparator: ', ',
+      disableInputsOnToggle: true
     },
 
     _getAppendEl: function() {
@@ -637,22 +638,33 @@
     _toggleDisabled: function(flag) {
       this.button.prop({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 
-      var inputs = this.menu.find('input');
-      var key = "ech-multiselect-disabled";
-
-      if(flag) {
-        // remember which elements this widget disabled (not pre-disabled)
-        // elements, so that they can be restored if the widget is re-enabled.
-        inputs = inputs.filter(':enabled').data(key, true);
-      } else {
-        inputs = inputs.filter(function() {
-          return $.data(this, key) === true;
-        }).removeData(key);
+      if(this.options.disableInputsOnToggle) {
+        var checkboxes = this.menu.find(".ui-multiselect-checkboxes").get(0);
+        var matchedInputs = [];
+        var key = "ech-multiselect-disabled";
+        var i = 0;
+        if(flag) {
+          // remember which elements this widget disabled (not pre-disabled)
+          // elements, so that they can be restored if the widget is re-enabled.
+          matchedInputs = checkboxes.querySelectorAll("input:enabled");
+          for(i = 0; i < matchedInputs.length; i++) {
+            matchedInputs[i].setAttribute(key, true);
+            matchedInputs[i].setAttribute("disabled", "disabled");
+            matchedInputs[i].setAttribute("aria-disabled", "disabled");
+            matchedInputs[i].parentNode.className = matchedInputs[i].parentNode.className + " ui-state-disabled";
+          }
+        } else {
+          matchedInputs = checkboxes.querySelectorAll("input:disabled");
+          for(i = 0; i < matchedInputs.length; i++) {
+            if(matchedInputs[i].hasAttribute(key)) {
+              matchedInputs[i].removeAttribute(key);
+              matchedInputs[i].removeAttribute("disabled");
+              matchedInputs[i].removeAttribute("aria-disabled");
+              matchedInputs[i].parentNode.className = matchedInputs[i].parentNode.className.replace(" ui-state-disabled", "");
+            }
+          }
+        }
       }
-
-      inputs
-        .prop({ 'disabled':flag, 'arial-disabled':flag })
-        .parent()[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 
       this.element.prop({
         'disabled':flag,
