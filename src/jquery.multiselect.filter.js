@@ -62,7 +62,7 @@
           type: "search"
         }).css({
           width: (/\d/.test(opts.width) ? opts.width + 'px' : null)
-        }).addClass("ui-front").bind({
+        }).bind({
         keydown: function(e) {
           // prevent the enter key from submitting the form / closing the widget
           if(e.which === 13) {
@@ -80,6 +80,9 @@
                 break;
               case 85:
                 elem.multiselect('instance').uncheckAll();
+                break;
+              case 76:
+                elem.multiselect('instance').labels.first().trigger("mouseenter");
                 break;
             }
           }

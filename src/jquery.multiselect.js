@@ -373,6 +373,13 @@
         e.preventDefault();
         switch(e.which) {
           case 9: // tab
+            if(e.shiftKey) {
+              self.menu.find(".ui-state-hover").removeClass("ui-state-hover");
+              self.header.find("li").last().find("a").focus();
+            } else {
+              self.close();
+            }
+            break;
           case 27: // esc
             self.close();
             break;
@@ -383,6 +390,7 @@
             self._traverse(e.which, this);
             break;
           case 13: // enter
+          case 32:
             $(this).find('input')[0].click();
             break;
           case 65:
