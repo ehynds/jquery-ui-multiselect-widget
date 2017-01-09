@@ -850,7 +850,12 @@
 
       switch(key) {
         case 'header':
-          menu.find('div.ui-multiselect-header')[value ? 'show' : 'hide']();
+          if(typeof value === 'boolean') {
+            this.header[value ? 'show' : 'hide']();
+          } else if(typeof value === 'string') {
+            this.headerLinkContainer.children("li:not(:last-child)").remove();
+            this.headerLinkContainer.prepend("<li>" + value + "</li>");
+          }
           break;
         case 'checkAllText':
           menu.find('a.ui-multiselect-all span').eq(-1).text(value);
