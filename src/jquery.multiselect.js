@@ -143,6 +143,8 @@
       }
       if(!this.options.multiple) {
         this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
+      } else {
+        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').show();
       }
       if(this.options.autoOpen) {
         this.open();
@@ -879,6 +881,7 @@
           menu.toggleClass('ui-multiselect-single', !value);
           this.options.multiple = value;
           this.element[0].multiple = value;
+          this.uncheckAll();
           this.refresh();
           break;
         case 'position':
