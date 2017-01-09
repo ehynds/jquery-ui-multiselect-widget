@@ -467,6 +467,19 @@
         }
 
         e.preventDefault();
+      }).delegate('a', 'keydown.multiselect', function(e) {
+        switch(e.which) {
+          case 27:
+            self.close();
+            break;
+          case 9:
+            var $target = $(e.target);
+            if((e.shiftKey && !$target.parent().prev().length && !self.header.find(".ui-multiselect-filter").length) || (!$target.parent().next().length && !self.labels.length && !e.shiftKey)) {
+              self.close();
+              e.preventDefault();
+            }
+            break;
+        }
       });
     },
 
@@ -716,8 +729,10 @@
       var filter = this.header.find(".ui-multiselect-filter");
       if(filter.length) {
         filter.first().find('input').trigger('focus');
-      } else {
+      } else if(this.labels.length){
         this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+      } else {
+        this.header.find('a').first().trigger('focus');
       }
 
 

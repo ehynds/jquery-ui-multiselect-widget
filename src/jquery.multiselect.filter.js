@@ -69,6 +69,9 @@
             e.preventDefault();
           } else if(e.which === 27) {
             elem.multiselect('instance').close();
+          } else if(e.which === 9 && e.shiftKey) {
+            elem.multiselect('close');
+            e.preventDefault();
           } else if(e.altKey) {
             switch(e.which) {
               case 82:
