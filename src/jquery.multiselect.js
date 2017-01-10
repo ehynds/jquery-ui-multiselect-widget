@@ -19,6 +19,12 @@
  *
  */
 (function($, undefined) {
+  // http://stackoverflow.com/a/3640212/401636
+  // custom css filter ex: :css(display=none)
+  $.expr[':'].css = function(obj, index, meta, stack) {
+    var args = meta[3].split(/\s*=\s*/);
+    return $(obj).css(args[0]) == args[1];
+  }
 
   var multiselectID = 0;
   var $doc = $(document);
@@ -218,15 +224,17 @@
         }
       }
 
-      //Turn all the options and optiongroups into list items
-      el.children().each(function(i) {
+      // Turn all the options and optiongroups into list items
+      // hide display=none options and optiongroups
+      el.children(":not(:css(display=none))").each(function(i) {
         var $this = $(this);
 
         if(this.tagName === 'OPTGROUP') {
           var $groupLabel = $("<li/>").addClass('ui-multiselect-optgroup-label ' + this.className).appendTo($dropdown);
           var $link = $("<a/>").attr("href", "#").text(this.getAttribute('label')).appendTo($groupLabel);
 
-          $this.children().each(function() {
+          // hide display=none options
+          $this.children(":not(:css(display=none))").each(function() {
             var $listItem = makeItem(this, true).appendTo($dropdown);
           });
         } else {
