@@ -141,7 +141,7 @@
 		// change height and re-test
 		height = 300;
 		el.multiselect("option", "height", height);
-		equals( height, menu().find("ul.ui-multiselect-checkboxes").height(), 'changing value through api to '+ height );
+		equals( height, menu().find(".ui-multiselect-checkboxes").height(), 'changing value through api to '+ height );
 
 		el.multiselect("destroy");
 	});

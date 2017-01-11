@@ -4,7 +4,7 @@
 
 	test("multiselectopen", function(){
 		expect(27);
-	 
+
 	 	// inject widget
 		el = $("<select multiple><option value='foo'>foo</option></select>").appendTo(body);
 		el.multiselect({
@@ -12,7 +12,7 @@
 				ok( true, 'option: multiselect("open") fires open callback' );
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectopen', 'option: event type in callback');
-				equals(menu().css("display"), 'block', 'menu display css property equals block'); 
+				equals(menu().css("display"), 'block', 'menu display css property equals block');
 				same(ui, {}, 'option: ui hash in callback');
 			}
 		})
@@ -21,26 +21,26 @@
 			equals(this, el[0], 'event: context of event');
 			same(ui, {}, 'event: ui hash');
 		});
-		
+
 		// now try to open it..
-		el.multiselect("open")
-		
+		el.multiselect("open");
+
 		// make sure the width of the menu and button are equivalent
 		equals( button().outerWidth(), menu().outerWidth(), 'button and menu widths are equivalent');
-		
+
 		// close
 		el.multiselect("close");
-		
+
 		// make sure a click event on the button opens the menu as well.
 		button().trigger("click");
 		el.multiselect("close");
-		
+
 		// make sure a click event on a span inside the button opens the menu as well.
 		button().find("span:first").trigger("click");
-		
+
 		// reset for next test
 		el.multiselect("destroy").remove();
-		
+
 		// now try returning false prevent opening
 		el = $("<select></select>")
 			.appendTo(body)
@@ -50,14 +50,14 @@
 				return false;
 			})
 			.multiselect("open");
-		
+
 		ok( !el.multiselect("isOpen"), "multiselect is not open after multiselect('open')" );
 		el.multiselect("destroy").remove();
 	});
 
 	test("multiselectclose", function(){
 		expect(25);
-	 
+
 	 	// inject widget
 		el = $("<select multiple><option>foo</option></select>").appendTo(body);
 		el.multiselect({
@@ -65,7 +65,7 @@
 				ok( true, 'option: multiselect("close") fires close callback' );
 				equals(this, el[0], "option: context of callback");
 				equals(e.type, 'multiselectclose', 'option: event type in callback');
-				equals(menu().css("display"), 'none', 'menu display css property equals none'); 
+				equals(menu().css("display"), 'none', 'menu display css property equals none');
 				same(ui, {}, 'option: ui hash');
 			}
 		})
@@ -77,11 +77,11 @@
 		.multiselect("open")
 		.multiselect("close")
 		.multiselect("open");
-		
+
 		// make sure a click event on the button closes the menu as well.
 		button().click();
 		el.multiselect("open");
-		
+
 		// make sure a click event on a span inside the button closes the menu as well.
 		button().find("span:first").click();
 
@@ -90,10 +90,10 @@
 
 		el.multiselect("destroy").remove();
 	});
-	
+
 	test("multiselectbeforeclose", function(){
 		expect(8);
-	 
+
 	 	// inject widget
 		el = $("<select multiple></select>").appendTo(body);
 		el.multiselect({
@@ -111,9 +111,9 @@
 		})
 		.multiselect("open")
 		.multiselect("close");
-		
+
 		el.multiselect("destroy").remove();
-		
+
 		// test 'return false' functionality
 		el = $("<select multiple></select>").appendTo(body);
 		el.multiselect({
@@ -121,21 +121,21 @@
 				return false;
 			}
 		});
-		
+
 		el.multiselect('open').multiselect('close');
 		ok( menu().is(':visible') && el.multiselect("isOpen"), "returning false inside callback prevents menu from closing" );
 		el.multiselect("destroy").remove();
 	});
-	
+
 	test("multiselectclick", function(){
 		expect(28);
-	 
+
 	 	var times = 0;
 
 	 	// inject widget
 		el = $("<select multiple><option value='1'>Option 1</option><option value='2'>Option 2</option></select>")
 			.appendTo(body);
-		
+
 		el.multiselect({
 			click: function(e,ui){
 				ok(true, 'option: triggering the click event on the second checkbox fires the click callback' );
@@ -173,7 +173,7 @@
 			ok(true, "event: the select's change event fires");
 		})
 		.multiselect("open");
-		
+
 		// trigger a click event on the input
 		var lastInput = menu().find("input").last();
 		lastInput[0].click();
@@ -192,7 +192,7 @@
 
 	test("multiselectcheckall", function(){
 		expect(10);
-	 
+
 	 	// inject widget
 		el = $('<select multiple><option value="1">Option 1</option><option value="2">Option 2</option></select>').appendTo(body);
 
@@ -217,13 +217,13 @@
 		.multiselect("checkAll");
 
 		equals(menu().find("input").first().is(":focus"), true, "The first input has focus");
-		
+
 		el.multiselect("destroy").remove();
 	});
-	
+
 	test("multiselectuncheckall", function(){
 		expect(10);
-	 
+
 	 	// inject widget
 		el = $('<select multiple><option value="1">Option 1</option><option value="2">Option 2</option></select>').appendTo(body);
 
@@ -246,13 +246,13 @@
 		})
 		.multiselect("open")
 		.multiselect("uncheckAll");
-		
+
 		equals(menu().find("input").first().is(":focus"), true, "The first input has focus");
 
 		el.multiselect("destroy").remove();
 	});
-	
-	
+
+
 	test("multiselectbeforeoptgrouptoggle", function(){
 		expect(10);
 
@@ -278,12 +278,12 @@
 			equals(ui.inputs.length, 2, 'event: number of inputs in the ui.inputs key');
 		})
 		.multiselect("open");
-		
-		menu().find("li.ui-multiselect-optgroup-label a").click();
-		
+
+		menu().find(".ui-multiselect-optgroup a").click();
+
 		el.multiselect("destroy").remove();
 		el = el.clone();
-		
+
 		// test return false preventing checkboxes from activating
 		el.bind("change", function(){
 			ok( true ); // should not fire
@@ -304,7 +304,7 @@
 
 	test("multiselectoptgrouptoggle", function(){
 		expect(12);
-		
+
 		// inject widget
 		el = $('<select multiple><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>').appendTo(body);
 
@@ -325,13 +325,13 @@
 			equals(ui.checked, true, 'event: ui.checked equals true');
 		})
 		.multiselect("open");
-		
+
 		// trigger native click event on optgroup
-		menu().find("li.ui-multiselect-optgroup-label a").click();
+		menu().find(".ui-multiselect-optgroup a").click();
 		equals(menu().find(":input:checked").length, 2, "both checkboxes are actually checked" );
 
 		equals(menu().find("input").first().is(":focus"), true, "The first input has focus");
-		
+
 		el.multiselect("destroy").remove();
 	});
 

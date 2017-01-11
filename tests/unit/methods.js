@@ -78,6 +78,43 @@
 		el.multiselect("destroy");
 	});
 
+	test("getMenu", function(){
+		expect(1);
+		el = $("select").multiselect();
+		var menu = el.multiselect("getMenu");
+		ok( menu.is(".ui-multiselect-menu"), 'Menu is the menu element');
+		el.multiselect("destroy");
+	});
+
+	test("getLabels", function(){
+		expect(1);
+		el = $("select").multiselect();
+		var labels = el.multiselect("getLabels");
+		ok(labels.length === $(".ui-multiselect-menu label").length, 'Returns all the labels');
+		el.multiselect("destroy");
+	});
+
+	test("addOption", function() {
+		expect(2);
+		el = $("select").clone().appendTo(body).multiselect();
+		var attrs = {title: "Test Title", value: "newOption"};
+		el.multiselect("addOption", attrs, "Option New");
+		ok(el.find("option[value=newOption]").length === 1, "The option is added to the source element");
+		ok(menu().find("input[value=newOption]").length === 1, "The option is added to the menu");
+		el.multiselect("destroy").remove();
+	});
+
+	test("removeOption", function() {
+		expect(4);
+		el = $("select").clone().appendTo(body).multiselect();
+		ok(el.find("option[value=1]").length === 1, "The option exists in the source element");
+		ok(menu().find("input[value=1]").length === 1, "The option exists in the menu");
+		el.multiselect("removeOption", "1");
+		ok(el.find("option[value=1]").length === 0, "The option is removed from the source element");
+		ok(menu().find("input[value=1]").length === 0, "The option is removed from the menu");
+		el.multiselect("destroy").remove();
+	});
+
 	test("checkAll", function(){
 		expect(1);
 

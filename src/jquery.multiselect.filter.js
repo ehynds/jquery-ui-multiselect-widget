@@ -68,7 +68,8 @@
           if(e.which === 13) {
             e.preventDefault();
           } else if(e.which === 27) {
-            elem.multiselect('instance').close();
+            elem.multiselect('close');
+            e.preventDefault();
           } else if(e.which === 9 && e.shiftKey) {
             elem.multiselect('close');
             e.preventDefault();
@@ -79,10 +80,10 @@
                 $(this).val('').trigger('input', '');
                 break;
               case 65:
-                elem.multiselect('instance').checkAll();
+                elem.multiselect('checkAll');
                 break;
               case 85:
-                elem.multiselect('instance').uncheckAll();
+                elem.multiselect('uncheckAll');
                 break;
               case 76:
                 elem.multiselect('instance').labels.first().trigger("mouseenter");
@@ -152,7 +153,8 @@
 
       // speed up lookups
       rows = this.rows, inputs = this.inputs, cache = this.cache;
-
+      var $groups = this.instance.menu.find(".ui-multiselect-optgroup");
+      $groups.show();
       if(!term) {
         rows.show();
       } else {
@@ -171,14 +173,13 @@
       }
 
       // show/hide optgroups
-      this.instance.menu.find(".ui-multiselect-optgroup-label").each(function() {
+      $groups.each(function() {
         var $this = $(this);
-        var isVisible = $this.nextUntil('.ui-multiselect-optgroup-label').filter(function() {
-          return $.css(this, "display") !== 'none';
-        }).length;
-
-        $this[isVisible ? 'show' : 'hide']();
+        if(!$this.children("li:visible").length) {
+          $this.hide();
+        }
       });
+      this.instance._setMenuHeight();
     },
 
     _reset: function() {
@@ -187,7 +188,7 @@
 
     updateCache: function() {
       // each list item
-      this.rows = this.instance.menu.find(".ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup-label)");
+      this.rows = this.instance.labels.parent();
 
       // cache
       this.cache = this.element.children().map(function() {
