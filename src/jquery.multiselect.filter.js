@@ -175,7 +175,7 @@
 
         // account for optgroups
         if(this.tagName.toLowerCase() === "optgroup") {
-          elem = elem.children();
+          elem = elem.children(":not(:css(display=none))");
         }
 
         return elem.map(function() {
