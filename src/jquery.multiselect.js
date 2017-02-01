@@ -464,15 +464,14 @@
       var self = this;
       // header links
       this.header.delegate('a', 'click.multiselect', function(e) {
-        // close link
-        if($(this).hasClass('ui-multiselect-close')) {
+        var $this = $(this);
+        if($this.hasClass('ui-multiselect-close')) {
           self.close();
-
-          // check all / uncheck all
-        } else {
-          self[$(this).hasClass('ui-multiselect-all') ? 'checkAll' : 'uncheckAll']();
+        } else if($this.hasClass("ui-multiselect-all")) {
+          self.checkAll();
+        } else if($this.hasClass("ui-multiselect-none")) {
+          self.uncheckAll();
         }
-
         e.preventDefault();
       }).delegate('a', 'keydown.multiselect', function(e) {
         switch(e.which) {
