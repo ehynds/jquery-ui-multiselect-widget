@@ -7,7 +7,7 @@
  *
  * Depends:
  *   - jQuery 1.4.2+
- *   - jQuery UI 1.8 widget factory
+ *   - jQuery UI 1.11 widget factory
  *
  * Optional:
  *   - jQuery UI effects
