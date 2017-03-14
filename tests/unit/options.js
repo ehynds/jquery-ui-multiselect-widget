@@ -368,7 +368,7 @@
         equals(matched.length, 8, "The 9 selected values are joined by <br> tags");
         el.multiselect("option", "selectedListSeparator", ", ");
         text = $(button()).text();
-        matched = text.match(/\,/g)
+        matched = text.match(/\,/g);
         equals(matched.length, 8, "The 9 selected values are joined by commas again after calling the option method");
         el.multiselect("destroy");
     });

@@ -249,8 +249,7 @@
 
       this._setButtonWidth();
 
-      // remember default value
-      this.button[0].defaultValue = this.update();
+      this.update(true);
 
       // broadcast refresh event; useful for widgets
       if(!init) {
@@ -259,7 +258,7 @@
     },
 
     // updates the button text. call refresh() to rebuild
-    update: function() {
+    update: function(isDefault) {
       var o = this.options;
       var $inputs = this.inputs;
       var $checked = $inputs.filter(':checked');
@@ -279,8 +278,10 @@
       }
 
       this._setButtonValue(value);
+      if(isDefault) {
+        this.button[0].defaultValue = value;
+      }
 
-      return value;
     },
 
     // this exists as a separate method so that the developer
@@ -941,7 +942,7 @@
           break;
         case 'selectedListSeparator':
           this.options[key] = value;
-          this.button[0].defaultValue = this.update();
+          this.update(true);
           break;
       }
 
