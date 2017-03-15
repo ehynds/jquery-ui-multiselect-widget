@@ -133,7 +133,16 @@
         if(!o.multiple) {
           this.menu.addClass('ui-multiselect-single');
         }
-
+        
+       if ('resizable' in jQuery.ui) {
+			    menu.resizable({
+						resize: function( event, ui ) {						
+								$(this).children('ul').height(ui.size.height);
+								o.height = ui.size.height;
+								
+						}		
+			    });
+		    }
         // bump unique ID
         multiselectID++;
         el.hide();
