@@ -127,6 +127,22 @@
 		el.multiselect("destroy").remove();
 	});
 
+	test("multiselectclick with multiple widgets", function() {
+		expect(3);
+		var first = $("<select multiple><option value='1'>Option 1</option><option value='2'>Option 2</option></select>").appendTo(body).multiselect();
+		var second = $("<select multiple><option value='1'>Option 1</option><option value='2'>Option 2</option></select>").appendTo(body).multiselect();
+		equals($('.ui-multiselect').length, 2, "two mutliselects are on the page");
+		first.multiselect("refresh");
+		second.multiselect("refresh");
+		$label = $(second.multiselect("getLabels")[0]);
+		$wrongInput = $(first.multiselect("getLabels")[0]).find("input");
+		$label.click();
+		equals($label.find("input").prop("checked"), true, "the input for that label should be checked");
+		equals($wrongInput.prop("checked"), false, "the input for the corresponding label on the first widget should not be checked");
+		first.multiselect("destroy").remove();
+		second.multiselect("destroy").remove();
+	});
+
 	test("multiselectclick", function(){
 		expect(28);
 

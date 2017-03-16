@@ -19,7 +19,7 @@
  *
  */
 (function($, undefined) {
-
+  // Counter used to prevent collisions
   var multiselectID = 0;
   var $doc = $(document);
 
@@ -77,6 +77,8 @@
       // factory cannot unbind automatically. Use eventNamespace if on
       // jQuery UI 1.9+, and otherwise fallback to a custom string.
       this._namespaceID = this.eventNamespace || ('multiselect' + multiselectID);
+      // bump unique ID after assigning it to the widget instance
+      this.multiselectID = multiselectID++;
 
       var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
@@ -133,9 +135,6 @@
         if(!o.multiple) {
           this.menu.addClass('ui-multiselect-single');
         }
-
-        // bump unique ID
-        multiselectID++;
         el.hide();
     },
 
@@ -159,8 +158,8 @@
     _makeOption: function(option) {
       var title = option.title ? option.title : null;
       var value = option.value;
-      var id = this.element.attr('id') || multiselectID; // unique ID for the label & option tags
-      var inputID = 'ui-multiselect-' + multiselectID + '-' + (option.id || id + '-option-' + this.inputIdCounter++);
+      var id = this.element.attr('id') || this.multiselectID; // unique ID for the label & option tags
+      var inputID = 'ui-multiselect-' + this.multiselectID + '-' + (option.id || id + '-option-' + this.inputIdCounter++);
       var isDisabled = option.disabled;
       var isSelected = option.selected;
       var labelClasses = [ 'ui-corner-all' ];
