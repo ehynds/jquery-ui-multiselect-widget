@@ -15,6 +15,7 @@
 .ui-multiselect-checkboxes { overflow-y:auto; position:relative; }
 .ui-multiselect-checkboxes label { border:1px solid transparent; cursor:default; display:block; padding:3px 1px; }
 .ui-multiselect-checkboxes label input { position:relative; top:1px }
+.ui-multiselect-checkboxes label img { height: 30px; vertical-align: middle; padding-right: 3px;}
 .ui-multiselect-checkboxes li { clear:both; font-size:0.9em; list-style: none; padding-right:3px; }
 .ui-multiselect-checkboxes .ui-multiselect-optgroup { padding: 3px; }
 .ui-multiselect-columns { display: inline-block; vertical-align: top; }
