@@ -1,0 +1,7 @@
+.ui-multiselect { direction:rtl; text-align:right; padding:2px 4px 2px 0px; }
+.ui-multiselect span.ui-icon { float:left; }
+.ui-multiselect-checkboxes { direction: rtl; text-align: right; }
+.ui-multiselect-single .ui-multiselect-checkboxes input { right:-9999px; }
+.ui-multiselect-menu .ui-state-hover { font-weight: normal; }
+button.ui-state-default { font-weight: normal; }
+.ui-multiselect-filter { direction: ltr; }
