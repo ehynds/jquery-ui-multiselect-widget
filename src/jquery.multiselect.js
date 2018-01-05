@@ -342,7 +342,7 @@
     _bindMenuEvents: function() {
       var self = this;
       // optgroup label toggle support
-      this.menu.delegate('.ui-multiselect-optgroup a', 'click.multiselect', function(e) {
+      this.menu.on('click.multiselect', '.ui-multiselect-optgroup a', function(e) {
         e.preventDefault();
 
         var $this = $(this);
@@ -367,13 +367,13 @@
           checked: nodes.length ? nodes[0].checked : null
         });
       })
-      .delegate('label', 'mouseenter.multiselect', function() {
+      .on('mouseenter.multiselect', 'label', function() {
         if(!$(this).hasClass('ui-state-disabled')) {
           self.labels.removeClass('ui-state-hover');
           $(this).addClass('ui-state-hover').find('input').focus();
         }
       })
-      .delegate('label', 'keydown.multiselect', function(e) {
+      .on('keydown.multiselect', 'label', function(e) {
         if(e.which === 82) {
           return; //"r" key, often used for reload.
         }
@@ -415,7 +415,7 @@
             break;
         }
       })
-      .delegate('input[type="checkbox"], input[type="radio"]', 'click.multiselect', function(e) {
+      .on('click.multiselect', 'input[type="checkbox"], input[type="radio"]', function(e) {
         var $this = $(this);
         var val = this.value;
         var optionText = $this.parent().find("span").text();
@@ -465,7 +465,7 @@
     _bindHeaderEvents: function() {
       var self = this;
       // header links
-      this.header.delegate('a', 'click.multiselect', function(e) {
+      this.header.on('click.multiselect', 'a', function(e) {
         var $this = $(this);
         if($this.hasClass('ui-multiselect-close')) {
           self.close();
@@ -475,7 +475,7 @@
           self.uncheckAll();
         }
         e.preventDefault();
-      }).delegate('a', 'keydown.multiselect', function(e) {
+      }).on('keydown.multiselect', 'a', function(e) {
         switch(e.which) {
           case 27:
             self.close();
