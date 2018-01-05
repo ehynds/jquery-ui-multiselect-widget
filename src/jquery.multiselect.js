@@ -81,8 +81,7 @@
       this.multiselectID = multiselectID++;
 
       var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
-        .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
-        .addClass(o.classes)
+        .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all ' + o.classes)
         .attr({ 'title':el.attr('title'), 'tabIndex':el.attr('tabIndex'), 'id': el.attr('id') ? el.attr('id')  + '_ms' : null })
         .prop('aria-haspopup', true)
         .insertAfter(el);
@@ -92,8 +91,7 @@
           .appendTo(button);
 
         this.menu = $('<div />')
-          .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
-          .addClass(o.classes)
+          .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all ' + o.classes)
           .appendTo(this._getAppendEl());
 
         this.header = $('<div />')
