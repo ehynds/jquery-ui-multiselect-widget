@@ -3,8 +3,6 @@
  * jQuery MultiSelect UI Widget 2.0.1
  * Copyright (c) 2012 Eric Hynds
  *
- * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
- *
  * Depends:
  *   - jQuery 1.4.2+
  *   - jQuery UI 1.11 widget factory
