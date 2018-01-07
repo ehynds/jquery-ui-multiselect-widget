@@ -66,7 +66,7 @@
     _create: function() {
       var el = this.element;
       var o = this.options;
-		this.isMultiple = o.multiple || typeof el.attr('multiple') !== 'undefined';   		// Pick up the select type from the underlying element 
+      this.isMultiple = o.multiple || typeof el.attr('multiple') !== 'undefined';   // Pick up the select type from the underlying element 
 
       this.speed = $.fx.speeds._default; // default speed for effects
       this._isOpen = false; // assume no
@@ -227,7 +227,7 @@
       var html = "";
       var $dropdown = $("<ul/>").addClass('ui-multiselect-checkboxes ui-helper-reset');
       this.inputIdCounter = 0;
-
+      this.isMultiple = o.multiple || typeof el.attr('multiple') !== 'undefined';
 
       // update header link container visibility if needed
       if (this.options.header) {
