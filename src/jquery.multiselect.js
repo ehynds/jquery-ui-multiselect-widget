@@ -40,7 +40,7 @@
       show: null,
       hide: null,
       autoOpen: false,
-      multiple: true,
+      multiple: null,
       position: {},
       appendTo: null,
       menuWidth:null,
@@ -66,6 +66,7 @@
     _create: function() {
       var el = this.element;
       var o = this.options;
+      this.isMultiple = o.multiple || !!el.attr('multiple');   		// Pick up the select type from the underlying element 
 
       this.speed = $.fx.speeds._default; // default speed for effects
       this._isOpen = false; // assume no
@@ -128,7 +129,7 @@
         this.refresh(true);
 
         // some addl. logic for single selects
-        if(!o.multiple) {
+        if(!this.isMultiple) {
           this.menu.addClass('ui-multiselect-single');
         }
         el.hide();
@@ -138,7 +139,7 @@
       if(this.options.header === false) {
         this.header.hide();
       }
-      if(!this.options.multiple) {
+      if(!this.isMultiple) {
         this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
       } else {
         this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').show();
@@ -169,7 +170,7 @@
       if(option.className) {
         liClasses.push(option.className);
       }
-      if(isSelected && !o.multiple) {
+      if(isSelected && !this.isMultiple) {
         labelClasses.push('ui-state-active');
       }
 
@@ -180,7 +181,7 @@
       }).addClass(labelClasses.join(' ')).appendTo($item);
       var $input = $("<input/>").attr({
         "name": "multiselect_" + id,
-        "type": o.multiple ? "checkbox" : "radio",
+        "type": this.isMultiple ? "checkbox" : "radio",
         "value": value,
         "title": title,
         "id": inputID,
@@ -226,11 +227,11 @@
       var html = "";
       var $dropdown = $("<ul/>").addClass('ui-multiselect-checkboxes ui-helper-reset');
       this.inputIdCounter = 0;
-
+      this.isMultiple = o.multiple || !!el.attr('multiple');
 
       // update header link container visibility if needed
       if (this.options.header) {
-        if(!this.options.multiple) {
+        if(!this.isMultiple) {
           this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
         } else {
           this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').show();
@@ -437,13 +438,13 @@
         tags.each(function() {
           if(this.value === val) {
             this.selected = checked;
-          } else if(!self.options.multiple) {
+          } else if(!self.isMultiple) {
             this.selected = false;
           }
         });
 
         // some additional single select-specific logic
-        if(!self.options.multiple) {
+        if(!self.isMultiple) {
           self.labels.removeClass('ui-state-active');
           $this.closest('label').toggleClass('ui-state-active', checked);
 
@@ -631,8 +632,8 @@
       // toggle state on inputs
       $inputs.each(this._toggleState('checked', flag));
 
-      // give the first input focus
-      $inputs.eq(0).focus();
+      // Give the first input focus
+		$inputs.eq(0).focus();
 
       // update button text
       this.update();
@@ -644,6 +645,7 @@
       });
 
       // toggle state on original option tags
+		this.element.selectedIndex = -1;
       this.element
         .find('option')
         .each(function() {
@@ -794,6 +796,8 @@
 
     uncheckAll: function() {
       this._toggleChecked(false);
+		if ( !this.isMultiple )
+			this.element[0].selectedIndex = -1;			// Forces the underlying single-select to have no options selected.
       this._trigger('uncheckAll');
     },
 
@@ -930,11 +934,14 @@
           menu.add(this.button).removeClass(this.options.classes).addClass(value);
           break;
         case 'multiple':
-          menu.toggleClass('ui-multiselect-single', !value);
-          this.options.multiple = value;
-          this.element[0].multiple = value;
-          this.uncheckAll();
-          this.refresh();
+			 if (this.isMultiple != value) {
+				 menu.toggleClass('ui-multiselect-multiple', value);
+				 menu.toggleClass('ui-multiselect-single', !value);
+				 value ? this.element[0].setAttribute("multiple","multiple") : this.element[0].removeAttribute("multiple");
+				 this.isMultiple = value;
+				 this.uncheckAll();
+				 this.refresh();
+			 }
           break;
         case 'position':
           this.position();
