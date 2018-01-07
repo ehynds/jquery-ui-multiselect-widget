@@ -109,9 +109,10 @@ QUnit.done = function(){
 		var form = $('<form></form>').appendTo("body"),
 			radios, data;
 		
-		el = $('<select id="test" name="test" multiple="multiple"><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>')
+		// Use an underlying single-select here.
+		el = $('<select id="test" name="test"><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>')
 			.appendTo(form)
-			.multiselect({ multiple: false });
+			.multiselect();
 		
 		// select multiple radios to ensure that, in the underlying select, only one
 		// will remain selected
@@ -139,7 +140,7 @@ QUnit.done = function(){
 		// expose original
 		el.multiselect("destroy");
 		data = form.serialize();
-		equals( data, 'test=foo&test=bar&test=baz', 'after destroying the widget and serializing the form, the correct key was serialized: ' + data);
+		equals( data, 'test=baz', 'after destroying the widget and serializing the form, the correct key was serialized: ' + data);
 		
 		form.remove();
 	});
