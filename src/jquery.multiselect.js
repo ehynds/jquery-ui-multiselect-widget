@@ -49,6 +49,9 @@
       groupColumns: false
     },
 
+    // This method determines which element to append the menu to
+    // Uses the element provided in the options first, then looks for ui-front / dialog
+    // Otherwise appends to the body
     _getAppendEl: function() {
       var element = this.options.appendTo;
       if(element) {
@@ -63,13 +66,14 @@
       return element;
     },
 
+    // Performs the initial creation of the widget
     _create: function() {
       var el = this.element;
       var o = this.options;
 
       this.speed = $.fx.speeds._default; // default speed for effects
       this._isOpen = false; // assume no
-      this.inputIdCounter = 0;
+      this.inputIdCounter = 0; // Incremented for each input item (option)
 
       // create a unique namespace for events that the widget
       // factory cannot unbind automatically. Use eventNamespace if on
@@ -78,62 +82,68 @@
       // bump unique ID after assigning it to the widget instance
       this.multiselectID = multiselectID++;
 
+      // The button that opens the widget menu
       var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all ' + o.classes)
         .attr({ 'title':el.attr('title'), 'tabIndex':el.attr('tabIndex'), 'id': el.attr('id') ? el.attr('id')  + '_ms' : null })
         .prop('aria-haspopup', true)
         .insertAfter(el);
 
-        this.buttonlabel = $('<span />')
-          .html(o.noneSelectedText)
-          .appendTo(button);
+      this.buttonlabel = $('<span />')
+        .html(o.noneSelectedText)
+        .appendTo(button);
 
-        this.menu = $('<div />')
-          .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all ' + o.classes)
-          .appendTo(this._getAppendEl());
+      // This is the menu that will hold all the options
+      this.menu = $('<div />')
+        .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all ' + o.classes)
+        .appendTo(this._getAppendEl());
 
-        this.header = $('<div />')
-          .addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
-          .appendTo(this.menu);
+      // Menu header to hold controls for the menu
+      this.header = $('<div />')
+        .addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
+        .appendTo(this.menu);
 
-        this.headerLinkContainer = $('<ul />')
-          .addClass('ui-helper-reset')
-          .html(function() {
-            if(o.header === true) {
-              var header_lis = '';
-              if(o.showCheckAll) {
-                header_lis = '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li>';
-              }
-              if(o.showUncheckAll) {
-                header_lis += '<li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
-              }
-              return header_lis;
-            } else if(typeof o.header === "string") {
-              return '<li>' + o.header + '</li>';
-            } else {
-              return '';
+      // Header controls, will contain the check all/uncheck all buttons
+      // Depending on how the options are set, this may be empty or simply plain text
+      this.headerLinkContainer = $('<ul />')
+        .addClass('ui-helper-reset')
+        .html(function() {
+          if(o.header === true) {
+            var header_lis = '';
+            if(o.showCheckAll) {
+              header_lis = '<li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>' + o.checkAllText + '</span></a></li>';
             }
-          })
-          .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon '+o.closeIcon+'"></span></a></li>')
-          .appendTo(this.header);
+            if(o.showUncheckAll) {
+              header_lis += '<li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>' + o.uncheckAllText + '</span></a></li>';
+            }
+            return header_lis;
+          } else if(typeof o.header === "string") {
+            return '<li>' + o.header + '</li>';
+          } else {
+            return '';
+          }
+        })
+        .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon '+o.closeIcon+'"></span></a></li>')
+        .appendTo(this.header);
 
-        var checkboxContainer = (this.checkboxContainer = $('<ul />'))
-          .addClass('ui-multiselect-checkboxes ui-helper-reset')
-          .appendTo(this.menu);
+      // Holds the actual check boxes for inputs
+      var checkboxContainer = (this.checkboxContainer = $('<ul />'))
+        .addClass('ui-multiselect-checkboxes ui-helper-reset')
+        .appendTo(this.menu);
 
-        // perform event bindings
-        this._bindEvents();
+      this._bindEvents();
 
-        // build menu
-        this.refresh(true);
+      // build menu
+      this.refresh(true);
 
-        // some addl. logic for single selects
-        if(!o.multiple) {
-          this.menu.addClass('ui-multiselect-single');
-        }
-        el.hide();
+      // If this is a single select widget, add the appropriate class
+      if(!o.multiple) {
+        this.menu.addClass('ui-multiselect-single');
+      }
+      el.hide();
     },
 
+    // https://api.jqueryui.com/jquery.widget/#method-_init
     _init: function() {
       if(this.options.header === false) {
         this.header.hide();
@@ -151,6 +161,15 @@
       }
     },
 
+    /*
+    * Builds an option item for the menu
+    * <li>
+    *   <label>
+    *     <input /> checkbox or radio depending on single/multiple select
+    *     <span /> option text
+    *   </label>
+    * </li>
+    */
     _makeOption: function(option) {
       var title = option.title ? option.title : null;
       var value = option.value;
@@ -198,7 +217,8 @@
 
       return $item;
     },
-
+    // Builds a menu item for each option in the underlying select
+    // Option groups are built here as well
     _buildOptionList: function(element, $appendTo) {
       var self = this;
       element.children().each(function() {
@@ -217,13 +237,14 @@
 
     },
 
+    // Refreshes the widget to pick up changes to the underlying select
+    // Rebuilds the menu, sets button width
     refresh: function(init) {
       var self = this;
       var el = this.element;
       var o = this.options;
       var menu = this.menu;
       var checkboxContainer = this.checkboxContainer;
-      var html = "";
       var $dropdown = $("<ul/>").addClass('ui-multiselect-checkboxes ui-helper-reset');
       this.inputIdCounter = 0;
 
@@ -284,7 +305,7 @@
     },
 
     // this exists as a separate method so that the developer
-    // can easily override it.
+    // can easily override it, usually to allow injecting HTML if they really want it
     _setButtonValue: function(value) {
       this.buttonlabel.text(value);
     },
@@ -398,15 +419,15 @@
             self._traverse(e.which, this);
             break;
           case 13: // enter
-          case 32:
+          case 32: //space
             $(this).find('input')[0].click();
             break;
-          case 65:
+          case 65: // a
             if(e.altKey) {
               self.checkAll();
             }
             break;
-          case 85:
+          case 85: // u
             if(e.altKey) {
               self.uncheckAll();
             }
@@ -475,10 +496,10 @@
         e.preventDefault();
       }).on('keydown.multiselect', 'a', function(e) {
         switch(e.which) {
-          case 27:
+          case 27: // esc
             self.close();
             break;
-          case 9:
+          case 9: // tab
             var $target = $(e.target);
             if((e.shiftKey && !$target.parent().prev().length && !self.header.find(".ui-multiselect-filter").length) || (!$target.parent().next().length && !self.labels.length && !e.shiftKey)) {
               self.close();
@@ -489,7 +510,6 @@
       });
     },
 
-    // binds events
     _bindEvents: function() {
       var self = this;
 
@@ -519,6 +539,9 @@
         setTimeout($.proxy(self.refresh, self), 10);
       });
     },
+
+    // Determines the minimum width for the button and menu
+    // Can be a number, a digit string, or a percentage
     _getMinWidth: function() {
       var minVal = this.options.minWidth;
       var width = 0;
@@ -557,6 +580,8 @@
       m.outerWidth(this.options.menuWidth || width);
     },
 
+    // Sets the height of the menu
+    // Will set a scroll bar if the menu height exceeds that of the height in options
     _setMenuHeight: function() {
       var headerHeight = this.menu.children(".ui-multiselect-header:visible").outerHeight(true);
       var ulHeight = 0;
@@ -574,6 +599,7 @@
       this.menu.height(ulHeight + headerHeight);
     },
 
+    // Resizes the menu, called every time the menu is opened
     _resizeMenu: function() {
       this._setMenuWidth();
       this._setMenuHeight();
@@ -624,6 +650,7 @@
       };
     },
 
+    // Toggles checked state on either an option group or all inputs
     _toggleChecked: function(flag, group) {
       var $inputs = (group && group.length) ?  group : this.inputs;
       var self = this;
@@ -658,6 +685,7 @@
       }
     },
 
+    // Toggle disable state on the widget and underlying select
     _toggleDisabled: function(flag) {
       this.button.prop({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 
@@ -840,6 +868,12 @@
       return this.labels;
     },
 
+    /*
+    * Adds an option to the widget and underlying select
+    * attributes: Attributes hash to add to the option
+    * text: text of the option
+    * groupLabel: Option Group to add the option to
+    */
     addOption: function(attributes, text, groupLabel) {
       var $option = $("<option/>").attr(attributes).text(text);
       var optionNode = $option.get(0);
