@@ -198,7 +198,7 @@
 		expect(2);
 		var text = "foo";
 
-		el = $("select").multiselect({ checkAllText:text });
+		el = $("select").multiselect({ checkAllText:text, showCheckAll:true });
 		equals( text, menu().find(".ui-multiselect-all").text(), 'check all link reads '+text );
 
 		// set through option
@@ -213,7 +213,7 @@
 		expect(2);
 		var text = "foo";
 
-		el = $("select").multiselect({ uncheckAllText:text });
+		el = $("select").multiselect({ uncheckAllText:text, showUncheckAll:true });
 		equals( text, menu().find(".ui-multiselect-none").text(), 'check all link reads '+text );
 
 		// set through option
@@ -224,6 +224,21 @@
 		el.multiselect("destroy");
 	});
 
+	test("flipAllText", function(){
+		expect(2);
+		var text = "foo";
+
+		el = $("select").multiselect({ flipAllText:text, showFlipAll:true });
+		equals( text, menu().find(".ui-multiselect-flip").text(), 'flip all link reads '+text );
+
+		// set through option
+		text = "bar";
+		el.multiselect("option","flipAllText","bar");
+		equals( text, menu().find(".ui-multiselect-flip").text(), 'changing value through api to '+text );
+
+		el.multiselect("destroy");
+	});
+	
 	test("autoOpen", function(){
 		expect(2);
 
@@ -352,11 +367,18 @@
 
 		el.multiselect("destroy");
 	});
+	test("openIcon", function(){
+		expect(1);
+		var icon = '<span class="ui-icon ui-icon-search"></span>';   
+		el = $("select").multiselect({ openIcon:icon });
+		equals(button().find(".ui-multiselect-open").find(".ui-icon-search").length, 1);
+		el.multiselect("destroy");
+	});
 	test("closeIcon", function(){
 		expect(1);
-		var icon = "ui-icon-search";
+		var icon = '<span class="ui-icon ui-icon-search"></span>';   
 		el = $("select").multiselect({ autoOpen:true, closeIcon:icon });
-		equals(menu().find(".ui-multiselect-close").find("."+icon).length, 1);
+		equals(menu().find(".ui-multiselect-close").find(".ui-icon-search").length, 1);
 		el.multiselect("destroy");
 	});
     test("selectedListSeparator", function(){
