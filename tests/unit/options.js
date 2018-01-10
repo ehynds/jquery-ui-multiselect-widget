@@ -242,6 +242,7 @@
 	test("multiple (false - single select)", function(){
 		expect(10);
 
+		$("select").removeAttr("multiple");
 		el = $("select").multiselect({ multiple:false });
 
 		// get some references
@@ -274,6 +275,7 @@
 		equals( $menu.find(".ui-multiselect-all, ui-multiselect-none").filter(":visible").length, 0, "Check/uncheck all links don't exist");
 
 		el.multiselect("destroy");
+		$("select").attr("multiple","multiple");
 	});
 
 	test("multiple (changing dynamically)", function(){
