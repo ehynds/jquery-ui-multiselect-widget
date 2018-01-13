@@ -154,13 +154,13 @@
 
     // https://api.jqueryui.com/jquery.widget/#method-_init
     _init: function() {
-      var $element = this.element;
+      var $element = this.element;                 // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
       var $headerLinks = this.$headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip');
 
       if(this.options.header === false) {
         this.$header.hide();
       }
-      if(!!$element[0].multiple) {                 // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
+      if(!!$element[0].multiple) {
         $headerLinks.show();
       } else {
         $headerLinks.hide();
