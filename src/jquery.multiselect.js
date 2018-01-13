@@ -63,7 +63,7 @@
         elem = elem.jquery || elem.nodeType ? $(elem) : this.document.find(elem).eq(0); // Note that the find handles the selector case.
       }
       if(!elem || !elem[0]) {
-        elem = this.element.closest(".ui-front, dialog");
+        elem = this.element.closest(".ui-front, dialog");  // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
       }
       if(!elem.length) {
         elem = this.document[0].body;                                         // Position at end of body.
