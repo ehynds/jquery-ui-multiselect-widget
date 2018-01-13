@@ -158,9 +158,9 @@
         this.header.hide();
       }
       if(!!this.element[0].multiple) {
-        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').show();
+        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip').show();
       } else {
-        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
+        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip').hide();
       }
       if(this.options.autoOpen) {
         this.open();
@@ -264,9 +264,9 @@
       // update header link container visibility if needed
       if (this.options.header) {
         if(!!el[0].multiple) {
-          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').show();
+          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip').show();
         } else {
-          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none').hide();
+          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip').hide();
         }
       }
 
