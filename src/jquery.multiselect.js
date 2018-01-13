@@ -4,7 +4,7 @@
  * Copyright (c) 2012 Eric Hynds
  *
  * Depends:
- *   - jQuery 1.7+                           (http://api.jquery.com/)
+ *   - jQuery 1.7+                     (http://api.jquery.com/)
  *   - jQuery UI 1.11 widget factory   (http://api.jqueryui.com/jQuery.widget/)
  *
  * Optional:
@@ -25,48 +25,48 @@
 
     // default options
     options: {
-      header: true,                                                                             // (true | false) If true, the header is shown.
-      height: 175,                                                                                 // (int) Sets the height of the menu.
-      minWidth: 225,                                                                         // (int) Sets the minimum width of the menu.
-      classes: '',                                                                                    // Classes that you can provide to be applied to the elements making up the widget.
+      header: true,                                                           // (true | false) If true, the header is shown.
+      height: 175,                                                            // (int) Sets the height of the menu.
+      minWidth: 225,                                                          // (int) Sets the minimum width of the menu.
+      classes: '',                                                            // Classes that you can provide to be applied to the elements making up the widget.
       openIcon: '<span class="ui-icon ui-icon-triangle-1-s"></span>',         // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
-      closeIcon: '<span class="ui-icon ui-icon-circle-close"></span>',           // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
-      checkAllIcon: '<span class="ui-icon ui-icon-check"></span>',               // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
+      closeIcon: '<span class="ui-icon ui-icon-circle-close"></span>',        // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
+      checkAllIcon: '<span class="ui-icon ui-icon-check"></span>',            // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
       uncheckAllIcon: '<span class="ui-icon ui-icon-closethick"></span>',     // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
       flipAllIcon: '<span class="ui-icon ui-icon-arrowrefresh-1-w"></span>',  // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
-      checkAllText: 'Check all',                                                                // (str | blank | null) If blank or null, link not shown.
-      uncheckAllText: 'Uncheck all',                                                         // (str | blank | null) If blank or null, link not shown.
-      flipAllText: 'Flip all',                                                                     // (str | blank | null) If blank or null, link not shown.
-      showCheckAll: true,                                                                    // (true | false) Show or hide the Check All link without blanking the text.
-      showUncheckAll: true,                                                                  // (true | false) Show or hide the Uncheck All link without blanking the text.
-      showFlipAll: false,                                                                       // (true | false) Show or hide the Flip All link without blanking the text.
-      noneSelectedText: 'Select options',                                                 // (str) The text to show in the button where nothing is selected.
-      selectedText: '# of # selected',                                                       // (str) A "template" that indicates how to show the count of selections in the button.  The "#'s" are replaced by the selection count & option count.
-      selectedList: 0,                                                                             // (int) The actual list selections will be shown in the button when the count of selections is <= than this number.
-      show: null,                                                                               // (array) An array containing menu opening effects.
-      hide: null,                                                                                  // (array) An array containing menu closing effects.
-      autoOpen: false,                                                                          // (true | false) If true, then the menu will be opening immediately after initialization.
-      position: {},                                                                                // (object) A jQuery UI position object that constrains how the pop-up menu is positioned.
-      appendTo: null,                                                                           // (jQuery | DOM element | selector str)  If provided, this specifies what element to append the widget to in the DOM.
-      menuWidth:null,                                                                           // (int | null) If a number is provided, sets the menu width.
-      selectedListSeparator: ', ',                                                              // (str) This allows customization of the list separator.  Use ',<br/>' to make the button grow vertically showing 1 selection per line.
-      disableInputsOnToggle: true,                                                        // (true | false)
-      groupColumns: false                                                                    // (true | false)
+      checkAllText: 'Check all',                                              // (str | blank | null) If blank or null, link not shown.
+      uncheckAllText: 'Uncheck all',                                          // (str | blank | null) If blank or null, link not shown.
+      flipAllText: 'Flip all',                                                // (str | blank | null) If blank or null, link not shown.
+      showCheckAll: true,                                                     // (true | false) Show or hide the Check All link without blanking the text.
+      showUncheckAll: true,                                                   // (true | false) Show or hide the Uncheck All link without blanking the text.
+      showFlipAll: false,                                                     // (true | false) Show or hide the Flip All link without blanking the text.
+      noneSelectedText: 'Select options',                                     // (str) The text to show in the button where nothing is selected.
+      selectedText: '# of # selected',                                        // (str) A "template" that indicates how to show the count of selections in the button.  The "#'s" are replaced by the selection count & option count.
+      selectedList: 0,                                                        // (int) The actual list selections will be shown in the button when the count of selections is <= than this number.
+      show: null,                                                             // (array) An array containing menu opening effects.
+      hide: null,                                                             // (array) An array containing menu closing effects.
+      autoOpen: false,                                                        // (true | false) If true, then the menu will be opening immediately after initialization.
+      position: {},                                                           // (object) A jQuery UI position object that constrains how the pop-up menu is positioned.
+      appendTo: null,                                                         // (jQuery | DOM element | selector str)  If provided, this specifies what element to append the widget to in the DOM.
+      menuWidth:null,                                                         // (int | null) If a number is provided, sets the menu width.
+      selectedListSeparator: ', ',                                            // (str) This allows customization of the list separator.  Use ',<br/>' to make the button grow vertically showing 1 selection per line.
+      disableInputsOnToggle: true,                                            // (true | false)
+      groupColumns: false                                                     // (true | false)
     },
 
     // This method determines which element to append the menu to
     // Uses the element provided in the options first, then looks for ui-front / dialog
     // Otherwise appends to the body
     _getAppendEl: function() {
-      var elem = this.options.appendTo;                                          // jQuery object, DOM element, OR selector str.
+      var elem = this.options.appendTo;                                       // jQuery object, DOM element, OR selector str.
       if(elem) {
-        elem = elem.jquery || elem.nodeType ? $(elem) : this.document.find(elem).eq(0);            // Note that the find handles the selector case.
+        elem = elem.jquery || elem.nodeType ? $(elem) : this.document.find(elem).eq(0); // Note that the find handles the selector case.
       }
       if(!elem || !elem[0]) {
         elem = this.element.closest(".ui-front, dialog");
       }
       if(!elem.length) {
-        elem = this.document[0].body;                                            // Position at end of body.
+        elem = this.document[0].body;                                         // Position at end of body.
       }
       return elem;
     },
@@ -184,7 +184,7 @@
     */
     _makeOption: function(option) {
       var title = option.title || null;
-      var $element = this.element;                             // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
+      var $element = this.element;                          // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
       var id = $element[0].id || this.multiselectID;        // unique ID for the label & option tags
       var inputID = 'ui-multiselect-' + this.multiselectID + '-' + (option.id || id + '-option-' + this.inputIdCounter++);
       var isDisabled = option.disabled;
