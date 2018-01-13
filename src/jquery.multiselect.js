@@ -254,7 +254,7 @@
     // Refreshes the widget to pick up changes to the underlying select
     // Rebuilds the menu, sets button width
     refresh: function(init) {
-      var $el = this.element;                                           // "element" is a jQuery object representing the underlying select
+      var $element = this.element;                                       // "element" is a jQuery object representing the underlying select
       var $menu = this.$menu;
       var $headerLinks = this.$headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip');
       var $dropdown = $("<ul/>").addClass('ui-multiselect-checkboxes ui-helper-reset');
@@ -263,14 +263,14 @@
 
       // update header link container visibility if needed
       if (this.options.header) {
-        if(!!$el[0].multiple) {
+        if(!!$element[0].multiple) {
           $headerLinks.show();
         } else {
           $headerLinks.hide();
         }
       }
 
-      this._buildOptionList($el, $dropdown);
+      this._buildOptionList($element, $dropdown);
 
       this.$menu.find(".ui-multiselect-checkboxes").remove();
       this.$menu.append($dropdown);
@@ -448,7 +448,7 @@
         var val = this.value;
         var optionText = $this.parent().find("span").text();
         var checked = this.checked;
-        var $tags = self.element.find('option');
+        var $tags = self.element.find('option');            // "element" is a jQuery object representing the underlying select
         var isMultiple = !!self.element[0].multiple;
 
         // bail if this input is disabled or the event is cancelled
@@ -670,7 +670,7 @@
     _toggleChecked: function(flag, group) {
       var $inputs = (group && group.length) ?  group : this.$inputs;
       var self = this;
-      var $el = this.element;                // element is a jQuery object
+      var $element = this.element;                // element is a jQuery object
 
       // toggle state on inputs
       $inputs.each(this._toggleState('checked', flag));
@@ -688,8 +688,8 @@
       });
 
       // toggle state on original option tags
-      $el.selectedIndex = -1;
-      $el
+      $element.selectedIndex = -1;
+      $element
         .find('option')
         .each(function() {
           if(!this.disabled && values[this.value]) {
@@ -699,7 +699,7 @@
 
       // trigger the change event on the select
       if($inputs.length) {
-        $el.trigger("change");
+        $element.trigger("change");
       }
     },
 
