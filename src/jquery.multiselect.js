@@ -73,7 +73,7 @@
 
     // Performs the initial creation of the widget
     _create: function() {
-      var $el = this.element.hide();               // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
+      var $element = this.element.hide();               // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
       var o = this.options;
 
       this.speed = $.fx.speeds._default; // default speed for effects
@@ -91,9 +91,12 @@
       // The ui-multiselect-open span is necessary below to simplify dynamically changing the open icon.
       var $button = (this.$button = $('<button type="button"><span class="ui-multiselect-open">' + o.openIcon + '</span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all ' + o.classes)
-        .attr({ title: $el.attr('title'), tabIndex: $el.attr('tabIndex'), id: $el.attr('id') ? $el.attr('id')  + '_ms' : null })
+        .attr({ title: $element.attr('title'), 
+                tabIndex: $element.attr('tabIndex'), 
+                id: $element.attr('id') ? $element.attr('id')  + '_ms' : null 
+        })
         .prop('aria-haspopup', true)
-        .insertAfter($el);
+        .insertAfter($element);
 
         this.$buttonlabel = $('<span />')
           .html(o.noneSelectedText)
@@ -147,7 +150,7 @@
         this.refresh(true);
 
         // If this is a single select widget, add the appropriate class
-        if(!$el[0].multiple) {
+        if(!$element[0].multiple) {
           $menu.addClass('ui-multiselect-single');
         }
     },
