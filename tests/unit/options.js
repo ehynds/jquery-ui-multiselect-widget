@@ -92,8 +92,12 @@
 			selectedMax: 2
 		});
 		
-		el.multiselect("checkAll");
-		equals( menu().find("input").filter(":checked").length, 2 , 'after checkAll, count of checked restored to selectedMax of 2');
+		checkboxes = el.multiselect("widget").find(":checkbox");
+		checkboxes.eq(0).trigger('click');
+		checkboxes.eq(1).trigger('click');
+		checkboxes.eq(2).trigger('click');
+		
+		equals( menu().find("input").filter(":checked").length, 2 , 'after clicking each checkbox, count of checked restored to selectedMax of 2');
 		el.multiselect("destroy").remove();
 		
 	});
