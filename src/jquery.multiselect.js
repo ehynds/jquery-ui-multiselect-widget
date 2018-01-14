@@ -43,6 +43,7 @@
       noneSelectedText: 'Select options',                                     // (str) The text to show in the button where nothing is selected.
       selectedText: '# of # selected',                                        // (str) A "template" that indicates how to show the count of selections in the button.  The "#'s" are replaced by the selection count & option count.
       selectedList: 0,                                                        // (int) The actual list selections will be shown in the button when the count of selections is <= than this number.
+      selectedMax: null,                                                      // (int | function)  If selected count > selectedMax or if function returns 1, then message is displayed, and new selection is undone.
       show: null,                                                             // (array) An array containing menu opening effects.
       hide: null,                                                             // (array) An array containing menu closing effects.
       autoOpen: false,                                                        // (true | false) If true, then the menu will be opening immediately after initialization.
@@ -453,13 +454,32 @@
         var checked = this.checked;
         var $tags = self.element.find('option');            // "element" is a jQuery object representing the underlying select
         var isMultiple = !!self.element[0].multiple;
-
+        var inputCount = self.$inputs.length;
+        var numChecked = self.$inputs.filter(":checked").length;
+        var selectedMax = self.options.selectedMax;
+        
         // bail if this input is disabled or the event is cancelled
         if(this.disabled || self._trigger('click', e, { value: val, text: optionText, checked: checked }) === false) {
           e.preventDefault();
           return;
         }
 
+        if ( selectedMax && checked && ( $.isFunction(selectedMax) ? !!selectedMax.call(this, self.$inputs) : numChecked > selectedMax ) ) {
+          var o = self.options;
+          var saveText = o.selectedText;
+
+          // The following warning is shown in the button and then cleared after a second.
+          o.selectedText = "<center><b>LIMIT OF " + (numChecked - 1) + " REACHED!</b></center>";
+          self.update();
+          setTimeout( function() {
+            o.selectedText = saveText;
+            self.update();
+          }, 1000 );
+
+          e.preventDefault();           // Kill the event.
+          return false;
+        }
+        
         // make sure the input has focus. otherwise, the esc key
         // won't close the menu after clicking an item.
         $this.focus();
@@ -993,6 +1013,7 @@
           break;
         case 'selectedText':
         case 'selectedList':
+        case 'selectedMax':
         case 'noneSelectedText':
           this.options[key] = value; // these all needs to update immediately for the update() call
           this.update();
