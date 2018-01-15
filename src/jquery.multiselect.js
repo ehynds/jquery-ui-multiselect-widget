@@ -1,11 +1,11 @@
 /* jshint forin:true, noarg:true, noempty:true, eqeqeq:true, boss:true, undef:true, curly:true, browser:true, jquery:true */
 /*
- * jQuery MultiSelect UI Widget 2.0.1
+ * jQuery MultiSelect UI Widget 3.0.0
  * Copyright (c) 2012 Eric Hynds
  *
  * Depends:
- *   - jQuery 1.4.2+
- *   - jQuery UI 1.11 widget factory
+ *   - jQuery 1.7+                     (http://api.jquery.com/)
+ *   - jQuery UI 1.11 widget factory   (http://api.jqueryui.com/jQuery.widget/)
  *
  * Optional:
  *   - jQuery UI effects
@@ -25,59 +25,59 @@
 
     // default options
     options: {
-      header: true,
-      height: 175,
-      minWidth: 225,
-      classes: '',
-      openIcon: '<span class="ui-icon ui-icon-triangle-1-s"></span>',         // Scaleable HTML Entities or Font-Awesome icons can be used here instead of the default jQuery UI icons.
-      closeIcon: '<span class="ui-icon ui-icon-circle-close"></span>',
-      checkAllIcon: '<span class="ui-icon ui-icon-check"></span>',
-      uncheckAllIcon: '<span class="ui-icon ui-icon-closethick"></span>',
-      flipAllIcon: '<span class="ui-icon ui-icon-arrowrefresh-1-w"></span>',
-      checkAllText: 'Check all',                                              // If blank or null, link not shown.
-      uncheckAllText: 'Uncheck all',                                          // If blank or null, link not shown.
-      flipAllText: 'Flip all',                                                // If blank or null, link not shown.
-      showCheckAll: true,
-      showUncheckAll: true,
-      showFlipAll: false,
-      noneSelectedText: 'Select options',
-      selectedText: '# selected',
-      selectedList: 0,
-      show: null,
-      hide: null,
-      autoOpen: false,
-      position: {},
-      appendTo: null,
-      menuWidth:null,
-      selectedListSeparator: ', ',
-      disableInputsOnToggle: true,
-      groupColumns: false
+      header: true,                                                           // (true | false) If true, the header is shown.
+      height: 175,                                                            // (int) Sets the height of the menu.
+      minWidth: 225,                                                          // (int) Sets the minimum width of the menu.
+      classes: '',                                                            // Classes that you can provide to be applied to the elements making up the widget.
+      openIcon: '<span class="ui-icon ui-icon-triangle-1-s"></span>',         // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
+      closeIcon: '<span class="ui-icon ui-icon-circle-close"></span>',        // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
+      checkAllIcon: '<span class="ui-icon ui-icon-check"></span>',            // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
+      uncheckAllIcon: '<span class="ui-icon ui-icon-closethick"></span>',     // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
+      flipAllIcon: '<span class="ui-icon ui-icon-arrowrefresh-1-w"></span>',  // Scaleable HTML Entities or Font-Awesome icons can be specified here instead of the default jQuery UI icons.
+      checkAllText: 'Check all',                                              // (str | blank | null) If blank or null, link not shown.
+      uncheckAllText: 'Uncheck all',                                          // (str | blank | null) If blank or null, link not shown.
+      flipAllText: 'Flip all',                                                // (str | blank | null) If blank or null, link not shown.
+      showCheckAll: true,                                                     // (true | false) Show or hide the Check All link without blanking the text.
+      showUncheckAll: true,                                                   // (true | false) Show or hide the Uncheck All link without blanking the text.
+      showFlipAll: false,                                                     // (true | false) Show or hide the Flip All link without blanking the text.
+      noneSelectedText: 'Select options',                                     // (str) The text to show in the button where nothing is selected.
+      selectedText: '# of # selected',                                        // (str) A "template" that indicates how to show the count of selections in the button.  The "#'s" are replaced by the selection count & option count.
+      selectedList: 0,                                                        // (int) The actual list selections will be shown in the button when the count of selections is <= than this number.
+      show: null,                                                             // (array) An array containing menu opening effects.
+      hide: null,                                                             // (array) An array containing menu closing effects.
+      autoOpen: false,                                                        // (true | false) If true, then the menu will be opening immediately after initialization.
+      position: {},                                                           // (object) A jQuery UI position object that constrains how the pop-up menu is positioned.
+      appendTo: null,                                                         // (jQuery | DOM element | selector str)  If provided, this specifies what element to append the widget to in the DOM.
+      menuWidth:null,                                                         // (int | null) If a number is provided, sets the menu width.
+      selectedListSeparator: ', ',                                            // (str) This allows customization of the list separator.  Use ',<br/>' to make the button grow vertically showing 1 selection per line.
+      disableInputsOnToggle: true,                                            // (true | false)
+      groupColumns: false                                                     // (true | false)
     },
 
     // This method determines which element to append the menu to
     // Uses the element provided in the options first, then looks for ui-front / dialog
     // Otherwise appends to the body
     _getAppendEl: function() {
-      var element = this.options.appendTo;
-      if(element) {
-        element = element.jquery || element.nodeType ? $(element) : this.document.find(element).eq(0);
+      var elem = this.options.appendTo;                                       // jQuery object, DOM element, OR selector str.
+      if(elem) {
+        elem = elem.jquery || elem.nodeType ? $(elem) : this.document.find(elem).eq(0); // Note that the find handles the selector case.
       }
-      if(!element || !element[0]) {
-        element = this.element.closest(".ui-front, dialog");
+      if(!elem || !elem[0]) {
+        elem = this.element.closest(".ui-front, dialog");  // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
       }
-      if(!element.length) {
-        element = this.document[0].body;
+      if(!elem.length) {
+        elem = this.document[0].body;                                         // Position at end of body.
       }
-      return element;
+      return elem;
     },
 
     // Performs the initial creation of the widget
     _create: function() {
-      var el = this.element;
+      var $element = this.element.hide();               // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
       var o = this.options;
 
       this.speed = $.fx.speeds._default; // default speed for effects
-      this._isOpen = false; // assume no
+      this._isOpen = false;                  // assume no
       this.inputIdCounter = 0;
 
       // create a unique namespace for events that the widget
@@ -87,30 +87,34 @@
       // bump unique ID after assigning it to the widget instance
       this.multiselectID = multiselectID++;
 
-      // The button that opens the widget menu
-      var button = (this.button = $('<button type="button"><span class="ui-multiselect-open">' + o.openIcon + '</span></button>'))
+      // The button that opens the widget menu.
+      // The ui-multiselect-open span is necessary below to simplify dynamically changing the open icon.
+      var $button = (this.$button = $('<button type="button"><span class="ui-multiselect-open">' + o.openIcon + '</span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all ' + o.classes)
-        .attr({ 'title':el.attr('title'), 'tabIndex':el.attr('tabIndex'), 'id': el.attr('id') ? el.attr('id')  + '_ms' : null })
+        .attr({ title: $element.attr('title'), 
+                tabIndex: $element.attr('tabIndex'), 
+                id: $element.attr('id') ? $element.attr('id')  + '_ms' : null 
+        })
         .prop('aria-haspopup', true)
-        .insertAfter(el);
+        .insertAfter($element);
 
-        this.buttonlabel = $('<span />')
+        this.$buttonlabel = $('<span />')
           .html(o.noneSelectedText)
-          .appendTo(button);
+          .appendTo($button);
 
          // This is the menu that will hold all the options
-        this.menu = $('<div />')
+        var $menu = (this.$menu = $('<div />'))
           .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all ' + o.classes)
           .appendTo(this._getAppendEl());
 
          // Menu header to hold controls for the menu
-        this.header = $('<div />')
+        var $header = (this.$header = $('<div />'))
           .addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
-          .appendTo(this.menu);
+          .appendTo($menu);
 
          // Header controls, will contain the check all/uncheck all buttons
          // Depending on how the options are set, this may be empty or simply plain text
-        this.headerLinkContainer = $('<ul />')
+        this.$headerLinkContainer = $('<ul />')
           .addClass('ui-helper-reset')
           .html(function() {
             if(o.header === true) {
@@ -132,12 +136,12 @@
             }
           })
           .append('<li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close" title="Close">' + o.closeIcon + '</a></li>')
-          .appendTo(this.header);
+          .appendTo($header);
 
          // Holds the actual check boxes for inputs
-        var checkboxContainer = (this.checkboxContainer = $('<ul />'))
+        this.$checkboxContainer = $('<ul />')
           .addClass('ui-multiselect-checkboxes ui-helper-reset')
-          .appendTo(this.menu);
+          .appendTo($menu);
 
         // perform event bindings
         this._bindEvents();
@@ -146,26 +150,28 @@
         this.refresh(true);
 
         // If this is a single select widget, add the appropriate class
-        if(!el[0].multiple) {
-          this.menu.addClass('ui-multiselect-single');
+        if(!$element[0].multiple) {
+          $menu.addClass('ui-multiselect-single');
         }
-        el.hide();
     },
 
     // https://api.jqueryui.com/jquery.widget/#method-_init
     _init: function() {
+      var $element = this.element;                 // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
+      var $headerLinks = this.$headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip');
+
       if(this.options.header === false) {
-        this.header.hide();
+        this.$header.hide();
       }
-      if(!!this.element[0].multiple) {
-        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip').show();
+      if(!!$element[0].multiple) {
+        $headerLinks.show();
       } else {
-        this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip').hide();
+        $headerLinks.hide();
       }
       if(this.options.autoOpen) {
         this.open();
       }
-      if(this.element.is(':disabled')) {
+      if(!!$element[0].disabled) {
         this.disable();
       }
     },
@@ -180,17 +186,16 @@
     * </li>
     */
     _makeOption: function(option) {
-      var title = option.title ? option.title : null;
-      var value = option.value;
-      var el = this.element;
-      var id = el.attr('id') || this.multiselectID;   // unique ID for the label & option tags
+      var title = option.title || null;
+      var $element = this.element;                          // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
+      var id = $element[0].id || this.multiselectID;        // unique ID for the label & option tags
       var inputID = 'ui-multiselect-' + this.multiselectID + '-' + (option.id || id + '-option-' + this.inputIdCounter++);
       var isDisabled = option.disabled;
       var isSelected = option.selected;
       var labelClasses = [ 'ui-corner-all' ];
       var liClasses = [];
       var o = this.options;
-      var isMultiple = !!el[0].multiple;        // Pick up the select type from the underlying element
+      var isMultiple = !!$element[0].multiple;                  // Pick up the select type from the underlying element
 
       if(isDisabled) {
         liClasses.push('ui-multiselect-disabled');
@@ -211,7 +216,7 @@
       var $input = $("<input/>").attr({
         "name": "multiselect_" + id,
         "type": isMultiple ? "checkbox" : "radio",
-        "value": value,
+        "value": option.value,
         "title": title,
         "id": inputID,
         "checked": isSelected ? "checked" : null,
@@ -231,9 +236,9 @@
 
     // Builds a menu item for each option in the underlying select
     // Option groups are built here as well
-    _buildOptionList: function(element, $appendTo) {
+    _buildOptionList: function($element, $appendTo) {
       var self = this;
-      element.children().each(function() {
+      $element.children().each(function() {
         var $this = $(this);
         if(this.tagName === 'OPTGROUP') {
           var $optionGroup = $("<ul/>").addClass('ui-multiselect-optgroup ' + this.className).appendTo($appendTo);
@@ -252,32 +257,30 @@
     // Refreshes the widget to pick up changes to the underlying select
     // Rebuilds the menu, sets button width
     refresh: function(init) {
-      var self = this;
-      var el = this.element;
-      var o = this.options;
-      var menu = this.menu;
-      var checkboxContainer = this.checkboxContainer;
-      var html = "";
+      var $element = this.element;                                       // "element" is a jQuery object representing the underlying select
+      var $menu = this.$menu;
+      var $headerLinks = this.$headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip');
       var $dropdown = $("<ul/>").addClass('ui-multiselect-checkboxes ui-helper-reset');
+
       this.inputIdCounter = 0;
 
       // update header link container visibility if needed
       if (this.options.header) {
-        if(!!el[0].multiple) {
-          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip').show();
+        if(!!$element[0].multiple) {
+          $headerLinks.show();
         } else {
-          this.headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip').hide();
+          $headerLinks.hide();
         }
       }
 
-      this._buildOptionList(el, $dropdown);
+      this._buildOptionList($element, $dropdown);
 
-      this.menu.find(".ui-multiselect-checkboxes").remove();
-      this.menu.append($dropdown);
+      this.$menu.find(".ui-multiselect-checkboxes").remove();
+      this.$menu.append($dropdown);
 
       // cache some more useful elements
-      this.labels = menu.find('label');
-      this.inputs = this.labels.children('input');
+      this.$labels = $menu.find('label');
+      this.$inputs = this.$labels.children('input');
 
       this._setButtonWidth();
 
@@ -292,7 +295,7 @@
     // updates the button text. call refresh() to rebuild
     update: function(isDefault) {
       var o = this.options;
-      var $inputs = this.inputs;
+      var $inputs = this.$inputs;
       var $checked = $inputs.filter(':checked');
       var numChecked = $checked.length;
       var value;
@@ -311,7 +314,7 @@
 
       this._setButtonValue(value);
       if(isDefault) {
-        this.button[0].defaultValue = value;
+        this.$button[0].defaultValue = value;
       }
 
     },
@@ -319,61 +322,58 @@
     // this exists as a separate method so that the developer
     // can easily override it.
     _setButtonValue: function(value) {
-      this.buttonlabel.text(value);
+      this.$buttonlabel.text(value);
     },
 
     _bindButtonEvents: function() {
       var self = this;
-      var button = this.button;
+      var $button = this.$button;
       function clickHandler() {
         self[ self._isOpen ? 'close' : 'open' ]();
         return false;
       }
 
-      // webkit doesn't like it when you click on the span :(
-      button
-        .find('span')
-        .bind('click.multiselect', clickHandler);
-
-      // button events
-      button.bind({
-        click: clickHandler,
-        keypress: function(e) {
-          switch(e.which) {
-            case 27: // esc
-            case 38: // up
-            case 37: // left
-              self.close();
-              break;
-            case 39: // right
-            case 40: // down
-              self.open();
-              break;
-          }
-        },
-        mouseenter: function() {
-          if(!button.hasClass('ui-state-disabled')) {
-            $(this).addClass('ui-state-hover');
-          }
-        },
-        mouseleave: function() {
-          $(this).removeClass('ui-state-hover');
-        },
-        focus: function() {
-          if(!button.hasClass('ui-state-disabled')) {
-            $(this).addClass('ui-state-focus');
-          }
-        },
-        blur: function() {
-          $(this).removeClass('ui-state-focus');
-        }
-      });
+      $button                                                              // button events
+        .on({
+           click: clickHandler,
+           keypress: function(e) {
+             switch(e.which) {
+               case 27: // esc
+               case 38: // up
+               case 37: // left
+                 self.close();
+                 break;
+               case 39: // right
+               case 40: // down
+                 self.open();
+                 break;
+             }
+           },
+           mouseenter: function() {
+             if(!$button.hasClass('ui-state-disabled')) {
+               $button.addClass('ui-state-hover');
+             }
+           },
+           mouseleave: function() {
+             $button.removeClass('ui-state-hover');
+           },
+           focus: function() {
+             if(!$button.hasClass('ui-state-disabled')) {
+               $button.addClass('ui-state-focus');
+             }
+           },
+           blur: function() {
+             $button.removeClass('ui-state-focus');
+           }
+         })
+         .find('span')                                                  // webkit doesn't like it when you click on the span :(
+         .on('click.multiselect', clickHandler);
     },
 
     _bindMenuEvents: function() {
       var self = this;
       // optgroup label toggle support
-      this.menu.on('click.multiselect', '.ui-multiselect-optgroup a', function(e) {
+      this.$menu.on('click.multiselect', '.ui-multiselect-optgroup a', function(e) {
         e.preventDefault();
 
         var $this = $(this);
@@ -400,7 +400,7 @@
       })
       .on('mouseenter.multiselect', 'label', function() {
         if(!$(this).hasClass('ui-state-disabled')) {
-          self.labels.removeClass('ui-state-hover');
+          self.$labels.removeClass('ui-state-hover');
           $(this).addClass('ui-state-hover').find('input').focus();
         }
       })
@@ -415,8 +415,8 @@
         switch(e.which) {
           case 9: // tab
             if(e.shiftKey) {
-              self.menu.find(".ui-state-hover").removeClass("ui-state-hover");
-              self.header.find("li").last().find("a").focus();
+              self.$menu.find(".ui-state-hover").removeClass("ui-state-hover");
+              self.$header.find("li").last().find("a").focus();
             } else {
               self.close();
             }
@@ -451,7 +451,7 @@
         var val = this.value;
         var optionText = $this.parent().find("span").text();
         var checked = this.checked;
-        var tags = self.element.find('option');
+        var $tags = self.element.find('option');            // "element" is a jQuery object representing the underlying select
         var isMultiple = !!self.element[0].multiple;
 
         // bail if this input is disabled or the event is cancelled
@@ -468,7 +468,7 @@
         $this.prop('aria-selected', checked);
 
         // change state on the original option tags
-        tags.each(function() {
+        $tags.each(function() {
           if(this.value === val) {
             this.selected = checked;
           } else if(!isMultiple) {
@@ -478,7 +478,7 @@
 
         // some additional single select-specific logic
         if(!isMultiple) {
-          self.labels.removeClass('ui-state-active');
+          self.$labels.removeClass('ui-state-active');
           $this.closest('label').toggleClass('ui-state-active', checked);
 
           // close menu
@@ -497,7 +497,7 @@
     _bindHeaderEvents: function() {
       var self = this;
       // header links
-      this.header.on('click.multiselect', 'a', function(e) {
+      this.$header.on('click.multiselect', 'a', function(e) {
         var $this = $(this);
         if($this.hasClass('ui-multiselect-close')) {
           self.close();
@@ -516,7 +516,7 @@
             break;
           case 9:
             var $target = $(e.target);
-            if((e.shiftKey && !$target.parent().prev().length && !self.header.find(".ui-multiselect-filter").length) || (!$target.parent().next().length && !self.labels.length && !e.shiftKey)) {
+            if((e.shiftKey && !$target.parent().prev().length && !self.$header.find(".ui-multiselect-filter").length) || (!$target.parent().next().length && !self.$labels.length && !e.shiftKey)) {
               self.close();
               e.preventDefault();
             }
@@ -534,14 +534,14 @@
       this._bindHeaderEvents();
 
       // close each widget when clicking on any other element/anywhere else on the page
-      $doc.bind('mousedown.' + self._namespaceID, function(event) {
+      $doc.on('mousedown.' + self._namespaceID, function(event) {
         var target = event.target;
 
         if(self._isOpen &&
-            target !== self.button[0] &&
-            target !== self.menu[0] &&
-            !$.contains(self.menu[0], target) &&
-            !$.contains(self.button[0], target)
+            target !== self.$button[0] &&
+            target !== self.$menu[0] &&
+            !$.contains(self.$menu[0], target) &&
+            !$.contains(self.$button[0], target)
           ) {
           self.close();
         }
@@ -569,7 +569,7 @@
           var lastChar = minVal[ minVal.length -1 ];
           width = minVal.match(/\d+/);
           if(lastChar === '%') {
-            width = this.element.parent().outerWidth() * (width/100);
+            width = this.element.parent().outerWidth() * (width/100);      // element is a jQuery object
           } else {
             width = parseInt(minVal, 10);
           }
@@ -580,40 +580,40 @@
 
     // set button width
     _setButtonWidth: function() {
-      var width = this.element.outerWidth();
+      var width = this.element.outerWidth();                                     // element is a jQuery object
       var minVal = this._getMinWidth();
 
       if(width < minVal) {
         width = minVal;
       }
       // set widths
-      this.button.outerWidth(width);
+      this.$button.outerWidth(width);
     },
 
     // set menu width
     _setMenuWidth: function() {
-      var m = this.menu;
-      var width = (this.button.outerWidth() <= 0) ? this._getMinWidth() : this.button.outerWidth();
+      var m = this.$menu;
+      var width = (this.$button.outerWidth() <= 0) ? this._getMinWidth() : this.$button.outerWidth();
       m.outerWidth(this.options.menuWidth || width);
     },
 
     // Sets the height of the menu
     // Will set a scroll bar if the menu height exceeds that of the height in options
     _setMenuHeight: function() {
-      var headerHeight = this.menu.children(".ui-multiselect-header:visible").outerHeight(true);
+      var headerHeight = this.$menu.children(".ui-multiselect-header:visible").outerHeight(true);
       var ulHeight = 0;
-      this.menu.find(".ui-multiselect-checkboxes li, .ui-multiselect-checkboxes a").each(function(idx, li) {
+      this.$menu.find(".ui-multiselect-checkboxes li, .ui-multiselect-checkboxes a").each(function(idx, li) {
         ulHeight += $(li).outerHeight(true);
       });
       if(ulHeight > this.options.height) {
-        this.menu.children(".ui-multiselect-checkboxes").css("overflow", "auto");
+        this.$menu.children(".ui-multiselect-checkboxes").css("overflow", "auto");
         ulHeight = this.options.height;
       } else {
-        this.menu.children(".ui-multiselect-checkboxes").css("overflow", "hidden");
+        this.$menu.children(".ui-multiselect-checkboxes").css("overflow", "hidden");
       }
 
-      this.menu.children(".ui-multiselect-checkboxes").height(ulHeight);
-      this.menu.height(ulHeight + headerHeight);
+      this.$menu.children(".ui-multiselect-checkboxes").height(ulHeight);
+      this.$menu.height(ulHeight + headerHeight);
     },
 
      // Resizes the menu, called every time the menu is opened
@@ -636,10 +636,10 @@
 
       // if at the first/last element
       if(!$next.length) {
-        var $container = this.menu.find('ul').last();
+        var $container = this.$menu.find('ul').last();
 
         // move to the first/last
-        this.menu.find('label:visible')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
+        this.$menu.find('label:visible')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
 
         // set scroll position
         $container.scrollTop(moveToLast ? $container.height() : 0);
@@ -671,8 +671,9 @@
 
     // Toggles checked state on either an option group or all inputs
     _toggleChecked: function(flag, group) {
-      var $inputs = (group && group.length) ?  group : this.inputs;
+      var $inputs = (group && group.length) ?  group : this.$inputs;
       var self = this;
+      var $element = this.element;                // element is a jQuery object
 
       // toggle state on inputs
       $inputs.each(this._toggleState('checked', flag));
@@ -690,8 +691,8 @@
       });
 
       // toggle state on original option tags
-      this.element.selectedIndex = -1;
-      this.element
+      $element.selectedIndex = -1;
+      $element
         .find('option')
         .each(function() {
           if(!this.disabled && values[this.value]) {
@@ -701,16 +702,16 @@
 
       // trigger the change event on the select
       if($inputs.length) {
-        this.element.trigger("change");
+        $element.trigger("change");
       }
     },
 
       // Toggle disable state on the widget and underlying select
     _toggleDisabled: function(flag) {
-      this.button.prop({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
+      this.$button.prop({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ]('ui-state-disabled');
 
       if(this.options.disableInputsOnToggle) {
-        var checkboxes = this.menu.find(".ui-multiselect-checkboxes").get(0);
+        var checkboxes = this.$menu.find(".ui-multiselect-checkboxes").get(0);
         var matchedInputs = [];
         var key = "ech-multiselect-disabled";
         var i = 0;
@@ -746,18 +747,18 @@
     // open the menu
     open: function(e) {
       var self = this;
-      var button = this.button;
-      var menu = this.menu;
+      var $button = this.$button;
+      var $menu = this.$menu;
       var speed = this.speed;
       var o = this.options;
       var args = [];
 
       // bail if the multiselectopen event returns false, this widget is disabled, or is already open
-      if(this._trigger('beforeopen') === false || button.hasClass('ui-state-disabled') || this._isOpen) {
+      if(this._trigger('beforeopen') === false || $button.hasClass('ui-state-disabled') || this._isOpen) {
         return;
       }
 
-      var $container = menu.find('.ui-multiselect-checkboxes');
+      var $container = $menu.find('.ui-multiselect-checkboxes');
       var effect = o.show;
 
       // figure out opening effects/speeds
@@ -776,7 +777,7 @@
       $container.scrollTop(0);
 
       // show the menu, maybe with a speed/effect combo
-      $.fn.show.apply(menu, args);
+      $.fn.show.apply($menu, args);
 
       this._resizeMenu();
       // positon
@@ -784,17 +785,16 @@
 
 
       // select the first not disabled option or the filter input if available
-      var filter = this.header.find(".ui-multiselect-filter");
+      var filter = this.$header.find(".ui-multiselect-filter");
       if(filter.length) {
         filter.first().find('input').trigger('focus');
-      } else if(this.labels.length){
-        this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+      } else if(this.$labels.length){
+        this.$labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
       } else {
-        this.header.find('a').first().trigger('focus');
+        this.$header.find('a').first().trigger('focus');
       }
 
-
-      button.addClass('ui-state-active');
+      $button.addClass('ui-state-active');
       this._isOpen = true;
       this._trigger('open');
     },
@@ -810,7 +810,7 @@
       var speed = this.speed;
       var args = [];
 
-      // figure out opening effects/speeds
+      // figure out closing effects/speeds
       if($.isArray(o.hide)) {
         effect = o.hide[0];
         speed = o.hide[1] || this.speed;
@@ -820,11 +820,11 @@
         args = [ effect, speed ];
       }
 
-      $.fn.hide.apply(this.menu, args);
-      this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
+      $.fn.hide.apply(this.$menu, args);
+      this.$button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
       this._isOpen = false;
       this._trigger('close');
-      this.button.trigger('focus');
+      this.$button.trigger('focus');
     },
 
     enable: function() {
@@ -842,7 +842,7 @@
 
     uncheckAll: function() {
       this._toggleChecked(false);
-      if ( !this.element[0].multiple )
+      if ( !this.element[0].multiple )                // element is a jQuery object
          this.element[0].selectedIndex = -1;       // Forces the underlying single-select to have no options selected.
       this._trigger('uncheckAll');
     },
@@ -853,11 +853,11 @@
     },
 
     getChecked: function() {
-      return this.menu.find('input').filter(':checked');
+      return this.$menu.find('input').filter(':checked');
     },
 
     getUnchecked: function() {
-      return this.menu.find('input').not(':checked');
+      return this.$menu.find('input').not(':checked');
     },
 
     destroy: function() {
@@ -865,11 +865,11 @@
       $.Widget.prototype.destroy.call(this);
 
       // unbind events
-      $doc.unbind(this._namespaceID);
-      $(this.element[0].form).unbind(this._namespaceID);
+      $doc.off(this._namespaceID);
+      $(this.element[0].form).off(this._namespaceID);       // element is a jQuery object
 
-      this.button.remove();
-      this.menu.remove();
+      this.$button.remove();
+      this.$menu.remove();
       this.element.show();
 
       return this;
@@ -880,19 +880,19 @@
     },
 
     widget: function() {
-      return this.menu;
+      return this.$menu;
     },
 
     getButton: function() {
-      return this.button;
+      return this.$button;
     },
 
     getMenu: function() {
-      return this.menu;
+      return this.$menu;
     },
 
     getLabels: function() {
-      return this.labels;
+      return this.$labels;
     },
 
      /*
@@ -908,16 +908,16 @@
         this.element.children("OPTGROUP").filter(function() {
           return $(this).prop("label") === groupLabel;
         }).append($option);
-        this.menu.find(".ui-multiselect-optgroup").filter(function() {
+        this.$menu.find(".ui-multiselect-optgroup").filter(function() {
           return $(this).find("a").text() === groupLabel;
         }).append(this._makeOption(optionNode));
       } else {
         this.element.append($option);
-        this.menu.find(".ui-multiselect-checkboxes").append(this._makeOption(optionNode));
+        this.$menu.find(".ui-multiselect-checkboxes").append(this._makeOption(optionNode));
       }
       //update cached elements
-      this.labels = this.menu.find('label');
-      this.inputs = this.labels.children('input');
+      this.$labels = this.$menu.find('label');
+      this.$inputs = this.$labels.children('input');
     },
 
     removeOption: function(value) {
@@ -925,18 +925,18 @@
         return;
       }
       this.element.find("option[value=" + value + "]").remove();
-      this.labels.find("input[value=" + value + "]").parents("li").remove();
+      this.$labels.find("input[value=" + value + "]").parents("li").remove();
 
       //update cached elements
-      this.labels = this.menu.find('label');
-      this.inputs = this.labels.children('input');
+      this.$labels = this.$menu.find('label');
+      this.$inputs = this.$labels.children('input');
     },
 
     position: function() {
       var pos = {
         my: "top",
         at: "bottom",
-        of: this.button
+        of: this.$button
       };
       if(!$.isEmptyObject(this.options.position)) {
         pos.my = this.options.position.my || pos.my;
@@ -944,50 +944,42 @@
         pos.of = this.options.position.of || pos.of;
       }
       if($.ui && $.ui.position) {
-        this.menu.position(pos);
+        this.$menu.position(pos);
       } else {
-        pos = this.button.position();
-        pos.top += this.button.outerHeight(false);
-        this.menu.offset(pos);
+        pos = this.$button.position();
+        pos.top += this.$button.outerHeight(false);
+        this.$menu.offset(pos);
       }
     },
 
     // react to option changes after initialization
     _setOption: function(key, value) {
-      var menu = this.menu;
+      var $menu = this.$menu;
 
       switch(key) {
         case 'header':
           if(typeof value === 'boolean') {
-            this.header[value ? 'show' : 'hide']();
+            this.$header[value ? 'show' : 'hide']();
           } else if(typeof value === 'string') {
-            this.headerLinkContainer.children("li:not(:last-child)").remove();
-            this.headerLinkContainer.prepend("<li>" + value + "</li>");
+            this.$headerLinkContainer.children("li:not(:last-child)").remove();
+            this.$headerLinkContainer.prepend("<li>" + value + "</li>");
           }
           break;
         case 'checkAllText':
-          menu.find('a.ui-multiselect-all span').eq(-1).text(value);     // eq(-1) finds the last span
-          break;
         case 'uncheckAllText':
-          menu.find('a.ui-multiselect-none span').eq(-1).text(value);
-          break;
         case 'flipAllText':
-          menu.find('a.ui-multiselect-flip span').eq(-1).text(value);
+          $menu.find('a.ui-multiselect-' + {checkAllText: 'all', uncheckAllText: 'none', flipAllText: 'flip'}[key] + ' span').eq(-1).text(value);           // eq(-1) finds the last span
           break;
         case 'checkAllIcon':
-          menu.find('a.ui-multiselect-all span').eq(0).replaceWith(value);
-          break;
         case 'uncheckAllIcon':
-          menu.find('a.ui-multiselect-none span').eq(0).replaceWith(value);
-          break;
         case 'flipAllIcon':
-          menu.find('a.ui-multiselect-flip span').eq(0).replaceWith(value);
+          $menu.find('a.ui-multiselect-' + {checkAllIcon: 'all', uncheckAllIcon: 'none', flipAllIcon: 'flip'}[key] + ' span').eq(0).replaceWith(value); // eq(0) finds the first span
           break;
         case 'openIcon':
-          menu.find('span.ui-multiselect-open').html(value);
+          $menu.find('span.ui-multiselect-open').html(value);
           break;
         case 'closeIcon':
-          menu.find('a.ui-multiselect-close').html(value);
+          $menu.find('a.ui-multiselect-close').html(value);
           break;
         case 'height':
           this.options[key] = value;
@@ -1006,13 +998,13 @@
           this.update();
           break;
         case 'classes':
-          menu.add(this.button).removeClass(this.options.classes).addClass(value);
+          $menu.add(this.$button).removeClass(this.options.classes).addClass(value);
           break;
         case 'multiple':
           var el_0 = this.element[0];
           if (!!el_0.multiple != value) {
-             menu.toggleClass('ui-multiselect-multiple', value);
-             menu.toggleClass('ui-multiselect-single', !value);
+             $menu.toggleClass('ui-multiselect-multiple', value);
+             $menu.toggleClass('ui-multiselect-single', !value);
              el_0.multiple = value;
              this.uncheckAll();
              this.refresh();
