@@ -78,14 +78,33 @@
          selectedList: 2
       });
 
-      el.multiselect("checkAll");
-      equals( button().text(), '3 of 3 selected', 'after checkAll with a limited selectedList value, button value displays number of checked');
-      el.multiselect("destroy").remove();
-   });
+		el.multiselect("checkAll");
+		equals( button().text(), '3 of 3 selected', 'after checkAll with a limited selectedList value, button value displays number of checked');
+		el.multiselect("destroy").remove();
+	});
 
-   function asyncSelectedList( useTrigger, message ){
-      expect(1);
-      stop();
+	test("selectedMax", function(){
+		expect(1);
+
+		var html = '<select multiple><option value="foo">foo &quot;with quotes&quot;</option><option value="bar">bar</option><option value="baz">baz</option></select>';
+
+		el = $(html).appendTo("body").multiselect({
+			selectedMax: 2
+		});
+		
+		checkboxes = el.multiselect("widget").find(":checkbox");
+		checkboxes.eq(0).trigger('click');
+		checkboxes.eq(1).trigger('click');
+		checkboxes.eq(2).trigger('click');
+		
+		equals( menu().find("input").filter(":checked").length, 2 , 'after clicking each checkbox, count of checked restored to selectedMax of 2');
+		el.multiselect("destroy").remove();
+		
+	});
+	
+	function asyncSelectedList( useTrigger, message ){
+		expect(1);
+		stop();
 
       var html = '<select multiple><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>',
          checkboxes;
