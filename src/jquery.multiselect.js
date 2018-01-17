@@ -144,7 +144,7 @@
 
          // Holds the actual check boxes for inputs
         this.$checkboxContainer = $( document.createElement('ul') )
-            .addClass('ui-multiselect-checkboxes ui-helper-reset"></ul>')
+            .addClass('ui-multiselect-checkboxes ui-helper-reset')
             .appendTo($menu);
 
         // We wait until everything is built before we insert in the DOM to limit browser re-flowing (an optimization).
