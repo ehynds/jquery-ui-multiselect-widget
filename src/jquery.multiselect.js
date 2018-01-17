@@ -215,7 +215,7 @@
          .data($(option).data())
          .appendTo($label);
 
-      var $span = this.options.htmlOptionText ? $( document.createElement('span') ).html($(option).html()) : $("<span/>").text($(option).text());
+      var $span = this.options.htmlOptionText ? $( document.createElement('span') ).html($(option).html()) : $( document.createElement('span') ).text($(option).text());
       if ($input.data("image-src"))
         $span.prepend( $(document.createElement('img')).attr('src', $input.data("image-src")) );
       $span.appendTo($label);
@@ -257,7 +257,7 @@
          this.$headerLinkContainer.find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip')[ !!$element[0].multiple ? 'show' : 'hide' ]();
 
       this._buildOptionList($element, $dropdown);                                    // Rebuild the menu.
-      this.$menu.find(".ui-multiselect-checkboxes").replaceWith($dropdown);          // Insert updated check list.
+      this.$menu.find('.ui-multiselect-checkboxes').replaceWith($dropdown);          // Insert updated check list.
 
       this._updateCache();                                                           // cache some more useful elements
 
@@ -365,7 +365,7 @@
         e.preventDefault();
 
         var $this = $(this);
-        var $inputs = $this.parent().find('input:visible:not(:disabled)');
+        var $inputs = $this.parent().find('input').filter(':visible:not(:disabled)');
         var nodes = $inputs.get();
         var label = this.textContent;
 
@@ -639,14 +639,14 @@
         var $container = this.$menu.find('ul').last();
 
         // move to the first/last
-        this.$menu.find('label:visible')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
+        this.$menu.find('label').filter(':visible')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
 
         // set scroll position
         $container.scrollTop(moveToLast ? $container.height() : 0);
 
       }
       else
-        $next.find('label:visible')[ moveToLast ? "last" : "first" ]().trigger('mouseover');
+        $next.find('label').filter(':visible')[ moveToLast ? "last" : "first" ]().trigger('mouseover');
 
     },
 
@@ -889,7 +889,7 @@
     addOption: function(attributes, text, groupLabel) {
       var $element = this.element;
       var $menu = this.$menu;
-      var $option = $("<option/>").attr(attributes).text(text);
+      var $option = $( document.createElement('option') ).attr(attributes).text(text);
       var optionNode = $option.get(0);
 
       if (groupLabel) {
