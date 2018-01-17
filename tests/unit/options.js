@@ -41,7 +41,8 @@
       var numOptions = $("select option").length;
 
       el = $("select").multiselect({
-         selectedText: '# of # selected'
+         selectedText: '# of # selected',
+         selectedList: 0
       });
 
       el.multiselect("checkAll");
@@ -67,7 +68,8 @@
       var html = '<select multiple><option value="foo">foo &quot;with quotes&quot;</option><option value="bar">bar</option><option value="baz">baz</option></select>';
 
       el = $(html).appendTo("body").multiselect({
-         selectedList: 3
+         selectedList: 3,
+         selectedListSeparator: ', '
       });
 
       el.multiselect("checkAll");
@@ -75,12 +77,32 @@
       el.multiselect("destroy").remove();
 
       el = $(html).appendTo("body").multiselect({
-         selectedList: 2
+         selectedList: 2,
+         selectedListSeparator: ', '
       });
 
       el.multiselect("checkAll");
       equals( button().text(), '3 of 3 selected', 'after checkAll with a limited selectedList value, button value displays number of checked');
       el.multiselect("destroy").remove();
+   });
+
+   test("selectedMax", function(){
+      expect(1);
+
+      var html = '<select multiple><option value="foo">foo &quot;with quotes&quot;</option><option value="bar">bar</option><option value="baz">baz</option></select>';
+
+      el = $(html).appendTo("body").multiselect({
+         selectedMax: 2
+      });
+
+      checkboxes = el.multiselect("widget").find(":checkbox");
+      checkboxes.eq(0).trigger('click');
+      checkboxes.eq(1).trigger('click');
+      checkboxes.eq(2).trigger('click');
+
+      equals( menu().find("input").filter(":checked").length, 2 , 'after clicking each checkbox, count of checked restored to selectedMax of 2');
+      el.multiselect("destroy").remove();
+
    });
 
    function asyncSelectedList( useTrigger, message ){
@@ -91,7 +113,8 @@
          checkboxes;
 
       el = $(html).appendTo(body).multiselect({
-         selectedList: 2
+         selectedList: 2,
+         selectedListSeparator: ', '
       });
 
       checkboxes = el.multiselect("widget").find(":checkbox");
@@ -165,11 +188,12 @@
       var outerWidth = button().outerWidth();
       ok( minWidth !== outerWidth, 'changing value through api to '+minWidth+' (too small), outerWidth is actually ' + outerWidth);
 
+      // Reference: https://www.wired.com/2010/12/why-percentage-based-designs-dont-work-in-every-browser/
       minWidth = "50%";
       el.multiselect("option", "minWidth", minWidth);
-      outerWidth = Math.floor(button().outerWidth());
-      var halfParent = Math.floor(el.parent().outerWidth()/2);
-      ok(outerWidth === halfParent, 'changing value to 50%');
+      var outerWidthX2 = Math.floor(button().outerWidth() * 2);  // Double to reduce chance of fractions
+      var parentWidth = Math.floor(el.parent().outerWidth());
+      ok(Math.abs(outerWidthX2 - parentWidth) <= 1, 'changing value to 50%');  // Off by 1 is ok due to floating point rounding discrepancies between browsers.
 
       minWidth = "351px";
       el.multiselect("option", "minWidth", minWidth);
