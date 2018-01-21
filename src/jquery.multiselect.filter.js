@@ -1,12 +1,11 @@
 /* jshint forin:true, noarg:true, noempty:true, eqeqeq:true, boss:true, undef:true, curly:true, browser:true, jquery:true */
 /*
- * jQuery MultiSelect UI Widget Filtering Plugin 3.0.0
+ * jQuery MultiSelect UI Widget Filtering Plugin 2.0.0
  * Copyright (c) 2012 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
  *
  * Depends:
- *   - jQuery 1.7+
  *   - jQuery UI MultiSelect widget
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -49,45 +48,48 @@
 
     _create: function() {
       var opts = this.options;
-      var $elem = this.element;
+      var $element = this.element;
 
       // get the multiselect instance
-      this.instance = $elem.multiselect('instance');
+      this.instance = $element.multiselect('instance');
 
       // store header; add filter class so the close/check all/uncheck all links can be positioned correctly
       this.$header = this.instance.$menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter');
 
-      // wrapper $elem
-      this.$input = $("<input/>").attr({
+      // wrapper $element
+      this.$input = $(document.createElement('input'))
+        .attr({
           placeholder: opts.placeholder,
           type: "search"
-        }).css({
-          width: (/\d/.test(opts.width) ? opts.width + 'px' : null)
-        }).on({
+        })
+        .css({  width: (/\d/.test(opts.width) ? opts.width + 'px' : null) })
+        .on({
         keydown: function(e) {
           // prevent the enter key from submitting the form / closing the widget
-          if(e.which === 13) {
+          if(e.which === 13)
             e.preventDefault();
-          } else if(e.which === 27) {
-            $elem.multiselect('close');
+          else if(e.which === 27) {
+            $element.multiselect('close');
             e.preventDefault();
-          } else if(e.which === 9 && e.shiftKey) {
-            $elem.multiselect('close');
+          }
+          else if(e.which === 9 && e.shiftKey) {
+            $element.multiselect('close');
             e.preventDefault();
-          } else if(e.altKey) {
+          }
+          else if(e.altKey) {
             switch(e.which) {
               case 82:
                 e.preventDefault();
                 $(this).val('').trigger('input', '');
                 break;
               case 65:
-                $elem.multiselect('checkAll');
+                $element.multiselect('checkAll');
                 break;
               case 85:
-                $elem.multiselect('uncheckAll');
+                $element.multiselect('uncheckAll');
                 break;
               case 76:
-                $elem.multiselect('instance').$labels.first().trigger("mouseenter");
+                $element.multiselect('instance').$labels.first().trigger("mouseenter");
                 break;
             }
           }
@@ -96,15 +98,19 @@
         search: $.proxy(this._handler, this)
       });
       // automatically reset the widget on close?
-      if(this.options.autoReset) {
-        $elem.on('multiselectclose', $.proxy(this._reset, this));
-      }
+      if (this.options.autoReset)
+        $element.on('multiselectclose', $.proxy(this._reset, this));
+
       // rebuild cache when multiselect is updated
-      $elem.on('multiselectrefresh', $.proxy(function() {
+      $element.on('multiselectrefresh', $.proxy(function() {
         this.updateCache();
         this._handler();
       }, this));
-      this.$wrapper = $("<div/>").addClass("ui-multiselect-filter").text(opts.label).append(this.$input).prependTo(this.$header);
+      this.$wrapper = $(document.createElement('div'))
+                                 .addClass(' ui-multiselect-filter')
+                                 .text(opts.label)
+                                 .append(this.$input)
+                                 .prependTo(this.$header);
 
       // reference to the actual inputs
       this.$inputs = this.instance.$menu.find('input[type="checkbox"], input[type="radio"]');
@@ -116,10 +122,11 @@
       // only the currently filtered $elements are checked
       this.instance._toggleChecked = function(flag, group) {
         var $inputs = (group && group.length) ?  group : this.$labels.find('input');
-        var _self = this;
+        var self = this;
+        var $element = this.element;
 
         // do not include hidden elems if the menu isn't open.
-        var selector = _self._isOpen ?  ':disabled, :hidden' : ':disabled';
+        var selector = self._isOpen ?  ':disabled, :hidden' : ':disabled';
 
         $inputs = $inputs
           .not(selector)
@@ -135,16 +142,16 @@
         });
 
         // select option tags
-        this.element.find('option').filter(function() {
+        $element.find('option').filter(function() {
           if(!this.disabled && values[this.value]) {
-            _self._toggleState('selected', flag).call(this);
+            self._toggleState('selected', flag).call(this);
           }
         });
 
         // trigger the change event on the select
-        if($inputs.length) {
-          this.element.trigger('change');
-        }
+        if($inputs.length)
+          $element.trigger('change');
+
       };
     },
 
@@ -153,19 +160,19 @@
       var term = $.trim(this.$input[0].value.toLowerCase()),
 
       // speed up lookups
-      rows = this.rows, $inputs = this.$inputs, $cache = this.$cache;
+      $rows = this.$rows, $inputs = this.$inputs, $cache = this.$cache;
       var $groups = this.instance.$menu.find(".ui-multiselect-optgroup");
       $groups.show();
       if(!term) {
-        rows.show();
+        $rows.show();
       } else {
-        rows.hide();
+        $rows.hide();
 
         var regex = new RegExp(term.replace(rEscape, "\\$&"), 'gi');
 
         this._trigger("filter", e, $.map($cache, function(v, i) {
           if(v.search(regex) !== -1) {
-            rows.eq(i).show();
+            $rows.eq(i).show();
             return $inputs.get(i);
           }
 
@@ -176,9 +183,8 @@
       // show/hide optgroups
       $groups.each(function() {
         var $this = $(this);
-        if(!$this.children("li:visible").length) {
+        if (!$this.children("li:visible").length)
           $this.hide();
-        }
       });
       this.instance._setMenuHeight();
     },
@@ -189,18 +195,18 @@
 
     updateCache: function() {
       // each list item
-      this.rows = this.instance.$labels.parent();
+      this.$rows = this.instance.$labels.parent();
 
       // cache
       this.$cache = this.element.children().map(function() {
-        var $elem = $(this);
+        var $element = $(this);
 
         // account for optgroups
         if(this.tagName.toLowerCase() === "optgroup") {
-          $elem = $elem.children();
+          $element = $element.children();
         }
 
-        return $elem.map(function() {
+        return $element.map(function() {
           return this.innerHTML.toLowerCase();
         }).get();
       }).get();
