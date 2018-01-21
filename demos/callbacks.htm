@@ -32,8 +32,14 @@ $(function(){
 		close: function(){
 			$callback.text("Select closed!");
 		},
+		beforeCheckAll: function(){
+			$callback.text("Before Check all click event!");
+		},
 		checkAll: function(){
 			$callback.text("Check all clicked!");
+		},
+		beforeUncheckAll: function(){
+			$callback.text("Before Uncheck all click event!");
 		},
 		uncheckAll: function(){
 			$callback.text("Uncheck all clicked!");
@@ -94,8 +100,14 @@ $("select").multiselect({
    checkAll: function(){
       $callback.text("Check all clicked!");
    },
+   beforeCheckAll: function(){
+      $callback.text("Before Check all click event!");
+   },
    uncheckAll: function(){
       $callback.text("Uncheck all clicked!");
+   },
+   beforeUncheckAll: function(){
+      $callback.text("Before Uncheck all click event!");
    },
    optgrouptoggle: function(event, ui){
       var values = $.map(ui.inputs, function(checkbox){
