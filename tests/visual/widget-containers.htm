@@ -11,16 +11,16 @@
 <script type="text/javascript" src="../../src/jquery.multiselect.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("select").multiselect();
+   $("select").multiselect();
 
-	$("#dialog").dialog({
-		title: "Inside a dialog",
-		height: 300
-	});
-	
-	$("#tabs").tabs();
-	$("#accordion").accordion();
-	$("#datepicker").datepicker();
+   $("#dialog").dialog({
+      title: "Inside a dialog",
+      height: 300
+   });
+   
+   $("#tabs").tabs();
+   $("#accordion").accordion();
+   $("#datepicker").datepicker();
 });
 </script>
 </head>
@@ -46,60 +46,60 @@ $(function(){
 
 <!-- dialog -->
 <div id="dialog">
-	<form>
-	<select multiple>
-	<option value="option1">Option 1</option>
-	<option value="option2">Option 2</option>
-	<option value="option3">Option 3</option>
-	<option value="option4">Option 4</option>
-	</select>
-	
-	<!-- date picker -->
-	<p>Datepicker: <input type="date" id="datepicker" /></p>
-	</form>
+   <form>
+   <select multiple>
+   <option value="option1">Option 1</option>
+   <option value="option2">Option 2</option>
+   <option value="option3">Option 3</option>
+   <option value="option4">Option 4</option>
+   </select>
+   
+   <!-- date picker -->
+   <p>Datepicker: <input type="date" id="datepicker" /></p>
+   </form>
 </div>
 
 
 <!-- tabs -->
 <div id="tabs" class="clear">
-	<ul>
-	<li><a href="#fragment-1">Inside tabs</a></li>
-	<li><a href="#fragment-2">Tab 2</a></li>
-	</ul>
-	
-	<div id="fragment-1">
-		<form>
-		<select multiple>
-		<option value="option1">Option 1</option>
-		<option value="option2">Option 2</option>
-		<option value="option3">Option 3</option>
-		<option value="option4">Option 4</option>
-		</select>
-		</form>
-	</div>
-	
-	<div id="fragment-2">
-		Select the first tab to view the test.
-	</div>
+   <ul>
+   <li><a href="#fragment-1">Inside tabs</a></li>
+   <li><a href="#fragment-2">Tab 2</a></li>
+   </ul>
+   
+   <div id="fragment-1">
+      <form>
+      <select multiple>
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+      <option value="option4">Option 4</option>
+      </select>
+      </form>
+   </div>
+   
+   <div id="fragment-2">
+      Select the first tab to view the test.
+   </div>
 </div>
 
 <!-- accordion -->
 <div id="accordion" style="clear:both; margin-top:50px">
-	<h3><a href="#">Inside an accordion</a></h3>
-	<div>
-		<form>
-		<select multiple>
-		<option value="option1">Option 1</option>
-		<option value="option2">Option 2</option>
-		<option value="option3">Option 3</option>
-		<option value="option4">Option 4</option>
-		</select>
-		</form>
-	</div>
-	<h3><a href="">test</a></h3>
-	<div>Click on the first item to view the test.</div>
+   <h3><a href="#">Inside an accordion</a></h3>
+   <div>
+      <form>
+      <select multiple>
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+      <option value="option4">Option 4</option>
+      </select>
+      </form>
+   </div>
+   <h3><a href="">test</a></h3>
+   <div>Click on the first item to view the test.</div>
 </div>
 
-	
+   
 </body>
 </html>

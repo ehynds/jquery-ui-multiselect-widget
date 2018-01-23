@@ -35,7 +35,7 @@
   var multiselectID = 0;
   var $doc = $(document);
 
-   var msIcons = {
+   var defaultIcons = {
       'open': '<span class="ui-icon ui-icon-triangle-1-s"></span',
       'close': '<span class="ui-icon ui-icon-circle-close"></span>',
       'checkAll': '<span class="ui-icon ui-icon-check"></span>',
@@ -51,7 +51,7 @@
       height: 175,                         // (int) Sets the height of the menu.
       minWidth: 225,                       // (int) Sets the minimum width of the menu.
       classes: '',                         // Classes that you can provide to be applied to the elements making up the widget.
-      iconSet: null,                       // (plain object | null) Supply an object of icons to use alternative icon sets, or null for default set.  Reference msIcons above for object structure.
+      iconSet: null,                       // (plain object | null) Supply an object of icons to use alternative icon sets, or null for default set.  Reference defaultIcons above for object structure.
       checkAllText: 'Check all',           // (str | blank | null) If blank, only icon shown.  If null, no icon, text or link is shown.
       uncheckAllText: 'Uncheck all',       // (str | blank | null) If blank, only icon shown.  If null, no icon, text or link is shown.
       flipAllText: null, //'Flip all',     // (str | blank | null) If blank, only icon shown.  If null, no icon, text or link is shown.
@@ -76,15 +76,15 @@
     // Uses the element provided in the options first, then looks for ui-front / dialog
     // Otherwise appends to the body
     _getAppendEl: function() {
-      var elem = this.options.appendTo;                                          // jQuery object, DOM element, OR selector str.
+      var elem = this.options.appendTo;                    // jQuery object, DOM element, OR selector str.
       if(elem) {
         elem = elem.jquery || elem.nodeType ? $(elem) : this.document.find(elem).eq(0);  // Note that the find handles the selector case.
       }
       if(!elem || !elem[0]) {
-        elem = this.element.closest(".ui-front, dialog");                        // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
+        elem = this.element.closest(".ui-front, dialog");  // element is a jQuery object per http://api.jqueryui.com/jQuery.widget/
       }
       if(!elem.length) {
-        elem = this.document[0].body;                                            // Position at end of body.
+        elem = this.document[0].body;                      // Position at end of body.
       }
       return elem;
     },
@@ -96,7 +96,7 @@
       var options = this.options;
       var classes = options.classes;
       var headerOn = options.header;
-      var iconSet = $.extend({}, msIcons, options.iconSet || {});  // Do an extend here to handle icons missing from options.iconSet
+      var iconSet = $.extend({}, defaultIcons, options.iconSet || {});  // Do an extend here to handle icons missing from options.iconSet
       var checkAllText = options.checkAllText;
       var uncheckAllText = options.uncheckAllText;
       var flipAllText = options.flipAllText;

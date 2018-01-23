@@ -42,7 +42,7 @@
 $("select").multiselect();
 
 $("form").bind("submit", function(){
-	alert( $(this).serialize() );
+   alert( $(this).serialize() );
 });
 </script>
 

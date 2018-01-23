@@ -58,12 +58,12 @@
 
       // wrapper $element
       this.$input = $(document.createElement('input'))
-		  .attr({
+        .attr({
           placeholder: opts.placeholder,
           type: "search"
         })
-		  .css({  width: (/\d/.test(opts.width) ? opts.width + 'px' : null) })
-		  .on({
+        .css({  width: (/\d/.test(opts.width) ? opts.width + 'px' : null) })
+        .on({
         keydown: function(e) {
           // prevent the enter key from submitting the form / closing the widget
           if(e.which === 13)
@@ -72,11 +72,11 @@
             $element.multiselect('close');
             e.preventDefault();
           } 
-			 else if(e.which === 9 && e.shiftKey) {
+          else if(e.which === 9 && e.shiftKey) {
             $element.multiselect('close');
             e.preventDefault();
           } 
-			 else if(e.altKey) {
+          else if(e.altKey) {
             switch(e.which) {
               case 82:
                 e.preventDefault();
@@ -100,17 +100,17 @@
       // automatically reset the widget on close?
       if (this.options.autoReset)
         $element.on('multiselectclose', $.proxy(this._reset, this));
-	  
+     
       // rebuild cache when multiselect is updated
       $element.on('multiselectrefresh', $.proxy(function() {
         this.updateCache();
         this._handler();
       }, this));
       this.$wrapper = $(document.createElement('div'))
-											.addClass(' ui-multiselect-filter')
-											.text(opts.label)
-											.append(this.$input)
-											.prependTo(this.$header);
+                                 .addClass(' ui-multiselect-filter')
+                                 .text(opts.label)
+                                 .append(this.$input)
+                                 .prependTo(this.$header);
 
       // reference to the actual inputs
       this.$inputs = this.instance.$menu.find('input[type="checkbox"], input[type="radio"]');
@@ -122,7 +122,7 @@
       // only the currently filtered $elements are checked
       this.instance._toggleChecked = function(flag, group) {
         var self = this;
-		  var $element = this.element;
+        var $element = this.element;
         var $inputs = (group && group.length) ?  group : this.$inputs;
 
         // do not include hidden elems if the menu isn't open.
@@ -137,7 +137,7 @@
 
         // gather an array of the values that actually changed
         var values = {};
-		  for (var inputCount = $inputs.length, x = 0; x < inputCount; x++) {
+        for (var inputCount = $inputs.length, x = 0; x < inputCount; x++) {
           values[ $inputs.get(x).value ] = true;
         }
 
@@ -163,7 +163,7 @@
       $rows = this.$rows, $inputs = this.$inputs, $cache = this.$cache;
       var $groups = this.instance.$menu.find(".ui-multiselect-optgroup");
       $groups.show();
-		$rows.toggle(!term);
+      $rows.toggle(!term);
       if(term) {
         var regex = new RegExp(term.replace(rEscape, "\\$&"), 'gi');
 

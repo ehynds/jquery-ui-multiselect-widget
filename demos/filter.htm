@@ -25,34 +25,34 @@ $("select").multiselect().multiselectfilter();
 </pre>
 
 <form style="margin:20px 0">
-	<p>
-		<select multiple="multiple" style="width:370px">
-		<option value="red">Red</option>
-		<option value="green">Green</option>
-		<option value="blue">Blue</option>
-		<option value="orange">Orange</option>
-		<option value="purple">Purple</option>
-		<option value="yellow">Yellow</option>
-		<option value="brown">Brown</option>
-		<option value="black">Black</option>
-		</select>
-	</p>
-	<p>
-		<select multiple="multiple" style="width:370px">
-		<optgroup label="test">
-			<option value="red">Red</option>
-			<option value="green">Green</option>
-			<option value="blue">Blue</option>
-		</optgroup>
-		<optgroup label="foo">
-			<option value="orange">Orange</option>
-			<option value="purple">Purple</option>
-			<option value="yellow">Yellow</option>
-			<option value="brown">Brown</option>
-			<option value="black">Black</option>
-		</optgroup>
-		</select>
-	</p>
+   <p>
+      <select multiple="multiple" style="width:370px">
+      <option value="red">Red</option>
+      <option value="green">Green</option>
+      <option value="blue">Blue</option>
+      <option value="orange">Orange</option>
+      <option value="purple">Purple</option>
+      <option value="yellow">Yellow</option>
+      <option value="brown">Brown</option>
+      <option value="black">Black</option>
+      </select>
+   </p>
+   <p>
+      <select multiple="multiple" style="width:370px">
+      <optgroup label="test">
+         <option value="red">Red</option>
+         <option value="green">Green</option>
+         <option value="blue">Blue</option>
+      </optgroup>
+      <optgroup label="foo">
+         <option value="orange">Orange</option>
+         <option value="purple">Purple</option>
+         <option value="yellow">Yellow</option>
+         <option value="brown">Brown</option>
+         <option value="black">Black</option>
+      </optgroup>
+      </select>
+   </p>
 </form>
 
 <h3>Options:</h3>
@@ -68,10 +68,10 @@ $("select").multiselect().multiselectfilter();
 <h3>Events:</h3>
 <ul>
 <li><code><strong>filter</strong></code>
-	<p>A callback function that fires after filtering is complete.  Accepts two arguments: the original event and an array of matches.</p>
-	
-	<p>To do something when no matches are found:</p>
-	
+   <p>A callback function that fires after filtering is complete.  Accepts two arguments: the original event and an array of matches.</p>
+   
+   <p>To do something when no matches are found:</p>
+   
 <pre class="prettyprint">
 $("select").multiselect().multiselectfilter({
     filter: function(event, matches){
@@ -82,26 +82,26 @@ $("select").multiselect().multiselectfilter({
 });
 </pre>
 
-	<p>To do something with a match:</p>
-	
+   <p>To do something with a match:</p>
+   
 <pre class="prettyprint">
 $("select").multiselect().multiselectfilter({
     filter: function(event, matches){
-		
+      
         // find the first matching checkbox
         var first_match = $( matches[0] );
     }
 });
 </pre>
 
-	<p>You can also bind to the event after a multiselect has been initialized, like such:
-	
+   <p>You can also bind to the event after a multiselect has been initialized, like such:
+   
 <pre class="prettyprint">
 $("select").bind("multiselectfilterfilter", function(event, matches){
     // do something
 });
 </pre>
-	
+   
 </li>
 </ul>
 

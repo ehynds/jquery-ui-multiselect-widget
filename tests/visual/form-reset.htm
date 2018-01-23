@@ -11,18 +11,18 @@
 <script type="text/javascript" src="../../src/jquery.multiselect.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("select")
-		.filter(".single")
-		.multiselect({
-			multiple: false,
-			noneSelectedText: 'Please select a radio',
-			header: false
-		})
-		.end()
-		.not(".single")
-		.multiselect({
-			noneSelectedText: 'Please select a checkbox'
-		})});
+   $("select")
+      .filter(".single")
+      .multiselect({
+         multiple: false,
+         noneSelectedText: 'Please select a radio',
+         header: false
+      })
+      .end()
+      .not(".single")
+      .multiselect({
+         noneSelectedText: 'Please select a checkbox'
+      })});
 </script>
 </head>
 <body>
