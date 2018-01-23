@@ -1,6 +1,6 @@
 /* jshint forin:true, noarg:true, noempty:true, eqeqeq:true, boss:true, undef:true, curly:true, browser:true, jquery:true */
 /*
- * jQuery MultiSelect UI Widget Filtering Plugin 2.0.0
+ * jQuery MultiSelect UI Widget Filtering Plugin 3.0.0
  * Copyright (c) 2012 Eric Hynds
  *
  * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
@@ -58,12 +58,12 @@
 
       // wrapper $element
       this.$input = $(document.createElement('input'))
-        .attr({
+		  .attr({
           placeholder: opts.placeholder,
           type: "search"
         })
-        .css({  width: (/\d/.test(opts.width) ? opts.width + 'px' : null) })
-        .on({
+		  .css({  width: (/\d/.test(opts.width) ? opts.width + 'px' : null) })
+		  .on({
         keydown: function(e) {
           // prevent the enter key from submitting the form / closing the widget
           if(e.which === 13)
@@ -71,12 +71,12 @@
           else if(e.which === 27) {
             $element.multiselect('close');
             e.preventDefault();
-          }
-          else if(e.which === 9 && e.shiftKey) {
+          } 
+			 else if(e.which === 9 && e.shiftKey) {
             $element.multiselect('close');
             e.preventDefault();
-          }
-          else if(e.altKey) {
+          } 
+			 else if(e.altKey) {
             switch(e.which) {
               case 82:
                 e.preventDefault();
@@ -100,17 +100,17 @@
       // automatically reset the widget on close?
       if (this.options.autoReset)
         $element.on('multiselectclose', $.proxy(this._reset, this));
-
+	  
       // rebuild cache when multiselect is updated
       $element.on('multiselectrefresh', $.proxy(function() {
         this.updateCache();
         this._handler();
       }, this));
       this.$wrapper = $(document.createElement('div'))
-                                 .addClass(' ui-multiselect-filter')
-                                 .text(opts.label)
-                                 .append(this.$input)
-                                 .prependTo(this.$header);
+											.addClass(' ui-multiselect-filter')
+											.text(opts.label)
+											.append(this.$input)
+											.prependTo(this.$header);
 
       // reference to the actual inputs
       this.$inputs = this.instance.$menu.find('input[type="checkbox"], input[type="radio"]');
@@ -121,9 +121,9 @@
       // rewrite internal _toggleChecked fn so that when checkAll/uncheckAll is fired,
       // only the currently filtered $elements are checked
       this.instance._toggleChecked = function(flag, group) {
-        var $inputs = (group && group.length) ?  group : this.$labels.find('input');
         var self = this;
-        var $element = this.element;
+		  var $element = this.element;
+        var $inputs = (group && group.length) ?  group : this.$inputs;
 
         // do not include hidden elems if the menu isn't open.
         var selector = self._isOpen ?  ':disabled, :hidden' : ':disabled';
@@ -137,9 +137,9 @@
 
         // gather an array of the values that actually changed
         var values = {};
-        $inputs.each(function() {
-          values[this.value] = true;
-        });
+		  for (var inputCount = $inputs.length, x = 0; x < inputCount; x++) {
+          values[ $inputs.get(x).value ] = true;
+        }
 
         // select option tags
         $element.find('option').filter(function() {
@@ -149,9 +149,9 @@
         });
 
         // trigger the change event on the select
-        if($inputs.length)
+        if(inputCount)
           $element.trigger('change');
-
+        
       };
     },
 
@@ -163,11 +163,8 @@
       $rows = this.$rows, $inputs = this.$inputs, $cache = this.$cache;
       var $groups = this.instance.$menu.find(".ui-multiselect-optgroup");
       $groups.show();
-      if(!term) {
-        $rows.show();
-      } else {
-        $rows.hide();
-
+		$rows.toggle(!term);
+      if(term) {
         var regex = new RegExp(term.replace(rEscape, "\\$&"), 'gi');
 
         this._trigger("filter", e, $.map($cache, function(v, i) {
@@ -183,7 +180,7 @@
       // show/hide optgroups
       $groups.each(function() {
         var $this = $(this);
-        if (!$this.children("li:visible").length)
+        if (!$this.children('li').filter(':visible').length)
           $this.hide();
       });
       this.instance._setMenuHeight();
