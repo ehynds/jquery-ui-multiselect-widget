@@ -137,7 +137,8 @@
 
         // gather an array of the values that actually changed
         var values = {};
-        for (var inputCount = $inputs.length, x = 0; x < inputCount; x++) {
+        var inputCount = $inputs.length;
+        for (var x = 0; x < inputCount; x++) {
           values[ $inputs.get(x).value ] = true;
         }
 
