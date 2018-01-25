@@ -94,17 +94,17 @@
       el = $(html).appendTo("body").multiselect({
          selectedMax: 2
       });
-
+      
       checkboxes = el.multiselect("widget").find(":checkbox");
       checkboxes.eq(0).trigger('click');
       checkboxes.eq(1).trigger('click');
       checkboxes.eq(2).trigger('click');
-
+      
       equals( menu().find("input").filter(":checked").length, 2 , 'after clicking each checkbox, count of checked restored to selectedMax of 2');
       el.multiselect("destroy").remove();
-
+      
    });
-
+   
    function asyncSelectedList( useTrigger, message ){
       expect(1);
       stop();
@@ -262,7 +262,7 @@
 
       el.multiselect("destroy");
    });
-
+   
    test("autoOpen", function(){
       expect(2);
 
@@ -389,20 +389,6 @@
       equals(header().text(), "hai guyz", "header equals custom text");
       equals(countLinks(), 1, "number of links in the custom header config (should be close button)");
 
-      el.multiselect("destroy");
-   });
-   test("openIcon", function(){
-      expect(1);
-      var icon = '<span class="ui-icon ui-icon-search"></span>';
-      el = $("select").multiselect({ openIcon:icon });
-      equals(button().find(".ui-multiselect-open").find(".ui-icon-search").length, 1);
-      el.multiselect("destroy");
-   });
-   test("closeIcon", function(){
-      expect(1);
-      var icon = '<span class="ui-icon ui-icon-search"></span>';
-      el = $("select").multiselect({ autoOpen:true, closeIcon:icon });
-      equals(menu().find(".ui-multiselect-close").find(".ui-icon-search").length, 1);
       el.multiselect("destroy");
    });
     test("selectedListSeparator", function(){
