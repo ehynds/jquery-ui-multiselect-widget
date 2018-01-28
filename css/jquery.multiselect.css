@@ -1,7 +1,3 @@
-/*  References:  
-* - https://css-tricks.com/efficiently-rendering-css/
-* - https://csswizardry.com/2011/09/writing-efficient-css-selectors/
-*/
 .ui-multiselect { padding:2px 0 2px 4px; text-align:left }
 .ui-multiselect .ui-icon { float:right }
 .ui-multiselect-single .ui-multiselect-checkboxes input { left:-9999px; position:absolute !important; top: auto !important; }
