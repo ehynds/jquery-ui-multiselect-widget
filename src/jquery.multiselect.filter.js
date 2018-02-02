@@ -181,7 +181,7 @@
       // show/hide optgroups
       $groups.each(function() {
         var $this = $(this);
-        if (!$this.children('li').filter(':visible').length)
+        if (!$this.find('li').filter(':visible').length)
           $this.hide();
       });
       this.instance._setMenuHeight();

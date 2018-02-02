@@ -307,13 +307,15 @@
           });
 
           // Build the list section for this optgroup, complete w/ option inputs...
-          var $optionGroup = $( document.createElement('ul') )
-                .addClass('ui-multiselect-optgroup' 
-                          + (self.options.groupColumns ? ' ui-multiselect-columns' : '') 
-                          + (elem.className && ' ') + elem.className)
-                .append( $( document.createElement('a') ).text( elem.getAttribute('label') ), options);
+          var $optGroupLabel = $( document.createElement('a') ).text( elem.getAttribute('label') );
+          var $optGroupItem = $( document.createElement('li') )
+            .addClass('ui-multiselect-optgroup' 
+            + (self.options.groupColumns ? ' ui-multiselect-columns' : '') 
+            + (elem.className && ' ') + elem.className)
+          var $optionGroup = $( document.createElement('ul') ).append(options)
+          $optGroupItem.append($optGroupLabel, $optionGroup)
 
-          list.push($optionGroup);
+          list.push($optGroupItem);
         }
         else {
           list.push(self._makeOption(elem));
@@ -474,7 +476,7 @@
         e.preventDefault();
 
         var $this = $(this);
-        var $inputs = $this.parent().find('input').filter(':visible:not(:disabled)');
+        var $inputs = $this.next('ul').find('input').filter(':visible:not(:disabled)');
         var nodes = $inputs.get();
         var label = this.textContent;
 
