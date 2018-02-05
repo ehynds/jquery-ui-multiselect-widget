@@ -1,409 +1,377 @@
-(function($){
+(function ($) {
 
-   module("options");
+    QUnit.module("options");
 
-   test("noneSelectedText", function(){
-      expect(7);
+    QUnit.test("noneSelectedText", function (assert) {
       var text;
 
       el = $("select").multiselect({
-         noneSelectedText: 'None Selected'
+          noneSelectedText: 'None Selected'
       });
 
       // read from widget
       text = el.multiselect("option", "noneSelectedText");
 
-      equals( button().text(), text, 'on init, button reads "None Selected"');
+      assert.equal(button().text(), text, 'on init, button reads "None Selected"');
       el.multiselect("checkAll");
-      ok( button().text() !== text, 'after checkAll, button no longer reads "None Selected"');
+      assert.ok(button().text() !== text, 'after checkAll, button no longer reads "None Selected"');
       el.multiselect("uncheckAll");
-      equals( button().text(), text, 'after uncheckAll, button text restored to "None Selected"');
+      assert.equal(button().text(), text, 'after uncheckAll, button text restored to "None Selected"');
 
       // change the option value
       el.multiselect("option", "noneSelectedText", "No Checkboxes Checked");
-      equals( el.multiselect("option", "noneSelectedText"), "No Checkboxes Checked", "new noneSelectedText value set correctly");
+      assert.equal(el.multiselect("option", "noneSelectedText"), "No Checkboxes Checked", "new noneSelectedText value set correctly");
 
       // read updated value from widget
       text = el.multiselect("option", "noneSelectedText");
 
       // test against the new value
-      equals( button().text(), text, 'after changing the option value, button now reads "No Checkboxes Checked"');
+      assert.equal(button().text(), text, 'after changing the option value, button now reads "No Checkboxes Checked"');
       el.multiselect("checkAll");
-      ok( button().text() !== text, 'after checkAll, button no longer reads "No Checkboxes Checked"');
+      assert.ok(button().text() !== text, 'after checkAll, button no longer reads "No Checkboxes Checked"');
       el.multiselect("uncheckAll");
-      equals( button().text(), text, 'after uncheckAll, button text restored to "No Checkboxes Checked"');
+      assert.equal(button().text(), text, 'after uncheckAll, button text restored to "No Checkboxes Checked"');
 
       el.multiselect("destroy");
-   });
+    });
 
-   test("selectedText", function(){
-      expect(3);
+    QUnit.test("selectedText", function (assert) {
       var numOptions = $("select option").length;
 
       el = $("select").multiselect({
-         selectedText: '# of # selected',
-         selectedList: 0
+          selectedText: '# of # selected',
+          selectedList: 0
       });
 
       el.multiselect("checkAll");
-      equals( button().text(), numOptions+' of '+numOptions+' selected', 'after checkAll, button reflects the total number of checked boxes');
+      assert.equal(button().text(), numOptions + ' of ' + numOptions + ' selected', 'after checkAll, button reflects the total number of checked boxes');
 
       // change option value
-      el.multiselect("option", "selectedText", function( numChecked ){
-         return numChecked + ' options selected';
+      el.multiselect("option", "selectedText", function (numChecked) {
+          return numChecked + ' options selected';
       });
 
-      equals( button().text(), numOptions+' options selected', 'after changing the option to a function value, button reflects the new text');
+      assert.equal(button().text(), numOptions + ' options selected', 'after changing the option to a function value, button reflects the new text');
 
       // uncheck all
       el.multiselect("uncheckAll");
-      equals( button().text(), el.multiselect("option","noneSelectedText"), 'after unchecking all, button text now reflects noneSelectedText option value');
+      assert.equal(button().text(), el.multiselect("option", "noneSelectedText"), 'after unchecking all, button text now reflects noneSelectedText option value');
 
       el.multiselect("destroy");
-   });
+    });
 
-   test("selectedList", function(){
-      expect(2);
-
+    QUnit.test("selectedList", function (assert) {
       var html = '<select multiple><option value="foo">foo &quot;with quotes&quot;</option><option value="bar">bar</option><option value="baz">baz</option></select>';
 
       el = $(html).appendTo("body").multiselect({
-         selectedList: 3,
-         selectedListSeparator: ', '
+          selectedList: 3,
+          selectedListSeparator: ', '
       });
 
       el.multiselect("checkAll");
-      equals( button().text(), 'foo "with quotes", bar, baz', 'after checkAll, button text is a list of all options in the select');
+      assert.equal(button().text(), 'foo "with quotes", bar, baz', 'after checkAll, button text is a list of all options in the select');
       el.multiselect("destroy").remove();
 
       el = $(html).appendTo("body").multiselect({
-         selectedList: 2,
-         selectedListSeparator: ', '
+          selectedList: 2,
+          selectedListSeparator: ', '
       });
 
       el.multiselect("checkAll");
-      equals( button().text(), '3 of 3 selected', 'after checkAll with a limited selectedList value, button value displays number of checked');
+      assert.equal(button().text(), '3 of 3 selected', 'after checkAll with a limited selectedList value, button value displays number of checked');
       el.multiselect("destroy").remove();
-   });
+    });
 
-   test("selectedMax", function(){
-      expect(1);
-
+    QUnit.test("selectedMax", function (assert) {
       var html = '<select multiple><option value="foo">foo &quot;with quotes&quot;</option><option value="bar">bar</option><option value="baz">baz</option></select>';
 
       el = $(html).appendTo("body").multiselect({
-         selectedMax: 2
+          selectedMax: 2
       });
-      
+
       checkboxes = el.multiselect("widget").find(":checkbox");
       checkboxes.eq(0).trigger('click');
       checkboxes.eq(1).trigger('click');
       checkboxes.eq(2).trigger('click');
-      
-      equals( menu().find("input").filter(":checked").length, 2 , 'after clicking each checkbox, count of checked restored to selectedMax of 2');
-      el.multiselect("destroy").remove();
-      
-   });
-   
-   function asyncSelectedList( useTrigger, message ){
-      expect(1);
-      stop();
 
+      assert.equal(menu().find("input").filter(":checked").length, 2, 'after clicking each checkbox, count of checked restored to selectedMax of 2');
+      el.multiselect("destroy").remove();
+    });
+
+    function asyncSelectedList(useTrigger, message, assert) {
       var html = '<select multiple><option value="foo">foo</option><option value="bar">bar</option><option value="baz">baz</option></select>',
-         checkboxes;
+          checkboxes;
 
       el = $(html).appendTo(body).multiselect({
-         selectedList: 2,
-         selectedListSeparator: ', '
+          selectedList: 2,
+          selectedListSeparator: ', '
       });
 
       checkboxes = el.multiselect("widget").find(":checkbox");
+      var done = assert.async();
 
-      if( useTrigger ){
-         checkboxes.eq(0).trigger('click');
-         checkboxes.eq(1).trigger('click');
+      if (useTrigger) {
+          checkboxes.eq(0).trigger('click');
+          checkboxes.eq(1).trigger('click');
       } else {
-         checkboxes.eq(0)[0].click();
-         checkboxes.eq(1)[0].click();
+          checkboxes.eq(0)[0].click();
+          checkboxes.eq(1)[0].click();
       }
 
-      setTimeout(function(){
-         equals( button().text(), 'foo, bar', message);
-         el.multiselect("destroy").remove();
-         start();
+      setTimeout(function () {
+          assert.equal(button().text(), 'foo, bar', message);
+          el.multiselect("destroy").remove();
+          done();
       }, 10);
-   }
+    }
 
-   test("selectedList - manual trigger - jQuery", function(){
-      asyncSelectedList( true, 'manually checking items with trigger()' );
-   });
+    QUnit.test("selectedList - manual trigger - jQuery", function (assert) {
+      asyncSelectedList(true, 'manually checking items with trigger()', assert);
+    });
 
-   test("selectedList - manual trigger - native", function(){
-      asyncSelectedList( false, 'manually checking items with element.click()' );
-   });
+    QUnit.test("selectedList - manual trigger - native", function (assert) {
+      asyncSelectedList(false, 'manually checking items with element.click()', assert);
+    });
 
-   test("selectedList - encoding", function() {
-     expect(1);
-
+    QUnit.test("selectedList - encoding", function (assert) {
       el = $('<select><option value="A&amp;E">A&amp;E</option></select>')
-         .appendTo("body")
-         .multiselect({ selectedList: 1 });
+          .appendTo("body")
+          .multiselect({ selectedList: 1 });
 
-      equals(button().text(), 'A&E');
+      assert.equal(button().text(), 'A&E');
       el.multiselect("destroy").remove();
-   });
+    });
 
-   test("height", function(){
-      expect(2);
-
+    QUnit.test("height", function (assert) {
       var height = 100;
 
       el = $("select").multiselect({ height: height }).multiselect("open");
-      equals( height, menu().find("ul.ui-multiselect-checkboxes").height(), 'height after opening property set to '+ height );
+      assert.equal(height, menu().find("ul.ui-multiselect-checkboxes").height(), 'height after opening property set to ' + height);
 
       // change height and re-test
       height = 300;
       el.multiselect("option", "height", height);
-      equals( height, menu().find(".ui-multiselect-checkboxes").height(), 'changing value through api to '+ height );
+      assert.equal(height, menu().find(".ui-multiselect-checkboxes").height(), 'changing value through api to ' + height);
 
       el.multiselect("destroy");
-   });
+    });
 
-   test("minWidth", function(){
-      expect(5);
-
+    QUnit.test("minWidth", function (assert) {
       var minWidth = 321;
 
-      el = $("select").multiselect({ minWidth:minWidth }).multiselect("open");
-      equals( minWidth, button().outerWidth(), 'outerWidth of button is ' + minWidth );
+      el = $("select").multiselect({ minWidth: minWidth }).multiselect("open");
+      assert.equal(minWidth, button().outerWidth(), 'outerWidth of button is ' + minWidth);
 
       // change height and re-test
       minWidth = 351;
       el.multiselect("option", "minWidth", minWidth);
-      equals( minWidth, button().outerWidth(), 'changing value through api to '+minWidth);
+      assert.equal(minWidth, button().outerWidth(), 'changing value through api to ' + minWidth);
 
       // change height to something that should fail.
       minWidth = 10;
       el.multiselect("option", "minWidth", minWidth);
       var outerWidth = button().outerWidth();
-      ok( minWidth !== outerWidth, 'changing value through api to '+minWidth+' (too small), outerWidth is actually ' + outerWidth);
+      assert.ok(minWidth !== outerWidth, 'changing value through api to ' + minWidth + ' (too small), outerWidth is actually ' + outerWidth);
 
       // Reference: https://www.wired.com/2010/12/why-percentage-based-designs-dont-work-in-every-browser/
       minWidth = "50%";
       el.multiselect("option", "minWidth", minWidth);
       var outerWidthX2 = Math.floor(button().outerWidth() * 2);  // Double to reduce chance of fractions
       var parentWidth = Math.floor(el.parent().outerWidth());
-      ok(Math.abs(outerWidthX2 - parentWidth) <= 1, 'changing value to 50%');  // Off by 1 is ok due to floating point rounding discrepancies between browsers.
+      assert.ok(Math.abs(outerWidthX2 - parentWidth) <= 1, 'changing value to 50%');  // Off by 1 is assert.ok due to floating point rounding discrepancies between browsers.
 
       minWidth = "351px";
       el.multiselect("option", "minWidth", minWidth);
-      equals( 351, button().outerWidth(), 'minWidth supports strings suffixed with px as well as integer px values');
+      assert.equal(351, button().outerWidth(), 'minWidth supports strings suffixed with px as well as integer px values');
 
       el.multiselect("destroy");
-   });
-
-    test("menuWidth", function(){
-        expect(2);
-        var width = 50;
-
-        el = $("select").multiselect({ minWidth: 100, menuWidth:width }).multiselect("open");
-
-        equals( menu().parent().find(".ui-multiselect-menu").outerWidth(), width, 'width after opening, property set to '+width );
-
-        // change height and re-test
-        width = 300;
-        el.multiselect("option", "menuWidth", width).multiselect('refresh');
-        equals( menu().parent().find(".ui-multiselect-menu").outerWidth(), width,  'changing value through api to '+width );
-
-        el.multiselect("destroy");
     });
 
-   test("checkAllText", function(){
-      expect(2);
+    QUnit.test("menuWidth", function (assert) {
+      var width = 50;
+
+      el = $("select").multiselect({ minWidth: 100, menuWidth: width }).multiselect("open");
+
+      assert.equal(menu().parent().find(".ui-multiselect-menu").outerWidth(), width, 'width after opening, property set to ' + width);
+
+      // change height and re-test
+      width = 300;
+      el.multiselect("option", "menuWidth", width).multiselect('refresh');
+      assert.equal(menu().parent().find(".ui-multiselect-menu").outerWidth(), width, 'changing value through api to ' + width);
+
+      el.multiselect("destroy");
+    });
+
+    QUnit.test("checkAllText", function (assert) {
       var text = "foo";
 
-      el = $("select").multiselect({ checkAllText:text, showCheckAll:true });
-      equals( text, menu().find(".ui-multiselect-all").text(), 'check all link reads '+text );
+      el = $("select").multiselect({ checkAllText: text, showCheckAll: true });
+      assert.equal(text, menu().find(".ui-multiselect-all").text(), 'check all link reads ' + text);
 
       // set through option
       text = "bar";
-      el.multiselect("option","checkAllText","bar");
-      equals( text, menu().find(".ui-multiselect-all").text(), 'check all link reads '+text );
+      el.multiselect("option", "checkAllText", "bar");
+      assert.equal(text, menu().find(".ui-multiselect-all").text(), 'check all link reads ' + text);
 
       el.multiselect("destroy");
-   });
+    });
 
-   test("uncheckAllText", function(){
-      expect(2);
+    QUnit.test("uncheckAllText", function (assert) {
       var text = "foo";
 
-      el = $("select").multiselect({ uncheckAllText:text, showUncheckAll:true });
-      equals( text, menu().find(".ui-multiselect-none").text(), 'check all link reads '+text );
+      el = $("select").multiselect({ uncheckAllText: text, showUncheckAll: true });
+      assert.equal(text, menu().find(".ui-multiselect-none").text(), 'check all link reads ' + text);
 
       // set through option
       text = "bar";
-      el.multiselect("option","uncheckAllText","bar");
-      equals( text, menu().find(".ui-multiselect-none").text(), 'changing value through api to '+text );
+      el.multiselect("option", "uncheckAllText", "bar");
+      assert.equal(text, menu().find(".ui-multiselect-none").text(), 'changing value through api to ' + text);
 
       el.multiselect("destroy");
-   });
+    });
 
-   test("flipAllText", function(){
-      expect(2);
+    QUnit.test("flipAllText", function (assert) {
       var text = "foo";
 
-      el = $("select").multiselect({ flipAllText:text, showFlipAll:true });
-      equals( text, menu().find(".ui-multiselect-flip").text(), 'flip all link reads '+text );
+      el = $("select").multiselect({ flipAllText: text, showFlipAll: true });
+      assert.equal(text, menu().find(".ui-multiselect-flip").text(), 'flip all link reads ' + text);
 
       // set through option
       text = "bar";
-      el.multiselect("option","flipAllText","bar");
-      equals( text, menu().find(".ui-multiselect-flip").text(), 'changing value through api to '+text );
+      el.multiselect("option", "flipAllText", "bar");
+      assert.equal(text, menu().find(".ui-multiselect-flip").text(), 'changing value through api to ' + text);
 
       el.multiselect("destroy");
-   });
-   
-   test("autoOpen", function(){
-      expect(2);
+    });
 
-      el = $("select").multiselect({ autoOpen:false });
+    QUnit.test("autoOpen", function (assert) {
+      el = $("select").multiselect({ autoOpen: false });
 
-      ok( menu().is(":hidden"), 'menu is hidden with autoOpen off');
+      assert.ok(menu().is(":hidden"), 'menu is hidden with autoOpen off');
       el.multiselect("destroy");
 
-      el = $("select").multiselect({ autoOpen:true });
-      ok( menu().is(":visible"), 'menu is visible with autoOpen on');
+      el = $("select").multiselect({ autoOpen: true });
+      assert.ok(menu().is(":visible"), 'menu is visible with autoOpen on');
       el.multiselect("destroy");
+    });
 
-      // no built in support for change on the fly; not testing it.
-   });
-
-   test("multiple (false - single select)", function(){
-      expect(10);
-
+    QUnit.test("multiple (false - single select)", function (assert) {
       $("select").removeAttr("multiple");
-      el = $("select").multiselect({ multiple:false });
+      el = $("select").multiselect({ multiple: false });
 
       // get some references
       var $menu = menu(), $header = header();
 
-      ok( $header.find('a.ui-multiselect-all').is(':hidden'), 'select all link is hidden' );
-      ok( $header.find('a.ui-multiselect-none').is(':hidden'), 'select none link is hidden' );
-      ok( $header.find('a.ui-multiselect-close').css('display') !== 'hidden', 'close link is visible' );
-      ok( !$menu.find(":checkbox").length, 'no checkboxes are present');
-      ok( $menu.find(":radio").length > 0, 'but radio boxes are');
+      assert.ok($header.find('a.ui-multiselect-all').is(':hidden'), 'select all link is hidden');
+      assert.ok($header.find('a.ui-multiselect-none').is(':hidden'), 'select none link is hidden');
+      assert.ok($header.find('a.ui-multiselect-close').css('display') !== 'hidden', 'close link is visible');
+      assert.ok(!$menu.find(":checkbox").length, 'no checkboxes are present');
+      assert.ok($menu.find(":radio").length > 0, 'but radio boxes are');
 
       // simulate click on ALL radios
       var radios = $menu.find(":radio").trigger("click");
 
       // at the end of that, only one radio should be checked and the menu closed
-      equals( radios.filter(":checked").length, 1, 'After checking all radios, only one is actually checked');
-      equals( false, el.multiselect('isOpen'), 'Menu is closed' );
+      assert.equal(radios.filter(":checked").length, 1, 'After checking all radios, only one is actually checked');
+      assert.equal(false, el.multiselect('isOpen'), 'Menu is closed');
 
       // uncheck boxes... should only be one
       radios.filter(":checked").trigger("click");
 
       // method calls
       el.multiselect("checkAll");
-      equals( $menu.find("input:radio:checked").length, 1, 'After checkAll method call only one is actually checked');
+      assert.equal($menu.find("input:radio:checked").length, 1, 'After checkAll method call only one is actually checked');
 
       el.multiselect("uncheckAll");
-      equals( $menu.find("input:radio:checked").length, 0, 'After uncheckAll method nothing is checked');
+      assert.equal($menu.find("input:radio:checked").length, 0, 'After uncheckAll method nothing is checked');
 
       // check/uncheck all links
-      equals( $menu.find(".ui-multiselect-all, ui-multiselect-none").filter(":visible").length, 0, "Check/uncheck all links don't exist");
+      assert.equal($menu.find(".ui-multiselect-all, ui-multiselect-none").filter(":visible").length, 0, "Check/uncheck all links don't exist");
 
       el.multiselect("destroy");
-      $("select").attr("multiple","multiple");
-   });
+      $("select").attr("multiple", "multiple");
+    });
 
-   test("multiple (changing dynamically)", function(){
-      expect(6);
-
+    QUnit.test("multiple (changing dynamically)", function (assert) {
       el = $('<select multiple><option value="foo">foo</option></select>')
-         .appendTo("body")
-         .multiselect();
+          .appendTo("body")
+          .multiselect();
 
       el.multiselect("option", "multiple", false);
-      equals(el[0].multiple, false, "When changing a multiple select to a single select, the select element no longer has the multiple property");
-      equals(menu().hasClass("ui-multiselect-single"), true, "...and the menu now has the single select class");
-      equals(menu().find('input[type="radio"]').length, 1, "...and the checkbox is now a radio button");
+      assert.equal(el[0].multiple, false, "When changing a multiple select to a single select, the select element no longer has the multiple property");
+      assert.equal(menu().hasClass("ui-multiselect-single"), true, "...and the menu now has the single select class");
+      assert.equal(menu().find('input[type="radio"]').length, 1, "...and the checkbox is now a radio button");
 
       el.multiselect("option", "multiple", true);
-      equals(el[0].multiple, true, "When changing a single select to a multiple select, the select element has the multiple property");
-      equals(menu().hasClass("ui-multiselect-single"), false, "...and the menu doesn't have the single select class");
-      equals(menu().find('input[type="checkbox"]').length, 1, "...and the radio button is now a checkbox");
+      assert.equal(el[0].multiple, true, "When changing a single select to a multiple select, the select element has the multiple property");
+      assert.equal(menu().hasClass("ui-multiselect-single"), false, "...and the menu doesn't have the single select class");
+      assert.equal(menu().find('input[type="checkbox"]').length, 1, "...and the radio button is now a checkbox");
 
       el.multiselect("destroy").remove();
-   });
+    });
 
-   test("classes", function(){
-      expect(6);
-
+    QUnit.test("classes", function (assert) {
       var classname = 'foo';
 
-      el = $("select").multiselect({ classes:classname });
+      el = $("select").multiselect({ classes: classname });
       var $button = button(), $widget = menu();
 
-      equals( $widget.hasClass(classname), true, 'menu has the class ' + classname);
-      equals( $button.hasClass(classname), true, 'button has the class ' + classname);
+      assert.equal($widget.hasClass(classname), true, 'menu has the class ' + classname);
+      assert.equal($button.hasClass(classname), true, 'button has the class ' + classname);
 
       // change it up
       var newclass = 'bar';
       el.multiselect("option", "classes", newclass);
-      equals( $widget.hasClass(newclass), true, 'menu has the new class ' + newclass);
-      equals( $button.hasClass(newclass), true, 'button has the new class ' + newclass);
-      equals( $button.hasClass(classname), false, 'menu no longer has the class ' + classname);
-      equals( $button.hasClass(classname), false, 'button no longer has the class ' + classname);
+      assert.equal($widget.hasClass(newclass), true, 'menu has the new class ' + newclass);
+      assert.equal($button.hasClass(newclass), true, 'button has the new class ' + newclass);
+      assert.equal($button.hasClass(classname), false, 'menu no longer has the class ' + classname);
+      assert.equal($button.hasClass(classname), false, 'button no longer has the class ' + classname);
       el.multiselect("destroy");
-   });
+    });
 
-   test("header", function(){
-      expect(7);
-
-      function countLinks(){
-         return header().find("a").length;
+    QUnit.test("header", function (assert) {
+      function countLinks() {
+          return header().find("a").length;
       }
 
       // default
-      el = $("select").multiselect({ autoOpen:true });
-      ok(header().is(':visible'), "default config: header is visible" );
+      el = $("select").multiselect({ autoOpen: true });
+      assert.ok(header().is(':visible'), "default config: header is visible");
       el.multiselect("option", "header", false);
-      ok(header().is(':hidden'), "after changing header option on default config: header is no longer visible" );
+      assert.ok(header().is(':hidden'), "after changing header option on default config: header is no longer visible");
 
       // test for all links within the default header
-      equals(countLinks(), 3, "number of links in the default header config");
+      assert.equal(countLinks(), 3, "number of links in the default header config");
 
       el.multiselect("destroy");
 
       // create again, this time header false
-      el = $("select").multiselect({ header:false, autoOpen:true });
-      ok(header().is(':hidden'), "init with header false: header is not visible" );
+      el = $("select").multiselect({ header: false, autoOpen: true });
+      assert.ok(header().is(':hidden'), "init with header false: header is not visible");
       el.multiselect("option", "header", true);
-      ok(header().is(':visible'), "after changing header option: header is visible" );
+      assert.ok(header().is(':visible'), "after changing header option: header is visible");
 
       el.multiselect("destroy");
 
       // create again, this time custom header
-      el = $("select").multiselect({ header:"hai guyz", autoOpen:true });
-      equals(header().text(), "hai guyz", "header equals custom text");
-      equals(countLinks(), 1, "number of links in the custom header config (should be close button)");
+      el = $("select").multiselect({ header: "hai guyz", autoOpen: true });
+      assert.equal(header().text(), "hai guyz", "header assert.equal custom text");
+      assert.equal(countLinks(), 1, "number of links in the custom header config (should be close button)");
 
       el.multiselect("destroy");
-   });
-    test("selectedListSeparator", function(){
-        expect(3);
-        el = $("select").multiselect({ selectedListSeparator: "<br/>", selectedList: 15 });
-        el.multiselect("checkAll");
-        var text = $(button()).text();
-        var matched = [];
-        equals(text.indexOf(","), -1, "There are no commas in the button text");
-        matched = text.match(/\<br\/\>/g);
-        equals(matched.length, 8, "The 9 selected values are joined by <br> tags");
-        el.multiselect("option", "selectedListSeparator", ", ");
-        text = $(button()).text();
-        matched = text.match(/\,/g);
-        equals(matched.length, 8, "The 9 selected values are joined by commas again after calling the option method");
-        el.multiselect("destroy");
+    });
+    QUnit.test("selectedListSeparator", function (assert) {
+      el = $("select").multiselect({ selectedListSeparator: "<br/>", selectedList: 15 });
+      el.multiselect("checkAll");
+      var text = $(button()).text();
+      var matched = [];
+      assert.equal(text.indexOf(","), -1, "There are no commas in the button text");
+      matched = text.match(/\<br\/\>/g);
+      assert.equal(matched.length, 8, "The 9 selected values are joined by <br> tags");
+      el.multiselect("option", "selectedListSeparator", ", ");
+      text = $(button()).text();
+      matched = text.match(/\,/g);
+      assert.equal(matched.length, 8, "The 9 selected values are joined by commas again after calling the option method");
+      el.multiselect("destroy");
     });
 })(jQuery);
