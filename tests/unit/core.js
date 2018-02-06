@@ -12,7 +12,8 @@
   });
 
   QUnit.test("init", function (assert) {
-    el = $("select").multiselect(), $header = header();
+    el = $("select").multiselect();
+    var $header = header();
     assert.ok($header.find('a.ui-multiselect-all').css('display') !== 'none', 'select all is visible');
     assert.ok($header.find('a.ui-multiselect-none').css('display') !== 'none', 'select none is visible');
     assert.ok($header.find('a.ui-multiselect-close').css('display') !== 'none', 'close link is visible');
@@ -101,7 +102,7 @@
 
     // select multiple radios to ensure that, in the underlying select, only one
     // will remain selected
-    radios = menu().find(":radio");
+    var radios = menu().find(":radio");
     radios[0].click();
     radios[2].click();
     radios[1].click();
