@@ -43,7 +43,7 @@
       checkAllText: 'Check all',          // (str | blank | null) If blank, only icon shown.  If null, no icon, text or link is shown.
       uncheckAllText: 'Uncheck all',      // (str | blank | null) If blank, only icon shown.  If null, no icon, text or link is shown.
       flipAllText: null,                  // (str | blank | null) If blank, only icon shown.  If null, no icon, text or link is shown.
-      noneSelectedText: 'Select options', // (str) The text to show in the button where nothing is selected.
+      noneSelectedText: 'Select options', // (str | null) The text to show in the button where nothing is selected.  Set to null to use the native select's placeholder text.
       selectedText: '# of # selected',    // (str) A "template" that indicates how to show the count of selections in the button.  The "#'s" are replaced by the selection count & option count.
       selectedList: 0,                    // (int) The actual list selections will be shown in the button when the count of selections is <= than this number.
       selectedMax: null,                  // (int | function)  If selected count > selectedMax or if function returns 1, then message is displayed, and new selection is undone.
@@ -137,7 +137,7 @@
             .html('<span class="ui-multiselect-open">' + iconSet.open + '</span>');    // Necessary to simplify dynamically changing the open icon.
 
       this.$buttonlabel = $( document.createElement('span') )
-            .html(options.noneSelectedText)
+            .html(options.noneSelectedText || $element[0].placeholder || 'Select options')
             .appendTo( $button );
 
       // Header controls, will contain the check all/uncheck all buttons
