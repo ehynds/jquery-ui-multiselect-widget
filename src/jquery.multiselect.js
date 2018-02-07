@@ -294,9 +294,8 @@
       label.appendChild(span);
 
       var item = document.createElement('li');
-      item.className += (isDisabled ? ' ui-multiselect-disabled' : '')
-                        + (' ' + option.className || '')
-                        + ' ui-multiselect-nowrap';
+      item.className = (isDisabled ? 'ui-multiselect-disabled ' : '')
+                        + (option.className || '');
       item.appendChild(label);
 
       return item;
