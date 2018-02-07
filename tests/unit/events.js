@@ -127,8 +127,8 @@
 		assert.equal($('.ui-multiselect').length, 2, "two mutliselects are on the page");
 		first.multiselect("refresh");
 		second.multiselect("refresh");
-		$label = $(second.multiselect("getLabels")[0]);
-		$wrongInput = $(first.multiselect("getLabels")[0]).find("input");
+		var $label = $(second.multiselect("getLabels")[0]);
+		var $wrongInput = $(first.multiselect("getLabels")[0]).find("input");
 		$label.click();
 		assert.equal($label.find("input").prop("checked"), true, "the input for that label should be checked");
 		assert.equal($wrongInput.prop("checked"), false, "the input for the corresponding label on the first widget should not be checked");

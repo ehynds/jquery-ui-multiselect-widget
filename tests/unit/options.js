@@ -89,7 +89,7 @@
           selectedMax: 2
       });
 
-      checkboxes = el.multiselect("widget").find(":checkbox");
+      var checkboxes = el.multiselect("widget").find(":checkbox");
       checkboxes.eq(0).trigger('click');
       checkboxes.eq(1).trigger('click');
       checkboxes.eq(2).trigger('click');
@@ -146,7 +146,7 @@
       var height = 100;
 
       el = $("select").multiselect({ height: height }).multiselect("open");
-      assert.equal(height, menu().find("ul.ui-multiselect-checkboxes").height(), 'height after opening property set to ' + height);
+      assert.equal(height, menu().find(".ui-multiselect-checkboxes").height(), 'height after opening property set to ' + height);
 
       // change height and re-test
       height = 300;
@@ -156,33 +156,33 @@
       el.multiselect("destroy");
     });
 
-    QUnit.test("minWidth", function (assert) {
-      var minWidth = 321;
+    QUnit.test("buttonWidth", function (assert) {
+      var buttonWidth = 321;
 
-      el = $("select").multiselect({ minWidth: minWidth }).multiselect("open");
-      assert.equal(minWidth, button().outerWidth(), 'outerWidth of button is ' + minWidth);
+      el = $("select").multiselect({ buttonWidth: '>=' + buttonWidth }).multiselect("open");
+      assert.equal(buttonWidth, button().outerWidth(), 'outerWidth of button is ' + buttonWidth);
 
-      // change height and re-test
-      minWidth = 351;
-      el.multiselect("option", "minWidth", minWidth);
-      assert.equal(minWidth, button().outerWidth(), 'changing value through api to ' + minWidth);
+      // change width and re-test
+      buttonWidth = 351;
+      el.multiselect("option", "buttonWidth", '>=' + buttonWidth);
+      assert.equal(buttonWidth, button().outerWidth(), 'changing value through api to ' + buttonWidth);
 
-      // change height to something that should fail.
-      minWidth = 10;
-      el.multiselect("option", "minWidth", minWidth);
+      // change width to something that should fail.
+      buttonWidth = 10;
+      el.multiselect("option", "buttonWidth", '>=' + buttonWidth);
       var outerWidth = button().outerWidth();
-      assert.ok(minWidth !== outerWidth, 'changing value through api to ' + minWidth + ' (too small), outerWidth is actually ' + outerWidth);
+      assert.ok(buttonWidth !== outerWidth, 'changing value through api to ' + buttonWidth + ' (too small), outerWidth is actually ' + outerWidth);
 
       // Reference: https://www.wired.com/2010/12/why-percentage-based-designs-dont-work-in-every-browser/
-      minWidth = "50%";
-      el.multiselect("option", "minWidth", minWidth);
+      buttonWidth = "50%";
+      el.multiselect("option", "buttonWidth", '>=' + buttonWidth);
       var outerWidthX2 = Math.floor(button().outerWidth() * 2);  // Double to reduce chance of fractions
       var parentWidth = Math.floor(el.parent().outerWidth());
       assert.ok(Math.abs(outerWidthX2 - parentWidth) <= 1, 'changing value to 50%');  // Off by 1 is assert.ok due to floating point rounding discrepancies between browsers.
 
-      minWidth = "351px";
-      el.multiselect("option", "minWidth", minWidth);
-      assert.equal(351, button().outerWidth(), 'minWidth supports strings suffixed with px as well as integer px values');
+      buttonWidth = "351px";
+      el.multiselect("option", "buttonWidth", '>=' + buttonWidth);
+      assert.equal(351, button().outerWidth(), 'buttonWidth supports strings suffixed with px as well as integer px values');
 
       el.multiselect("destroy");
     });
@@ -190,15 +190,19 @@
     QUnit.test("menuWidth", function (assert) {
       var width = 50;
 
-      el = $("select").multiselect({ minWidth: 100, menuWidth: width }).multiselect("open");
+      el = $("select").multiselect({ buttonWidth: 100, menuWidth: width }).multiselect("open");
 
       assert.equal(menu().parent().find(".ui-multiselect-menu").outerWidth(), width, 'width after opening, property set to ' + width);
 
-      // change height and re-test
+      // change width and re-test
       width = 300;
       el.multiselect("option", "menuWidth", width).multiselect('refresh');
       assert.equal(menu().parent().find(".ui-multiselect-menu").outerWidth(), width, 'changing value through api to ' + width);
 
+      width = "3in";
+      el.multiselect("option", "menuWidth", width).multiselect('refresh');
+      assert.equal(menu().parent().find(".ui-multiselect-menu").outerWidth(), 3 * 96.0, 'menuWidth supports strings suffixed with "in" unit as well as integer "px" values');
+		
       el.multiselect("destroy");
     });
 
