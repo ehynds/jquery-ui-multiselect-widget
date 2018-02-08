@@ -68,7 +68,7 @@
      * 3. If still do not have a valid DOM element to append to, then append to the document body.
      *
      * NOTE:  this.element and this.document are jQuery objects per the jQuery UI widget API.
-    * @returns {object} jQuery object to append to or document body.
+    * @returns {object} jQuery object for the DOM element to append to.
      */
     _getAppendEl: function() {
       var elem = this.options.appendTo;                     // jQuery object or selector, DOM element or null.
@@ -80,7 +80,7 @@
         elem = this.element.closest(".ui-front, dialog");
       }
       if (!elem.length) {
-        elem = document.body;                 // Position at end of body.  Note that this returns a DOM element.
+        elem = $(document.body);                 // Position at end of body.  Note that this returns a DOM element.
       }
       return elem;
     },
@@ -169,7 +169,7 @@
       var $checkboxes = (this.$checkboxes = $( document.createElement('ul') ) )
             .addClass('ui-multiselect-checkboxes ui-helper-reset' + (/\bmenu\b/i.test(wrapText) ? '' : ' ui-multiselect-nowrap'));
 
-      // This is the menu that will hold all the options.
+      // This is the menu container that will hold all the options added via refresh().
       var $menu = (this.$menu = $( document.createElement('div') ) )
             .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all'
                       + (elSelect.multiple ? '' : ' ui-multiselect-single ')
@@ -177,8 +177,7 @@
             .append($header, $checkboxes);
 
       $button.insertAfter($element);
-      // This is an empty menu at this point.
-      $menu.appendTo( this._getAppendEl() );
+      this._getAppendEl().append($menu);
 
       this._bindEvents();
 
@@ -731,7 +730,7 @@
     /**
      * Converts dimensions specified in options to pixel values.
      * Determines if specified value is a minimum, maximum or exact value.
-     * The value can be a number or a string with px, pts, ems, or % units.
+     * The value can be a number or a string with px, pts, ems, in, cm, mm, or % units.
      * Number/Numeric string treated as pixel measurements
      *  - 30
      *  - '30'
@@ -936,7 +935,7 @@
     /**
      * Calculate accurate outerWidth(false) using getBoundingClientRect()
      * Note that this presumes that the element is visible in the layout.
-     * @param {node} DOM node or jQuery equivalent get width for.
+     * @param {node} DOM node or jQuery equivalent to get width for.
      * @returns {float} Decimal floating point value for the width.
      */
    _getBCRWidth: function(elem) {
@@ -950,7 +949,7 @@
     /**
      * Calculate accurate outerHeight(false) using getBoundingClientRect()
      * Note that this presumes that the element is visible in the layout.
-     * @param {node} DOM node or jQuery equivalent get height for.
+     * @param {node} DOM node or jQuery equivalent to get height for.
      * @returns {float} Decimal floating point value for the height.
      */
    _getBCRHeight: function(elem) {
@@ -964,7 +963,7 @@
     /**
      * Calculate jQuery width correction factor to fix floating point round-off errors.
      * Note that this presumes that the element is visible in the layout.
-     * @param {node} DOM node or jQuery equivalent get width for.
+     * @param {node} DOM node or jQuery equivalent to get width for.
      * @returns {float} Correction value for the width--typically a decimal < 1.0
      */
     _jqWidthFix: function(elem) {
@@ -979,7 +978,7 @@
     /**
      * Calculate jQuery height correction factor to fix floating point round-off errors.
      * Note that this presumes that the element is visible in the layout.
-     * @param {node} DOM node or jQuery equivalent get height for.
+     * @param {node} DOM node or jQuery equivalent to get height for.
      * @returns {float} Correction value for the height--typically a decimal < 1.0
      */
     _jqHeightFix: function(elem) {
@@ -1090,12 +1089,21 @@
      * Potentially scoped down to visible elements from filteredInputs
      * @param {string} flag checked property to set
      * @param {object} group option group that was clicked, if any
-     * @param {array} filteredInputs visible elements with the filter applied
+     * @param {boolean} filteredInputs does not toggle hidden inputs if filtering.
      */
     _toggleChecked: function(flag, group, filteredInputs) {
       var self = this;
       var $element = self.element;
-      var $inputs = (group && group.length) ? group : (filteredInputs || self.$inputs);
+      var $inputs = (group && group.length) ? group : self.$inputs;
+
+      if (filteredInputs) {
+         // Do not include hidden inputs if the menu isn't open.
+         $inputs = $inputs.not( self._isOpen ?  ':disabled, :hidden' : ':disabled' );
+      }
+      else {
+         // If not filtering, then the underlying select is cleared out each time.
+         $element[0].selectedIndex = -1;
+      }
 
       // toggle state on inputs
       $inputs.each(self._toggleState('checked', flag));
@@ -1113,7 +1121,6 @@
       });
 
       // toggle state on original option tags
-      $element[0].selectedIndex = -1;
       $element.find('option')
               .each( function() {
                 if (!this.disabled && values[this.value]) {
