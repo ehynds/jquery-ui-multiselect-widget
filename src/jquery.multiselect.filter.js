@@ -122,7 +122,7 @@
       // is fired, only the currently displayed filtered inputs are checked
       var $instance = this.instance;
       $instance._oldToggleChecked = $instance._toggleChecked;
-      $instance._toggleChecked = function(flag, group, filteredInputs) {
+      $instance._toggleChecked = function(flag, group) {
          $instance._oldToggleChecked(flag, group, true);
       };
 
