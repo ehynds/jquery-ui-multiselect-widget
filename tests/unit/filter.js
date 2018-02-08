@@ -41,7 +41,7 @@
         '<option value="5">five</option>' +
         '<option>a test with word boundaries</option>' +
         '<option>special regex !^$()//-|{}/: characters</option>' +
-        '</option>');
+        '</select>');
 
       el.appendTo(document.body);
       el.multiselect();

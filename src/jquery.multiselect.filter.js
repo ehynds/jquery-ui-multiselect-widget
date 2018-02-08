@@ -71,11 +71,11 @@
           else if(e.which === 27) {
             $element.multiselect('close');
             e.preventDefault();
-          } 
+          }
           else if(e.which === 9 && e.shiftKey) {
             $element.multiselect('close');
             e.preventDefault();
-          } 
+          }
           else if(e.altKey) {
             switch(e.which) {
               case 82:
@@ -100,7 +100,7 @@
       // automatically reset the widget on close?
       if (this.options.autoReset)
         $element.on('multiselectclose', $.proxy(this._reset, this));
-     
+
       // rebuild cache when multiselect is updated
       $element.on('multiselectrefresh', $.proxy(function() {
         this.updateCache();
@@ -113,47 +113,19 @@
                                  .prependTo(this.$header);
 
       // reference to the actual inputs
-      this.$inputs = this.instance.$menu.find('input[type="checkbox"], input[type="radio"]');
+      this.$inputs = this.instance.$inputs;
 
       // cache input values for searching
       this.updateCache();
 
-      // rewrite internal _toggleChecked fn so that when checkAll/uncheckAll is fired,
-      // only the currently filtered $elements are checked
-      this.instance._toggleChecked = function(flag, group) {
-        var self = this;
-        var $element = this.element;
-        var $inputs = (group && group.length) ?  group : this.$inputs;
-
-        // do not include hidden elems if the menu isn't open.
-        var selector = self._isOpen ?  ':disabled, :hidden' : ':disabled';
-
-        $inputs = $inputs
-          .not(selector)
-          .each(this._toggleState('checked', flag));
-
-        // update text
-        this.update();
-
-        // gather an array of the values that actually changed
-        var values = {};
-        var inputCount = $inputs.length;
-        for (var x = 0; x < inputCount; x++) {
-          values[ $inputs.get(x).value ] = true;
-        }
-
-        // select option tags
-        $element.find('option').filter(function() {
-          if(!this.disabled && values[this.value]) {
-            self._toggleState('selected', flag).call(this);
-          }
-        });
-
-        // trigger the change event on the select
-        if(inputCount)
-          $element.trigger('change');
-        
+      // Change the normal _toggleChecked fxn behavior so that when checkAll/uncheckAll
+      // is fired, only the currently displayed filtered inputs are checked
+      var $instance = this.instance;
+      $instance._oldToggleChecked = $instance._toggleChecked;
+      $instance._toggleChecked = function(flag, group, filteredInputs) {
+         $instance._oldToggleChecked(flag, group, true);
       };
+
     },
 
     // thx for the logic here ben alman
