@@ -510,6 +510,12 @@
         var $inputs = $this.next('ul').find('input').filter(':visible:not(:disabled)');
         var nodes = $inputs.get();
         var label = this.textContent;
+         
+        // if maxSelected is in use, cannot exceed it		  
+        var maxSelected = this.options.maxSelected;
+        if (maxSelected && (this.$inputs.filter(':checked').length + $inputs.length > maxSelected) ) {
+          return;
+        }
 
         // trigger before callback and bail if the return is false
         if (self._trigger('beforeoptgrouptoggle', e, { inputs:nodes, label:label }) === false) {
