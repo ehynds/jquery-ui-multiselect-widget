@@ -104,7 +104,7 @@
       var options = this.options;
       var classes = options.classes;
       var headerOn = options.header;
-      var checkAllText = options.checkAllText;
+      var checkAllText = options.maxSelected ? null : options.checkAllText;
       // Do an extend here to address icons missing from options.iconSet--missing icons default to those in defaultIcons.
       var iconSet = $.extend({}, defaultIcons, options.iconSet || {});
       var uncheckAllText = options.uncheckAllText;
@@ -119,10 +119,9 @@
       this.speed = $.fx.speeds._default;
       this._isOpen = false;
 
-      // create a unique namespace for events that the widget
-      // factory cannot unbind automatically. Use eventNamespace if on
-      // jQuery UI 1.9+, and otherwise fallback to a custom string.
-      this._namespaceID = this.eventNamespace.slice(1) || ('multiselect' + multiselectID);
+      // Create a unique namespace for events that the widget
+      // factory cannot unbind automatically.
+      this._namespaceID = this.eventNamespace.slice(1);
       // bump unique ID after assigning it to the widget instance
       this.multiselectID = multiselectID++;
 
@@ -1272,15 +1271,8 @@
 
     checkAll: function(e) {
       this._trigger('beforeCheckAll');
-
-      var maxSelected = this.options.maxSelected;
-      if (maxSelected === null || maxSelected > this.$inputs.length) {
-         this._toggleChecked(true);
-         this._trigger('checkAll');
-      }
-      else {
-         this.buttonMessage("<center><b>Check All Not Permitted.</b></center>");
-      }
+      this._toggleChecked(true);
+      this._trigger('checkAll');
     },
 
     uncheckAll: function() {
@@ -1291,7 +1283,7 @@
         // Forces the underlying single-select to have no options selected.
         this.element[0].selectedIndex = -1;
       }
-		
+
       this._trigger('uncheckAll');
     },
 
@@ -1496,12 +1488,16 @@
         case 'checkAllText':
         case 'uncheckAllText':
         case 'flipAllText':
-          $menu.find('a.ui-multiselect-' + {'checkAllText': 'all', 'uncheckAllText': 'none', 'flipAllText': 'flip'}[key] + ' span').eq(-1).text(value);           // eq(-1) finds the last span
+          if (key !== 'checkAllText' || !this.options.maxSelected) {
+            $menu.find('a.ui-multiselect-' + {'checkAllText': 'all', 'uncheckAllText': 'none', 'flipAllText': 'flip'}[key] + ' span').eq(-1).text(value);           // eq(-1) finds the last span
+          }
           break;
         case 'checkAllIcon':
         case 'uncheckAllIcon':
         case 'flipAllIcon':
-          $menu.find('a.ui-multiselect-' + {'checkAllIcon': 'all', 'uncheckAllIcon': 'none', 'flipAllIcon': 'flip'}[key] + ' span').eq(0).replaceWith(value);  // eq(0) finds the first span
+          if (key !== 'checkAllIcon' || !this.options.maxSelected) {
+            $menu.find('a.ui-multiselect-' + {'checkAllIcon': 'all', 'uncheckAllIcon': 'none', 'flipAllIcon': 'flip'}[key] + ' span').eq(0).replaceWith(value);  // eq(0) finds the first span
+          }
           break;
         case 'openIcon':
           $menu.find('span.ui-multiselect-open').html(value);
