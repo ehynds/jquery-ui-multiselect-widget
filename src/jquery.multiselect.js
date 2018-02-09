@@ -46,7 +46,7 @@
       noneSelectedText: 'Select options', // (str | null) The text to show in the button where nothing is selected.  Set to null to use the native select's placeholder text.
       selectedText: '# of # selected',    // (str) A "template" that indicates how to show the count of selections in the button.  The "#'s" are replaced by the selection count & option count.
       selectedList: 0,                    // (int) The actual list selections will be shown in the button when the count of selections is <= than this number.
-      selectedMax: null,                  // (int | function)  If selected count > selectedMax or if function returns 1, then message is displayed, and new selection is undone.
+      maxSelected: null,                  // (int | function)  If selected count > maxSelected or if function returns 1, then message is displayed, and new selection is undone.
       show: null,                         // (array) An array containing menu opening effects.
       hide: null,                         // (array) An array containing menu closing effects.
       autoOpen: false,                    // (true | false) If true, then the menu will be opening immediately after initialization.
@@ -122,7 +122,7 @@
       // create a unique namespace for events that the widget
       // factory cannot unbind automatically. Use eventNamespace if on
       // jQuery UI 1.9+, and otherwise fallback to a custom string.
-      this._namespaceID = this.eventNamespace || ('multiselect' + multiselectID);
+      this._namespaceID = this.eventNamespace.slice(1) || ('multiselect' + multiselectID);
       // bump unique ID after assigning it to the widget instance
       this.multiselectID = multiselectID++;
 
@@ -593,11 +593,10 @@
         var $tags = $element.find('option');
         var isMultiple = $element[0].multiple;
         var $allInputs = self.$inputs;
-        var inputCount = $allInputs.length;
         var numChecked = $allInputs.filter(":checked").length;
         var options = self.options;
         var optionText = $input.parent().find("span")[options.htmlOptionText ? 'html' : 'text']();
-        var selectedMax = options.selectedMax;
+        var maxSelected = options.maxSelected;
 
         // bail if this input is disabled or the event is cancelled
         if (input.disabled || self._trigger('click', e, { value: val, text: optionText, checked: checked }) === false) {
@@ -605,18 +604,10 @@
           return;
         }
 
-        if ( selectedMax && checked
-              && ( typeof selectedMax === 'function' ? !!selectedMax.call(input, $allInputs) : numChecked > selectedMax ) ) {
-          var saveText = options.selectedText;
-
-          // The following warning is shown in the button and then cleared after a second.
-          options.selectedText = "<center><b>LIMIT OF " + (numChecked - 1) + " REACHED!</b></center>";
-          self.update();
-          setTimeout( function() {
-            options.selectedText = saveText;
-            self.update();
-          }, 1000 );
-
+        if ( maxSelected && checked && numChecked > maxSelected) {
+         if ( self._trigger('maxselected', e, { labels: self.$labels, inputs: $allInputs }) !== false ) {
+            self.buttonMessage("<center><b>LIMIT OF " + (numChecked - 1) + " REACHED!</b></center>");
+         }
           input.checked = false;
           e.preventDefault();
           return false;
@@ -1280,22 +1271,54 @@
     },
 
     checkAll: function(e) {
-      this._toggleChecked(true);
-      this._trigger('checkAll');
+      this._trigger('beforeCheckAll');
+
+      var maxSelected = this.options.maxSelected;
+      if (maxSelected === null || maxSelected > this.$inputs.length) {
+         this._toggleChecked(true);
+         this._trigger('checkAll');
+      }
+      else {
+         this.buttonMessage("<center><b>Check All Not Permitted.</b></center>");
+      }
     },
 
     uncheckAll: function() {
+      this._trigger('beforeUncheckAll');
+
       this._toggleChecked(false);
       if ( !this.element[0].multiple ) {
         // Forces the underlying single-select to have no options selected.
         this.element[0].selectedIndex = -1;
       }
+		
       this._trigger('uncheckAll');
     },
 
     flipAll: function() {
-      this._toggleChecked('!');
-      this._trigger('flipAll');
+      this._trigger('beforeFlipAll');
+
+      var maxSelected = this.options.maxSelected;
+      if (maxSelected === null || maxSelected > (this.$inputs.length - this.$inputs.filter(':checked').length) ) {
+         this._toggleChecked('!');
+         this._trigger('flipAll');
+      }
+      else {
+         this.buttonMessage("<center><b>Flip All Not Permitted.</b></center>");
+      }
+    },
+
+    /**
+     * Flashes a message in the button caption for 1 second.
+     * Useful for very short warning messages to the user.
+     * @param {string} HTML message to show in the button.
+     */
+    buttonMessage: function(message) {
+       var self = this;
+       self.$buttonlabel.html(message);
+       setTimeout( function() {
+         self.update();
+       }, 1000 );
     },
 
     /**
@@ -1345,6 +1368,13 @@
      */
     widget: function() {
       return this.$menu;
+    },
+
+    /**
+     * @returns {string} namespaceID for use with external event handlers.
+     */
+    getNamespaceID: function() {
+      return this._namespaceID;
     },
 
     /**
@@ -1491,7 +1521,7 @@
           break;
         case 'selectedText':
         case 'selectedList':
-        case 'selectedMax':
+        case 'maxSelected':
         case 'noneSelectedText':
         case 'selectedListSeparator':
           this.options[key] = value;            // these all need to update immediately for the update() call
