@@ -46,7 +46,7 @@
       noneSelectedText: 'Select options', // (str | null) The text to show in the button where nothing is selected.  Set to null to use the native select's placeholder text.
       selectedText: '# of # selected',    // (str) A "template" that indicates how to show the count of selections in the button.  The "#'s" are replaced by the selection count & option count.
       selectedList: 0,                    // (int) The actual list selections will be shown in the button when the count of selections is <= than this number.
-      maxSelected: null,                  // (int | function)  If selected count > maxSelected or if function returns 1, then message is displayed, and new selection is undone.
+      maxSelected: null,                  // (int | null)  If selected count > maxSelected, then message is displayed, and new selection is undone.
       show: null,                         // (array) An array containing menu opening effects.
       hide: null,                         // (array) An array containing menu closing effects.
       autoOpen: false,                    // (true | false) If true, then the menu will be opening immediately after initialization.
