@@ -721,11 +721,7 @@
       // Close each widget when clicking on any other element/anywhere else on the page
       //   or scrolling w/ the mouse wheel outside the menu button.
       self.document.on('mousedown.' + self._namespaceID + ' wheel.' + self._namespaceID + ' mousewheel.' + self._namespaceID, function(event) {
-        var target = event.target;
-        var button = self.$button.get(0);
-        var menu = self.$menu.get(0);
-
-        if ( self._isOpen && button !== target && !$.contains(button, target) && menu !== target && !$.contains(menu, target) ) {
+        if ( self._isOpen && !$(event.target).closest('.ui-multiselect,.ui-multiselect-menu').length ) {
           self.close();
         }
       });
