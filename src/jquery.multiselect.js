@@ -526,17 +526,17 @@
         var nodes = $inputs.get();
         var label = this.textContent;
 
-        // if maxSelected is in use, cannot exceed it
-        var maxSelected = self.options.maxSelected;
-        if (maxSelected && (self.$inputs.filter(':checked').length + $inputs.length > maxSelected) ) {
-          return;
-        }
-
         // trigger before callback and bail if the return is false
         if (self._trigger('beforeoptgrouptoggle', e, { inputs:nodes, label:label }) === false) {
           return;
         }
 
+        // if maxSelected is in use, cannot exceed it
+        var maxSelected = self.options.maxSelected;
+        if (maxSelected && (self.$inputs.filter(':checked').length + $inputs.length > maxSelected) ) {
+          return;
+        }
+         
         // toggle inputs
         self._toggleChecked(
           $inputs.filter(':checked').length !== $inputs.length,
