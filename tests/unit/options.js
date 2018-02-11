@@ -82,11 +82,11 @@
       el.multiselect("destroy").remove();
     });
 
-    QUnit.test("selectedMax", function (assert) {
+    QUnit.test("maxSelected", function (assert) {
       var html = '<select multiple><option value="foo">foo &quot;with quotes&quot;</option><option value="bar">bar</option><option value="baz">baz</option></select>';
 
       el = $(html).appendTo("body").multiselect({
-          selectedMax: 2
+          maxSelected: 2
       });
 
       var checkboxes = el.multiselect("widget").find(":checkbox");
@@ -94,7 +94,7 @@
       checkboxes.eq(1).trigger('click');
       checkboxes.eq(2).trigger('click');
 
-      assert.equal(menu().find("input").filter(":checked").length, 2, 'after clicking each checkbox, count of checked restored to selectedMax of 2');
+      assert.equal(menu().find("input").filter(":checked").length, 2, 'after clicking each checkbox, count of checked restored to maxSelected of 2');
       el.multiselect("destroy").remove();
     });
 
@@ -202,7 +202,7 @@
       width = "3in";
       el.multiselect("option", "menuWidth", width).multiselect('refresh');
       assert.equal(menu().parent().find(".ui-multiselect-menu").outerWidth(), 3 * 96.0, 'menuWidth supports strings suffixed with "in" unit as well as integer "px" values');
-		
+
       el.multiselect("destroy");
     });
 
