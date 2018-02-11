@@ -512,8 +512,8 @@
         var label = this.textContent;
          
         // if maxSelected is in use, cannot exceed it		  
-        var maxSelected = this.options.maxSelected;
-        if (maxSelected && (this.$inputs.filter(':checked').length + $inputs.length > maxSelected) ) {
+        var maxSelected = self.options.maxSelected;
+        if (maxSelected && (self.$inputs.filter(':checked').length + $inputs.length > maxSelected) ) {
           return;
         }
 
