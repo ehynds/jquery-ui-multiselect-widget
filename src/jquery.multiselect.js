@@ -590,12 +590,17 @@
           case 32: // space
             $(this).find('input')[0].click();
             break;
-          case 65:   // Ctrl-A
+          case 65:   // Alt-A
             if (e.altKey) {
               self.checkAll();
             }
             break;
-          case 85:   // Ctrl-U
+          case 70:   // Alt-F
+            if (e.altKey) {
+              self.flipAll();
+            }
+            break;
+          case 85:   // Alt-U
             if (e.altKey) {
               self.uncheckAll();
             }
@@ -1303,7 +1308,7 @@
       this._trigger('beforeFlipAll');
 
       var maxSelected = this.options.maxSelected;
-      if (maxSelected === null || maxSelected > (this.$inputs.length - this.$inputs.filter(':checked').length) ) {
+      if (maxSelected === null || maxSelected >= (this.$inputs.length - this.$inputs.filter(':checked').length) ) {
          this._toggleChecked('!');
          this._trigger('flipAll');
       }
