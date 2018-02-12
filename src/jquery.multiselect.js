@@ -1552,11 +1552,6 @@
    // https://learn.jquery.com/jquery-ui/widget-factory/extending-widgets/
    if ($.ui && $.ui.dialog) {
       $.widget( "ui.dialog", $.ui.dialog, {
-          /*! jQuery UI - v1.10.2 - 2013-12-12
-           *  http://bugs.jqueryui.com/ticket/9087#comment:27 - bugfix
-           *  http://bugs.jqueryui.com/ticket/4727#comment:23 - bugfix
-           *  allowInteraction fix to accommodate windowed editors
-           */
          _allowInteraction: function( event ) {
              if ( this._super( event ) || $( event.target ).closest('.ui-multiselect-menu' ).length ) {
                return true;
