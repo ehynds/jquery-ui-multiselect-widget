@@ -1,7 +1,7 @@
 .ui-multiselect {box-sizing: border-box; padding:2px 0 2px 4px; text-align:left;}
 .ui-multiselect .ui-multiselect-open { float:right }
 
-.ui-multiselect-menu { display:none; box-sizing:border-box; position:absolute; text-align:left; z-index:1010; width:auto; padding:3px;}
+.ui-multiselect-menu { display:none; box-sizing:border-box; position:absolute; text-align:left; z-index:101; width:auto; padding:3px;}
 
 .ui-multiselect-header { display:block; box-sizing:border-box; position:relative; width:auto; padding:3px 0 3px 4px; margin-bottom:3px;}
 .ui-multiselect-header > ul { font-size:0.9em }

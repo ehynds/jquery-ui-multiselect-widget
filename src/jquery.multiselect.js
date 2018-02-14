@@ -46,13 +46,14 @@
       noneSelectedText: 'Select options', // (str | null) The text to show in the button where nothing is selected.  Set to null to use the native select's placeholder text.
       selectedText: '# of # selected',    // (str) A "template" that indicates how to show the count of selections in the button.  The "#'s" are replaced by the selection count & option count.
       selectedList: 0,                    // (int) The actual list selections will be shown in the button when the count of selections is <= than this number.
+      selectedListSeparator: ', ',        // (str) This allows customization of the list separator.  Use ',<br/>' to make the button grow vertically showing 1 selection per line.
       maxSelected: null,                  // (int | null)  If selected count > maxSelected, then message is displayed, and new selection is undone.
       show: null,                         // (array) An array containing menu opening effects.
       hide: null,                         // (array) An array containing menu closing effects.
       autoOpen: false,                    // (true | false) If true, then the menu will be opening immediately after initialization.
       position: {},                       // (object) A jQuery UI position object that constrains how the pop-up menu is positioned.
       appendTo: null,                     // (jQuery | DOM element | selector str)  If provided, this specifies what element to append the widget to in the DOM.
-      selectedListSeparator: ', ',        // (str) This allows customization of the list separator.  Use ',<br/>' to make the button grow vertically showing 1 selection per line.
+      zIndex: null,                       // (int) Overrides the z-index set for the menu container.
       htmlButtonText: false,              // (true | false) If true, then the text used for the button's label is treated as html rather than plain text.
       htmlOptionText: false,              // (true | false) If true, then the text for option label is treated as html rather than plain text.
       addInputNames: true,                // (true | false) If true, names are created for each option input in the multi-select.
@@ -176,7 +177,22 @@
             .append($header, $checkboxes);
 
       $button.insertAfter($element);
-      this._getAppendEl().append($menu);
+      var appendEl = this._getAppendEl();
+      appendEl.append($menu);
+
+      // Set z-index of menu appropriately when it is not appended to a dialog and no z-index specified.
+      if ( !options.zIndex && !appendEl.hasClass('.ui-front') ) {
+         var $uiFront = this.element.closest('.ui-front, dialog');
+         options.zIndex = Math.max( $uiFront && parseInt($uiFront.css('z-index'), 10) + 1 || 0,
+                                                appendEl && parseInt(appendEl.css('z-index'), 10) + 1 || 0);
+      }
+
+      if (options.zIndex) {
+         $menu.css('z-index', options.zIndex);
+      }
+
+      // Use $.extend below since the "of" position property may not be able to be supplied via the option.
+      options.position = $.extend({'my': 'left top', 'at': 'left bottom', 'of': $button}, options.position || {});
 
       this._bindEvents();
 
@@ -373,11 +389,10 @@
      * Updates cached values used elsewhere in the widget
      */
     _updateCache: function() {
-      // Invalidate cached dimensions and positioning state to force recalcs.
+      // Invalidate cached dimensions to force recalcs.
       this._savedButtonWidth = 0;
       this._savedMenuWidth = 0;
       this._ulHeight = 0;
-      this._positioned = false;
 
       // Recreate important cached jQuery objects
       this.$header = this.$menu.children('.ui-multiselect-header');
@@ -429,7 +444,7 @@
 
       // Check if the menu needs to be repositioned due to button height changing from adding/removing selections.
       if (self._isOpen && self._savedButtonHeight != self.$button.outerHeight(false)) {
-         self._position(true);
+         self.position();
       }
     },
 
@@ -510,18 +525,18 @@
         var $inputs = $this.next('ul').find('input').filter(':visible:not(:disabled)');
         var nodes = $inputs.get();
         var label = this.textContent;
-         
-        // if maxSelected is in use, cannot exceed it		  
-        var maxSelected = self.options.maxSelected;
-        if (maxSelected && (self.$inputs.filter(':checked').length + $inputs.length > maxSelected) ) {
-          return;
-        }
 
         // trigger before callback and bail if the return is false
         if (self._trigger('beforeoptgrouptoggle', e, { inputs:nodes, label:label }) === false) {
           return;
         }
 
+        // if maxSelected is in use, cannot exceed it
+        var maxSelected = self.options.maxSelected;
+        if (maxSelected && (self.$inputs.filter(':checked').length + $inputs.length > maxSelected) ) {
+          return;
+        }
+         
         // toggle inputs
         self._toggleChecked(
           $inputs.filter(':checked').length !== $inputs.length,
@@ -575,12 +590,17 @@
           case 32: // space
             $(this).find('input')[0].click();
             break;
-          case 65:   // Ctrl-A
+          case 65:   // Alt-A
             if (e.altKey) {
               self.checkAll();
             }
             break;
-          case 85:   // Ctrl-U
+          case 70:   // Alt-F
+            if (e.altKey) {
+              self.flipAll();
+            }
+            break;
+          case 85:   // Alt-U
             if (e.altKey) {
               self.uncheckAll();
             }
@@ -703,13 +723,10 @@
       self._bindMenuEvents();
       self._bindHeaderEvents();
 
-      // close each widget when clicking on any other element/anywhere else on the page
-      self.document.on('mousedown.' + self._namespaceID, function(event) {
-        var target = event.target;
-        var button = self.$button.get(0);
-        var menu = self.$menu.get(0);
-
-        if ( self._isOpen && button !== target && !$.contains(button, target) && menu !== target && !$.contains(menu, target) ) {
+      // Close each widget when clicking on any other element/anywhere else on the page
+      //   or scrolling w/ the mouse wheel outside the menu button.
+      self.document.on('mousedown.' + self._namespaceID + ' wheel.' + self._namespaceID + ' mousewheel.' + self._namespaceID, function(event) {
+        if ( self._isOpen && !$(event.target).closest('.ui-multiselect,.ui-multiselect-menu').length ) {
           self.close();
         }
       });
@@ -780,15 +797,12 @@
     /**
      * Sets and caches the width of the button
      * Can set a minimum value if less than calculated width of native select.
-     * If the cache is cleared, the menu will be re-positioned on the next open
      * @param {boolean} recalc true if cached value needs to be re-calculated
      */
     _setButtonWidth: function(recalc) {
       if (this._savedButtonWidth && !recalc) {
          return;
       }
-
-      this._positioned = false;
 
       // this._selectWidth set in _create() for native select element before hiding it.
       var width = this._selectWidth || this._getBCRWidth( this.element );
@@ -815,15 +829,12 @@
     /**
      * Sets and caches the width of the menu
      * Will use the width in options if provided, otherwise matches the button
-     * If the cache is cleared, the menu will be re-positioned on the next open
      * @param {boolean} recalc true if cached value needs to be re-calculated
      */
     _setMenuWidth: function(recalc) {
       if (this._savedMenuWidth && !recalc) {
          return;
       }
-
-      this._positioned = false;
 
       // Note that it is assumed that the button width was set prior.
       var width = this._savedButtonWidth || this._getBCRWidth( this.$button );
@@ -869,7 +880,6 @@
      * Will use the height provided in the options unless using the select size
      *  option or the option exceeds the available height for the menu
      * Will set a scrollbar if the options can't all be visible at once
-     * If the cache is cleared, the menu will be re-positioned on the next open
      * @param {boolean} recalc true if cached value needs to be re-calculated
      */
     _setMenuHeight: function(recalc) {
@@ -878,15 +888,16 @@
          return;
       }
 
-      self._positioned = false;
       var $menu = self.$menu;
       var $header = self.$header.filter(':visible');
       var headerHeight = $header.outerHeight(true) + self._jqHeightFix($header);
+      var headerBottomMargin = 3;
       var $checkboxes = self.$checkboxes;
 
       // The maximum available height for the $checkboxes:
       var maxHeight = $(window).height()
                         - headerHeight
+                        - headerBottomMargin
                         - this._parse2px( $menu.css('padding-top'), this.element, true ).px
                         - this._parse2px( $menu.css('padding-bottom'), this.element, true ).px;
 
@@ -906,7 +917,7 @@
 
       var overflowSetting = 'hidden';
       var itemCount = 0;
-      var ulHeight = 0;
+      var ulHeight = 0;  // Adjustment for hover height included here.
 
       // The following adds up item heights.  If the height sum exceeds the option height or if the number
       //   of item heights summed equal or exceed the native select size attribute, the loop is aborted.
@@ -923,7 +934,7 @@
       });
 
       $checkboxes.css('overflow', overflowSetting).height(ulHeight);
-      $menu.height(headerHeight + ulHeight);
+      $menu.height(headerHeight + headerBottomMargin + ulHeight);
       self._ulHeight = ulHeight;
     },
 
@@ -1211,7 +1222,7 @@
       }
 
       this._resizeMenu();
-      this._position();
+      this.position();
 
       // focus the first not disabled option or filter input if available
       var filter = $header.find(".ui-multiselect-filter");
@@ -1297,7 +1308,7 @@
       this._trigger('beforeFlipAll');
 
       var maxSelected = this.options.maxSelected;
-      if (maxSelected === null || maxSelected > (this.$inputs.length - this.$inputs.filter(':checked').length) ) {
+      if (maxSelected === null || maxSelected >= (this.$inputs.length - this.$inputs.filter(':checked').length) ) {
          this._toggleChecked('!');
          this._trigger('flipAll');
       }
@@ -1440,36 +1451,20 @@
       this._updateCache();
     },
 
-    /**
-     * Public version of _position, always ignores the cache
-     */
-    position: function(){ this._position.call(this, true) },
-    /**
-     * Positions the menu
-     * Will attempt to use the UI position utility before falling back to a manual
-     *  process by offsetting from the button height
-     * Saves a flag to avoid repeating this logic until necessary
-     * @param {boolean} reposition forces the menu to reposition if true
-     */
-    _position: function(reposition) {
-      if (!!this._positioned && !reposition) {
-         return;
-      }
+    position: function() {
       var $button = this.$button;
-      // Save this so that we can determine when the button height has changed due adding/removing selections.
-      this._savedButtonHeight = this.$button.outerHeight(false);
 
-      var pos = $.extend({'my': 'left top', 'at': 'left bottom', 'of': $button}, this.options.position || {});
+      // Save this so that we can determine when the button height has changed due adding/removing selections.
+      this._savedButtonHeight = $button.outerHeight(false);
 
       if ($.ui && $.ui.position) {
-        this.$menu.position(pos);
+        this.$menu.position(this.options.position);
       }
       else {
-        pos = $button.position();
+        var pos = $button.position();
         pos.top += this._savedButtonHeight;
         this.$menu.offset(pos);
       }
-      this._positioned = true;
     },
 
     /**
@@ -1541,13 +1536,33 @@
              this.refresh();
           }
           break;
-        case 'position':
-          this._position(true);                 // true ignores cached setting
-          break;
-      }
-      $.Widget.prototype._setOption.apply(this, arguments);
-    },
+       case 'position':
+         if (value !== null && !$.isEmptyObject(value) ) {
+            this.options.position = value;
+         }
+         this.position();
+         break;
+       case 'zIndex':
+         this.options.zIndex = value;
+         this.$menu.css('z-index', value);
+         break;
+     }
+     $.Widget.prototype._setOption.apply(this, arguments);
+   },
 
   });
+
+   // Fix for jQuery UI modal dialogs
+   // https://api.jqueryui.com/dialog/#method-_allowInteraction
+   // https://learn.jquery.com/jquery-ui/widget-factory/extending-widgets/
+   if ($.ui && $.ui.dialog) {
+      $.widget( "ui.dialog", $.ui.dialog, {
+         _allowInteraction: function( event ) {
+             if ( this._super( event ) || $( event.target ).closest('.ui-multiselect-menu' ).length ) {
+               return true;
+             }
+         }
+      });
+   }
 
 })(jQuery);
