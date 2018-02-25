@@ -4,8 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Отметить все',
-	uncheckAllText: 'Снять отметку со всех',
+	linkInfo: {
+		checkAll: {text: 'Отметить все', title: 'Отметить все'}, 
+		uncheckAll: {text: 'Снять отметку со всех', title: 'Снять отметку со всех'}
+	},
 	noneSelectedText: 'Выберите из списка',
 	selectedText: 'Выбрано #'
 });

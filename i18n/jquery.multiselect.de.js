@@ -4,8 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Alle auswählen',
-	uncheckAllText: 'Alle abwählen',
+	linkInfo: {
+		checkAll: {text: 'Alle auswählen', title: 'Alle auswählen'}, 
+		uncheckAll: {text: 'Alle abwählen', title: 'Alle abwählen'}
+	},
 	noneSelectedText: 'Nichts ausgewählt',
 	selectedText: '# ausgewählt'
 });

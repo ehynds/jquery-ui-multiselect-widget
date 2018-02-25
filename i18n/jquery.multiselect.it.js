@@ -4,8 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Seleziona tutto',
-	uncheckAllText: 'Deseleziona tutto',
+	linkInfo: {
+		checkAll: {text: 'Seleziona tutto', title: 'Seleziona tutto'}, 
+		uncheckAll: {text: 'Deseleziona tutto', title: 'Deseleziona tutto'}
+	},
 	noneSelectedText: 'Seleziona le opzioni',
 	selectedText: '# selezionati'
 });

@@ -22,7 +22,7 @@
 
       // now try to open it..
       el.multiselect("open");
-
+		
       // make sure the width of the menu and button are equivalent
       assert.equal( button().outerWidth(), menu().outerWidth(), 'button and menu widths are equivalent');
 
@@ -265,6 +265,7 @@
          assert.ok(true, "the select's change event fires");
       })
       .multiselect({
+			groupsSelectable: true,
          beforeoptgrouptoggle: function(e,ui){
             assert.equal(this, el[0], "option: context of callback");
             assert.equal(e.type, 'multiselectbeforeoptgrouptoggle', 'option: event type in callback');
@@ -308,6 +309,7 @@
       el = $('<select multiple><optgroup label="Set One"><option value="1">Option 1</option><option value="2">Option 2</option></optgroup></select>').appendTo(body);
 
       el.multiselect({
+			groupsSelectable: true,
          optgrouptoggle: function(e,ui){
             assert.equal(this, el[0], "option: context of callback");
             assert.equal(e.type, 'multiselectoptgrouptoggle', 'option: event type in callback');
