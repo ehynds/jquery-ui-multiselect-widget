@@ -51,12 +51,12 @@
   $.widget('ech.multiselectfilter', {
 
     options: {
-      label: 'Filter:',                      // (string) The label to show with the input
+      label: 'Filter:',                // (string) The label to show with the input
       placeholder: 'Enter keywords',   // (string) The placeholder text to show in the input
-      filterRule: 'contains',                // (string) Either a named filter rule from above or a regular expression containing {{term}} as a placeholder
+      filterRule: 'contains',          // (string) Either a named filter rule from above or a regular expression containing {{term}} as a placeholder
       searchGroups: false,             // (true | false) If true, search option group labels and show an entire group on a match.
-      autoReset: false,                   // (true | false) If true, clear the filter each time the widget menu is closed.
-      width: null,                           // (number) Override default width set in css file (px). null will inherit
+      autoReset: false,                // (true | false) If true, clear the filter each time the widget menu is closed.
+      width: null,                     // (number) Override default width set in css file (px). null will inherit
       debounceMS: 250                  // (number) Number of milleseconds to wait between running the search handler.
     },
 
