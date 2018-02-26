@@ -627,6 +627,7 @@
                   }
                   else if (e.which === 38) { // up for multiple select
                      self.close();
+                     break;
                   }
                   // down for multiple select falls through
                case 39: // right
