@@ -213,7 +213,7 @@
                               .split(',');
          for (var x = 0, len = headerLinks.length; x < len; x++) {
             if (headerLinks[x] && headerLinks[x] in this.linkInfo
-                && ['open', 'close', 'collapse', 'expand'].indexOf( headerLinks[x] ) == -1  ) {
+                && !( headerLinks[x] in {'open':1, 'close':1, 'collapse':1, 'expand':1} ) ) {
                headerLinksHTML += _linkHTML(hdrLinkTemplate, headerLinks[x]).replace(/<span><\/span/ig, '');
             }
          }
@@ -599,41 +599,39 @@
         .on({
           click: clickHandler,
           keydown: function(e) {
-            switch(e.which) {
-               case 27: // esc
-               case 37: // left
-                  self.close();
-                  break;
-               case 38: // up
-               case 40: // down
-                  // Change selection via up/down on a closed single select.
-                  if (!self._isOpen && !self.element[0].multiple) {
-                     var prev, current = null, next = null;
-                     self.$inputs.each( function() {
-                        prev = current;
-                        current = next;
-                        next = this;
-                        if (current !== null && current.checked) {
-                           return false;
-                        }
-                     });
-                     if (e.which === 38 && prev !== null) {
-                        $(prev).trigger('click');
-                     }
-                     else if (e.which === 40 && !next.checked) {
-                        $(next).trigger('click');
-                     }
-                     break;
-                  }
-                  else if (e.which === 38) { // up for multiple select
-                     self.close();
-                     break;
-                  }
-                  // down for multiple select falls through
-               case 39: // right
-                  self.open();
-                  break;
-            }
+             // Change selection via up/down on a closed single select.
+				 if (!self._isOpen && !self.element[0].multiple && e.which in {38:1, 40:1} ) {  // up & down keys
+					var prev, 
+                   current = null, 
+                   next = null;
+					self.$inputs.each( function() {
+						prev = current;
+						current = next;
+						next = this;
+						if (current !== null && current.checked) {
+							return false;
+						}
+					});
+					if (e.which === 38 && prev !== null) {
+						$(prev).trigger('click');
+					}
+					else if (e.which === 40 && !next.checked) {
+						$(next).trigger('click');
+					}					 
+				 }
+				 else {
+					switch(e.which) {
+						case 27: // esc
+						case 37: // left
+						case 38: // up
+							self.close();
+							break;
+						case 40: // down
+						case 39: // right
+							self.open();
+							break;
+					}					 
+				 }
           },
           mouseenter: function() {
             if (!$button.hasClass('ui-state-disabled')) {
