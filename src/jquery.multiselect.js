@@ -281,7 +281,8 @@
 
       if (this.options.header !== false) {
          this.$headerLinkContainer
-              .find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip')
+              .find('.ui-multiselect-all,.ui-multiselect-none,.ui-multiselect-flip,'
+                    + '.ui-multiselect-collapseall,.ui-multiselect-expandall')
               .toggle( !!elSelect.multiple );
       }
       else {
@@ -446,7 +447,8 @@
       // update header link container visibility if needed
       if (this.options.header !== false) {
          this.$headerLinkContainer
-              .find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip')
+              .find('.ui-multiselect-all,.ui-multiselect-none,.ui-multiselect-flip,'
+                    + '.ui-multiselect-collapseall,.ui-multiselect-expandall')
               .toggle( !!$element[0].multiple );
       }
 
