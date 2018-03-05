@@ -74,8 +74,8 @@
       var opts = this.options;
       var $element = this.element;
 
-      // get the multiselect instance
-      this.instance = $element.multiselect('instance');
+      // get the multiselect instance -- instance() method no longer supported -- use data()
+      this.instance = $element.multiselect().data('ech-multiselect');
 
       // store header; add filter class so the close/check all/uncheck all links can be positioned correctly
       this.$header = this.instance.$menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter');
@@ -146,8 +146,8 @@
 
       // Change the normal _toggleChecked fxn behavior so that when checkAll/uncheckAll
       // is fired, only the currently displayed filtered inputs are checked if filter entered.
-      var instance = this.instance,
-            filter = this.$input[0];
+      var instance = this.instance;
+      var filter = this.$input[0];
       instance._oldToggleChecked = instance._toggleChecked;
       instance._toggleChecked = function(flag, group) {
          instance._oldToggleChecked(flag, group, !!filter.value);
@@ -164,24 +164,20 @@
     * @param (object) event object from original event.
     */
     _handler: function(e) {
-      var term = this.$input[0].value.toLowerCase().replace(/^\s+|\s+$/g,''),
-            filterRule = this.options.filterRule || 'contains',
-            regex = new RegExp( ( filterRules[filterRule] || filterRule ).replace('{{term}}', term.replace(rEscape, "\\$&")), 'i'),
-            searchGroups = !!this.options.searchGroups,
-            $checkboxes = this.instance.$checkboxes,
-            cache = this.cache,   // Cached text() object
-            optgroupClass = "ui-multiselect-optgroup",
-            hiddenClass = 'ui-multiselect-excluded';
+      var term = this.$input[0].value.toLowerCase().replace(/^\s+|\s+$/g,'');
+      var filterRule = this.options.filterRule || 'contains';
+      var regex = new RegExp( ( filterRules[filterRule] || filterRule ).replace('{{term}}', term.replace(rEscape, "\\$&")), 'i');
+      var searchGroups = !!this.options.searchGroups;
+      var $checkboxes = this.instance.$checkboxes;
+      var cache = this.cache;   // Cached text() object
+      var optgroupClass = "ui-multiselect-optgroup";
+      var hiddenClass = 'ui-multiselect-excluded';
 
       this.$rows.toggleClass(hiddenClass, !!term);
-      if (!searchGroups) {
-         // If not searching in groups then show all group headings in the results.
-         $checkboxes.find('.' + optgroupClass).removeClass(hiddenClass);
-      }
       var filteredInputs = $checkboxes.children().map(function(x) {
-        var  $this = $(this),
-               $groupItems = $this,
-               groupShown = !searchGroups;
+        var $this = $(this);
+        var $groupItems = $this;
+        var groupShown = false;
 
          // Account for optgroups
          // If we are searching in option group labels and we match an optgroup label,
@@ -213,7 +209,9 @@
       if (term) {
          this._trigger('filter', e, filteredInputs);
       }
-      this.instance._setMenuHeight(true);  // Review this.
+      if (!this.instance.options.listbox) {
+         this.instance._setMenuHeight(true);
+      }
       return;
     },
 
@@ -258,7 +256,7 @@
     */
     destroy: function() {
       $.Widget.prototype.destroy.call(this);
-      this.$input.val('').trigger("keyup");
+      this.$input.val('').trigger("keyup").off('keydown input search');
       this.instance.$menu.find('.ui-multiselect-header').removeClass('ui-multiselect-hasfilter');
       this.$wrapper.remove();
     }

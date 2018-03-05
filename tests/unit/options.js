@@ -75,7 +75,7 @@
       el = $(html).appendTo("body").multiselect({
           selectedList: 3,
           selectedListSeparator: ',<br>',
-          htmlButtonText: true
+          htmlText: ['button']
       });
 
       el.multiselect("checkAll");
@@ -243,7 +243,7 @@
     QUnit.test("checkAllText", function (assert) {
       var text = "foo";
 
-      el = $("select").multiselect({ header: 'checkAll,uncheckAll,flipAll',  linkInfo: {checkAll: {text: text}} });
+      el = $("select").multiselect({ header: ['checkAll','uncheckAll','flipAll'],  linkInfo: {checkAll: {text: text}} });
       assert.equal(menu().find(".ui-multiselect-all").text(), text, 'check all link reads ' + text);
 
       // set through option
@@ -257,7 +257,7 @@
     QUnit.test("uncheckAllText", function (assert) {
       var text = "foo";
 
-      el = $("select").multiselect({ header: 'checkAll,uncheckAll,flipAll',  linkInfo: {uncheckAll: {text: text}} });
+      el = $("select").multiselect({ header: ['checkAll','uncheckAll','flipAll'],  linkInfo: {uncheckAll: {text: text}} });
       assert.equal(menu().find(".ui-multiselect-none").text(), text, 'check all link reads ' + text);
 
       // set through option
@@ -271,7 +271,7 @@
     QUnit.test("flipAllText", function (assert) {
       var text = "foo";
 
-      el = $("select").multiselect({ header: 'checkAll,uncheckAll,flipAll', linkInfo: {flipAll: {text: text}} });
+      el = $("select").multiselect({ header: ['checkAll','uncheckAll','flipAll'], linkInfo: {flipAll: {text: text}} });
       assert.equal(menu().find(".ui-multiselect-flip").text(), text, 'flip all link reads ' + text);
 
       // set through option
@@ -285,7 +285,7 @@
     QUnit.test("collapseAllText", function (assert) {
       var text = "foo";
 
-      el = $("select").multiselect({ header: 'collapseAll,expandAll', linkInfo: {collapseAll: {text: text}} });
+      el = $("select").multiselect({ header: ['collapseAll','expandAll'], linkInfo: {collapseAll: {text: text}} });
       assert.equal(menu().find(".ui-multiselect-collapseall").text(), text, 'collapse all link reads ' + text);
 
       // set through option
@@ -299,7 +299,7 @@
     QUnit.test("expandAllText", function (assert) {
       var text = "foo";
 
-      el = $("select").multiselect({ header: 'collapseAll,expandAll', linkInfo: {expandAll: {text: text}} });
+      el = $("select").multiselect({ header: ['collapseAll','expandAll'], linkInfo: {expandAll: {text: text}} });
       assert.equal(menu().find(".ui-multiselect-expandall").text(), text, 'expand all link reads ' + text);
 
       // set through option
@@ -326,14 +326,15 @@
 
     QUnit.test("multiple (false - single select)", function (assert) {
       $("select").removeAttr("multiple");
-      el = $("select").multiselect({ multiple: false });
+      el = $("select").multiselect({ multiple: false, header: ['checkAll', 'uncheckAll', 'flipAll'] });
 
       // get some references
       var $menu = menu(), $header = header();
 
       assert.ok($header.find('a.ui-multiselect-all').is(':hidden'), 'select all link is hidden');
+      assert.ok($header.find('a.ui-multiselect-flip').is(':hidden'), 'flip all link is hidden');
       assert.ok($header.find('a.ui-multiselect-none').is(':hidden'), 'select none link is hidden');
-      assert.ok($header.find('a.ui-multiselect-close').css('display') !== 'hidden', 'close link is visible');
+      assert.ok($header.find('a.ui-multiselect-close').css('display') !== 'none', 'close link is visible');
       assert.ok(!$menu.find(":checkbox").length, 'no checkboxes are present');
       assert.ok($menu.find(":radio").length > 0, 'but radio boxes are');
 
@@ -423,7 +424,7 @@
       el.multiselect("destroy");
 
       // create again, this time custom header
-      el = $("select").multiselect({ header: "=hai guyz", autoOpen: true });
+      el = $("select").multiselect({ header: "hai guyz", autoOpen: true });
       assert.equal(header().text(), "hai guyz", "header assert.equal custom text");
       assert.equal(countLinks(), 1, "number of links in the custom header config (should be close button)");
 

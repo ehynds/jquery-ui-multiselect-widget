@@ -14,7 +14,7 @@ $(function(){
 
    // default
    $("#test-1").multiselect({
-      header: 'checkAll,uncheckAll'
+      header: ['checkAll','uncheckAll']
    });
 
    // off
@@ -24,7 +24,7 @@ $(function(){
 
    // custom text
    $("#test-3").multiselect({
-      header: "=Choose options below"
+      header: "Choose options below"
    });
 
 });
@@ -37,7 +37,7 @@ $(function(){
 <p>The header option can be used in three ways:</p>
 
 <form>
-   <h3><code>header: "checkAll,uncheckAll"</code> (default)</h3>
+   <h3><code>header: ['checkAll','uncheckAll']</code> (default)</h3>
    <select id="test-1" multiple="multiple" size="5">
    <option value="option1">Option 1</option>
    <option value="option2">Option 2</option>
@@ -59,7 +59,7 @@ $(function(){
    <option value="option7">Option 7</option>
    </select>
 
-   <h3><code>header: "=Choose options below"</code></h3>
+   <h3><code>header: "Choose options below"</code></h3>
    <select id="test-3" multiple="multiple" size="5">
    <option value="option1">Option 1</option>
    <option value="option2">Option 2</option>
