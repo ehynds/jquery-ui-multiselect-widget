@@ -4,8 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-  checkAllText: 'Tümünü seç',
-  uncheckAllText: 'Tümünü sil',
+  linkInfo: {
+    checkAll: {text: 'Tümünü seç', title: 'Tümünü seç'}, 
+    uncheckAll: {text: 'Tümünü sil', title: 'Tümünü sil'}
+  },
   noneSelectedText: 'Seçenekleri belirleyin',
   selectedText: '# adet seçildi'
 });

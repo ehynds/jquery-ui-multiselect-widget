@@ -4,8 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Marcar todos',
-	uncheckAllText: 'Desmarcar todos',
+	linkInfo: {
+		checkAll: {text: 'Marcar todos', title: 'Marcar todos'}, 
+		uncheckAll: {text: 'Desmarcar todos', title: 'Desmarcar todos'}
+	},
 	noneSelectedText: 'Selecione as opções',
 	selectedText: '# selecionado'
 });

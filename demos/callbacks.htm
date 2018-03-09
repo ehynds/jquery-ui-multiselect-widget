@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="../css/jquery.multiselect.css" />
 <link rel="stylesheet" type="text/css" href="assets/style.css" />
 <link rel="stylesheet" type="text/css" href="assets/prettify.css" />
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="../src/jquery.multiselect.js"></script>
@@ -15,7 +15,7 @@
 $(function(){
 
    var $callback = $("#callback");
-   
+
    $("select").multiselect({
       click: function(event, ui){
          $callback.text(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
@@ -42,8 +42,15 @@ $(function(){
          var values = $.map(ui.inputs, function(checkbox){
             return checkbox.value;
          }).join(", ");
-         
+
          $callback.html("<strong>Checkboxes " + (ui.checked ? "checked" : "unchecked") + ":</strong> " + values);
+      },
+      groupsCollapsable: true,
+      beforecollapsetoggle: function(){
+         $callback.text("Option group about to be collapsed/expanded...");
+      },
+      collapsetoggle: function(){
+         $callback.text("Option group collapsed/expanded");
       }
    });
 
@@ -54,7 +61,7 @@ $(function(){
 
 <h2>Callbacks &amp; Events</h2>
 <p>Demonstrating beforeopen, open, beforeclose, close, click, checkall, uncheckall, and optgrouptoggle callbacks/events.  Note that you can either
-pass in an event handler in the options object upon initialization, or bind to the event (including the multiselect prefix).  For example, to add an 
+pass in an event handler in the options object upon initialization, or bind to the event (including the multiselect prefix).  For example, to add an
 "open" handler, you can also use <code class="prettyprint">$("select").bind("multiselectopen", fn);</code></p>
 <p class="message success" id="callback">Callback target</p>
 
@@ -101,8 +108,15 @@ $("select").multiselect({
       var values = $.map(ui.inputs, function(checkbox){
          return checkbox.value;
       }).join(", ");
-      
+
       $callback.html("<strong>Checkboxes " + (ui.checked ? "checked" : "unchecked") + ":</strong> " + values);
+   },
+   groupsCollapsable: true,
+   beforecollapsetoggle: function(){
+      $callback.text("Option group about to be collapsed/expanded...");
+   },
+   collapsetoggle: function(){
+      $callback.text("Option group collapsed/expanded");
    }
 });
 </pre>

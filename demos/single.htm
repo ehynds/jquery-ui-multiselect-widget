@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="../css/jquery.multiselect.css" />
 <link rel="stylesheet" type="text/css" href="assets/style.css" />
 <link rel="stylesheet" type="text/css" href="assets/prettify.css" />
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="../src/jquery.multiselect.js"></script>
@@ -15,12 +15,11 @@
 $(function(){
 
    $("select").multiselect({
-      multiple: false,
       header: "Select an option",
       noneSelectedText: "Select an Option",
       selectedList: 1
    });
-   
+
 });
 </script>
 
@@ -29,13 +28,12 @@ $(function(){
 
 <h2>Single Select</h2>
 
-<p>Setting the <code>multiple</code> parameter to false will force the widget to use radio buttons instead of checkboxes.  I advise using the <code>header</code>
-parameter along with <code>multiple</code> in order to hide/change the &quot;check all&quot;/&quot;uncheck all&quot; links.</p>
+<p>Omitting the <code>multiple</code> attribute from the underlying native select force the widget to use radio buttons instead of checkboxes.  It is a good idea to use the <code>header</code>
+parameter in order to hide/change the &quot;check all&quot;/&quot;uncheck all&quot; links.</p>
 
 <pre class="prettyprint">
 $("select").multiselect({
-   multiple: false,
-   header: "Select an option",
+   header: "=Select an option",
    noneSelectedText: "Select an Option",
    selectedList: 1
 });

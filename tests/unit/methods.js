@@ -39,15 +39,15 @@
       var boxes = menu().find("input");
       var disabled = boxes.first();
       var enabled = boxes.last();
-      var key = "ech-multiselect-disabled";
+      var msDisabledClass = "ui-multiselect-disabled";
 
       assert.equal(disabled.is(":disabled"), true, "The first option is disabled");
       el.multiselect("disable");
-      assert.equal(disabled.attr(key), undefined, "After disabling the widget, the pre-disabled option is not flagged to re-enable");
-      assert.equal(enabled.attr(key), "true", "and the enabled option is flagged to be re-enable");
+      assert.equal(disabled.hasClass(msDisabledClass), false, "After disabling the widget, the pre-disabled option is not flagged to re-enable");
+      assert.equal(enabled.hasClass(msDisabledClass), true, "and the enabled option is flagged to be re-enable");
       el.multiselect("enable");
       assert.equal(disabled.is(":disabled"), true, "After enabling, the first option is still disabled");
-      assert.equal(disabled.attr(key), undefined, "and the option no longer has the stored data flag");
+      assert.equal(disabled.hasClass(msDisabledClass), false, "and the option no longer has the stored data flag");
       el.multiselect("destroy").remove();
    });
 
@@ -78,12 +78,26 @@
       el.multiselect("destroy");
    });
 
+   QUnit.test("getCollapsed", function(assert){
+      el = $("select").multiselect().multiselect('collapseAll');
+      var collapsed = el.multiselect("getCollapsed");
+      assert.equal(el.multiselect("getCollapsed").length, menu().find('.ui-multiselect-collapsed').length, 'Returns all the collapsed option groups');
+      el.multiselect("destroy");
+   });
+
    QUnit.test("addOption", function(assert) {
       el = $("select").clone().appendTo(body).multiselect();
       var attrs = {title: "Test Title", value: "newOption"};
       el.multiselect("addOption", attrs, "Option New");
       assert.ok(el.find("option[value=newOption]").length === 1, "The option is added to the source element");
       assert.ok(menu().find("input[value=newOption]").length === 1, "The option is added to the menu");
+      el.multiselect("destroy").remove();
+
+      el = $("select").clone().appendTo(body).multiselect();
+      var attrs = {title: "Test Title", value: "newOption"}, optgroupID = "Optgroup One";
+      el.multiselect("addOption", attrs, "Option New", optgroupID);
+      assert.ok(el.find("option[value=newOption]").parent().attr('label') === optgroupID, "The option is added to the source element in " + optgroupID);
+      assert.ok(menu().find("input[value=newOption]").closest('.ui-multiselect-optgroup').children('a').text() === optgroupID, "The option is added to the menu in " + optgroupID);
       el.multiselect("destroy").remove();
    });
 
@@ -100,13 +114,50 @@
    QUnit.test("checkAll", function(assert){
       el = $("select").multiselect().multiselect("checkAll");
       var inputs = menu().find("input");
-         assert.ok( inputs.filter(":checked").length === inputs.length, 'All inputs selected on the widget?');
+      assert.ok( inputs.filter(":checked").length === inputs.length, 'All inputs selected on the widget');
+      el = $("select").multiselect("uncheckAll");
+      el = $("select").multiselect("checkAll", 2);
+      assert.equal( inputs.filter(":checked").length, 2, 'Inputs in last option group checked in the widget');
       el.multiselect("destroy");
    });
 
    QUnit.test("uncheckAll", function(assert){
       el = $("select").multiselect().multiselect("checkAll").multiselect("uncheckAll");
-         assert.ok( menu().find("input:checked").length === 0, 'All inputs unchecked on the widget?');
+      var inputs = menu().find("input");
+      assert.ok( inputs.filter(":checked").length === 0, 'All inputs unchecked on the widget');
+      el = $("select").multiselect("checkAll");
+      el = $("select").multiselect("uncheckAll", 'Optgroup three');
+      assert.equal( inputs.not(":checked").length, 2, 'Inputs in last option group not checked in the widget');
+      el.multiselect("destroy");
+   });
+
+   QUnit.test("flipAll", function(assert){
+      el = $("select").multiselect().multiselect("checkAll").multiselect("flipAll");
+      var inputs = menu().find("input");
+      assert.ok( inputs.filter(":checked").length === 0, 'All inputs unchecked on the widget');
+      el = $("select").multiselect("checkAll");
+      el = $("select").multiselect('flipAll', 'Optgroup three');
+      assert.equal( inputs.not(":checked").length, 2, 'Inputs in last option group not checked in the widget');
+      el.multiselect("destroy");
+   });
+
+   QUnit.test("collapseAll", function(assert){
+      el = $("select").multiselect().multiselect("collapseAll");
+      var optgroups = menu().find(".ui-multiselect-optgroup");
+      assert.ok( optgroups.filter(".ui-multiselect-collapsed").length === optgroups.length, 'All option groups are collapsed in the widget');
+      el = $("select").multiselect("expandAll");
+      el = $("select").multiselect("collapseAll", 2);
+      assert.equal( optgroups.filter(".ui-multiselect-collapsed").length, 1, 'Last option group collapsed in the widget');
+      el.multiselect("destroy");
+   });
+
+   QUnit.test("expandAll", function(assert){
+      el = $("select").multiselect().multiselect("collapseAll").multiselect("expandAll");
+      var optgroups = menu().find(".ui-multiselect-optgroup");
+      assert.ok( optgroups.filter(".ui-multiselect-collapsed").length === 0, 'All option groups expanded in the widget');
+      el = $("select").multiselect("collapseAll");
+      el = $("select").multiselect("expandAll", 'Optgroup three');
+      assert.equal( optgroups.filter(".ui-multiselect-collapsed").length, 2, 'Last option group expanded in the widget');
       el.multiselect("destroy");
    });
 
@@ -134,10 +185,20 @@
 
    QUnit.test("getUnchecked", function(assert){
       el = $("select").multiselect().multiselect("checkAll");
-         assert.equal( el.multiselect("getUnchecked").length, 0, 'number of checkboxes returned after checking all and calling getUnchecked');
+      assert.equal( el.multiselect("getUnchecked").length, 0, 'number of checkboxes returned after checking all and calling getUnchecked');
       el.multiselect("uncheckAll");
-         assert.equal( el.multiselect("getUnchecked").length, 9, 'number of checkboxes returned after unchecking all and calling getUnchecked');
+      assert.equal( el.multiselect("getUnchecked").length, 9, 'number of checkboxes returned after unchecking all and calling getUnchecked');
       el.multiselect("destroy");
+   });
+
+   QUnit.test("resync & value", function(assert){
+      el = $("select").clone().appendTo(body).multiselect().multiselect('uncheckAll');
+      el.val(['1','7']);
+      el.multiselect('resync');
+      assert.equal( el.multiselect("getChecked").length, 2, 'number of checkboxes returned after setting native select value and calling resync');
+      el.multiselect('value',['1','2','7']);
+      assert.equal( el.multiselect("getChecked").length, 3, 'number of checkboxes returned after using value method');
+      el.multiselect("destroy").remove();
    });
 
    QUnit.test("refresh", function(assert){

@@ -4,8 +4,10 @@
 (function ( $ ) {
 
 $.extend($.ech.multiselect.prototype.options, {
-	checkAllText: 'Vybrat vše',
-	uncheckAllText: 'Zrušit výběr',
+	linkInfo: {
+		checkAll: {text: 'Vybrat vše', title: 'Vybrat vše'},
+		uncheckAll: {text: 'Zrušit výběr', title: 'Zrušit výběr'}
+	},
 	noneSelectedText: 'Nic není vybráno',
 	selectedText: '# vybráno'
 });
