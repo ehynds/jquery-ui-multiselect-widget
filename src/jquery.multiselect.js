@@ -85,17 +85,17 @@
       position: {},                       // (object) A jQuery UI position object that constrains how the pop-up menu is positioned.
       zIndex: null,                       // (integer) Overrides the z-index set for the menu container.
       classes: '',                        // (string) Classes that you can provide to be applied to the elements making up the widget.
-      header: ['checkAll','uncheckAll'],      // (false | string | array) False, custom string or array indicating which links to show in the header & in what order.
+      header: ['checkAll','uncheckAll'],  // (false | string | array) False, custom string or array indicating which links to show in the header & in what order.
       linkInfo: null,                     // (object | null) Supply an obect of link information to use alternative icons, icon labels, or icon title text.  See linkDefaults above for object structure.
       noneSelectedText: 'Select options', // (string | null) The text to show in the button where nothing is selected.  Set to null to use the native select's placeholder text.
       selectedText: '# of # selected',    // (string) A "template" that indicates how to show the count of selections in the button.  The "#'s" are replaced by the selection count & option count.
       selectedList: 0,                    // (integer) The actual list selections will be shown in the button when the count of selections is <= than this number.
       selectedListSeparator: ', ',        // (string) This allows customization of the list separator.  Use ',<br/>' to make the button grow vertically showing 1 selection per line.
       maxSelected: null,                  // (integer | null)  If selected count > maxSelected, then message is displayed, and new selection is undone.
-      openEffect: null,                         // (array) An array containing menu opening effect information.
-      closeEffect: null,                         // (array) An array containing menu closing effect information.
+      openEffect: null,                   // (array) An array containing menu opening effect information.
+      closeEffect: null,                  // (array) An array containing menu closing effect information.
       autoOpen: false,                    // (true | false) If true, then the menu will be opening immediately after initialization.
-      htmlText: [],                                      // (array) List of 'button' &/or 'options' indicating in which parts of the widget to treat text as html.
+      htmlText: [],                       // (array) List of 'button' &/or 'options' indicating in which parts of the widget to treat text as html.
       wrapText: ['button','header','options'],  // (array) List of 'button', 'header', &/or 'options' indicating in which parts of the widget to wrap text.
       listbox: false,                     // (true | false) Omits the button and instead of a pop-up inserts the open menu directly after the native select as a list box.
       addInputNames: true,                // (true | false) If true, names are created for each option input in the multi-select.
