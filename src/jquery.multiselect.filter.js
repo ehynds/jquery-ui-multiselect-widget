@@ -15,18 +15,25 @@
  */
 (function($) {
   var rEscape = /[\-\[\]{}()*+?.,\\\^$|#\s]/g;
-
+  
   // "{{term}}" is a placeholder below for where the search term
   // would be inserted in the resulting regular expression.
-  filterRules = {
-      'contains': '{{term}}',
-      'beginsWith':  '^{{term}}',
-      'endsWith':  '{{term}}$',
-      'exactMatch':  '^{{term}}$',
-      'containsNumber':  '\d',
-      'isNumeric':  '^\d+$',
-      'isNonNumeric':  '^\D+$'
+  var filterRules = {
+      contains: '{{term}}',
+      beginsWith:  '^{{term}}',
+      endsWith:  '{{term}}$',
+      exactMatch:  '^{{term}}$',
+      containsNumber:  '\d',
+      isNumeric:  '^\d+$',
+      isNonNumeric:  '^\D+$'
   };
+
+  var headerSelector = '.ui-multiselect-header';
+  var hasFilterClass = 'ui-multiselect-hasfilter';
+  var filterClass = 'ui-multiselect-filter';
+  var optgroupClass = 'ui-multiselect-optgroup';
+  var groupLabelClass = 'ui-multiselect-grouplabel';
+  var hiddenClass = 'ui-multiselect-excluded';
 
   //Courtesy of underscore.js
   function debounce(func, wait, immediate) {
@@ -51,13 +58,13 @@
   $.widget('ech.multiselectfilter', {
 
     options: {
-      label: 'Filter:',                // (string) The label to show with the input
-      placeholder: 'Enter keywords',   // (string) The placeholder text to show in the input
-      filterRule: 'contains',          // (string) Either a named filter rule from above or a regular expression containing {{term}} as a placeholder
-      searchGroups: false,             // (true | false) If true, search option group labels and show an entire group on a match.
-      autoReset: false,                // (true | false) If true, clear the filter each time the widget menu is closed.
-      width: null,                     // (number) Override default width set in css file (px). null will inherit
-      debounceMS: 250                  // (number) Number of milleseconds to wait between running the search handler.
+      label: 'Filter:',              // (string) The label to show with the input
+      placeholder: 'Enter keywords', // (string) The placeholder text to show in the input
+      filterRule: 'contains',        // (string) Either a named filter rule from above or a regular expression containing {{term}} as a placeholder
+      searchGroups: false,           // (true | false) If true, search option group labels and show an entire group on a match.
+      autoReset: false,              // (true | false) If true, clear the filter each time the widget menu is closed.
+      width: null,                   // (number) Override default width set in css file (px). null will inherit
+      debounceMS: 250                // (number) Number of milleseconds to wait between running the search handler.
     },
 
    /**
@@ -75,10 +82,10 @@
       var $element = this.element;
 
       // get the multiselect instance -- instance() method no longer supported -- use data()
-      this.instance = $element.multiselect().data('ech-multiselect');
+      this.instance = $element.data('ech-multiselect');
 
       // store header; add filter class so the close/check all/uncheck all links can be positioned correctly
-      this.$header = this.instance.$menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter');
+      this.$header = this.instance.$menu.find(headerSelector).addClass(hasFilterClass);
 
       // wrapper $element
       this.$input = $(document.createElement('input'))
@@ -131,7 +138,7 @@
 
       var $label = $(document.createElement('label')).text(opts.label).append(this.$input);
       this.$wrapper = $(document.createElement('div'))
-                                 .addClass(' ui-multiselect-filter')
+                                 .addClass(filterClass)
                                  .append($label)
                                  .prependTo(this.$header);
 
@@ -170,36 +177,33 @@
       var searchGroups = !!this.options.searchGroups;
       var $checkboxes = this.instance.$checkboxes;
       var cache = this.cache;   // Cached text() object
-      var optgroupClass = "ui-multiselect-optgroup";
-      var hiddenClass = 'ui-multiselect-excluded';
 
       this.$rows.toggleClass(hiddenClass, !!term);
       var filteredInputs = $checkboxes.children().map(function(x) {
-        var $this = $(this);
-        var $groupItems = $this;
+        var elem = this;
+        var $groupItems = $(elem);
         var groupShown = false;
 
          // Account for optgroups
          // If we are searching in option group labels and we match an optgroup label,
          // then show all its children and return all its inputs also.
-        if ($this.hasClass(optgroupClass)) {
-          var $groupItems = $this.find('li');
+        if (elem.classList.contains(optgroupClass)) {
+          var $groupItems = $groupItems.find('li');
           if (searchGroups && regex.test( cache[x] ) ) {
-             $this.removeClass(hiddenClass);
+             elem.classList.remove(hiddenClass);
              $groupItems.removeClass(hiddenClass);
              return $groupItems.find('input').get();
           }
         }
 
         return $groupItems.map(function(y) {
-          var $listItem = $(this);
           if ( regex.test( cache[x + '.' + y] ) ) {
             // Show the opt group heading if needed
             if (!groupShown) {
-               $this.removeClass(hiddenClass);
+               elem.classList.remove(hiddenClass);
                groupShown = true;
             }
-            $listItem.removeClass(hiddenClass);
+            this.classList.remove(hiddenClass);
             return this.getElementsByTagName('input')[0];
           }
           return null;
@@ -228,13 +232,13 @@
       this.instance.$checkboxes.children().each(function(x) {
          var $element = $(this);
          // Account for optgroups
-         if ($element.hasClass('ui-multiselect-optgroup')) {
+         if (this.classList.contains(optgroupClass)) {
             // Single number keys are the option labels
-            cache[x] = $element.children('a').text();
+            cache[x] = this.getElementsByClassName(groupLabelClass)[0].textContent;
             $element = $element.find('li');
          }
          $element.each(function(y) {
-            cache[x + '.' + y] = $(this).text();
+            cache[x + '.' + y] = this.textContent;
          });
       });
       this.cache = cache;
@@ -257,7 +261,7 @@
     destroy: function() {
       $.Widget.prototype.destroy.call(this);
       this.$input.val('').trigger("keyup").off('keydown input search');
-      this.instance.$menu.find('.ui-multiselect-header').removeClass('ui-multiselect-hasfilter');
+      this.instance.$menu.find(headerSelector).removeClass(hasFilterClass);
       this.$wrapper.remove();
     }
   });
