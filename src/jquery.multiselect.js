@@ -731,8 +731,19 @@
       // option label
       .on('mouseenter.multiselect', 'label', function() {
         if (!this.classList.contains('ui-state-disabled')) {
+			 var checkboxes = self.$checkboxes[0];
+			 var scrollLeft = checkboxes.scrollLeft;
+			 var scrollTop = checkboxes.scrollTop;
+			 var scrollX = window.scrollX;
+			 var scrollY = window.scrollY;
+			 
           self.$labels.removeClass('ui-state-hover');
           $(this).addClass('ui-state-hover').find('input').focus();
+			 
+			 // Restore scroll positions if altered by setting input focus
+			 checkboxes.scrollLeft = scrollLeft;
+			 checkboxes.scrollTop = scrollTop;
+			 window.scrollTo(scrollX, scrollY);
         }
       })
       // Keyboard navigation of the menu
@@ -1363,6 +1374,8 @@
       var speed = this.speed;
       var options = this.options;
       var effect = options.openEffect;
+		var scrollX = window.scrollX;
+		var scrollY = window.scrollY;       
 
       // figure out opening effects/speeds
       if (effect && effect.constructor == Array) {
@@ -1400,6 +1413,9 @@
       else {
         $header.find('a').first().trigger('focus');
       }
+       
+		// Restore window scroll position if altered by setting element focus
+		window.scrollTo(scrollX, scrollY);
 
       $button.addClass('ui-state-active');
       this._isOpen = true;
