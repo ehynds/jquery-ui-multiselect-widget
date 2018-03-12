@@ -1691,7 +1691,7 @@
      * @returns {array} List of option groups that are collapsed
      */
     getCollapsed: function() {
-       return this.$checkboxes.find('.ui-multiselect-optgroup');
+       return this.$checkboxes.find('.ui-multiselect-collapsed');
     },
 
     /**
