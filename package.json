@@ -1,7 +1,7 @@
 {
   "name": "jquery-ui-multiselect-widget",
   "description": "MultiSelect progessively enhances an ordinary multiple select control into elegant drop down list of checkboxes, stylable with ThemeRoller.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "MIT or GPL-2.0",
   "author": "Eric Hynds",
   "contributors": [
