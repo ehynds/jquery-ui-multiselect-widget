@@ -141,6 +141,12 @@
     *   - Calls refresh to populate the menu
     */
    _create: function() {
+      
+      // Convert version style 2 options.
+      if (this._migrateOptions && typeof this._migrateOptions === 'function') {
+         this._migrateOptions();
+      }
+      
       var $element = this.element;
       var elSelect = $element[0];
       var options = this.options;
