@@ -81,7 +81,7 @@
       var opts = this.options;
       var $element = this.element;
 
-      // get the multiselect instance -- instance() method no longer supported -- use data()
+      // get the multiselect instance
       this.instance = $element.data('ech-multiselect');
 
       // store header; add filter class so the close/check all/uncheck all links can be positioned correctly
@@ -93,8 +93,44 @@
           placeholder: opts.placeholder,
           type: "search"
         })
-        .css({  width: (/\d/.test(opts.width) ? opts.width + 'px' : null) })
-        .on({
+        .css({  width: (/\d/.test(opts.width) ? opts.width + 'px' : null) });
+      this._bindInputEvents();
+      // automatically reset the widget on close?
+      if (this.options.autoReset) {
+        $element.on('multiselectclose', $.proxy(this._reset, this));
+      }        
+
+      var $label = $(document.createElement('label')).text(opts.label).append(this.$input);
+      this.$wrapper = $(document.createElement('div'))
+                                .addClass(filterClass)
+                                .append($label)
+                                .prependTo(this.$header);
+
+      // If menu already opened, have to reset menu height since
+      // addition of the filter input changes the header height calc.
+      if (!!this.instance._isOpen) {
+         this.instance._setMenuHeight(true);
+      }
+
+      // cache input values for searching
+      this.updateCache();
+
+      // Change the normal _toggleChecked fxn behavior so that when checkAll/uncheckAll
+      // is fired, only the currently displayed filtered inputs are checked if filter entered.
+      var instance = this.instance;
+      var filter = this.$input[0];
+      instance._oldToggleChecked = instance._toggleChecked;
+      instance._toggleChecked = function(flag, group) {
+         instance._oldToggleChecked(flag, group, !!filter.value);
+      };
+    },
+
+    /**
+     * Binds keyboard events to the input
+     * This is where special behavior like ALT-R for reset is bound
+     */
+    _bindInputEvents: function() {
+      this.$input.on({
         keydown: function(e) {
           // prevent the enter key from submitting the form / closing the widget
           if(e.which === 13)
@@ -128,38 +164,9 @@
             }
           }
         },
-        input: $.proxy(debounce(this._handler, opts.debounceMS), this),
+        input: $.proxy(debounce(this._handler, this.options.debounceMS), this),
         search: $.proxy(this._handler, this)
       });
-
-      // automatically reset the widget on close?
-      if (this.options.autoReset)
-        $element.on('multiselectclose', $.proxy(this._reset, this));
-
-      var $label = $(document.createElement('label')).text(opts.label).append(this.$input);
-      this.$wrapper = $(document.createElement('div'))
-                                 .addClass(filterClass)
-                                 .append($label)
-                                 .prependTo(this.$header);
-
-      // If menu already opened, have to reset menu height since
-      // addition of the filter input changes the header height calc.
-      if (!!this.instance._isOpen) {
-         this.instance._setMenuHeight(true);
-      }
-
-      // cache input values for searching
-      this.updateCache();
-
-      // Change the normal _toggleChecked fxn behavior so that when checkAll/uncheckAll
-      // is fired, only the currently displayed filtered inputs are checked if filter entered.
-      var instance = this.instance;
-      var filter = this.$input[0];
-      instance._oldToggleChecked = instance._toggleChecked;
-      instance._toggleChecked = function(flag, group) {
-         instance._oldToggleChecked(flag, group, !!filter.value);
-      };
-
     },
 
    /**
@@ -213,7 +220,7 @@
       if (term) {
          this._trigger('filter', e, filteredInputs);
       }
-      if (!this.instance.options.listbox) {
+      if (!this.instance.options.listbox && this.instance._isOpen) {
          this.instance._setMenuHeight(true);
       }
       return;
