@@ -14,15 +14,15 @@
 <script type="text/javascript">
 $(function(){
 
-   $("#test-1").multiselect({
-      show: ["bounce", 200],
-      hide: ["explode", 1000]
-   });
-   
-   $("#test-2").multiselect({
-      show: "bounce",
-      hide: "explode"
-   });
+	$("#test-1").multiselect({
+		openEffect: ["bounce", 200],
+		closeEffect: ["explode", 1000]
+	});
+	
+	$("#test-2").multiselect({
+		openEffect: "bounce",
+		closeEffect: "explode"
+	});
 
 });
 </script>
@@ -30,14 +30,13 @@ $(function(){
 <body onload="prettyPrint();">
 
 <h2>Show/hide with Animation</h2>
-<p>Using animations with the show and hide parameters.  Either pass an array with the effect name and the speed, or just specify the name of an effect.  If you don't
-specify a speed, the default of 400ms will be used.</p>
+<p>Using animations with the openEffect and closeEffect parameters.  Either pass an array with the effect name and the speed, an object of animation parameters, or just specify the name of an effect.  If you don't specify a speed, the default of 400ms will be used.</p>
 
 <h3>Specifying different show and hide speeds</h3>
 <pre class="prettyprint">
 $("#test-1").multiselect({
-   show: ["bounce", 200],
-   hide: ["explode", 1000]
+   openEffect: ["bounce", 200],
+   closeEffect: ["explode", 1000]
 });
 </pre>
 <select id="test-1" multiple="multiple" size="5">
@@ -51,8 +50,8 @@ $("#test-1").multiselect({
 <h3>Only passing the name of an effect</h3>
 <pre class="prettyprint">
 $("#test-2").multiselect({
-   show: "bounce",
-   hide: "explode"
+   openEffect: "bounce",
+   closeEffect: "explode"
 });
 </pre>
 <select id="test-2" multiple="multiple" size="5">

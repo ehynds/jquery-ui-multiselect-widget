@@ -1371,25 +1371,25 @@
       var $header = this.$header;
       var $labels = this.$labels;
       var $inputs = this.$inputs.filter(':checked:not(.ui-state-disabled)');
-      var speed = this.speed;
       var options = this.options;
       var effect = options.openEffect;
       var scrollX = window.scrollX;
       var scrollY = window.scrollY;
 
-      // figure out opening effects/speeds
-      if (effect && effect.constructor == Array) {
-        speed = effect[1] || speed;
-        effect = effect[0];
-      }
-
       // set the scroll of the checkbox container
       this.$checkboxes.scrollTop(0);
 
       // show the menu, maybe with a speed/effect combo
-      // if there's an effect, assume jQuery UI is in use
-      if (effect) {
-         $.fn.show.apply($menu, effect ? [ effect, speed ] : []);
+      if (!!effect) {
+         if (typeof effect == 'string') {
+            $.fn.show.call($menu, effect, this.speed);
+         }
+         else if (typeof effect == 'object' && effect.constructor == Array) {
+            $.fn.show.call($menu, effect[0], effect[1] || this.speed);
+         }
+         else if (typeof effect == 'object' && effect.constructor == Object) {
+            $.fn.show.call($menu, effect);
+         }
       }
       else {
          $menu.css('display','block');
@@ -1424,31 +1424,30 @@
 
     // Close the menu
     close: function() {
-      var self = this;
-
       // bail if the multiselect close event returns false
       if (this._trigger('beforeclose') === false || !!this.options.listbox) {
         return;
       }
 
+      var $menu = this.$menu;
       var options = this.options;
       var effect = options.closeEffect;
-      var speed = this.speed;
       var $button = this.$button;
 
-      // figure out closing effects/speeds
-      if (effect && effect.constructor == Array) {
-        speed = effect[1] || speed;
-        effect = effect[0];
-      }
-
       // hide the menu, maybe with a speed/effect combo
-      // if there's an effect, assume jQuery UI is in use
-      if (effect) {
-         $.fn.hide.apply(this.$menu, effect ? [ effect, speed ] : []);
+      if (!!effect) {
+         if (typeof effect == 'string') {
+            $.fn.hide.call($menu, effect, this.speed);
+         }
+         else if (typeof effect == 'object' && effect.constructor == Array) {
+            $.fn.hide.call($menu, effect[0], effect[1] || this.speed);
+         }
+         else if (typeof effect == 'object' && effect.constructor == Object) {
+            $.fn.hide.call($menu, effect);
+         }
       }
       else {
-         this.$menu.css('display','none');
+         $menu.css('display','none');
       }
 
       $button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
