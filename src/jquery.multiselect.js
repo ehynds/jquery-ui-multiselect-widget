@@ -1380,11 +1380,14 @@
       this.$checkboxes.scrollTop(0);
 
       // show the menu, maybe with a speed/effect combo
-      if (!!effect && typeof effect == 'object') {
-         if (effect.constructor == Array) {
+      if (!!effect) {
+         if (typeof effect == 'string') {
+            $.fn.show.call($menu, effect, this.speed);
+         }
+         else if (typeof effect == 'object' && effect.constructor == Array) {
             $.fn.show.call($menu, effect[0], effect[1] || this.speed);
          }
-         else if (effect.constructor == Object) {
+         else if (typeof effect == 'object' && effect.constructor == Object) {
             $.fn.show.call($menu, effect);
          }
       }
@@ -1421,28 +1424,30 @@
 
     // Close the menu
     close: function() {
-      var self = this;
-
       // bail if the multiselect close event returns false
       if (this._trigger('beforeclose') === false || !!this.options.listbox) {
         return;
       }
 
+      var $menu = this.$menu;
       var options = this.options;
       var effect = options.closeEffect;
       var $button = this.$button;
 
       // hide the menu, maybe with a speed/effect combo
-      if (!!effect && typeof effect == 'object') {
-         if (effect.constructor == Array) {
+      if (!!effect) {
+         if (typeof effect == 'string') {
+            $.fn.hide.call($menu, effect, this.speed);
+         }
+         else if (typeof effect == 'object' && effect.constructor == Array) {
             $.fn.hide.call($menu, effect[0], effect[1] || this.speed);
          }
-         else if (effect.constructor == Object) {
+         else if (typeof effect == 'object' && effect.constructor == Object) {
             $.fn.hide.call($menu, effect);
          }
       }
       else {
-         this.$menu.css('display','none');
+         $menu.css('display','none');
       }
 
       $button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
