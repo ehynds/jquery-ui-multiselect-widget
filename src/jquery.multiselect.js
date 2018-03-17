@@ -729,7 +729,7 @@
          this.classList.remove('ui-state-hover');
       })
       // option label
-      .on('mouseenter.multiselect', 'label', function() {
+      .on('mouseenter.multiselect', 'label', function(e, param) {
         if (!this.classList.contains('ui-state-disabled')) {
           var checkboxes = self.$checkboxes[0];
           var scrollLeft = checkboxes.scrollLeft;
@@ -741,9 +741,11 @@
           $(this).addClass('ui-state-hover').find('input').focus();
 
           // Restore scroll positions if altered by setting input focus
-          checkboxes.scrollLeft = scrollLeft;
-          checkboxes.scrollTop = scrollTop;
-          window.scrollTo(scrollX, scrollY);
+          if ( !param || !param.allowScroll ) {
+            checkboxes.scrollLeft = scrollLeft;
+            checkboxes.scrollTop = scrollTop;
+            window.scrollTo(scrollX, scrollY);
+          }
         }
       })
       // Keyboard navigation of the menu
@@ -1231,13 +1233,13 @@
         var $container = this.$menu.find('ul').last();
 
         // move to the first/last
-        this.$menu.find('label').filter(':visible')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover');
+        this.$menu.find('label').filter(':visible')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover', {allowScroll: true});
 
         // set scroll position
         $container.scrollTop(moveToLast ? $container.height() : 0);
       }
       else {
-        $next.find('label').filter(':visible')[ moveToLast ? "last" : "first" ]().trigger('mouseover');
+        $next.find('label').filter(':visible')[ moveToLast ? "last" : "first" ]().trigger('mouseover', {allowScroll: true});
       }
     },
 
