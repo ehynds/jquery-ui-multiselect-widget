@@ -1379,25 +1379,26 @@
       // set the scroll of the checkbox container
       this.$checkboxes.scrollTop(0);
 
-      // show the menu, maybe with a speed/effect combo
-      if (!!effect) {
-         if (typeof effect == 'string') {
-            $.fn.show.call($menu, effect, this.speed);
-         }
-         else if (typeof effect == 'object' && effect.constructor == Array) {
-            $.fn.show.call($menu, effect[0], effect[1] || this.speed);
-         }
-         else if (typeof effect == 'object' && effect.constructor == Object) {
-            $.fn.show.call($menu, effect);
-         }
-      }
-      else {
-         $menu.css('display','block');
-      }
-
+      // Show the menu, set its dimensions, and position it.
+      $menu.css('display','block');
       this._setMenuWidth();
       this._setMenuHeight();
       this.position();
+
+      // Do any specified open animation effect after positioning the menu.
+      if (!!effect) {
+         // Menu must be hidden for some effects (e.g. fade) to work.
+         $menu.css('display','none');
+         if (typeof effect == 'string') {
+            $menu.show(effect, this.speed);
+         }
+         else if (typeof effect == 'object' && effect.constructor == Array) {
+            $menu.show(effect[0], effect[1] || this.speed);
+         }
+         else if (typeof effect == 'object' && effect.constructor == Object) {
+            $menu.show(effect);
+         }
+      }
 
       // focus the first not disabled option or filter input if available
       var filter = $header.find(".ui-multiselect-filter");
@@ -1437,13 +1438,13 @@
       // hide the menu, maybe with a speed/effect combo
       if (!!effect) {
          if (typeof effect == 'string') {
-            $.fn.hide.call($menu, effect, this.speed);
+            $menu.hide(effect, this.speed);
          }
          else if (typeof effect == 'object' && effect.constructor == Array) {
-            $.fn.hide.call($menu, effect[0], effect[1] || this.speed);
+            $menu.hide(effect[0], effect[1] || this.speed);
          }
          else if (typeof effect == 'object' && effect.constructor == Object) {
-            $.fn.hide.call($menu, effect);
+            $menu.hide(effect);
          }
       }
       else {
@@ -1451,6 +1452,7 @@
       }
 
       $button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
+      this.element.trigger('blur');    // For jQuery Validate
       this._isOpen = false;
       this._trigger('close');
       $button.trigger('focus');
