@@ -1118,10 +1118,11 @@
          // Deduct height of header & border/padding to find height available for checkboxes.
          var $header = self.$header.filter(':visible');
          var headerHeight = $header.outerHeight(true) + self._jqHeightFix($header);
-         var borderPaddingHt = this.$menu.outerHeight(false) - this.$menu.height();
+         var menuBorderPaddingHt = this.$menu.outerHeight(false) - this.$menu.height();
+         var cbBorderPaddingHt = this.$checkboxes.outerHeight(false) - this.$checkboxes.height();
 
          optionHeight = self._parse2px(optionHeight, self.element, true).px;
-         maxHeight = Math.min(optionHeight, maxHeight) - headerHeight - borderPaddingHt;
+         maxHeight = Math.min(optionHeight, maxHeight) - headerHeight - menuBorderPaddingHt - cbBorderPaddingHt;
       }
       else if (optionHeight.toLowerCase() === 'size') {
          // Overall height based on native select 'size' attribute
