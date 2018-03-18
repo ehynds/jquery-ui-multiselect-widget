@@ -1389,14 +1389,16 @@
 
       // Do any specified open animation effect after positioning the menu.
       if (!!effect) {
+         // Menu must be hidden for some effects (e.g. fade) to work.
+         $menu.css('display','none');
          if (typeof effect == 'string') {
-            $menu.effect(effect, this.speed);
+            $menu.show(effect, this.speed);
          }
          else if (typeof effect == 'object' && effect.constructor == Array) {
-            $menu.effect(effect[0], effect[1] || this.speed);
+            $menu.show(effect[0], effect[1] || this.speed);
          }
          else if (typeof effect == 'object' && effect.constructor == Object) {
-            $menu.effect(effect);
+            $menu.show(effect);
          }
       }
 
