@@ -150,7 +150,7 @@
       var linkInfo = ( this.linkInfo = $.extend(true, {}, linkDefaults, options.linkInfo || {}) );
 
       // grab select width before hiding it
-      this._selectWidth = this._getBCRWidth(elSelect);
+      this._selectWidth = $element.outerWidth();
       $element.hide();
 
       // Convert null/falsely option values to empty arrays for fewer problems
@@ -492,7 +492,7 @@
 
       // If the filter widget is in use, then also update its cache.
       if ( this.element.is(':data("ech-multiselectfilter")') ) {
-            this.element.multiselectfilter('instance').updateCache(true);
+            this.element.data('ech-multiselectfilter').updateCache(true);
       }
     },
 
@@ -1118,10 +1118,11 @@
          // Deduct height of header & border/padding to find height available for checkboxes.
          var $header = self.$header.filter(':visible');
          var headerHeight = $header.outerHeight(true) + self._jqHeightFix($header);
-         var borderPaddingHt = this.$menu.outerHeight(false) - this.$menu.height();
+         var menuBorderPaddingHt = this.$menu.outerHeight(false) - this.$menu.height();
+         var cbBorderPaddingHt = this.$checkboxes.outerHeight(false) - this.$checkboxes.height();
 
          optionHeight = self._parse2px(optionHeight, self.element, true).px;
-         maxHeight = Math.min(optionHeight, maxHeight) - headerHeight - borderPaddingHt;
+         maxHeight = Math.min(optionHeight, maxHeight) - headerHeight - menuBorderPaddingHt - cbBorderPaddingHt;
       }
       else if (optionHeight.toLowerCase() === 'size') {
          // Overall height based on native select 'size' attribute
