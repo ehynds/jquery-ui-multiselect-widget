@@ -492,7 +492,7 @@
 
       // If the filter widget is in use, then also update its cache.
       if ( this.element.is(':data("ech-multiselectfilter")') ) {
-            this.element.multiselectfilter('instance').updateCache(true);
+            this.element.data('ech-multiselectfilter').updateCache(true);
       }
     },
 
