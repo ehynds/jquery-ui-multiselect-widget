@@ -150,7 +150,7 @@
       var linkInfo = ( this.linkInfo = $.extend(true, {}, linkDefaults, options.linkInfo || {}) );
 
       // grab select width before hiding it
-      this._selectWidth = this._getBCRWidth(elSelect);
+      this._selectWidth = $element.outerWidth();
       $element.hide();
 
       // Convert null/falsely option values to empty arrays for fewer problems
