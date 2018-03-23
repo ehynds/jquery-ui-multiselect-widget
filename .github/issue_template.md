@@ -1,6 +1,7 @@
 ## I'm submitting a ...
   - [ ] bug report
   - [ ] feature request
+  - [ ] improvement suggestion
   - [ ] question
 
 
