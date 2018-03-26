@@ -14,7 +14,7 @@
 
 .ui-multiselect-checkboxes { display:block; box-sizing:border-box; position:relative; overflow:auto; width: auto; border: 0; padding: 4px 0 8px;}
 .ui-multiselect-checkboxes li:not(.ui-multiselect-optgroup) { clear:both; font-size:0.9em; list-style: none; padding-right:3px;}
-.ui-multiselect-checkboxes label { border:1px solid transparent; cursor:default; display:block; padding:3px 1px;}
+.ui-multiselect-checkboxes label { border:1px solid transparent; cursor:default; display:block; padding:3px 1px 3px 21px; text-indent: -20px;}
 .ui-multiselect-checkboxes input { position:relative; top:1px; cursor: pointer;}
 .ui-multiselect-checkboxes img { height: 30px; vertical-align: middle; margin-right: 3px;}
 .ui-multiselect-grouplabel { border-bottom:1px solid; cursor: pointer; display:block; font-weight:bold; margin:1px 0; padding:3px; text-align:center; text-decoration:none; }
