@@ -1117,7 +1117,7 @@
       if ( /\d/.test(optionHeight) ) {
          // Deduct height of header & border/padding to find height available for checkboxes.
          var $header = self.$header.filter(':visible');
-         var headerHeight = $header.outerHeight(true) + self._jqHeightFix($header);
+         var headerHeight = $header.outerHeight(true);
          var menuBorderPaddingHt = this.$menu.outerHeight(false) - this.$menu.height();
          var cbBorderPaddingHt = this.$checkboxes.outerHeight(false) - this.$checkboxes.height();
 
@@ -1133,13 +1133,19 @@
 
       var overflowSetting = 'hidden';
       var itemCount = 0;
-      var ulHeight = 4;  // Adjustment for hover height included here.
+      var hoverAdjust = 4;  // Adjustment for hover height included here.
+      var ulHeight = hoverAdjust;
+      var ulTop = -1;
 
-      // The following adds up item heights.  If the height sum exceeds the option height or if the number
+      // The following determines the how many items are visible per the menuHeight option.
+      //   If the visible height calculation exceeds the calculated maximum height or if the number
       //   of item heights summed equal or exceed the native select size attribute, the loop is aborted.
       // If the loop is aborted, this means that the menu must be scrolled to see all the items.
       self.$checkboxes.find('li:not(.ui-multiselect-optgroup),a').filter(':visible').each( function() {
-        ulHeight += $(this).outerHeight(true) + self._jqHeightFix(this);
+        if (ulTop < 0) {
+           ulTop = this.offsetTop;
+        }
+        ulHeight =  this.offsetTop + this.offsetHeight - ulTop + hoverAdjust;
         if (useSelectSize && ++itemCount >= elSelectSize || ulHeight > maxHeight) {
           overflowSetting = 'auto';
           if (!useSelectSize) {
@@ -1170,20 +1176,6 @@
     },
 
     /**
-     * Calculate accurate outerHeight(false) using getBoundingClientRect()
-     * Note that this presumes that the element is visible in the layout.
-     * @param {node} DOM node or jQuery equivalent to get height for.
-     * @returns {float} Decimal floating point value for the height.
-     */
-   _getBCRHeight: function(elem) {
-      if (!elem || !!elem.jquery && !elem[0]) {
-         return null;
-      }
-      var domRect = !!elem.jquery ? elem[0].getBoundingClientRect() : elem.getBoundingClientRect();
-      return domRect.bottom - domRect.top;
-    },
-
-    /**
      * Calculate jQuery width correction factor to fix floating point round-off errors.
      * Note that this presumes that the element is visible in the layout.
      * @param {node} DOM node or jQuery equivalent to get width for.
@@ -1196,21 +1188,6 @@
       return !!elem.jquery
                   ? this._getBCRWidth(elem[0]) - elem.outerWidth(false)
                   :  this._getBCRWidth(elem) - $(elem).outerWidth(false);
-    },
-
-    /**
-     * Calculate jQuery height correction factor to fix floating point round-off errors.
-     * Note that this presumes that the element is visible in the layout.
-     * @param {node} DOM node or jQuery equivalent to get height for.
-     * @returns {float} Correction value for the height--typically a decimal < 1.0
-     */
-    _jqHeightFix: function(elem) {
-      if (!elem || !!elem.jquery && !elem[0]) {
-         return null;
-      }
-      return !!elem.jquery
-                  ? this._getBCRHeight(elem[0]) - elem.outerHeight(false)
-                  :  this._getBCRHeight(elem) - $(elem).outerHeight(false);
     },
 
     /**
