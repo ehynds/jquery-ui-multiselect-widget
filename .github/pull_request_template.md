@@ -6,16 +6,16 @@
  - [ ] Demo Addition
  - [ ] i18n Addition
  - [ ] Other (explain below)
- 
-### Related Issue numbers _(use [Github "keywords"](https://help.github.com/articles/closing-issues-using-keywords/): Fixes #nnn, Closes #nnn, etc.)_
-<br>
+   
+### Related Issue numbers _(use [Github "keywords"](https://help.github.com/articles/closing-issues-using-keywords/): Fixes #nnn, Closes #nnn, etc.)_   
 
+   
 ### What changes are you proposing?  Why are they needed?<br>
-_(Provide use cases, code references, [jsfiddle](https://jsfiddle.net/), [codepen](https://codepen.io), etc.)_
-<br>
-<br>
-<br>
-<br>
+_(Provide use cases, code references, [jsfiddle](https://jsfiddle.net/), [codepen](https://codepen.io), etc.)_   
+
+
+
+
   
 ### Pull Request Approval Checklist:
   - [ ] No Tabs / Code Spacing Consistent
