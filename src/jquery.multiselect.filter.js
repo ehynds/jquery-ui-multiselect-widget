@@ -222,6 +222,7 @@
       }
       if (!this.instance.options.listbox && this.instance._isOpen) {
          this.instance._setMenuHeight(true);
+         this.instance.position();
       }
       return;
     },
