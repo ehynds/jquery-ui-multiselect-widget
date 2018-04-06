@@ -24,7 +24,7 @@
 .ui-multiselect-collapsed > ul { display:none }
 
 .ui-multiselect-single .ui-multiselect-checkboxes input { left:-9999px; position:absolute !important; top: auto !important; }
-.ui-multiselect-single .ui-multiselect-checkboxes label { padding:5px !important }
+.ui-multiselect-single .ui-multiselect-checkboxes label { padding:5px !important; text-indent: 0 !important; }
 
 .ui-multiselect.ui-multiselect-nowrap { white-space: nowrap }
 .ui-multiselect.ui-multiselect-nowrap > span { display: inline-block }
