@@ -549,7 +549,8 @@
           value = selectedText.call(self, numChecked, inputCount, $checked.get());
         }
         else if (/\d/.test(selectedList) && selectedList > 0 && numChecked <= selectedList) {
-          value = $checked.map(function() { return $(this).next().text() }).get().join(options.selectedListSeparator);
+          value = $checked.map(function() { return $(this).next().text().replace(/\n$/, '') })
+                          .get().join(options.selectedListSeparator);
         }
         else {
           value = selectedText.replace('#', numChecked).replace('#', inputCount);
