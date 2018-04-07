@@ -1095,6 +1095,18 @@
       this.$menu.width(contentWidth);
       // Save width including padding and border (no margins) for consistency w/ normal width setting.
       this._savedMenuWidth = this.$menu.outerWidth(false);
+       
+      // Handle case of both buttonWidth and menuWidth options set to 'auto' -- force equal widths.
+      if (!this.options.listbox && this.options.buttonWidth === 'auto' && this._savedMenuWidth !== this._savedButtonWidth) {
+         if (this._savedMenuWidth > this._savedButtonWidth) {
+            this.$button.outerWidth(this._savedMenuWidth);
+            this._savedButtonWidth = this._savedMenuWidth;
+         }
+         else {
+            this.$menu.width(contentWidth + this._savedButtonWidth - this._savedMenuWidth);
+            this._savedMenuWidth = this._savedButtonWidth;
+         }
+      }       
     },
 
     /**
