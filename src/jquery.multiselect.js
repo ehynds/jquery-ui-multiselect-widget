@@ -414,7 +414,8 @@
                                     .html(self.linkInfo.collapse.icon)
                                  : null;
           var $optGroupLabel = $( document.createElement('a') )
-                                    .addClass('ui-multiselect-grouplabel')
+                                    .addClass('ui-multiselect-grouplabel'
+                                      + (self.options.groupsSelectable ? ' ui-multiselect-selectable' : ''))
                                     .html( elem.getAttribute('label') );
           var $optionGroup = $( document.createElement('ul') ).append(options);
           var $optGroupItem = $( document.createElement('li') )
