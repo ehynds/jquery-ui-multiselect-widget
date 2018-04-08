@@ -93,7 +93,10 @@
           placeholder: opts.placeholder,
           type: "search"
         })
-        .css({  width: (/\d/.test(opts.width) ? opts.width + 'px' : null) });
+        .css({  width: (typeof opts.width === 'string')
+                       ? this.instance._parse2px(opts.width, this.$header).px + 'px'
+                       : (/\d/.test(opts.width) ? opts.width + 'px' : null)
+             });
       this._bindInputEvents();
       // automatically reset the widget on close?
       if (this.options.autoReset) {
