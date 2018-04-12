@@ -736,8 +736,8 @@
           var checkboxes = self.$checkboxes[0];
           var scrollLeft = checkboxes.scrollLeft;
           var scrollTop = checkboxes.scrollTop;
-          var scrollX = window.scrollX;
-          var scrollY = window.scrollY;
+          var scrollX = window.pageXOffset;
+          var scrollY = window.pageYOffset;
 
           self.$labels.removeClass('ui-state-hover');
           $(this).addClass('ui-state-hover').find('input').focus();
@@ -1355,8 +1355,8 @@
       var $inputs = this.$inputs.filter(':checked:not(.ui-state-disabled)');
       var options = this.options;
       var effect = options.openEffect;
-      var scrollX = window.scrollX;
-      var scrollY = window.scrollY;
+      var scrollX = window.pageXOffset;
+      var scrollY = window.pageYOffset;
 
       // set the scroll of the checkbox container
       this.$checkboxes.scrollTop(0);
