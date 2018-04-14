@@ -1210,10 +1210,10 @@
 
       // if at the first/last element
       if (!$next.length) {
-        var $container = this.$menu.find('ul').last();
+        var $container = this.$checkboxes;
 
         // move to the first/last
-        this.$menu.find('label').filter(':visible')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover', {allowScroll: true});
+        $container.find('label').filter(':visible')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover', {allowScroll: true});
 
         // set scroll position
         $container.scrollTop(moveToLast ? $container.height() : 0);
