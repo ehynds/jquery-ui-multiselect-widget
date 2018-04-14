@@ -52,22 +52,22 @@
          'title': 'Flip all'
       },
       'collapse': {
-         'icon': '<span class="ui-icon ui-icon-triangle-1-s"></span>',
+         'icon': '<span class="ui-icon ui-icon-minusthick"></span>',
          'title': 'Collapse'
       },
       'expand': {
-         'icon': '<span class="ui-icon ui-icon-triangle-1-e"></span>',
+         'icon': '<span class="ui-icon ui-icon-plusthick"></span>',
          'title': 'Expand'
       },
       'collapseAll': {
          'class': 'ui-multiselect-collapseall',
-         'icon': '<span class="ui-icon ui-icon-triangle-1-s"></span>',
+         'icon': '<span class="ui-icon ui-icon-minus"></span>',
          'text': 'Collapse all',
          'title': 'Collapse all'
       },
       'expandAll': {
          'class': 'ui-multiselect-expandall',
-         'icon': '<span class="ui-icon ui-icon-triangle-1-e"></span>',
+         'icon': '<span class="ui-icon ui-icon-plus"></span>',
          'text': 'Expand all',
          'title': 'Expand all'
       }
