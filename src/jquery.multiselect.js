@@ -752,13 +752,19 @@
         args = [ effect, speed ];
       }
 
-      // set the scroll of the checkbox container
-      $container.scrollTop(0);
-
       // show the menu, maybe with a speed/effect combo
       $.fn.show.apply(menu, args);
 
       this._resizeMenu();
+
+      // set the scroll of the checkbox container
+      var $firstSelected = !o.multiple ? $container.find('li>.ui-state-active').first() : [];
+      if ($container.css("overflow") == "auto" && $firstSelected.length) {
+        $container.scrollTop($container.scrollTop() + $firstSelected.position().top);
+      } else {
+        $container.scrollTop(0);
+      }
+
       // positon
       this.position();
 
