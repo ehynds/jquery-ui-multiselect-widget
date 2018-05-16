@@ -1,0 +1,83 @@
+---
+layout: default
+---
+{% include demo-styles.html %}
+<div id="content">
+	<h1>jQuery UI MultiSelect Widget Demos</h1>
+
+	<p style="margin:10px 0 15px 0">
+		<a href="http://github.com/ehynds/jquery-ui-multiselect-widget">Download</a>
+		<span>|</span>
+		<a href="https://www.npmjs.com/package/jquery-ui-multiselect-widget">npm</a>
+	</p>
+
+	<ul id="menu">
+		<li>
+			<a href="#basic" class="active">Basic</a>
+		</li>
+		<li>
+			<a href="#animations">Open/Close Animations</a>
+		</li>
+		<li>
+			<a href="#callbacks">Callbacks &amp; Events</a>
+		</li>
+		<li>
+			<a href="#headers">Customize the Header</a>
+		</li>
+		<li>
+			<a href="#selectedlist">Using selectedText/selectedList</a>
+		</li>
+		<li>
+			<a href="#maxchecked">Max Checked</a>
+		</li>
+		<li>
+			<a href="#preselected">Pre-selected/disabled Options</a>
+		</li>
+		<li>
+			<a href="#single">Single Select</a>
+		</li>
+		<li>
+			<a href="#enabledisable">Enable/Disable</a>
+		</li>
+		<li>
+			<a href="#refresh">Using the Refresh Method</a>
+		</li>
+		<li>
+			<a href="#position">Using the Position Utility</a>
+		</li>
+		<li>
+			<a href="#filter" class="last">Filter Plugin</a>
+		</li>
+	</ul>
+
+	<div id="body">
+		<iframe id="placeholder" frameborder="0" src="basic.html" marginwidth="10" marginheight="10" width="710" height="550"></iframe>
+		<div id="footer">
+			<a href="basic.html">Open Demo in New Window &raquo;</a>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	(function ($) {
+		var $placeholder = $("#placeholder"),
+			$demo = $("#footer a"),
+			$links = $("#menu a");
+
+		$(window).bind("hashchange", function () {
+			var hash = location.hash || "#basic", url = hash.replace("#", "") + '.html';
+
+			// load in demo
+			$placeholder.attr("src", url);
+			$demo.attr("href", url);
+
+			// set active link
+			$links.each(function () {
+				var $this = $(this);
+				$this[$this.attr('href') === hash ? 'addClass' : 'removeClass']('active');
+			});
+		});
+
+		$(window).trigger("hashchange");
+
+	})(jQuery);
+</script>
