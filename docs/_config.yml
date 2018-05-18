@@ -24,8 +24,6 @@ repository: "https://github.com/ehynds/jquery-ui-multiselect-widget/"
 # Build settings
 markdown: kramdown
 theme: minima
-destination: public
-source: src
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
