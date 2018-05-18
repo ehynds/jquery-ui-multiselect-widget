@@ -763,12 +763,18 @@
       this.position();
 
 
-      // select the first not disabled option or the filter input if available
+      // Set focus to the first selected (in single mode) or not disabled option or the filter input if available
+      var $firstSelected = !o.multiple ? $container.find('li>.ui-state-active').first() : [];
+      if ($firstSelected.length) {
+        $firstSelected.trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+      }
       var filter = this.header.find(".ui-multiselect-filter");
       if(filter.length) {
         filter.first().find('input').trigger('focus');
       } else if(this.labels.length){
-        this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+        if (!$firstSelected.length) {
+          this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+        }
       } else {
         this.header.find('a').first().trigger('focus');
       }
