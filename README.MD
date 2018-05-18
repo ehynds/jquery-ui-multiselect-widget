@@ -2,6 +2,11 @@
 
 MultiSelect progessively enhances an ordinary multiple select control into elegant drop down list of checkboxes, stylable with ThemeRoller.
 
+### Version 3
+Version 3 of the widget is available in pre-release. This introduces a lot of new features and substantial performance imrovements.
+
+Check out the [release notes](https://github.com/ehynds/jquery-ui-multiselect-widget/releases/tag/3.0.0) for an exact list of changes and see the [wiki](https://github.com/ehynds/jquery-ui-multiselect-widget/wiki/Migrating-to-Version-3) for the information you may need to switch over. The main wiki will be getting updates for the new features and changed options.
+
 ### Requirements
 The [usage](https://github.com/ehynds/jquery-ui-multiselect-widget/wiki/Usage) section of the Wiki specifies the widget's dependencies.
 

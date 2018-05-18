@@ -1,21 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>jQuery MultiSelect Widget Demo</title>
-<link rel="stylesheet" type="text/css" href="../css/jquery.multiselect.css" />
-<link rel="stylesheet" type="text/css" href="../css/jquery.multiselect.filter.css" />
-<link rel="stylesheet" type="text/css" href="assets/style.css" />
-<link rel="stylesheet" type="text/css" href="assets/prettify.css" />
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script type="text/javascript" src="../src/jquery.multiselect.js"></script>
-<script type="text/javascript" src="../src/jquery.multiselect.filter.js"></script>
-<script type="text/javascript" src="assets/prettify.js"></script>
-</head>
-<body onload="prettyPrint();">
-
+---
+layout: default
+---
 <h2>Filter Plugin</h2>
 
 <p>Filtering is available by including the <a href="http://github.com/ehynds/jquery-ui-multiselect-widget/raw/master/src/jquery.multiselect.filter.js">jquery.multiselect.filter.js</a> plugin and the <a href="http://github.com/ehynds/jquery-ui-multiselect-widget/raw/master/jquery.multiselect.filter.css">jquery.multiselect.filter.css</a> CSS file.  Initialize filtering on any of your multiselects by calling <code class="prettyprint">multiselectfilter()</code> on the widget.</p>
@@ -116,6 +101,3 @@ $("select").bind("multiselectfilterfilter", function(event, matches){
 <script type="text/javascript">
 $("select").multiselect().multiselectfilter();
 </script>
-
-</body>
-</html>
