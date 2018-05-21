@@ -915,12 +915,18 @@
       var pos = {
         my: "top",
         at: "bottom",
-        of: this.button
+        of: this.button,
+        collision: "flip",
+        using : null,
+        within: window
       };
       if(!$.isEmptyObject(this.options.position)) {
         pos.my = this.options.position.my || pos.my;
         pos.at = this.options.position.at || pos.at;
         pos.of = this.options.position.of || pos.of;
+        pos.collision = this.options.position.collision || pos.collision;
+        pos.using = this.options.position.using || pos.using;
+        pos.within = this.options.position.within || pos.within;
       }
       if($.ui && $.ui.position) {
         this.menu.position(pos);
