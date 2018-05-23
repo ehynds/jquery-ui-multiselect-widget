@@ -763,12 +763,18 @@
       this.position();
 
 
-      // select the first not disabled option or the filter input if available
+      // Set focus to the first selected (in single mode) or not disabled option or the filter input if available
+      var $firstSelected = !o.multiple ? $container.find('li>.ui-state-active').first() : [];
+      if ($firstSelected.length) {
+        $firstSelected.trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+      }
       var filter = this.header.find(".ui-multiselect-filter");
       if(filter.length) {
         filter.first().find('input').trigger('focus');
       } else if(this.labels.length){
-        this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+        if (!$firstSelected.length) {
+          this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+        }
       } else {
         this.header.find('a').first().trigger('focus');
       }
@@ -909,12 +915,18 @@
       var pos = {
         my: "top",
         at: "bottom",
-        of: this.button
+        of: this.button,
+        collision: "flip",
+        using : null,
+        within: window
       };
       if(!$.isEmptyObject(this.options.position)) {
         pos.my = this.options.position.my || pos.my;
         pos.at = this.options.position.at || pos.at;
         pos.of = this.options.position.of || pos.of;
+        pos.collision = this.options.position.collision || pos.collision;
+        pos.using = this.options.position.using || pos.using;
+        pos.within = this.options.position.within || pos.within;
       }
       if($.ui && $.ui.position) {
         this.menu.position(pos);
