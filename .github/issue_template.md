@@ -1,9 +1,3 @@
-## I'm submitting a ...
-  - [ ] bug report
-  - [ ] feature request
-  - [ ] question
-
-
 ### What is the current behavior?
 
 
@@ -18,7 +12,6 @@ _Common options for demos are [jsfiddle](https://jsfiddle.net/) and [codepen](ht
 
 
 ### If you are requesting a new or changed feature, please provide a rationale
-
 
 
 ### Will you submit a corresponding Pull Request to fix the bug or implement the feature?
