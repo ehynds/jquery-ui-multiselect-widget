@@ -7,13 +7,18 @@
   "contributors": [
     {
       "name": "Micheal"
-    }, {
+    },
+    {
       "name": "AB Zainuddin",
       "email": "burhan@codeyellow.nl"
-    }, {
+    },
+    {
       "name": "Steve James"
     }
   ],
+  "scripts": {
+    "test": "node-qunit-phantomjs ./tests/unit/index.htm"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ehynds/jquery-ui-multiselect-widget"
@@ -23,5 +28,8 @@
     "jquery": "^1.8.0",
     "jquery-ui": "^1.11.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint-config-google": "^0.9.1",
+    "node-qunit-phantomjs": "^2.0.0"
+  }
 }

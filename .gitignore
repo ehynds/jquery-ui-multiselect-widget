@@ -1,3 +1,6 @@
 docs/public
 docs/_site
 docs/.sass-cache
+.vscode
+node_modules
+tests/unit/debug.log

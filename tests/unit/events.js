@@ -189,7 +189,7 @@
       lastInput[0].click();
 
       // make sure it has focus
-      assert.equal(true, lastInput.is(":focus"), "The input has focus");
+      assert.equal(true, lastInput[0] == document.activeElement, "The input has focus");
 
       // make sure menu isn't closed automatically
       assert.equal( true, el.multiselect('isOpen'), 'menu stays open' );
@@ -221,7 +221,7 @@
       .multiselect("open")
       .multiselect("checkAll");
 
-      assert.equal(menu().find("input").first().is(":focus"), true, "The first input has focus");
+      assert.equal(menu().find("input").first()[0] == document.activeElement, true, "The first input has focus");
 
       el.multiselect("destroy").remove();
    });
@@ -250,7 +250,7 @@
       .multiselect("open")
       .multiselect("uncheckAll");
 
-      assert.equal(menu().find("input").first().is(":focus"), true, "The first input has focus");
+      assert.equal(menu().find("input").first()[0] == document.activeElement, true, "The first input has focus");
 
       el.multiselect("destroy").remove();
    });
@@ -331,7 +331,7 @@
       menu().find(".ui-multiselect-optgroup a").click();
       assert.equal(menu().find(":input:checked").length, 2, "both checkboxes are actually checked" );
 
-      assert.equal(menu().find("input").first().is(":focus"), true, "The first input has focus");
+      assert.equal(menu().find("input").first()[0] == document.activeElement, true, "The first input has focus");
 
       el.multiselect("destroy").remove();
    });
