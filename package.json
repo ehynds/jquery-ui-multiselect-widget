@@ -17,7 +17,8 @@
     }
   ],
   "scripts": {
-    "test": "node-qunit-phantomjs ./tests/unit/index.htm"
+    "test": "node-qunit-phantomjs ./tests/unit/index.htm",
+    "update-docs": "uglifyjs src/jquery.multiselect.js src/jquery.multiselect.filter.js > docs/src/js/widget.min.js"
   },
   "repository": {
     "type": "git",
@@ -25,11 +26,12 @@
   },
   "main": "src/jquery.multiselect.js",
   "dependencies": {
-    "jquery": "^1.8.0",
+    "jquery": ">=1.8.0",
     "jquery-ui": "^1.11.0"
   },
   "devDependencies": {
     "eslint-config-google": "^0.9.1",
-    "node-qunit-phantomjs": "^2.0.0"
+    "node-qunit-phantomjs": "^2.0.0",
+    "uglifyjs": "^2.4.11"
   }
 }
