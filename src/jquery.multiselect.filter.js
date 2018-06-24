@@ -100,7 +100,7 @@
       this._bindInputEvents();
       // automatically reset the widget on close?
       if (this.options.autoReset) {
-        $element.on('multiselectclose', $.proxy(this._reset, this));
+        $element.on('multiselectbeforeclose', $.proxy(this._reset, this));
       }        
 
       var $label = $(document.createElement('label')).text(opts.label).append(this.$input);
@@ -230,8 +230,12 @@
       return;
     },
 
-    _reset: function() {
-      this.$input.val('').trigger('input', '');
+    _reset: function () {
+      this.$input.val('')
+      var event = document.createEvent('Event');
+      event.initEvent('reset', true, true);
+      this.$input.get(0).dispatchEvent(event)
+      this._handler(event)
     },
 
    /**
