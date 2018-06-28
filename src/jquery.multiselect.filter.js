@@ -14,7 +14,7 @@
  *
  */
 (function($) {
-  var rEscape = /[\-\[\]{}()*+?.\\\^$|#\s]/g;
+  var rEscape = /[\-\[\]{}()*+?.,\\\^$|#\s]/g;
 
   $.widget('ech.multiselectfilter', {
 
