@@ -14,7 +14,7 @@
  *
  */
 (function($) {
-  var rEscape = /[\-\[\]{}()*+?.,\\\^$|#\s]/g;
+  var rEscape = /[\-\[\]{}()*+?.\\\^$|#\s]/g;
 
   $.widget('ech.multiselectfilter', {
 
@@ -22,15 +22,16 @@
       label: 'Filter:',
       width: null, /* override default width set in css file (px). null will inherit */
       placeholder: 'Enter keywords',
-      autoReset: false
+      autoReset: false,
+	  multipleFilter: false/* use [,] to split words to search*/
     },
 
     _create: function() {
       var opts = this.options;
-      var elem = $(this.element);
 
       // get the multiselect instance
-      var instance = (this.instance = (elem.data('echMultiselect') || elem.data("multiselect") || elem.data("ech-multiselect")));
+	  var elem = $(this.element);
+		var instance = (this.instance = (elem.data("echMultiselect") || elem.data("multiselect")));
 
       // store header; add filter class so the close/check all/uncheck all links can be positioned correctly
       var header = (this.header = instance.menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter'));
@@ -60,14 +61,13 @@
       // only the currently filtered elements are checked
       instance._toggleChecked = function(flag, group) {
         var $inputs = (group && group.length) ?  group : this.labels.find('input');
-        var _self = this;
 
         // do not include hidden elems if the menu isn't open.
         var selector = instance._isOpen ?  ':disabled, :hidden' : ':disabled';
 
         $inputs = $inputs
-          .not(selector)
-          .each(this._toggleState('checked', flag));
+        .not(selector)
+        .each(this._toggleState('checked', flag));
 
         // update text
         this.update();
@@ -113,9 +113,14 @@
         rows.show();
       } else {
         rows.hide();
-
+		
         var regex = new RegExp(term.replace(rEscape, "\\$&"), 'gi');
-
+		if (this.options.multipleFilter) {
+            //remove [,] from term begin and end
+            //remove [,] from rEscape
+            //replace [,] from RegEx by [|]
+            regex = new RegExp(term.replace(/(^,*)|(,$)/gi, "").replace(/[\-\[\]{}()*+?.\\\^$|#\s]/g, "\\$&").replace(",", "|"), 'gi');
+        }
         this._trigger("filter", e, $.map(cache, function(v, i) {
           if(v.search(regex) !== -1) {
             rows.eq(i).show();
