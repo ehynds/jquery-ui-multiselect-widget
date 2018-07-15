@@ -1,3 +1,4 @@
 docs/public
 docs/_site
 docs/.sass-cache
+node_modules
