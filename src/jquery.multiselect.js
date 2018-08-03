@@ -1353,8 +1353,10 @@
     _toggleDisabled: function(flag, groupID) {
       var disabledClass = 'ui-state-disabled';  // used for styling only
 
-      this.$button.prop({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ](disabledClass);
-
+      if (this.$button) {
+         this.$button.prop({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ](disabledClass);
+	  }
+	  
       if (this.options.disableInputsOnToggle) {
          // Apply the ui-multiselect-disabled class name to identify which
          // input elements this widget disabled (not pre-disabled)
