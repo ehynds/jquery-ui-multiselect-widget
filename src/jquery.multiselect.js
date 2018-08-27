@@ -585,7 +585,10 @@
     _setMenuHeight: function() {
       var headerHeight = this.menu.children(".ui-multiselect-header:visible").outerHeight(true);
       var ulHeight = 0;
-      this.menu.find(".ui-multiselect-checkboxes li, .ui-multiselect-checkboxes a").each(function(idx, li) {
+      this.menu.find(".ui-multiselect-optgroup").each(function(idx, ul) {
+        ulHeight += $(ul).outerHeight(true);
+      });
+      this.menu.find(".ui-multiselect-checkboxes > li").each(function(idx, li) {
         ulHeight += $(li).outerHeight(true);
       });
       if(ulHeight > this.options.height) {
