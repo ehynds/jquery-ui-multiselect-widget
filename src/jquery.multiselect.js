@@ -1506,8 +1506,11 @@
         this.$menu.position(this.options.position);
       }
       else {
-        var pos = $button.position();
-        pos.top += this._savedButtonHeight;
+        var pos = {};
+
+        pos.top = $button.offset().top + this._savedButtonHeight;
+        pos.left = $button.offset().left;
+
         this.$menu.offset(pos);
       }
     },
