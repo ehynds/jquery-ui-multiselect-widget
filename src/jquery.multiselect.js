@@ -113,7 +113,8 @@
     if(!!elem.nodeType) {
       return $(elem);
     }
-    return this.document.find(elem).eq(0);
+
+    return $(elem).eq(0);
   }
 
   /**
