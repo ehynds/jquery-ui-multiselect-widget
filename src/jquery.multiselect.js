@@ -648,6 +648,8 @@
       var value;
 
       if (numChecked) {
+        this.$button[0].classList.add('ui-has-selected-value');
+
         if (typeof selectedText === 'function') {
           value = selectedText.call(this, numChecked, inputCount, $checked.get());
         }
@@ -660,6 +662,8 @@
         }
       }
       else {
+        this.$button[0].classList.remove('ui-has-selected-value');
+
         value = options.noneSelectedText;
       }
 
