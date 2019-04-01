@@ -4,8 +4,10 @@
 (function ( $ ) {
 
   $.extend($.ech.multiselect.prototype.options, {
-    checkAllText: 'すべて選択',
-    uncheckAllText: '選択解除',
+	linkInfo: {
+	  checkAll: {text: 'すべて選択', title: 'すべて選択'}, 
+	  uncheckAll: {text: '選択解除', title: '選択解除'}
+	},
     noneSelectedText: '選択してください',
     selectedText: '#つ選択中'
   });

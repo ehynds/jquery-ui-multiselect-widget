@@ -2,33 +2,31 @@
 <html>
 <head>
 <title>jQuery UI MultiSelect Widget Unit Tests</title>
-<link rel="stylesheet" href="qunit.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="../../jquery.multiselect.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="../../jquery.multiselect.filter.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.5.0.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/redmond/jquery-ui.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../css/jquery.multiselect.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../css/jquery.multiselect.filter.css" type="text/css" media="screen" />
 </head>
 
 <body>
-<h1 id="qunit-header">UI MultiSelect Unit Tests</h1>
-<h2 id="qunit-banner"></h2>
-<h2 id="qunit-userAgent"></h2>
-<ol id="qunit-tests"></ol>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
 
 <select title="MultiSelect" multiple="multiple" tabindex="2" id="testSelect">
 <optgroup label="Optgroup One">
-	<option value="1">One</option>
-	<option value="2">Two</option>
-	<option value="3">Three</option>
+   <option value="1">One</option>
+   <option value="2">Two</option>
+   <option value="3">Three</option>
 </optgroup>
 <optgroup label="Optgroup two">
-	<option value="4">Four</option>
-	<option value="5">Five</option>
-	<option value="6">Six</option>
-	<option value="7">Seven</option>
+   <option value="4">Four</option>
+   <option value="5">Five</option>
+   <option value="6">Six</option>
+   <option value="7">Seven</option>
 </optgroup>
 <optgroup label="Optgroup three" class="optgroupClass">
-	<option value="8">Eight</option>
-	<option value="9" class="optionClass">Nine</option>
+   <option value="8">Eight</option>
+   <option value="9" class="optionClass">Nine</option>
 </optgroup>
 </select>
 
@@ -36,7 +34,8 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="../../src/jquery.multiselect.js"></script>
 <script type="text/javascript" src="../../src/jquery.multiselect.filter.js"></script>
-<script type="text/javascript" src="qunit.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/qunit/qunit-2.5.0.js"></script>
+<script type="text/javascript" src="setup.js"></script>
 <script type="text/javascript" src="core.js"></script>
 <script type="text/javascript" src="options.js"></script>
 <script type="text/javascript" src="events.js"></script>

@@ -3,28 +3,28 @@ layout: default
 ---
 <script type="text/javascript">
 $(function(){
-	var el = $("select").multiselect(),
-		disabled = $('#disabled'),
-		selected = $('#selected'),
-		newItem = $('#newItem');
-	
-	$("#add").click(function(){
-		var v = newItem.val(), opt = $('<option />', {
-			value: v,
-			text: v
-		});
-		
-		if(disabled.is(':checked')){
-			opt.attr('disabled','disabled');
-		}
-		if(selected.is(':checked')){
-			opt.attr('selected','selected');
-		}
-		
-		opt.appendTo( el );
-		
-		el.multiselect('refresh');
-	});
+   var el = $("select").multiselect(),
+      disabled = $('#disabled'),
+      selected = $('#selected'),
+      newItem = $('#newItem');
+   
+   $("#add").click(function(){
+      var v = newItem.val(), opt = $('<option />', {
+         value: v,
+         text: v
+      });
+      
+      if(disabled.is(':checked')){
+         opt.attr('disabled','disabled');
+      }
+      if(selected.is(':checked')){
+         opt.attr('selected','selected');
+      }
+      
+      opt.appendTo( el );
+      
+      el.multiselect('refresh');
+   });
 });
 </script>
 <h2>Refresh Method</h2>
@@ -39,20 +39,20 @@ $("select").multiselect('refresh');
 </pre>
 
 <div style="float:left; width:325px">
-	<h3 style="margin-top:0">Add an item:</h3>
-	<p>Type in the text of a new option tag to add dynamically.</p>
-	<input type="text" id="newItem" />
-	<input type="button" id="add" value="Add" />
-	<p>
-		<label style="margin-right:8px"><input type="checkbox" id="selected" /> Selected?</label>
-		<label><input type="checkbox" id="disabled" /> Disabled?</label>
-	</p>
+   <h3 style="margin-top:0">Add an item:</h3>
+   <p>Type in the text of a new option tag to add dynamically.</p>
+   <input type="text" id="newItem" />
+   <input type="button" id="add" value="Add" />
+   <p>
+      <label style="margin-right:8px"><input type="checkbox" id="selected" /> Selected?</label>
+      <label><input type="checkbox" id="disabled" /> Disabled?</label>
+   </p>
 </div>
 
 <div style="float:left;">
-	<select title="Refresh Exanmple" name="example-refresh" multiple="multiple" size="5">
-	<option value="foo">foo</option>
-	<option value="bar">bar</option>
-	<option value="baz">baz</option>
-	</select>
+   <select title="Refresh Exanmple" name="example-refresh" multiple="multiple" size="5">
+   <option value="foo">foo</option>
+   <option value="bar">bar</option>
+   <option value="baz">baz</option>
+   </select>
 </div>

@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>jQuery MultiSelect Plugin Tests</title>
-<link rel="stylesheet" type="text/css" href="../../jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="../../css/jquery.multiselect.css" />
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
@@ -42,7 +42,7 @@
 $("select").multiselect();
 
 $("form").bind("submit", function(){
-	alert( $(this).serialize() );
+   alert( $(this).serialize() );
 });
 </script>
 

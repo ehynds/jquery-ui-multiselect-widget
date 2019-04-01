@@ -4,58 +4,65 @@ layout: default
 <script type="text/javascript">
 $(function(){
 
-	var $callback = $("#callback");
-	
-	$("select").multiselect({
-		click: function(event, ui){
-			$callback.text(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
-		},
-		beforeopen: function(){
-			$callback.text("Select about to be opened...");
-		},
-		open: function(){
-			$callback.text("Select opened!");
-		},
-		beforeclose: function(){
-			$callback.text("Select about to be closed...");
-		},
-		close: function(){
-			$callback.text("Select closed!");
-		},
-		checkAll: function(){
-			$callback.text("Check all clicked!");
-		},
-		uncheckAll: function(){
-			$callback.text("Uncheck all clicked!");
-		},
-		optgrouptoggle: function(event, ui){
-			var values = $.map(ui.inputs, function(checkbox){
-				return checkbox.value;
-			}).join(", ");
-			
-			$callback.html("<strong>Checkboxes " + (ui.checked ? "checked" : "unchecked") + ":</strong> " + values);
-		}
-	});
+   var $callback = $("#callback");
+
+   $("select").multiselect({
+      click: function(event, ui){
+         $callback.text(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
+      },
+      beforeopen: function(){
+         $callback.text("Select about to be opened...");
+      },
+      open: function(){
+         $callback.text("Select opened!");
+      },
+      beforeclose: function(){
+         $callback.text("Select about to be closed...");
+      },
+      close: function(){
+         $callback.text("Select closed!");
+      },
+      checkAll: function(){
+         $callback.text("Check all clicked!");
+      },
+      uncheckAll: function(){
+         $callback.text("Uncheck all clicked!");
+      },
+      optgrouptoggle: function(event, ui){
+         var values = $.map(ui.inputs, function(checkbox){
+            return checkbox.value;
+         }).join(", ");
+
+         $callback.html("<strong>Checkboxes " + (ui.checked ? "checked" : "unchecked") + ":</strong> " + values);
+      },
+      groupsCollapsable: true,
+      beforecollapsetoggle: function(){
+         $callback.text("Option group about to be collapsed/expanded...");
+      },
+      collapsetoggle: function(){
+         $callback.text("Option group collapsed/expanded");
+      }
+   });
 
 });
 </script>
 <h2>Callbacks &amp; Events</h2>
 <p>Demonstrating beforeopen, open, beforeclose, close, click, checkall, uncheckall, and optgrouptoggle callbacks/events.  Note that you can either
-pass in an event handler in the options object upon initialization, or bind to the event (including the multiselect prefix).  For example, to add an 
+pass in an event handler in the options object upon initialization, or bind to the event (including the multiselect prefix).  For example, to add an
 "open" handler, you can also use <code class="prettyprint">$("select").bind("multiselectopen", fn);</code></p>
 <p class="message success" id="callback">Callback target</p>
 
 <select multiple="multiple" size="5">
 <optgroup label="Group One">
-	<option value="option1">Option 1</option>
-	<option value="option2">Option 2</option>
-	<option value="option3">Option 3</option>
+   <option value="option1">Option 1</option>
+   <option value="option2">Option 2</option>
+   <option value="option3">Option 3</option>
 </optgroup>
 <optgroup label="Group Two">
-	<option value="option4">Option 4</option>
-	<option value="option5">Option 5</option>
-	<option value="option6">Option 6</option>
-	<option value="option7">Option 7</option>
+   <option value="option4">Option 4</option>
+   <option value="option5">Option 5</option>
+   <option value="option6">Option 6</option>
+   <option value="option7">Option 7</option>
 </optgroup>
 </select>
 
@@ -88,8 +95,15 @@ $("select").multiselect({
       var values = $.map(ui.inputs, function(checkbox){
          return checkbox.value;
       }).join(", ");
-      
+
       $callback.html("<strong>Checkboxes " + (ui.checked ? "checked" : "unchecked") + ":</strong> " + values);
+   },
+   groupsCollapsable: true,
+   beforecollapsetoggle: function(){
+      $callback.text("Option group about to be collapsed/expanded...");
+   },
+   collapsetoggle: function(){
+      $callback.text("Option group collapsed/expanded");
    }
 });
 </pre>

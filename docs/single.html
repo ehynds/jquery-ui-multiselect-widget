@@ -4,40 +4,38 @@ layout: default
 <script type="text/javascript">
 $(function(){
 
-	$("select").multiselect({
-		multiple: false,
-		header: "Select an option",
-		noneSelectedText: "Select an Option",
-		selectedList: 1
-	});
-	
+   $("select").multiselect({
+      header: "Select an option",
+      noneSelectedText: "Select an Option",
+      selectedList: 1
+   });
+
 });
 </script>
 
 <h2>Single Select</h2>
 
-<p>Setting the <code>multiple</code> parameter to false will force the widget to use radio buttons instead of checkboxes.  I advise using the <code>header</code>
-parameter along with <code>multiple</code> in order to hide/change the &quot;check all&quot;/&quot;uncheck all&quot; links.</p>
+<p>Omitting the <code>multiple</code> attribute from the underlying native select force the widget to use radio buttons instead of checkboxes.  It is a good idea to use the <code>header</code>
+parameter in order to hide/change the &quot;check all&quot;/&quot;uncheck all&quot; links.</p>
 
 <pre class="prettyprint">
 $("select").multiselect({
-   multiple: false,
-   header: "Select an option",
+   header: "=Select an option",
    noneSelectedText: "Select an Option",
    selectedList: 1
 });
 </pre>
 
 <form>
-	<p>
-		<select name="demo">
-		<option value="option1">Option 1</option>
-		<option value="option2">Option 2</option>
-		<option value="option3">Option 3</option>
-		<option value="option4">Option 4</option>
-		<option value="option5">Option 5</option>
-		<option value="option6">Option 6</option>
-		<option value="option7">Option 7</option>
-		</select>
-	</p>
+   <p>
+      <select name="demo">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+      <option value="option4">Option 4</option>
+      <option value="option5">Option 5</option>
+      <option value="option6">Option 6</option>
+      <option value="option7">Option 7</option>
+      </select>
+   </p>
 </form>

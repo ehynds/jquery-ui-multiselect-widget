@@ -4,22 +4,22 @@ layout: default
 <script type="text/javascript">
 $(function(){
 
-	$("select")
-		.eq(0)
-		.multiselect({
-			position: {
-				my: 'center',
-				at: 'center'
-			}
-		}).end()
-		.eq(1)
-		.multiselect({
-			position: {
-				my: 'left bottom',
-				at: 'left top'
-			}
-		});
-	
+   $("select")
+      .eq(0)
+      .multiselect({
+         position: {
+            my: 'center',
+            at: 'center'
+         }
+      }).end()
+      .eq(1)
+      .multiselect({
+         position: {
+            my: 'left bottom',
+            at: 'left top'
+         }
+      });
+   
 });
 </script>
 <h2>Position Utility</h2>
@@ -30,7 +30,7 @@ $(function(){
 
 
 <form>
-	<h3>Center the menu over the button</h3>
+   <h3>Center the menu over the button</h3>
 <pre class="prettyprint">
 $("select").multiselect({
    position: {
@@ -44,14 +44,14 @@ $("select").multiselect({
    }
 });
 </pre>
-	<p>
-		<select name="demo" multiple="multiple" size="5">
-		<option value="option1">Option 1</option>
-		<option value="option2">Option 2</option>
-		<option value="option3">Option 3</option>
-		</select>
-	</p>
-	
+   <p>
+      <select name="demo" multiple="multiple" size="5">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+      </select>
+   </p>
+   
 <h3>Open the menu upwards</h3>
 <pre class="prettyprint">
 $("select").multiselect({
@@ -61,11 +61,11 @@ $("select").multiselect({
    }
 });
 </pre>
-	<p>
-		<select name="demo" multiple="multiple" size="5">
-		<option value="option1">Option 1</option>
-		<option value="option2">Option 2</option>
-		<option value="option3">Option 3</option>
-		</select>
-	</p>
+   <p>
+      <select name="demo" multiple="multiple" size="5">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+      </select>
+   </p>
 </form>
