@@ -1843,7 +1843,7 @@
         case 'expandAllText':
           if (key !== 'checkAllText' || !this.options.maxSelected) {
             // eq(-1) finds the last span
-            $header.find('a.' + this.linkInfo[key.replace('Text','')].class + ' span').eq(-1).html(value);
+            $header.find('a.' + this.linkInfo[key.replace('Text','')]['class'] + ' span').eq(-1).html(value);
           }
           break;
         case 'checkAllIcon':
@@ -1853,7 +1853,7 @@
         case 'expandAllIcon':
           if (key !== 'checkAllIcon' || !this.options.maxSelected) {
             // eq(0) finds the first span
-            $header.find('a.' + this.linkInfo[key.replace('Icon','')].class + ' span').eq(0).replaceWith(value);
+            $header.find('a.' + this.linkInfo[key.replace('Icon','')]['class'] + ' span').eq(0).replaceWith(value);
           }
           break;
         case 'openIcon':
