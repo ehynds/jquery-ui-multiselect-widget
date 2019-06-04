@@ -591,7 +591,7 @@
       this.$checkboxes = this.$menu.children('.ui-multiselect-checkboxes');
 
       // Update saved labels and inputs
-      this.$labels = this.$menu.find('label:not(.search-label)');
+      this.$labels = this.$menu.find('label:not(.ui-multiselect-filter-label)');
       this.$inputs = this.$labels.children('input');
 
       // If the filter widget is in use, then also update its cache.
