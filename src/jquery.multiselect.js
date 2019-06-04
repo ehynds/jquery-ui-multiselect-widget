@@ -1652,7 +1652,7 @@
      * @returns {array} list of inputs
      */
     getChecked: function() {
-      return this.$menu.find('input:checked');
+      return this.$inputs.filter(":checked");
     },
 
     /**
@@ -1660,7 +1660,7 @@
      * @returns {array} list of inputs
      */
     getUnchecked: function() {
-      return this.$menu.find('input:not(:checked)');
+      return this.$inputs.filter(":not(:checked)");
     },
 
     /**
