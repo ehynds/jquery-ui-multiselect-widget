@@ -64,6 +64,14 @@
     assert.ok( input.is(":visible"), "Filter input box is visible" );
   });
 
+  QUnit.test("checked and unchecked", function(assert) {
+    var labelCount = el.multiselect("getLabels").length
+    var unchekcedCount = el.multiselect("getUnchecked").length
+    var checkedCount = el.multiselect("getChecked").length
+    assert.equal(unchekcedCount, labelCount, "Only the ten options are returned");
+    assert.equal(unchekcedCount + checkedCount, labelCount, "Unchecked + checked should equal total inputs")
+  });
+
   QUnit.test("filtering by node text", function(assert){
     searchTest( "bbaa", 2);
     searchTest( "bbaarr", 1);
