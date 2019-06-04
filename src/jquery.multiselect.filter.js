@@ -103,7 +103,7 @@
         $element.on('multiselectbeforeclose', $.proxy(this._reset, this));
       }        
 
-      var $label = $(document.createElement('label')).text(opts.label).append(this.$input);
+      var $label = $(document.createElement('label')).text(opts.label).append(this.$input).addClass('search-label');
       this.$wrapper = $(document.createElement('div'))
                                 .addClass(filterClass)
                                 .append($label)

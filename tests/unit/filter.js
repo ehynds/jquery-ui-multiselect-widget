@@ -66,10 +66,12 @@
 
   QUnit.test("checked and unchecked", function(assert) {
     var labelCount = el.multiselect("getLabels").length
-    var unchekcedCount = el.multiselect("getUnchecked").length
+    var uncheckedCount = el.multiselect("getUnchecked").length
     var checkedCount = el.multiselect("getChecked").length
-    assert.equal(unchekcedCount, labelCount, "Only the ten options are returned");
-    assert.equal(unchekcedCount + checkedCount, labelCount, "Unchecked + checked should equal total inputs")
+    assert.equal(uncheckedCount, labelCount, "Only the ten options are returned");
+    assert.equal(uncheckedCount + checkedCount, labelCount, "Unchecked + checked should equal total inputs")
+    el.multiselect("refresh");
+    assert.equal(el.multiselect("getUnchecked").length, uncheckedCount, "Search input still excluded after refresh")
   });
 
   QUnit.test("filtering by node text", function(assert){
