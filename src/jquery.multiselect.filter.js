@@ -94,14 +94,14 @@
           type: "search"
         })
         .css({  width: (typeof opts.width === 'string')
-                       ? this.instance._parse2px(opts.width, this.$header).px + 'px'
+                       ? this.instance.parse2px(opts.width, this.$header).px + 'px'
                        : (/\d/.test(opts.width) ? opts.width + 'px' : null)
              });
       this._bindInputEvents();
       // automatically reset the widget on close?
       if (this.options.autoReset) {
         $element.on('multiselectbeforeclose', $.proxy(this._reset, this));
-      }        
+      }
 
       var $label = $(document.createElement('label')).text(opts.label).append(this.$input).addClass('ui-multiselect-filter-label');
       this.$wrapper = $(document.createElement('div'))
