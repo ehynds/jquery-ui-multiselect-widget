@@ -94,7 +94,7 @@
           type: "search"
         })
         .css({  width: (typeof opts.width === 'string')
-                       ? this.instance.parse2px(opts.width, this.$header).px + 'px'
+                       ? this.instance._parse2px(opts.width, this.$header).px + 'px'
                        : (/\d/.test(opts.width) ? opts.width + 'px' : null)
              });
       this._bindInputEvents();
