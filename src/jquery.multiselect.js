@@ -76,7 +76,7 @@
    /**
     * Checks an option element for data-image-src
     * and adds that as an image tag within the widget option
-    * 
+    *
     * @param {Node} option to pull an image from
     * @param {Node} span to insert image tag into
     */
@@ -104,7 +104,7 @@
   /**
    * Creates a jQuery object from the input element
    * This can be a string selector, Node, or jQuery object
-   * @param {(object|string)} elem 
+   * @param {(object|string)} elem
    */
   function getjQueryFromElement(elem) {
     if(!!elem.jquery) {
@@ -197,7 +197,8 @@
       disableInputsOnToggle: true,        // (true | false)  If true, each individual checkbox input is also disabled when the widget is disabled.
       groupsSelectable: true,             // (true | false) Determines if clicking on an option group heading selects all of its options.
       groupsCollapsable: false,           // (true | false) Determines if option groups can be collapsed.
-      groupColumns: false                 // (true | false)  Displays groups in a horizonal column layout.
+      groupColumns: false,                // (true | false)  Displays groups in a horizonal column layout.
+      groupColumnsWidth: false,           // (true | false)  Displays groups in a horizonal column layout.
     },
 
     /**
@@ -314,7 +315,7 @@
       // bump unique ID after assigning it to the widget instance
       this.multiselectID = multiselectID++;
 
-      
+
       this.$headerLinkContainer = $( document.createElement('ul') )
             .addClass('ui-helper-reset')
             .html( this._buildHeaderHtml()
@@ -480,7 +481,13 @@
 
       var item = document.createElement('li');
       item.className = (isDisabled ? 'ui-multiselect-disabled ' : '')
+                        + (this.options.groupColumns ? ' ui-multiselect-columns' : '')
                         + (option.className || '');
+
+      if (this.options.groupColumnsWidth) {
+        item.style = (item.style != '' ? ';':'') + 'width:'+this.options.groupColumnsWidth+'px';
+      }
+
       item.appendChild(label);
 
       return item;
@@ -525,6 +532,7 @@
                                  .addClass('ui-multiselect-optgroup'
                                     + (self.options.groupColumns ? ' ui-multiselect-columns' : '')
                                     + (elem.className ? ' ' + elem.className : ''))
+                                 .css(self.options.groupColumnsWidth ? 'width:'+self.options.groupColumnsWidth+'px':'')
                                  .append($collapseButton, $optGroupLabel, $optionGroup)
           list.push($optGroupItem);
         }
@@ -1357,7 +1365,7 @@
       if (this.$button) {
          this.$button.prop({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ](disabledClass);
 	  }
-	  
+
       if (this.options.disableInputsOnToggle) {
          // Apply the ui-multiselect-disabled class name to identify which
          // input elements this widget disabled (not pre-disabled)
