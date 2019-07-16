@@ -101,7 +101,7 @@
       // automatically reset the widget on close?
       if (this.options.autoReset) {
         $element.on('multiselectbeforeclose', $.proxy(this._reset, this));
-      }
+      } 
 
       var $label = $(document.createElement('label')).text(opts.label).append(this.$input).addClass('ui-multiselect-filter-label');
       this.$wrapper = $(document.createElement('div'))
