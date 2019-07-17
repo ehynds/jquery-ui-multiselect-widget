@@ -198,7 +198,7 @@
       groupsSelectable: true,             // (true | false) Determines if clicking on an option group heading selects all of its options.
       groupsCollapsable: false,           // (true | false) Determines if option groups can be collapsed.
       groupColumns: false,                // (true | false)  Displays groups in a horizonal column layout.
-      groupColumnsWidth: false,           // (integer) The width of each select item in the groupColums.
+      groupColumnsWidth: false,           // (integer) The width of each select item in the groupColumns.
     },
 
     /**
