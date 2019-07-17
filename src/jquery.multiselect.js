@@ -198,7 +198,7 @@
       groupsSelectable: true,             // (true | false) Determines if clicking on an option group heading selects all of its options.
       groupsCollapsable: false,           // (true | false) Determines if option groups can be collapsed.
       groupColumns: false,                // (true | false)  Displays groups in a horizonal column layout.
-      groupColumnsWidth: false,           // (integer) The width of each select item in the groupColumns.
+      groupColumnsWidth: false,           // (integer) The width of each select item in the groupColums.
     },
 
     /**
@@ -485,7 +485,7 @@
                         + (option.className || '');
 
       if (this.options.groupColumnsWidth) {
-        item.style = (item.style != '' ? ';':'') + 'width:'+this.options.groupColumnsWidth+'px';
+        item.style.width = this.options.groupColumnsWidth+'px';
       }
 
       item.appendChild(label);
