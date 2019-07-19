@@ -5,7 +5,8 @@
     },
     "rules": {
         "semi": "error",
-        "no-var": "off"
+        "no-var": "off",
+        "max-len": "off",
     },
     "env": {
         "es6": false

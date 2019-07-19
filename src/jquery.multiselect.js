@@ -1907,6 +1907,7 @@
      }
      $.Widget.prototype._setOption.apply(this, arguments);
    },
+   _parse2px: parse2px,
 
   });
 
