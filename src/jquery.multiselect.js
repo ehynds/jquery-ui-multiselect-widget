@@ -532,8 +532,12 @@
                                  .addClass('ui-multiselect-optgroup'
                                     + (self.options.groupColumns ? ' ui-multiselect-columns' : '')
                                     + (elem.className ? ' ' + elem.className : ''))
-                                 .css(self.options.groupColumnsWidth ? 'width:'+self.options.groupColumnsWidth+'px':'')
                                  .append($collapseButton, $optGroupLabel, $optionGroup)
+
+          if (self.options.groupColumnsWidth) {
+            $optGroupItem.css('width', self.options.groupColumnsWidth+'px');
+          }
+
           list.push($optGroupItem);
         }
         else {
