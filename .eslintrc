@@ -1,0 +1,14 @@
+{
+    "extends": "google",
+    "parserOptions": {
+        "ecmaVersion": 5
+    },
+    "rules": {
+        "semi": "error",
+        "no-var": "off",
+        "max-len": "off",
+    },
+    "env": {
+        "es6": false
+    }
+}

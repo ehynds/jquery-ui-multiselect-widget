@@ -26,51 +26,51 @@
       'open': {
          'class': 'ui-multiselect-open',
          'icon': '<span class="ui-icon ui-icon-triangle-1-s"></span',
-         'title': 'Open'
+         'title': 'Open',
       },
       'close': {
          'class': 'ui-multiselect-close',
          'icon': '<span class="ui-icon ui-icon-circle-close"></span>',
-         'title': 'Close'
+         'title': 'Close',
       },
       'checkAll': {
          'class': 'ui-multiselect-all',
          'icon': '<span class="ui-icon ui-icon-check"></span>',
          'text': 'Check all',
-         'title': 'Check all'
+         'title': 'Check all',
       },
       'uncheckAll': {
          'class': 'ui-multiselect-none',
          'icon': '<span class="ui-icon ui-icon-closethick"></span>',
          'text': 'Uncheck all',
-         'title': 'Uncheck all'
+         'title': 'Uncheck all',
       },
       'flipAll': {
          'class': 'ui-multiselect-flip',
          'icon': '<span class="ui-icon ui-icon-arrowrefresh-1-w"></span>',
          'text': 'Flip all',
-         'title': 'Flip all'
+         'title': 'Flip all',
       },
       'collapse': {
          'icon': '<span class="ui-icon ui-icon-minusthick"></span>',
-         'title': 'Collapse'
+         'title': 'Collapse',
       },
       'expand': {
          'icon': '<span class="ui-icon ui-icon-plusthick"></span>',
-         'title': 'Expand'
+         'title': 'Expand',
       },
       'collapseAll': {
          'class': 'ui-multiselect-collapseall',
          'icon': '<span class="ui-icon ui-icon-minus"></span>',
          'text': 'Collapse all',
-         'title': 'Collapse all'
+         'title': 'Collapse all',
       },
       'expandAll': {
          'class': 'ui-multiselect-expandall',
          'icon': '<span class="ui-icon ui-icon-plus"></span>',
          'text': 'Expand all',
-         'title': 'Expand all'
-      }
+         'title': 'Expand all',
+      },
    };
 
    /**
@@ -92,10 +92,10 @@
   /**
    * Retrieves the font size of the document
    * Defaults to 16px
-   * @returns {string} pixel string for font size
+   * @return {string} pixel string for font size
    */
   function determineFontSize() {
-    if(window.getComputedStyle) {
+    if (window.getComputedStyle) {
       return getComputedStyle(document.body).fontSize;
     }
     return '16px';
@@ -105,19 +105,20 @@
    * Creates a jQuery object from the input element
    * This can be a string selector, Node, or jQuery object
    * @param {(object|string)} elem
+   * @return {object} jquery object for element
    */
   function getjQueryFromElement(elem) {
-    if(!!elem.jquery) {
+    if (!!elem.jquery) {
       return elem;
     }
-    if(!!elem.nodeType) {
+    if (!!elem.nodeType) {
       return $(elem);
     }
 
     return $(elem).eq(0);
   }
 
-  /**
+    /**
      * Converts dimensions specified in options to pixel values.
      * Determines if specified value is a minimum, maximum or exact value.
      * The value can be a number or a string with px, pts, ems, in, cm, mm, or % units.
@@ -131,7 +132,7 @@
      * @param {string} dimText Option text (or number) containing possibly < or >, number, and a unit.
      * @param {object} $elem jQuery object (or node) to reference for % calculations.
      * @param {boolean} isHeight T/F to change from using width in % calculations.
-     * @returns {pixels, minimax} object containing pixels and -1/1/0 indicating min/max/exact.
+     * @return {object} object containing pixels and -1/1/0 indicating min/max/exact.
      */
     function parse2px(dimText, $elem, isHeight) {
       if (typeof dimText !== 'string') {
@@ -165,23 +166,23 @@
             pixels = value;
       }
       // minimax:  -1 => minimum value, 1 => maximum value, 0 => exact value
-      return {px: pixels, minimax: minimax == '>' ? -1 : ( minimax == '<' ? 1 : 0 ) };
+      return {px: pixels, minimax: minimax == '>' ? -1 : ( minimax == '<' ? 1 : 0 )};
     }
 
-   $.widget("ech.multiselect", {
+   $.widget('ech.multiselect', {
 
    // default options
    options: {
-      buttonWidth: 225,                   // (integer | string | 'auto' | null) Sets the min/max/exact width of the button.
-      menuWidth: null,                    // (integer | string | 'auto' | null) If a number is provided, sets the exact menu width.
-      menuHeight: 200,                    // (integer | string | 'auto' | 'size') Sets the height of the menu or determines it using native select's size setting.
-      resizableMenu: false,               // (true | false) Enables the use of jQuery UI resizable if it is loaded.
-      appendTo: null,                     // (jQuery | DOM element | selector string)  If provided, this specifies what element to append the widget to in the DOM.
-      position: {},                       // (object) A jQuery UI position object that constrains how the pop-up menu is positioned.
-      zIndex: null,                       // (integer) Overrides the z-index set for the menu container.
-      classes: '',                        // (string) Classes that you can provide to be applied to the elements making up the widget.
-      header: ['checkAll','uncheckAll'],  // (false | string | array) False, custom string or array indicating which links to show in the header & in what order.
-      linkInfo: null,                     // (object | null) Supply an obect of link information to use alternative icons, icon labels, or icon title text.  See linkDefaults above for object structure.
+      buttonWidth: 225, // (integer | string | 'auto' | null) Sets the min/max/exact width of the button.
+      menuWidth: null, // (integer | string | 'auto' | null) If a number is provided, sets the exact menu width.
+      menuHeight: 200, // (integer | string | 'auto' | 'size') Sets the height of the menu or determines it using native select's size setting.
+      resizableMenu: false, // (true | false) Enables the use of jQuery UI resizable if it is loaded.
+      appendTo: null, // (jQuery | DOM element | selector string)  If provided, this specifies what element to append the widget to in the DOM.
+      position: {}, // (object) A jQuery UI position object that constrains how the pop-up menu is positioned.
+      zIndex: null, // (integer) Overrides the z-index set for the menu container.
+      classes: '', // (string) Classes that you can provide to be applied to the elements making up the widget.
+      header: ['checkAll', 'uncheckAll'], // (false | string | array) False, custom string or array indicating which links to show in the header & in what order.
+      linkInfo: null, // (object | null) Supply an obect of link information to use alternative icons, icon labels, or icon title text.  See linkDefaults above for object structure.
       noneSelectedText: 'Select options', // (string | null) The text to show in the button where nothing is selected.  Set to null to use the native select's placeholder text.
       selectedText: '# of # selected',    // (string) A "template" that indicates how to show the count of selections in the button.  The "#'s" are replaced by the selection count & option count.
       selectedList: 0,                    // (integer) The actual list selections will be shown in the button when the count of selections is <= than this number.
@@ -208,19 +209,19 @@
      * 3. If still do not have a valid DOM element to append to, then append to the document body.
      *
      * NOTE:  this.element and this.document are jQuery objects per the jQuery UI widget API.
-    * @returns {object} jQuery object for the DOM element to append to.
+    * @return {object} jQuery object for the DOM element to append to.
      */
     _getAppendEl: function() {
-      var elem = this.options.appendTo;         // jQuery object or selector, DOM element or null.
+      var elem = this.options.appendTo; // jQuery object or selector, DOM element or null.
 
-      if (elem) {                               // NOTE: The find below handles the jQuery selector case
+      if (elem) { // NOTE: The find below handles the jQuery selector case
         elem = getjQueryFromElement(elem);
       }
       if (!elem || !elem[0]) {
         elem = this.element.closest('.ui-front, dialog');
       }
       if (!elem.length) {
-        elem = $(document.body);                 // Position at end of body.  Note that this returns a DOM element.
+        elem = $(document.body); // Position at end of body.  Note that this returns a DOM element.
       }
       return elem;
     },
@@ -228,9 +229,9 @@
     /**
      * Constructs the button element for the widget
      * Stores the result in this.$button
-     * @returns{object} jQuery object for button
+     * @return{object} jQuery object for button
      */
-     _buildButton: function () {
+     _buildButton: function() {
        var wrapText = this.options.wrapText || [];
        var $button = (this.$button = $(document.createElement('button')))
          .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all'
@@ -241,7 +242,7 @@
            'type': 'button',
            'title': this.element[0].title,
            'tabIndex': this.element[0].tabIndex,
-           'id': this.element[0].id ? this.element[0].id + '_ms' : null
+           'id': this.element[0].id ? this.element[0].id + '_ms' : null,
          })
          .prop('aria-haspopup', true)
          .html(this._linkHTML('<span class="{{class}}" title="{{title}}">{{icon}}</span>', 'open'));
@@ -254,9 +255,9 @@
 
      /**
       * Constructs HTML string for menu header
-      * @returns {string}
+      * @return {string}
       */
-     _buildHeaderHtml: function () {
+     _buildHeaderHtml: function() {
        // Header controls will contain the links & ordering specified by the header option.
        // Depending on how the options are set, this may be empty or simply plain text
        if (!this.options.header) {
@@ -295,7 +296,7 @@
       var options = this.options;
 
       // Do an extend here to address link info missing from options.linkInfo--missing info defaults to that in linkDefaults.
-      var linkInfo = ( this.linkInfo = $.extend(true, {}, linkDefaults, options.linkInfo || {}) );
+      this.linkInfo = $.extend(true, {}, linkDefaults, options.linkInfo || {});
 
       // grab select width before hiding it
       this._selectWidth = $element.outerWidth();
@@ -357,9 +358,8 @@
          }
          // Use $.extend below since the "of" position property may not be able to be supplied via the option.
          options.position = $.extend({'my': 'left top', 'at': 'left bottom', 'of': $button}, options.position || {});
-      }
-      else {
-         $menu.insertAfter($element);  // No button
+      } else {
+         $menu.insertAfter($element); // No button
       }
 
       this._bindEvents();
@@ -372,11 +372,13 @@
      * Helper function used in _create()
     * @param {string} linkTemplate HTML link template string
     * @param {string} linkID key string to look up in linkInfo object.
-    * @returns {object} link HTML
+    * @return {object} link HTML
      */
    _linkHTML: function(linkTemplate, linkID) {
       var self = this;
-      return linkTemplate.replace(/{{(.*?)}}/ig, function(m, p1){ return self.linkInfo[linkID][p1] } )
+      return linkTemplate.replace(/{{(.*?)}}/ig, function(m, p1) {
+ return self.linkInfo[linkID][p1];
+} )
                                  .replace('<span></span>', '');
    },
 
@@ -394,8 +396,7 @@
          this.$headerLinkContainer
               .find('.ui-multiselect-all, .ui-multiselect-none, .ui-multiselect-flip')
               .toggle( !!elSelect.multiple );
-      }
-      else {
+      } else {
          this.$header.hide();
       }
 
@@ -417,7 +418,7 @@
     *   </label>
     * </li>
     * @param {node} option Option from select to be added to menu
-    * @returns {object} jQuery object for menu option
+    * @return {object} jQuery object for menu option
     */
    _makeOption: function(option) {
       var elSelect = this.element.get(0);
@@ -431,19 +432,19 @@
 
       var input = document.createElement('input');
       var inputAttribs = {
-        "type": isMultiple ? 'checkbox' : 'radio',
-        "id": inputID,
-        "title": option.title || null,
-        "value": option.value,
-        "name": this.options.addInputNames ? "multiselect_" + id : null,
-        "checked": isSelected ? "checked" : null,
-        "aria-selected": isSelected ? "true" : null,
-        "disabled": isDisabled ? "disabled" : null,
-        "aria-disabled": isDisabled ? "true" : null
+        'type': isMultiple ? 'checkbox' : 'radio',
+        'id': inputID,
+        'title': option.title || null,
+        'value': option.value,
+        'name': this.options.addInputNames ? 'multiselect_' + id : null,
+        'checked': isSelected ? 'checked' : null,
+        'aria-selected': isSelected ? 'true' : null,
+        'disabled': isDisabled ? 'disabled' : null,
+        'aria-disabled': isDisabled ? 'true' : null,
       };
       for (var name in inputAttribs) {
         if (inputAttribs[name] !== null) {
-          input.setAttribute(name,inputAttribs[name]);
+          input.setAttribute(name, inputAttribs[name]);
         }
       }
       // Clone data attributes
@@ -460,8 +461,7 @@
       var span = document.createElement('span');
       if (this.htmlAllowedFor('options')) {
         span.innerHTML = option.innerHTML;
-      }
-      else {
+      } else {
         span.textContent = option.textContent;
       }
 
@@ -539,8 +539,7 @@
           }
 
           list.push($optGroupItem);
-        }
-        else {
+        } else {
           list.push(self._makeOption(elem));
         }
       });
@@ -566,14 +565,13 @@
               .toggle( !!$element[0].multiple );
       }
 
-      this._buildOptionList();                                  // Clear and rebuild the menu.
-      this._updateCache();                                      // cache some more useful elements
+      this._buildOptionList(); // Clear and rebuild the menu.
+      this._updateCache(); // cache some more useful elements
 
       if (!this.options.listbox) {
          this._setButtonWidth();
          this.update(true);
-      }
-      else {
+      } else {
          if (!this._isOpen) {
             this.$menu.show();
             this._isOpen = true;
@@ -617,7 +615,7 @@
      * from the native select options' selected states.
      * @param {boolean} skipDisabled If true, disabled options in either are skipped.
      */
-    resync : function(skipDisabled) {
+    resync: function(skipDisabled) {
       var $inputs = this.$inputs;
       var $options = this.element.find('option');
 
@@ -633,8 +631,7 @@
          });
          this._trigger('resync');
          this.update();
-      }
-      else {
+      } else {
          this.refresh();
       }
     },
@@ -663,16 +660,15 @@
       if (numChecked) {
         if (typeof selectedText === 'function') {
           value = selectedText.call(this, numChecked, inputCount, $checked.get());
-        }
-        else if (/\d/.test(selectedList) && selectedList > 0 && numChecked <= selectedList) {
-          value = $checked.map(function() { return $(this).next().text().replace(/\n$/, '') })
+        } else if (/\d/.test(selectedList) && selectedList > 0 && numChecked <= selectedList) {
+          value = $checked.map(function() {
+ return $(this).next().text().replace(/\n$/, '');
+})
                           .get().join(options.selectedListSeparator);
-        }
-        else {
+        } else {
           value = selectedText.replace('#', numChecked).replace('#', inputCount);
         }
-      }
-      else {
+      } else {
         value = options.noneSelectedText;
       }
 
@@ -708,8 +704,11 @@
     _bindButtonEvents: function() {
       var self = this;
       var $button = this.$button;
+      /**
+       * @return {Boolean} always false
+       */
       function buttonClickHandler() {
-         self[ self._isOpen ? 'close' : 'open' ]();
+         self[self._isOpen ? 'close' : 'open']();
          return false;
       }
 
@@ -732,7 +731,7 @@
           },
           blur: function() {
             this.classList.remove('ui-state-focus');
-          }
+          },
         })
         // webkit doesn't like it when you click on the span :(
         .find('span')
@@ -747,14 +746,13 @@
          var index = $inputs.index( $inputs.filter(':checked') );
          if (e.which === 38 && index) {
             $inputs.eq(index - 1).trigger('click');
-         }
-         else if (e.which === 40 && index < $inputs.length - 1) {
+         } else if (e.which === 40 && index < $inputs.length - 1) {
             $inputs.eq(index + 1).trigger('click');
          }
          return;
       }
 
-      switch(e.which) {
+      switch (e.which) {
          case 27: // esc
          case 37: // left
          case 38: // up
@@ -790,7 +788,7 @@
         var label = this.textContent;
 
         // trigger before callback and bail if the return is false
-        if (self._trigger('beforeoptgrouptoggle', e, { inputs:nodes, label:label }) === false) {
+        if (self._trigger('beforeoptgrouptoggle', e, {inputs: nodes, label: label}) === false) {
           return;
         }
 
@@ -809,19 +807,19 @@
         self._trigger('optgrouptoggle', e, {
           inputs: nodes,
           label: label,
-          checked: nodes.length ? nodes[0].checked : null
+          checked: nodes.length ? nodes[0].checked : null,
         });
       })
       // collapse button
       .on('click.multiselect', '.ui-multiselect-collapser', function(e) {
-        var $this = $(this),
-              $parent = $this.parent(),
-              optgroupLabel = $parent.find('.ui-multiselect-grouplabel').first().html(),
-              linkInfo = self.linkInfo,
-              collapsedClass = 'ui-multiselect-collapsed',
-              isCollapsed = $parent.hasClass(collapsedClass);
+        var $this = $(this);
+              var $parent = $this.parent();
+              var optgroupLabel = $parent.find('.ui-multiselect-grouplabel').first().html();
+              var linkInfo = self.linkInfo;
+              var collapsedClass = 'ui-multiselect-collapsed';
+              var isCollapsed = $parent.hasClass(collapsedClass);
 
-        if (self._trigger('beforecollapsetoggle', e, { label: optgroupLabel , collapsed: isCollapsed }) === false) {
+        if (self._trigger('beforecollapsetoggle', e, {label: optgroupLabel, collapsed: isCollapsed}) === false) {
           return;
         }
         $parent.toggleClass(collapsedClass);
@@ -833,7 +831,7 @@
            self._setMenuHeight(true);
         }
 
-        self._trigger('collapsetoggle', e, { label: optgroupLabel, collapsed: !isCollapsed });
+        self._trigger('collapsetoggle', e, {label: optgroupLabel, collapsed: !isCollapsed});
       })
       // collapse button
       .on('mouseenter.multiselect', '.ui-multiselect-collapser', function(e) {
@@ -875,13 +873,12 @@
         }
 
         e.preventDefault();
-        switch(e.which) {
+        switch (e.which) {
           case 9: // tab
             if (e.shiftKey) {
-              self.$menu.find(".ui-state-hover").removeClass("ui-state-hover");
-              self.$header.find("li").last().find("a").focus();
-            }
-            else {
+              self.$menu.find('.ui-state-hover').removeClass('ui-state-hover');
+              self.$header.find('li').last().find('a').focus();
+            } else {
               self.close();
             }
             break;
@@ -898,17 +895,17 @@
           case 32: // space
             $(this).find('input')[0].click();
             break;
-          case 65:   // Alt-A
+          case 65: // Alt-A
             if (e.altKey) {
               self.checkAll();
             }
             break;
-          case 70:   // Alt-F
+          case 70: // Alt-F
             if (e.altKey) {
               self.flipAll();
             }
             break;
-          case 85:   // Alt-U
+          case 85: // Alt-U
             if (e.altKey) {
               self.uncheckAll();
             }
@@ -926,21 +923,21 @@
         var $tags = $element.find('option');
         var isMultiple = $element[0].multiple;
         var $allInputs = self.$inputs;
-        var numChecked = $allInputs.filter(":checked").length;
+        var numChecked = $allInputs.filter(':checked').length;
         var options = self.options;
         var textFxn = self.htmlAllowedFor('options') ? 'html' : 'text';
-        var optionText = $input.parent().find("span")[textFxn]();
+        var optionText = $input.parent().find('span')[textFxn]();
         var maxSelected = options.maxSelected;
 
         // bail if this input is disabled or the event is cancelled
-        if (input.disabled || self._trigger('click', e, { value: val, text: optionText, checked: checked }) === false) {
+        if (input.disabled || self._trigger('click', e, {value: val, text: optionText, checked: checked}) === false) {
           e.preventDefault();
           return;
         }
 
         if (maxSelected && checked && numChecked > maxSelected) {
-         if (self._trigger('maxselected', e, { labels: self.$labels, inputs: $allInputs }) !== false) {
-            self.buttonMessage("<center><b>LIMIT OF " + (numChecked - 1) + " REACHED!</b></center>");
+         if (self._trigger('maxselected', e, {labels: self.$labels, inputs: $allInputs}) !== false) {
+            self.buttonMessage('<center><b>LIMIT OF ' + (numChecked - 1) + ' REACHED!</b></center>');
          }
           input.checked = false;
           e.preventDefault();
@@ -969,7 +966,7 @@
         }
 
         // fire change on the select box
-        $element.trigger("change");
+        $element.trigger('change');
 
         // setTimeout is to fix multiselect issue #14 and #47. caused by jQuery issue #3827
         // http://bugs.jquery.com/ticket/3827
@@ -988,32 +985,32 @@
       self.$header
       .on('click.multiselect', 'a', function(e) {
         var headerLinks = {
-          'ui-multiselect-close' : 'close',
-          'ui-multiselect-all' : 'checkAll',
-          'ui-multiselect-none' : 'uncheckAll',
-          'ui-multiselect-flip' : 'flipAll',
-          'ui-multiselect-collapseall' : 'collapseAll',
-          'ui-multiselect-expandall' : 'expandAll'
+          'ui-multiselect-close': 'close',
+          'ui-multiselect-all': 'checkAll',
+          'ui-multiselect-none': 'uncheckAll',
+          'ui-multiselect-flip': 'flipAll',
+          'ui-multiselect-collapseall': 'collapseAll',
+          'ui-multiselect-expandall': 'expandAll',
         };
         for (hdgClass in headerLinks) {
           if ( this.classList.contains(hdgClass) ) {
             // headerLinks[hdgClass] is the click handler name
-              self[ headerLinks[hdgClass] ]();
+              self[headerLinks[hdgClass]]();
               e.preventDefault();
               return false;
           }
         }
       }).
       on('keydown.multiselect', 'a', function(e) {
-        switch(e.which) {
+        switch (e.which) {
           case 27:
             self.close();
             break;
-          case 9: //tab
+          case 9: // tab
             var $target = $(e.target);
             if ((e.shiftKey
                 && !$target.parent().prev().length
-                && !self.$header.find(".ui-multiselect-filter").length)
+                && !self.$header.find('.ui-multiselect-filter').length)
                || (!$target.parent().next().length && !self.$labels.length && !e.shiftKey)) {
               self.close();
               e.preventDefault();
@@ -1027,7 +1024,7 @@
      * Allows the widget to be resized if the option is set and resizable is
      * included in jQuery UI
      */
-     _setResizable: function () {
+     _setResizable: function() {
        if (!this.options.resizableMenu || !('resizable' in $.ui)) {
          return;
        }
@@ -1036,7 +1033,7 @@
          containment: 'parent',
          handles: 's',
          helper: 'ui-multiselect-resize',
-         stop: function (e, ui) {
+         stop: function(e, ui) {
            // Force consistent width
            ui.size.width = ui.originalSize.width;
            $(this).outerWidth(ui.originalSize.width);
@@ -1044,7 +1041,7 @@
              this.options.menuHeight = ui.size.height;
            }
            this._setMenuHeight(true);
-         }
+         },
        });
        this.$menu.hide();
      },
@@ -1102,8 +1099,7 @@
          var pixels = parsed.px;
          var minimax = parsed.minimax;
          width = minimax < 0 ? Math.max(width, pixels) : ( minimax > 0 ? Math.min(width, pixels) : pixels );
-      }
-      else  { // keywords
+      } else { // keywords
          buttonWidth = buttonWidth.toLowerCase();
       }
 
@@ -1134,8 +1130,7 @@
          var pixels = parsed.px;
          var minimax = parsed.minimax;
          width = minimax < 0 ? Math.max(width, pixels) : ( minimax > 0 ? Math.min(width, pixels) : pixels );
-      }
-      else { // keywords
+      } else { // keywords
          menuWidth = menuWidth.toLowerCase();
       }
 
@@ -1189,8 +1184,7 @@
 
          optionHeight = parse2px(optionHeight, self.element, true).px;
          maxHeight = Math.min(optionHeight, maxHeight) - headerHeight - menuBorderPaddingHt - cbBorderPaddingHt;
-      }
-      else if (optionHeight.toLowerCase() === 'size') {
+      } else if (optionHeight.toLowerCase() === 'size') {
          // Overall height based on native select 'size' attribute
          useSelectSize = true;
          // Retrieves native select's size attribute or defaults to 4 (like native select).
@@ -1199,7 +1193,7 @@
 
       var overflowSetting = 'hidden';
       var itemCount = 0;
-      var hoverAdjust = 4;  // Adjustment for hover height included here.
+      var hoverAdjust = 4; // Adjustment for hover height included here.
       var ulHeight = hoverAdjust;
       var ulTop = -1;
 
@@ -1211,7 +1205,7 @@
         if (ulTop < 0) {
            ulTop = this.offsetTop;
         }
-        ulHeight =  this.offsetTop + this.offsetHeight - ulTop + hoverAdjust;
+        ulHeight = this.offsetTop + this.offsetHeight - ulTop + hoverAdjust;
         if (useSelectSize && ++itemCount >= elSelectSize || ulHeight > maxHeight) {
           overflowSetting = 'auto';
           if (!useSelectSize) {
@@ -1231,7 +1225,7 @@
      * Calculate accurate outerWidth(false) using getBoundingClientRect()
      * Note that this presumes that the element is visible in the layout.
      * @param {node} elem DOM node or jQuery equivalent to get width for.
-     * @returns {float} Decimal floating point value for the width.
+     * @return {float} Decimal floating point value for the width.
      */
    _getBCRWidth: function(elem) {
       if (!elem || !!elem.jquery && !elem[0]) {
@@ -1244,8 +1238,8 @@
     /**
      * Calculate jQuery width correction factor to fix floating point round-off errors.
      * Note that this presumes that the element is visible in the layout.
-     * @param {node} DOM node or jQuery equivalent to get width for.
-     * @returns {float} Correction value for the width--typically a decimal < 1.0
+     * @param {node} elem node or jQuery equivalent to get width for.
+     * @return {float} Correction value for the width--typically a decimal < 1.0
      */
     _jqWidthFix: function(elem) {
       if (!elem || !!elem.jquery && !elem[0]) {
@@ -1253,7 +1247,7 @@
       }
       return !!elem.jquery
                   ? this._getBCRWidth(elem[0]) - elem.outerWidth(false)
-                  :  this._getBCRWidth(elem) - $(elem).outerWidth(false);
+                  : this._getBCRWidth(elem) - $(elem).outerWidth(false);
     },
 
     /**
@@ -1269,7 +1263,7 @@
       var $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(:disabled, .ui-multiselect-optgroup):visible').first();
       // we might have to jump to the next/previous option group
       if (!$next.length) {
-        $next = $start.parents(".ui-multiselect-optgroup")[moveToLast ? "prev" : "next" ]();
+        $next = $start.parents('.ui-multiselect-optgroup')[moveToLast ? 'prev' : 'next']();
       }
 
       // if at the first/last element
@@ -1277,13 +1271,12 @@
         var $container = this.$checkboxes;
 
         // move to the first/last
-        $container.find('label').filter(':visible')[ moveToLast ? 'last' : 'first' ]().trigger('mouseover', {allowScroll: true});
+        $container.find('label').filter(':visible')[moveToLast ? 'last' : 'first']().trigger('mouseover', {allowScroll: true});
 
         // set scroll position
         $container.scrollTop(moveToLast ? $container.height() : 0);
-      }
-      else {
-        $next.find('label').filter(':visible')[ moveToLast ? "last" : "first" ]().trigger('mouseover', {allowScroll: true});
+      } else {
+        $next.find('label').filter(':visible')[moveToLast ? 'last' : 'first']().trigger('mouseover', {allowScroll: true});
       }
     },
 
@@ -1292,19 +1285,19 @@
      * The context of this function should be a checkbox; do not proxy it.
      * @param {string} prop Property being toggled on the checkbox
      * @param {string} flag Flag to set for the property
+     * @return {function} function for toggling checked state
      */
     _toggleState: function(prop, flag) {
       return function() {
          var state = (flag === '!') ? !this[prop] : flag;
 
          if ( !this.disabled ) {
-          this[ prop ] = state;
+          this[prop] = state;
          }
 
         if (state) {
           this.setAttribute('aria-' + prop, true);
-        }
-        else {
+        } else {
           this.removeAttribute('aria-' + prop);
         }
       };
@@ -1340,7 +1333,7 @@
       // Create a plain object of the values that actually changed
       var inputValues = {};
       $inputs.each( function() {
-        inputValues[ this.value ] = true;
+        inputValues[this.value] = true;
       });
 
       // toggle state on original option tags
@@ -1353,7 +1346,7 @@
 
       // trigger the change event on the select
       if ($inputs.length) {
-        $element.trigger("change");
+        $element.trigger('change');
       }
     },
 
@@ -1364,18 +1357,18 @@
     * @param {number | string} groupID index or label of option group to disable
     */
     _toggleDisabled: function(flag, groupID) {
-      var disabledClass = 'ui-state-disabled';  // used for styling only
+      var disabledClass = 'ui-state-disabled'; // used for styling only
 
       if (this.$button) {
-         this.$button.prop({ 'disabled':flag, 'aria-disabled':flag })[ flag ? 'addClass' : 'removeClass' ](disabledClass);
-	  }
+         this.$button.prop({'disabled': flag, 'aria-disabled': flag})[flag ? 'addClass' : 'removeClass'](disabledClass);
+      }
 
       if (this.options.disableInputsOnToggle) {
          // Apply the ui-multiselect-disabled class name to identify which
          // input elements this widget disabled (not pre-disabled)
          // so that they can be restored if the widget is re-enabled.
-         var $inputs = (typeof groupID === 'undefined') ? this.$inputs : this._multiselectOptgroupFilter(groupID).find('input'),
-               msDisabledClass = 'ui-multiselect-disabled';
+         var $inputs = (typeof groupID === 'undefined') ? this.$inputs : this._multiselectOptgroupFilter(groupID).find('input');
+               var msDisabledClass = 'ui-multiselect-disabled';
          if (flag) {
             var matchedInputs = $inputs.filter(':enabled').get();
             for (var x = 0, len = matchedInputs.length; x < len; x++) {
@@ -1384,12 +1377,11 @@
                matchedInputs[x].classList.add(msDisabledClass);
                matchedInputs[x].parentNode.classList.add(disabledClass);
              }
-         }
-         else {
+         } else {
             var matchedInputs = $inputs.filter('.' + msDisabledClass + ':disabled').get();
             for (var x = 0, len = matchedInputs.length; x < len; x++) {
-              matchedInputs[x].removeAttribute("disabled");
-              matchedInputs[x].removeAttribute("aria-disabled");
+              matchedInputs[x].removeAttribute('disabled');
+              matchedInputs[x].removeAttribute('aria-disabled');
               matchedInputs[x].classList.remove(msDisabledClass);
               matchedInputs[x].parentNode.classList.remove(disabledClass);
             }
@@ -1399,7 +1391,7 @@
       var $select = (typeof groupID === 'undefined') ? this.element : this._nativeOptgroupFilter(groupID).find('option');
       $select.prop({
         'disabled': flag,
-        'aria-disabled': flag
+        'aria-disabled': flag,
       });
     },
 
@@ -1428,7 +1420,7 @@
       this.$checkboxes.scrollTop(0);
 
       // Show the menu, set its dimensions, and position it.
-      $menu.css('display','block');
+      $menu.css('display', 'block');
       this._setMenuWidth();
       this._setMenuHeight();
       this.position();
@@ -1436,30 +1428,25 @@
       // Do any specified open animation effect after positioning the menu.
       if (!!effect) {
          // Menu must be hidden for some effects (e.g. fade) to work.
-         $menu.css('display','none');
+         $menu.css('display', 'none');
          if (typeof effect == 'string') {
             $menu.show(effect, this.speed);
-         }
-         else if (typeof effect == 'object' && effect.constructor == Array) {
+         } else if (typeof effect == 'object' && effect.constructor == Array) {
             $menu.show(effect[0], effect[1] || this.speed);
-         }
-         else if (typeof effect == 'object' && effect.constructor == Object) {
+         } else if (typeof effect == 'object' && effect.constructor == Object) {
             $menu.show(effect);
          }
       }
 
       // focus the first not disabled option or filter input if available
-      var filter = $header.find(".ui-multiselect-filter");
+      var filter = $header.find('.ui-multiselect-filter');
       if (filter.length) {
         filter.first().find('input').trigger('focus');
-      }
-      else if ($inputs.length) {
+      } else if ($inputs.length) {
          $inputs.eq(0).trigger('focus').parent('label').eq(0).trigger('mouseover').trigger('mouseenter');
-      }
-      else if ($labels.length) {
+      } else if ($labels.length) {
         $labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
-      }
-      else {
+      } else {
         $header.find('a').first().trigger('focus');
       }
 
@@ -1487,20 +1474,17 @@
       if (!!effect) {
          if (typeof effect == 'string') {
             $menu.hide(effect, this.speed);
-         }
-         else if (typeof effect == 'object' && effect.constructor == Array) {
+         } else if (typeof effect == 'object' && effect.constructor == Array) {
             $menu.hide(effect[0], effect[1] || this.speed);
-         }
-         else if (typeof effect == 'object' && effect.constructor == Object) {
+         } else if (typeof effect == 'object' && effect.constructor == Object) {
             $menu.hide(effect);
          }
-      }
-      else {
-         $menu.css('display','none');
+      } else {
+         $menu.css('display', 'none');
       }
 
       $button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
-      this.element.trigger('blur');    // For jQuery Validate
+      this.element.trigger('blur'); // For jQuery Validate
       this._isOpen = false;
       this._trigger('close');
       $button.trigger('focus');
@@ -1517,8 +1501,7 @@
 
       if ($.ui && $.ui.position) {
         this.$menu.position(this.options.position);
-      }
-      else {
+      } else {
         var pos = {};
 
         pos.top = $button.offset().top + this._savedButtonHeight;
@@ -1550,10 +1533,9 @@
          return;
       }
 
-      if (typeof groupID === 'undefined') {  // groupID could be 0
+      if (typeof groupID === 'undefined') { // groupID could be 0
          this._toggleChecked(true);
-      }
-      else {
+      } else {
          this._toggleChecked(true, this._multiselectOptgroupFilter(groupID).find('input'));
       }
 
@@ -1567,10 +1549,9 @@
     uncheckAll: function(groupID) {
       this._trigger('beforeUncheckAll');
 
-      if (typeof groupID === 'undefined') {  // groupID could be 0
+      if (typeof groupID === 'undefined') { // groupID could be 0
          this._toggleChecked(false);
-      }
-      else {
+      } else {
          this._toggleChecked(false, this._multiselectOptgroupFilter(groupID).find('input'));
       }
       if ( !this.element[0].multiple && !this.$inputs.filter(':checked').length) {
@@ -1589,7 +1570,7 @@
     flipAll: function(groupID) {
       this._trigger('beforeFlipAll');
 
-      var gotID = (typeof groupID !== 'undefined');  // groupID could be 0
+      var gotID = (typeof groupID !== 'undefined'); // groupID could be 0
       var maxSelected = this.options.maxSelected;
       var inputCount = this.$inputs.length;
       var checkedCount = this.$inputs.filter(':checked').length;
@@ -1601,14 +1582,12 @@
           || maxSelected >= (gotID ? checkedCount - gCheckedCount + gInputCount - gCheckedCount : inputCount - checkedCount ) ) {
          if (gotID) {
             this._toggleChecked('!', $filteredOptgroupInputs);
-         }
-         else {
+         } else {
             this._toggleChecked('!');
          }
          this._trigger('flipAll');
-      }
-      else {
-         this.buttonMessage("<center><b>Flip All Not Permitted.</b></center>");
+      } else {
+         this.buttonMessage('<center><b>Flip All Not Permitted.</b></center>');
       }
     },
 
@@ -1619,7 +1598,7 @@
     collapseAll: function(groupID) {
       this._trigger('beforeCollapseAll');
 
-      var $optgroups = (typeof groupID === 'undefined')  // groupID could be 0
+      var $optgroups = (typeof groupID === 'undefined') // groupID could be 0
                               ? this.$checkboxes.find('.ui-multiselect-optgroup')
                               : this._multiselectOptgroupFilter(groupID);
 
@@ -1636,7 +1615,7 @@
     expandAll: function(groupID) {
       this._trigger('beforeExpandAll');
 
-      var $optgroups = (typeof groupID === 'undefined')  // groupID could be 0
+      var $optgroups = (typeof groupID === 'undefined') // groupID could be 0
                               ? this.$checkboxes.find('.ui-multiselect-optgroup')
                               : this._multiselectOptgroupFilter(groupID);
 
@@ -1661,23 +1640,23 @@
 
     /**
      * Provides a list of all checked options
-     * @returns {array} list of inputs
+     * @return {array} list of inputs
      */
     getChecked: function() {
-      return this.$inputs.filter(":checked");
+      return this.$inputs.filter(':checked');
     },
 
     /**
      * Provides a list of all options that are not checked
-     * @returns {array} list of inputs
+     * @return {array} list of inputs
      */
     getUnchecked: function() {
-      return this.$inputs.filter(":not(:checked)");
+      return this.$inputs.filter(':not(:checked)');
     },
 
     /**
      * Destroys the widget instance
-     * @returns {object} reference to widget
+     * @return {object} reference to widget
      */
     destroy: function() {
       // remove classes + data
@@ -1697,28 +1676,28 @@
     },
 
     /**
-     * @returns {boolean} indicates whether the menu is open
+     * @return {boolean} indicates whether the menu is open
      */
     isOpen: function() {
       return this._isOpen;
     },
 
     /**
-     * @returns {object} jQuery object for menu
+     * @return {object} jQuery object for menu
      */
     widget: function() {
       return this.$menu;
     },
 
     /**
-     * @returns {string} namespaceID for use with external event handlers.
+     * @return {string} namespaceID for use with external event handlers.
      */
     getNamespaceID: function() {
       return this._namespaceID;
     },
 
     /**
-     * @returns {object} jQuery object for button
+     * @return {object} jQuery object for button
      */
     getButton: function() {
       return this.$button;
@@ -1726,21 +1705,21 @@
 
     /**
      * Essentially an alias for widget
-     * @returns {object} jQuery object for menu
+     * @return {object} jQuery object for menu
      */
     getMenu: function() {
       return this.$menu;
     },
 
     /**
-     * @returns {array} List of the option labels
+     * @return {array} List of the option labels
      */
     getLabels: function() {
       return this.$labels;
     },
 
     /**
-     * @returns {array} List of option groups that are collapsed
+     * @return {array} List of option groups that are collapsed
      */
     getCollapsed: function() {
        return this.$checkboxes.find('.ui-multiselect-collapsed');
@@ -1749,14 +1728,14 @@
     /**
     * Sets the value of the underlying select then resyncs the menu.
     * @param {(string|array)} newValue value(s) to set the underlying select to.
+    * @return {any} the underlying select when a value is provied, or eles the value of the select
      */
     value: function(newValue) {
       if (typeof newValue !== 'undefined') {
          this.element.val(newValue);
          this.resync();
          return this.element;
-      }
-      else {
+      } else {
          return this.element.val();
       }
     },
@@ -1782,11 +1761,10 @@
       var $option = $( document.createElement('option') ).attr(attributes)[textFxn](text);
       var optionNode = $option.get(0);
 
-      if (typeof groupID === 'undefined') {  // groupID could be 0
+      if (typeof groupID === 'undefined') { // groupID could be 0
          self.element.append($option);
          self.$checkboxes.append(self._makeOption(optionNode));
-      }
-      else {
+      } else {
          self._nativeOptgroupFilter(groupID).append($option);
          self._multiselectOptgroupFilter(groupID).append(self._makeOption(optionNode));
       }
@@ -1795,11 +1773,12 @@
     },
 
     /**
-    * Finds an optgroup in the native select by index or label
+    * Finds an optgroup in the native select by index or label using the tag name
     * @param {(number|string)} groupID index or label of option group to find
+    * @return {object} matching option groups
     */
     _nativeOptgroupFilter: function(groupID) {
-       return this.element.children("OPTGROUP").filter( function(index) {
+       return this.element.children('OPTGROUP').filter( function(index) {
           return (typeof groupID === 'number' ? index === groupID : this.getAttribute('label') === groupID);
        });
     },
@@ -1807,9 +1786,10 @@
     /**
     * Finds an optgroup in the multiselect widget by index or label
     * @param {(number|string)} groupID index or label of option group to find
+    * @return {object} matching option groups
     */
     _multiselectOptgroupFilter: function(groupID) {
-       return this.$menu.find(".ui-multiselect-optgroup").filter( function(index) {
+       return this.$menu.find('.ui-multiselect-optgroup').filter( function(index) {
           return (typeof groupID === 'number' ? index === groupID : this.getElementsByClassName('ui-multiselect-grouplabel')[0].textContent === groupID);
        });
     },
@@ -1822,8 +1802,8 @@
       if (!value) {
         return;
       }
-      this.element.find("option[value=" + value + "]").remove();
-      this.$labels.find("input[value=" + value + "]").parents("li").remove();
+      this.element.find('option[value=' + value + ']').remove();
+      this.$labels.find('input[value=' + value + ']').parents('li').remove();
 
       this._updateCache();
     },
@@ -1835,15 +1815,14 @@
      * @param {any} value to be assigned to that option
      */
     _setOption: function(key, value) {
-      var $header = this.$header,
-            $menu = this.$menu;
+      var $header = this.$header;
+      var $menu = this.$menu;
 
-      switch(key) {
+      switch (key) {
         case 'header':
           if (typeof value === 'boolean') {
             $header.toggle( value );
-          }
-          else if (typeof value === 'string') {
+          } else if (typeof value === 'string') {
             this.$headerLinkContainer.children('li:not(:last-child)').remove();
             this.$headerLinkContainer.prepend('<li>' + value + '</li>');
           }
@@ -1855,7 +1834,7 @@
         case 'expandAllText':
           if (key !== 'checkAllText' || !this.options.maxSelected) {
             // eq(-1) finds the last span
-            $header.find('a.' + this.linkInfo[key.replace('Text','')]['class'] + ' span').eq(-1).html(value);
+            $header.find('a.' + this.linkInfo[key.replace('Text', '')]['class'] + ' span').eq(-1).html(value);
           }
           break;
         case 'checkAllIcon':
@@ -1865,7 +1844,7 @@
         case 'expandAllIcon':
           if (key !== 'checkAllIcon' || !this.options.maxSelected) {
             // eq(0) finds the first span
-            $header.find('a.' + this.linkInfo[key.replace('Icon','')]['class'] + ' span').eq(0).replaceWith(value);
+            $header.find('a.' + this.linkInfo[key.replace('Icon', '')]['class'] + ' span').eq(0).replaceWith(value);
           }
           break;
         case 'openIcon':
@@ -1877,19 +1856,19 @@
         case 'buttonWidth':
         case 'menuWidth':
           this.options[key] = value;
-          this._setButtonWidth(true);        // true forces recalc of cached value.
-          this._setMenuWidth(true);          // true forces recalc of cached value.
+          this._setButtonWidth(true); // true forces recalc of cached value.
+          this._setMenuWidth(true); // true forces recalc of cached value.
           break;
         case 'menuHeight':
           this.options[key] = value;
-          this._setMenuHeight(true);         // true forces recalc of cached value.
+          this._setMenuHeight(true); // true forces recalc of cached value.
           break;
         case 'selectedText':
         case 'selectedList':
         case 'maxSelected':
         case 'noneSelectedText':
         case 'selectedListSeparator':
-          this.options[key] = value;            // these all need to update immediately for the update() call
+          this.options[key] = value; // these all need to update immediately for the update() call
           this.update(true);
           break;
         case 'classes':
@@ -1917,8 +1896,9 @@
       default:
          this.options[key] = value;
      }
-     $.Widget.prototype._setOption.apply(this, arguments);
+     $.Widget.prototype._setOption.apply(this, arguments); // eslint-disable-line prefer-rest-params
    },
+   _parse2px: parse2px,
 
   });
 
@@ -1926,13 +1906,12 @@
    // https://api.jqueryui.com/dialog/#method-_allowInteraction
    // https://learn.jquery.com/jquery-ui/widget-factory/extending-widgets/
    if ($.ui && 'dialog' in $.ui) {
-      $.widget( "ui.dialog", $.ui.dialog, {
+      $.widget( 'ui.dialog', $.ui.dialog, {
          _allowInteraction: function( event ) {
              if ( this._super( event ) || $( event.target ).closest('.ui-multiselect-menu' ).length ) {
                return true;
              }
-         }
+         },
       });
    }
-
 })(jQuery);

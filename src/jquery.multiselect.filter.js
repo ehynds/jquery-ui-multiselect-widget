@@ -20,12 +20,12 @@
   // would be inserted in the resulting regular expression.
   var filterRules = {
       contains: '{{term}}',
-      beginsWith:  '^{{term}}',
-      endsWith:  '{{term}}$',
-      exactMatch:  '^{{term}}$',
-      containsNumber:  '\d',
-      isNumeric:  '^\d+$',
-      isNonNumeric:  '^\D+$'
+      beginsWith: '^{{term}}',
+      endsWith: '{{term}}$',
+      exactMatch: '^{{term}}$',
+      containsNumber: '\d',
+      isNumeric: '^\d+$',
+      isNonNumeric: '^\D+$',
   };
 
   var headerSelector = '.ui-multiselect-header';
@@ -35,11 +35,17 @@
   var groupLabelClass = 'ui-multiselect-grouplabel';
   var hiddenClass = 'ui-multiselect-excluded';
 
-  //Courtesy of underscore.js
+  /**
+   * This comes courtesy of underscore.js
+   * @param {function} func to debounce
+   * @param {number} wait period
+   * @param {bool} immediate perform once immediately
+   * @return {function} input function with a debounce period
+   */
   function debounce(func, wait, immediate) {
     var timeout;
     return function() {
-      var context = this, args = arguments;
+      var context = this; var args = arguments; // eslint-disable-line prefer-rest-params
       var later = function() {
         timeout = null;
         if (!immediate) {
@@ -58,13 +64,13 @@
   $.widget('ech.multiselectfilter', {
 
     options: {
-      label: 'Filter:',                // (string) The label to show with the input
-      placeholder: 'Enter keywords',   // (string) The placeholder text to show in the input
-      filterRule: 'contains',          // (string) Either a named filter rule from above or a regular expression containing {{term}} as a placeholder
-      searchGroups: false,             // (true | false) If true, search option group labels and show an entire group on a match.
-      autoReset: false,                // (true | false) If true, clear the filter each time the widget menu is closed.
-      width: null,                     // (number) Override default width set in css file (px). null will inherit
-      debounceMS: 250                  // (number) Number of milleseconds to wait between running the search handler.
+      label: 'Filter:', // (string) The label to show with the input
+      placeholder: 'Enter keywords', // (string) The placeholder text to show in the input
+      filterRule: 'contains', // (string) Either a named filter rule from above or a regular expression containing {{term}} as a placeholder
+      searchGroups: false, // (true | false) If true, search option group labels and show an entire group on a match.
+      autoReset: false, // (true | false) If true, clear the filter each time the widget menu is closed.
+      width: null, // (number) Override default width set in css file (px). null will inherit
+      debounceMS: 250, // (number) Number of milleseconds to wait between running the search handler.
     },
 
    /**
@@ -91,17 +97,17 @@
       this.$input = $(document.createElement('input'))
         .attr({
           placeholder: opts.placeholder,
-          type: "search"
+          type: 'search',
         })
-        .css({  width: (typeof opts.width === 'string')
+        .css({width: (typeof opts.width === 'string')
                        ? this.instance._parse2px(opts.width, this.$header).px + 'px'
-                       : (/\d/.test(opts.width) ? opts.width + 'px' : null)
+                       : (/\d/.test(opts.width) ? opts.width + 'px' : null),
              });
       this._bindInputEvents();
       // automatically reset the widget on close?
       if (this.options.autoReset) {
         $element.on('multiselectbeforeclose', $.proxy(this._reset, this));
-      }        
+      }
 
       var $label = $(document.createElement('label')).text(opts.label).append(this.$input).addClass('ui-multiselect-filter-label');
       this.$wrapper = $(document.createElement('div'))
@@ -136,18 +142,16 @@
       this.$input.on({
         keydown: function(e) {
           // prevent the enter key from submitting the form / closing the widget
-          if(e.which === 13)
+          if (e.which === 13) {
             e.preventDefault();
-          else if(e.which === 27) {
+          } else if (e.which === 27) {
             $element.multiselect('close');
             e.preventDefault();
-          }
-          else if(e.which === 9 && e.shiftKey) {
+          } else if (e.which === 9 && e.shiftKey) {
             $element.multiselect('close');
             e.preventDefault();
-          }
-          else if(e.altKey) {
-            switch(e.which) {
+          } else if (e.altKey) {
+            switch (e.which) {
               case 82:
                 e.preventDefault();
                 $(this).val('').trigger('input', '');
@@ -162,13 +166,13 @@
                 $element.multiselect('flipAll');
                 break;
               case 76:
-                $element.multiselect('instance').$labels.first().trigger("mouseenter");
+                $element.multiselect('instance').$labels.first().trigger('mouseenter');
                 break;
             }
           }
         },
         input: $.proxy(debounce(this._handler, this.options.debounceMS), this),
-        search: $.proxy(this._handler, this)
+        search: $.proxy(this._handler, this),
       });
     },
 
@@ -178,15 +182,15 @@
     * Debouncing is done to limit how often this is ran.
     * Alternate filter rules can be used.
     * Option group labels may be searched, also.
-    * @param (object) event object from original event.
+    * @param {event} e event object from original event.
     */
     _handler: function(e) {
-      var term = this.$input[0].value.toLowerCase().replace(/^\s+|\s+$/g,'');
+      var term = this.$input[0].value.toLowerCase().replace(/^\s+|\s+$/g, '');
       var filterRule = this.options.filterRule || 'contains';
-      var regex = new RegExp( ( filterRules[filterRule] || filterRule ).replace('{{term}}', term.replace(rEscape, "\\$&")), 'i');
+      var regex = new RegExp( ( filterRules[filterRule] || filterRule ).replace('{{term}}', term.replace(rEscape, '\\$&')), 'i');
       var searchGroups = !!this.options.searchGroups;
       var $checkboxes = this.instance.$checkboxes;
-      var cache = this.cache;   // Cached text() object
+      var cache = this.cache; // Cached text() object
 
       this.$rows.toggleClass(hiddenClass, !!term);
       var filteredInputs = $checkboxes.children().map(function(x) {
@@ -218,7 +222,6 @@
           }
           return null;
         });
-
       });
       if (term) {
          this._trigger('filter', e, filteredInputs);
@@ -230,20 +233,20 @@
       return;
     },
 
-    _reset: function () {
-      this.$input.val('')
+    _reset: function() {
+      this.$input.val('');
       var event = document.createEvent('Event');
       event.initEvent('reset', true, true);
-      this.$input.get(0).dispatchEvent(event)
-      this._handler(event)
+      this.$input.get(0).dispatchEvent(event);
+      this._handler(event);
     },
 
    /**
     * Creates a text cache object from the widget options' text.
-    * @param (boolean) alsoRefresh causes the displayed search results to refresh.
+    * @param {Boolean} alsoRefresh causes the displayed search results to refresh.
     */
     updateCache: function(alsoRefresh) {
-      var cache = {};  // keys are like 0, 0.1, 1, 1.0, 1.1 etc.
+      var cache = {}; // keys are like 0, 0.1, 1, 1.0, 1.1 etc.
       this.instance.$checkboxes.children().each(function(x) {
          var $element = $(this);
          // Account for optgroups
@@ -264,7 +267,7 @@
     },
 
    /**
-    * Returns the input wrapper div
+    * @return {object} Returns the input wrapper div
     */
     widget: function() {
       return this.$wrapper;
@@ -275,10 +278,9 @@
     */
     destroy: function() {
       $.Widget.prototype.destroy.call(this);
-      this.$input.val('').trigger("keyup").off('keydown input search');
+      this.$input.val('').trigger('keyup').off('keydown input search');
       this.instance.$menu.find(headerSelector).removeClass(hasFilterClass);
       this.$wrapper.remove();
-    }
+    },
   });
-
 })(jQuery);
