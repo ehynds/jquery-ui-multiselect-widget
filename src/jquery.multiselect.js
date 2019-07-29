@@ -199,6 +199,7 @@
       groupsSelectable: true, // (true | false) Determines if clicking on an option group heading selects all of its options.
       groupsCollapsable: false, // (true | false) Determines if option groups can be collapsed.
       groupColumns: false, // (true | false)  Displays groups in a horizonal column layout.
+      groupColumnsWidth: false, // (integer) The width of each select item in the groupColumns.
     },
 
     /**
@@ -480,7 +481,13 @@
 
       var item = document.createElement('li');
       item.className = (isDisabled ? 'ui-multiselect-disabled ' : '')
+                        + (this.options.groupColumns ? ' ui-multiselect-columns' : '')
                         + (option.className || '');
+
+      if (this.options.groupColumnsWidth) {
+        item.style.width = this.options.groupColumnsWidth+'px';
+      }
+
       item.appendChild(label);
 
       return item;
@@ -526,6 +533,11 @@
                                     + (self.options.groupColumns ? ' ui-multiselect-columns' : '')
                                     + (elem.className ? ' ' + elem.className : ''))
                                  .append($collapseButton, $optGroupLabel, $optionGroup);
+
+          if (self.options.groupColumnsWidth) {
+            $optGroupItem.css('width', self.options.groupColumnsWidth+'px');
+          }
+
           list.push($optGroupItem);
         } else {
           list.push(self._makeOption(elem));
