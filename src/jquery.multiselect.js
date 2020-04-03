@@ -248,7 +248,7 @@
          .html(this._linkHTML('<span class="{{class}}" title="{{title}}">{{icon}}</span>', 'open'));
 
        this.$buttonlabel = $(document.createElement('span'))
-         .html(this.options.noneSelectedText || $element[0].placeholder)
+         .html(this.options.noneSelectedText || this.element[0].placeholder)
          .appendTo($button);
        return $button;
      },
