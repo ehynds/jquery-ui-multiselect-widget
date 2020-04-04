@@ -252,6 +252,13 @@
       assert.equal(menu().find(".ui-multiselect-all").text(), text, 'check all link reads ' + text);
 
       el.multiselect("destroy");
+
+      // set through dict
+      text = "foo";
+      el = $("select").multiselect({ header: {'foo':'checkAll'} });
+      assert.equal(menu().find(".ui-multiselect-all").text(), text, 'check all link reads through obj ' + text);
+
+      el.multiselect("destroy");
     });
 
     QUnit.test("uncheckAllText", function (assert) {
@@ -264,6 +271,13 @@
       text = "bar";
       el.multiselect("option", "uncheckAllText", "bar");
       assert.equal(menu().find(".ui-multiselect-none").text(), text, 'changing value through api to ' + text);
+
+      el.multiselect("destroy");
+
+      // set through dict
+      text = "foo";
+      el = $("select").multiselect({ header: {'foo':'uncheckAll'} });
+      assert.equal(menu().find(".ui-multiselect-none").text(), text, 'uncheck all link reads through obj ' + text);
 
       el.multiselect("destroy");
     });
@@ -280,6 +294,13 @@
       assert.equal(menu().find(".ui-multiselect-flip").text(), text, 'changing value through api to ' + text);
 
       el.multiselect("destroy");
+
+      // set through dict
+      text = "foo";
+      el = $("select").multiselect({ header: {'foo':'flipAll'} });
+      assert.equal(menu().find(".ui-multiselect-flip").text(), text, 'flip all link reads through obj ' + text);
+
+      el.multiselect("destroy");
     });
 
     QUnit.test("collapseAllText", function (assert) {
@@ -294,6 +315,13 @@
       assert.equal(menu().find(".ui-multiselect-collapseall").text(), text, 'changing value through api to ' + text);
 
       el.multiselect("destroy");
+
+      // set through dict
+      text = "foo";
+      el = $("select").multiselect({ header: {'foo':'collapseAll'} });
+      assert.equal(menu().find(".ui-multiselect-collapseall").text(), text, 'collapse all link reads through obj ' + text);
+
+      el.multiselect("destroy");
     });
 
     QUnit.test("expandAllText", function (assert) {
@@ -306,6 +334,13 @@
       text = "bar";
       el.multiselect("option", "expandAllText", "bar");
       assert.equal(menu().find(".ui-multiselect-expandall").text(), text, 'changing value through api to ' + text);
+
+      el.multiselect("destroy");
+
+      // set through dict
+      text = "foo";
+      el = $("select").multiselect({ header: {'foo':'expandAll'} });
+      assert.equal(menu().find(".ui-multiselect-expandall").text(), text, 'expand all link reads through obj ' + text);
 
       el.multiselect("destroy");
     });
