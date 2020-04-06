@@ -277,6 +277,19 @@
            }
          }
        }
+
+       if (this.options.header.constructor == Object) {
+       var options = Object.keys(this.options.header)
+       for (var x = 0; x < options.length; x++) {
+          var displayText = options[x];
+          var linkInfoKey = this.options.header[displayText];
+          if (linkInfoKey && linkInfoKey in this.linkInfo
+              && !(this.options.maxSelected && linkInfoKey === 'checkAll')
+              && ['open', 'close', 'collapse', 'expand'].indexOf(linkInfoKey) === -1) {
+              headerLinksHTML += this._linkHTML('<li><a class="{{class}}" title="{{title}}">{{icon}}<span>'+displayText+'</span></a></li>', linkInfoKey);
+          }
+        }
+      }
        return headerLinksHTML;
      },
 
