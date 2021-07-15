@@ -279,7 +279,7 @@
        }
 
        if (this.options.header.constructor == Object) {
-       var options = Object.keys(this.options.header)
+       var options = Object.keys(this.options.header);
        for (var x = 0; x < options.length; x++) {
           var displayText = options[x];
           var linkInfoKey = this.options.header[displayText];
@@ -532,7 +532,7 @@
           // Build the list section for this optgroup, complete w/ option inputs...
           var $collapseButton = !!self.options.groupsCollapsable
                                  ? $( document.createElement('button') )
-                                    .attr({'title': self.linkInfo.collapse.title})
+                                    .attr({'title': self.linkInfo.collapse.title, 'type': 'button'})
                                     .addClass('ui-state-default ui-corner-all ui-multiselect-collapser')
                                     .html(self.linkInfo.collapse.icon)
                                  : null;
