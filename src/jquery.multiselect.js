@@ -864,7 +864,7 @@
           var scrollY = window.pageYOffset;
 
           self.$labels.removeClass('ui-state-hover');
-          $(this).addClass('ui-state-hover').find('input').focus();
+          $(this).addClass('ui-state-hover').find('input').trigger('focus');
 
           // Restore scroll positions if altered by setting input focus
           if ( !param || !param.allowScroll ) {
@@ -890,7 +890,7 @@
           case 9: // tab
             if (e.shiftKey) {
               self.$menu.find('.ui-state-hover').removeClass('ui-state-hover');
-              self.$header.find('li').last().find('a').focus();
+              self.$header.find('li').last().find('a').trigger('focus');
             } else {
               self.close();
             }
@@ -1338,7 +1338,7 @@
       $inputs.each(self._toggleState('checked', flag));
 
       // Give the first input focus
-      $inputs.eq(0).focus();
+      $inputs.eq(0).trigger('focus');
 
       // update button text
       self.update();
