@@ -139,6 +139,8 @@
      * This is where special behavior like ALT-R for reset is bound
      */
     _bindInputEvents: function() {
+      var $element = this.element;
+
       this.$input.on({
         keydown: function(e) {
           // prevent the enter key from submitting the form / closing the widget
