@@ -494,7 +494,7 @@
 
       var item = document.createElement('li');
       item.className = (isDisabled ? 'ui-multiselect-disabled ' : '')
-                        + (this.options.groupColumns ? ' ui-multiselect-columns' : '')
+                        + (this.options.groupColumns ? ' ui-multiselect-columns ' : '')
                         + (option.className || '');
 
       if (this.options.groupColumnsWidth) {
